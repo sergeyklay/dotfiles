@@ -10,6 +10,9 @@ fi
 # update x resources db
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
 
+# make the cursor move the right speed
+xset mouse 2 9
+
 # starts screensaver daemon
 xscreensaver -no-splash &
 
