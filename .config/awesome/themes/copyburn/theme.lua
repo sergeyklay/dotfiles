@@ -1,16 +1,17 @@
 --------------------------------------------------------------------------------
 --
 -- "Copyburn" Awesome WM theme
--- by Sergey Yakovlev (klay)
+-- by Sergey Yakovlev (me@klay.me)
+-- https://github.com/sergeyklay/
 -- 
 -- Based on:
 --   "Copland" Awesome WM theme
 --   by @copycat-killer http://github.com/copycat-killer
 --
---    "Sweet Tears" Awesome WM theme
---    by @bluezd https://github.com/bluezd
+--   "Sweet Tears" Awesome WM theme
+--   by @bluezd https://github.com/bluezd
 --
---    REMEMBER: Always change default paths as necessary.
+--   REMEMBER: Always change default paths as necessary.
 --
 --------------------------------------------------------------------------------
 
