@@ -51,7 +51,7 @@ end
 -- }}}
 
 -- {{{ Defaults
-terminal    = "urxvtc"
+terminal    = "urxvtc" or "xterm"
 editor      = os.getenv("EDITOR") or "vim"
 editor_cmd  = terminal .. " -e " .. editor
 browser     = "chromium"
@@ -102,17 +102,7 @@ end
 -- Define a tag table which hold all screen tags.
 tags = {
     -- Impractical in the tag names use words because they will spend valuable panel space
-    names   = {
-        "一",   -- Main
-        "二",   -- WWW
-        "三",   -- IM (eg. Pidgin)
-        "四",   -- Media
-        "五",   -- Gimp
-        "六",   -- Develop (eg. any Java based IDE)
-        "七",   -- Files
-        "八",   -- Office
-        "九"    -- Misc
-    },
+    names   = { "⌘", "☮", "❤", "☢", "✿", "★", "✪", "❖", "☯" },
     layout  = {
         layouts[4],
         layouts[10], -- fullscreen for browsers
