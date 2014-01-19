@@ -23,15 +23,15 @@ theme.wallpaper                                 = theme.dir .. "/wall.jpg"
 
 -- {{{ Fonts
 theme.font                                      = "Tamsyn 10.5"
-theme.taglist_font                              = "Droid Sans Japanese 9"
+theme.taglist_font                              = "Clear Sans 10.5"
 -- }}}
 
 -- {{{ Colors
-theme.fg_normal                                 = "#BBBBBB"
-theme.fg_focus                                  = "#78A4FF"
+theme.fg_normal                                 = "#bbbbbb"
+theme.fg_focus                                  = "#ffffff"
 theme.fg_urgent                                 = "#000000"
 theme.bg_normal                                 = "#111111"
-theme.bg_focus                                  = "#111111"
+theme.bg_focus                                  = "#262b36"
 theme.bg_urgent                                 = "#FFFFFF"
 theme.bg_systray                                = theme.bg_normal
 -- }}}
@@ -112,7 +112,7 @@ theme.tasklist_disable_icon                     = true
 -- {{{ Taglist
 theme.taglist_squares_sel                       = theme.dir .. "/icons/taglist/squaref.png"
 theme.taglist_squares_unsel                     = theme.dir .. "/icons/taglist/square.png"
-theme.taglist_squares_resize                    = true
+theme.taglist_squares_resize                    = false
 -- }}}
 
 -- {{{ Misc
