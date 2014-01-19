@@ -82,14 +82,14 @@ URxvt*color15:                        #EEEEEC
 ! URxvt*pointerColor2:                  color
 ! URxvt*borderColor:                    color
 ! URxvt*iconFile:                       file
-URxvt*font:                           xft:Ubuntu Mono:pixelsize=16
-URxvt*boldFont:                       xft:Ubuntu Mono:bold:pixelsize=16
+URxvt*font:                           xft:Monospace:pixelsize=13
+URxvt*boldFont:                       xft:Monospace:pixelsize=13
 ! URxvt*italicFont:                     fontname
 ! URxvt*boldItalicFont:                 fontname
 ! URxvt*intensityStyles:                boolean
 ! URxvt*inputMethod:                    name
 ! URxvt*preeditType:                    style
-! URxvt*imLocale:                       string
+URxvt*imLocale:                       en_US.UTF-8
 ! URxvt*imFont:                         fontname
 ! URxvt*title:                          string
 ! URxvt*iconName:                       string
