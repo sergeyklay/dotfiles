@@ -66,7 +66,7 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-beautiful.init(awful.util.getdir("config") .. "/themes/copland/theme.lua")
+beautiful.init(awful.util.getdir("config") .. "/themes/copyburn/theme.lua")
 
 -- My widget lib
 local widgets = require("widgets")
