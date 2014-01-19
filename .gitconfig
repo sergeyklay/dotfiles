@@ -1,0 +1,58 @@
+[user]
+  name = Sergey Yakovlev
+  email = sadhooklay@gmail.com
+[core]
+  editor = vim
+  autocrlf = input
+  safecrlf = true
+  whitespace=trailing-space,space-before-tab,indent-with-non-tab
+  pager = less -R
+[merge]
+  tool = vimdiff
+[color]
+  status = auto
+  branch = auto
+  interactive = auto
+  diff = auto
+  ui = true
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+  whitespace = red reverse
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan
+[alias]
+  hist = log --graph --decorate --pretty=format:\"%Cred%h%Creset | %Cgreen%ad%Creset | %s%d [%C(yellow)%an%Creset]\" --graph --date=short
+  type = cat-file -t
+  dump = cat-file -p
+  br = branch
+  st = status
+  ci = commit
+  co = checkout
+  dc = diff --cached
+  rp = remote prune
+  rs = remote show
+  lg = log -p
+  lol = log --graph --decorate --pretty=oneline --abbrev-commit
+  lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+  ls = ls-files
+  ign = ls-files -o -i --exclude-standard
+  last = log -1 HEAD
+  mf = merge --no-ff
+  visual = !gitk
+[url "ssh://[login@]git.gnome.org/git/"]
+  insteadof = gnome:
+[mergetool]
+  prompt = true
+[push]
+    default = simple
+#[commit]
+#    template = /home/klay/.gitmessage.txt
