@@ -1,15 +1,6 @@
 ---------------------------------------------------
--- Awesome WM main config
---
--- Author:
---  Sergey Yakovlev (sadhooklay@gmail.com)
---
--- Version:
---  0.3.0
---
--- Licence:
---  MIT
-
+-- Awesome WM config
+-- by Sergey Yakovlev (me@klay.me)
 ---------------------------------------------------
 
 -- {{{ Libraries
@@ -18,8 +9,11 @@ local gears = require("gears")
 local awful = require("awful")
 awful.rules = require("awful.rules")
 require("awful.autofocus")
+-- Mouse finder
+local mousefinder = require("awful.mouse.finder")()
 -- Widgets and layout library
 local wibox = require("wibox")
+-- Vicious widget library
 local vicious = require("vicious")
 -- Theme handling library
 local beautiful = require("beautiful")
@@ -57,11 +51,11 @@ end
 -- }}}
 
 -- {{{ Defaults
-    terminal    = "urxvtc"
-    editor      = os.getenv("EDITOR") or "vim"
-    editor_cmd  = terminal .. " -e " .. editor
-    browser     = "chromium"
-    screensaver = "xscreensaver-command -activate"
+terminal    = "urxvtc"
+editor      = os.getenv("EDITOR") or "vim"
+editor_cmd  = terminal .. " -e " .. editor
+browser     = "chromium"
+screensaver = "xscreensaver-command -activate"
 -- }}}
 
 -- {{{ Variable definitions
@@ -191,14 +185,13 @@ launcher = awful.widget.launcher({
 
 -- Menubar configuration.
 -- Set the terminal for applications that require it
-    menubar.utils.terminal = terminal
+menubar.utils.terminal = terminal
 -- }}}
 
 -- {{{ Wibox
 
--- {{{ Create a textclock widget
-    textclock = awful.widget.textclock(" %H:%M ")
--- }}}
+-- Create a textclock widget
+textclock = awful.widget.textclock(" %H:%M ")
 
 -- Create a wibox for each screen and add it
 wiboxes   = {}
@@ -385,6 +378,13 @@ globalkeys = awful.util.table.join(
             end
         end),
 
+    -- Mouse finder
+    awful.key({ modkey,           }, "g" , function () mousefinder.find(mousefinder) end),
+
+    --awful.key({ modkey, }, "p", function()
+    --    awful.util.spawn_with_shell("xclip -o | xclip -i -selection clipboard")
+    --end),
+
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
     awful.key({                   }, "Print",
@@ -416,7 +416,7 @@ globalkeys = awful.util.table.join(
                   awful.util.getdir("cache") .. "/history_eval")
               end),
     -- Menubar
-    awful.key({ modkey          }, "p",     function() menubar.show() end)
+    awful.key({ modkey            }, "p",     function() menubar.show() end)
 )
 
 clientkeys = awful.util.table.join(
