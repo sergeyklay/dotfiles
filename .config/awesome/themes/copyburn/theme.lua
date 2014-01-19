@@ -1,17 +1,26 @@
---[[
-                               
-     Copland Awesome WM config 
-     github.com/copycat-killer 
-                               
---]]
+--------------------------------------------------------------------------------
+--
+-- "Copyburn" Awesome WM theme
+-- by Sergey Yakovlev (klay)
+-- 
+-- Based on:
+--   "Copland" Awesome WM theme
+--   by @copycat-killer http://github.com/copycat-killer
+--
+--    "Sweet Tears" Awesome WM theme
+--    by @bluezd https://github.com/bluezd
+--
+--    REMEMBER: Always change default paths as necessary.
+--
+--------------------------------------------------------------------------------
 
+
+--
 theme                                           = {}
-
-theme.dir                                       = os.getenv("HOME") .. "/.config/awesome/themes/copland"
---
+theme.dir                                       = os.getenv("HOME") .. "/.config/awesome/themes/copyburn"
 theme.wallpaper                                 = theme.dir .. "/wall.jpg"
---
 theme.font                                      = "Tamsyn 10.5"
+--
 
 theme.fg_normal                                 = "#BBBBBB"
 theme.fg_focus                                  = "#78A4FF"
