@@ -14,9 +14,9 @@ shopt -s checkwinsize
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color)           color_prompt=yes;;
-    lxterminal)            color_promt=yes;;
-    rxvt-unicode-256color) color_promt=yes;;
+    xterm-color)   color_prompt=yes;;
+    lxterminal)    color_promt=yes;;
+    rxvt-unicode)  color_promt=yes;;
 esac
 
 # Default promt
