@@ -3,7 +3,7 @@
 !-------------------------------------------------------------------------------
 
 Xft.dpi:                    96
-Xft.antialias:              false
+Xft.antialias:              true
 Xft.rgba:                   rgb
 Xft.hinting:                true
 Xft.hintstyle:              hintslight
@@ -48,8 +48,7 @@ URxvt*shading:                        110
 ! URxvt*cursorUnderline:                boolean
 ! URxvt*cursorBlink:                    boolean
 ! URxvt*pointerBlank:                   boolean
-!URxvt*background:                     rgba:0000/0000/0000/c900
-URxvt*background:                     black
+URxvt*background:                     rgba:0000/0000/0000/c900
 URxvt*foreground:                     white
 URxvt*color0:                         #2E3436
 URxvt*color1:                         #a40000
@@ -69,7 +68,7 @@ URxvt*color14:                        #fcaf3e
 URxvt*color15:                        #EEEEEC
 ! URxvt*colorBD:                        color
 ! URxvt*colorIT:                        color
-! URxvt*colorUL:                        color
+URxvt*colorUL:                        #4682B4
 ! URxvt*colorRV:                        color
 ! URxvt*underlineColor:                 color
 ! URxvt*scrollColor:                    color
@@ -82,8 +81,8 @@ URxvt*color15:                        #EEEEEC
 ! URxvt*pointerColor2:                  color
 ! URxvt*borderColor:                    color
 ! URxvt*iconFile:                       file
-URxvt*font:                           xft:Monospace:pixelsize=13
-URxvt*boldFont:                       xft:Monospace:pixelsize=13
+URxvt*font:                           xft:Monospace:size=10
+URxvt*boldFont:                       xft:Monospace:size=10
 ! URxvt*italicFont:                     fontname
 ! URxvt*boldItalicFont:                 fontname
 ! URxvt*intensityStyles:                boolean
@@ -93,14 +92,14 @@ URxvt*imLocale:                       en_US.UTF-8
 ! URxvt*imFont:                         fontname
 ! URxvt*title:                          string
 ! URxvt*iconName:                       string
-URxvt*saveLines:                      100
+URxvt*saveLines:                      1000
 ! URxvt*buffered:                       boolean
 URxvt*depth:                          32
 ! URxvt*externalBorder:                 number
 ! URxvt*internalBorder:                 number
 ! URxvt*borderLess:                     boolean
 ! URxvt*lineSpace:                      number
-! URxvt*letterSpace:                    number
+URxvt*letterSpace:                    -1
 ! URxvt*skipBuiltinGlyphs:              boolean
 ! URxvt*pointerBlankDelay:              number
 ! URxvt*backspacekey:                   string
@@ -113,7 +112,7 @@ URxvt*depth:                          32
 ! URxvt*secondaryScroll:                boolean
 ! URxvt*perl-lib:                       string
 ! URxvt*perl-eval:                      perl-eval
-! URxvt*perl-ext-common:                string
+URxvt*perl-ext-common:                default,matcher
 ! URxvt*perl-ext:                       string
 ! URxvt*iso14755:                       boolean
 ! URxvt*iso14755_52:                    boolean
@@ -123,7 +122,7 @@ URxvt*depth:                          32
 ! URxvt*background.expr:                string
 ! URxvt*background.interval:            seconds
 ! URxvt*bell-command:                   string
-! URxvt*matcher.button:                 string
+URxvt*matcher.button:                 1
 ! URxvt*matcher.launcher:               string
 ! URxvt*matcher.launcher.*:             string
 ! URxvt*matcher.pattern.*:              string
