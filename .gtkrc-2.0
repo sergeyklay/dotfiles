@@ -1,3 +1,4 @@
-# Any customization should be done in ~/.gtkrc.mine instead.
+# Any customization should be done in ~/.gtkrc.mine instead
+# Use YOUR user name instead klay
 
-include '~/.gtkrc.mine'
+include "/home/klay/.gtkrc.mine"

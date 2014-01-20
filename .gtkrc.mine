@@ -2,7 +2,7 @@
 #      GTK       #
 ##################
 
-include "/usr/share/themes/Clearlooks/gtk-2.0/gtkrc"
+gtk-theme-name="Clearlooks"
 
 ##################
 #     FONTS      #
@@ -10,11 +10,16 @@ include "/usr/share/themes/Clearlooks/gtk-2.0/gtkrc"
 
 style "schrift"
 {
-    font_name = "Clear Sans 12"
+    font_name = "Clear Sans 10"
 }
-widget_class = "*" style "schrift"
+widget_class "*" style "schrift"
 
-gtk-font-name="Clear Sans 12"
+gtk-font-name="Clear Sans 10"
+
+gtk-xft-antialias=1
+gtk-xft-hinting=1
+gtk-xft-hintstyle="hintslight"
+gtk-xft-rgba="rgb"
 
 ##################
 #     ICONS      #
@@ -28,3 +33,24 @@ gtk-icon-theme-name = "Tango"
 
 gtk-toolbar-style = GTK_TOOLBAR_ICONS
 
+##################
+#     SOUNDS     #
+##################
+
+gtk-enable-event-sounds=1
+gtk-enable-input-feedback-sounds=1
+
+##################
+#    CURSORS     #
+##################
+
+gtk-cursor-theme-name="Adwaita"
+gtk-cursor-theme-size=0
+
+
+##################
+#     IMAGES     #
+##################
+
+#gtk-button-images=0
+#gtk-menu-images=0
