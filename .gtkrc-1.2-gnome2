@@ -1,0 +1,4 @@
+# Any customization should be done in ~/.gtkrc.mine instead.
+
+include "/home/klay/.gtkrc.mine"
+

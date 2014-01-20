@@ -1,0 +1,32 @@
+##################
+#      GTK       #
+##################
+
+include "/usr/share/themes/Clearlooks/gtk-2.0/gtkrc"
+
+#gtk-theme-name = "Clearlooks"
+
+##################
+#     FONTS      #
+##################
+
+style "schrift"
+{
+    font_name = "Clear Sans 12"
+}
+widget_class = "*" style "schrift"
+
+gtk-font-name="Clear Sans 12"
+
+##################
+#     ICONS      #
+##################
+
+gtk-icon-theme-name = "Tango"
+
+##################
+#    TOOLBARS    #
+##################
+
+gtk-toolbar-style = GTK_TOOLBAR_ICONS
+
