@@ -61,6 +61,11 @@ export HISTCONTROL="ignoreboth:erasedups"
 export HISTSIZE=1000
 export HISTFILESIZE=2000
 
+export GDK_USE_XFT=1
+export QT_XFT=true
+
+export XDG_CONFIG_HOME="$HOME/.config"
+
 #source /etc/profile
 
 if [ -f ~/git-completion.sh ]; then
