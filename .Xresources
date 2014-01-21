@@ -112,7 +112,7 @@ URxvt*letterSpace:                    -1
 ! URxvt*secondaryScroll:                boolean
 ! URxvt*perl-lib:                       string
 ! URxvt*perl-eval:                      perl-eval
-URxvt*perl-ext-common:                default,matcher
+URxvt*perl-ext-common:                default,clipboard,matcher
 ! URxvt*perl-ext:                       string
 ! URxvt*iso14755:                       boolean
 ! URxvt*iso14755_52:                    boolean
