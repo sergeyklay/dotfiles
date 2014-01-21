@@ -16,7 +16,7 @@ export HISTCONTROL="ignoreboth:erasedups"
 export HISTSIZE=1000
 export HISTFILESIZE=2000
 
-if [ -x /usr/bin/dircolors ] then
+if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "`dircolors -b`"
     # Design prompt
     PS1="\[\033[1;35m\]%\[\033[00m\] \[\033[1;34m\]\w\[\033[00m\] "
