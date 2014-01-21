@@ -1,8 +1,6 @@
-#
 # ~/.bashrc
-#
 
-# If not running interactively, don't do anything
+# if not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
 # append to the history file, don't overwrite it
@@ -12,21 +10,20 @@ shopt -s histappend
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color)   color_prompt=yes;;
-    lxterminal)    color_promt=yes;;
-    rxvt-unicode)  color_promt=yes;;
-esac
+# history
+export HISTIGNORE="&:ls:[bf]g:exit:reset:clear:cd *"
+export HISTCONTROL="ignoreboth:erasedups"
+export HISTSIZE=1000
+export HISTFILESIZE=2000
 
-# Default promt
-#PS1='\u \$ '
-
-# Green and short promt for regular users
-PS1='\[\e[1;32m\]\$\[\e[0m\] '
-
-# A green and blue prompt for regular users
-#PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\e[1;37m\] '
+if [ -x /usr/bin/dircolors ] then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "`dircolors -b`"
+    # Design prompt
+    PS1="\[\033[1;35m\]%\[\033[00m\] \[\033[1;34m\]\w\[\033[00m\] "
+else
+    # Default promt
+    PS1='% \w '
+fi
 
 # include aliases
 if [ -f ~/.bash_aliases ]; then
@@ -55,12 +52,7 @@ export LESS_TERMCAP_so=$'\033[38;5;246m'
 export LESS_TERMCAP_ue=$'\033[0m'
 export LESS_TERMCAP_us=$'\033[04;38;5;146m'
 
-# history
-export HISTIGNORE="&:ls:[bf]g:exit:reset:clear:cd *"
-export HISTCONTROL="ignoreboth:erasedups"
-export HISTSIZE=1000
-export HISTFILESIZE=2000
-
+# font config
 export GDK_USE_XFT=1
 export QT_XFT=true
 
