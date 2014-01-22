@@ -30,3 +30,6 @@ alias ysd='yaourt -Syua --devel'
 
 # alias for Karma
 alias google-chrome='chromium'
+
+# be more cultured at work in the console`
+alias please=sudo
