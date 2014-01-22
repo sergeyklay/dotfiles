@@ -1,6 +1,10 @@
-#! /bin/sh
- 
+#!/bin/sh
+
 # First you need to install the following software: flac, lame, and id3
+command -v flac >/dev/null 2>&1 || { echo >&2 "First you need to install flac. Aborting."; exit 1; }
+command -v id3 >/dev/null 2>&1 || { echo >&2 "First you need to install id3. Aborting."; exit 1; }
+command -v lame >/dev/null 2>&1 || { echo >&2 "First you need to install lame. Aborting."; exit 1; }
+
 
 for a in *.flac; do
     OUTF=${a%.flac}.mp3
