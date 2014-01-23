@@ -5,11 +5,15 @@
 -- https://github.com/sergeyklay/
 -- 
 -- Based on:
+--   "Dust" Awesome WM theme
+--   by @tdy https://github.com/tdy
+--
 --   "Copland" Awesome WM theme
 --   by @copycat-killer http://github.com/copycat-killer
 --
 --   "Sweet Tears" Awesome WM theme
 --   by @bluezd https://github.com/bluezd
+--
 --
 --   REMEMBER: Always change default paths as necessary.
 --
@@ -23,7 +27,7 @@ theme.wallpaper                                 = theme.dir .. "/wall.jpg"
 
 -- {{{ Fonts
 theme.font                                      = "Tamsyn 10.5"
-theme.taglist_font                              = "Clear Sans 10.5"
+theme.taglist_font                              = "Clear Sans 11"
 -- }}}
 
 -- {{{ Colors
