@@ -12,6 +12,7 @@ shopt -s checkwinsize
 
 # history
 export HISTIGNORE="&:ls:[bf]g:exit:reset:clear:cd *"
+# man -P 'less -rp HISTCONTROL' bash
 export HISTCONTROL="ignoreboth:erasedups"
 export HISTSIZE=1000
 export HISTFILESIZE=2000
