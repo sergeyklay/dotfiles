@@ -31,12 +31,15 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+# ruby path
+if [ -d "$HOME/.gem/ruby/2.0.0/bin" ]; then
+    PATH="$HOME/.gem/ruby/2.0.0/bin:$PATH"
+fi
+
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ]; then
     PATH="$HOME/bin:$PATH"
 fi
-
-export PATH="/usr/local/bin:$PATH"
 
 export EDITOR="vim"
 export CHROME_BIN="/usr/bin/chromium"
