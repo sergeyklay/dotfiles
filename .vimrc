@@ -1,10 +1,11 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
-" .vimrc
-" Author: Sergey Yakovlev <me [at] klay [dot] me>
+" Vim config (note I use full version, with ruby, lua support, etc.)
+" by Sergey Yakovlev (me@klay.me)
+" https://github.com/sergeyklay/
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-filetype on                   " автоабнаружение типа файла
+filetype on                   " автообнаружение типа файла
 filetype plugin on            " подгружать планины соответствующие типу файла
 filetype indent on            " включать отступы для этого типа файлов
 
