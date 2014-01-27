@@ -1,5 +1,3 @@
-# ~/.bashrc
-
 # if not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -10,12 +8,19 @@ shopt -s histappend
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# history
-export HISTIGNORE="&:ls:[bf]g:exit:reset:clear:cd *"
+# Save all strings of multiline commands in the same history entry
+shopt -s cmdhist
+
 # man -P 'less -rp HISTCONTROL' bash
-export HISTCONTROL="ignoreboth:erasedups"
-export HISTSIZE=1000
-export HISTFILESIZE=2000
+HISTCONTROL="ignoreboth:erasedups"
+# amount of commands that need to remember in the history list
+HISTSIZE=10000
+# maximum file size
+HISTFILESIZE=20000
+# for the protection and ability for future analyzing
+HISTTIMEFORMAT="%h %d %H:%M:%S "
+# save commands immediately after use
+PROMPT_COMMAND='history -a'
 
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "`dircolors -b`"
@@ -62,8 +67,7 @@ export QT_XFT=true
 
 export XDG_CONFIG_HOME="$HOME/.config"
 
-#source /etc/profile
-
+# Git completion
 if [ -f ~/git-completion.sh ]; then
     . ~/git-completion.sh
 fi
