@@ -1,5 +1,2 @@
-#
-# ~/.bash_profile
-#
-
+# use ~/.bashrc
 [[ -f ~/.bashrc ]] && . ~/.bashrc
