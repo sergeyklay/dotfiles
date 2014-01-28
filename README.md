@@ -4,7 +4,7 @@
 
 ## Shell support
 
-These dotfiles aren't for Bash, but some scripts may work.
+These dotfiles aren't for Zsh, but some scripts may work.
 
 ## License
 
