@@ -45,7 +45,7 @@ XDG_CONFIG_DIRS=/etc/xdg
 XDG_CACHE_HOME=~/.cache
 
 # user-specific runtime files should be placed relative to this directory
-$XDG_RUNTIME_DIR=$(id -u)
+$XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 # some defaults
 EDITOR=vim
@@ -69,7 +69,9 @@ QT_XFT=true
 
 # setup prompt
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "`dircolors -b`"
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval \
+    "`dircolors -b`"
+
     # Design prompt
     PS1="\[\033[1;35m\]%\[\033[00m\] \[\033[1;34m\]\w\[\033[00m\] "
 else
