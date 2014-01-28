@@ -45,7 +45,7 @@ XDG_CONFIG_DIRS=/etc/xdg
 XDG_CACHE_HOME=~/.cache
 
 # user-specific runtime files should be placed relative to this directory
-$XDG_RUNTIME_DIR=/run/user/$(id -u)
+XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 # some defaults
 EDITOR=vim
