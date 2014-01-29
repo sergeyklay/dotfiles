@@ -27,45 +27,45 @@ HISTTIMEFORMAT="%h %d %H:%M:%S "
 PROMPT_COMMAND='history -a'
 
 # actual ruby gems home
-GEM_HOME=$(ruby -e 'puts Gem.user_dir')
+export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
 
 # user-specific configuration files
-XDG_CONFIG_HOME=~/.config
+export XDG_CONFIG_HOME=~/.config
 
 # user-specific data files
-XDG_DATA_HOME=~/.local/share
+export XDG_DATA_HOME=~/.local/share
 
 # base directories relative to which data files should be searched
-XDG_DATA_DIRS=/usr/share
+export XDG_DATA_DIRS=/usr/share
 
 # configuration files should be searched relative to this directory
-XDG_CONFIG_DIRS=/etc/xdg
+export XDG_CONFIG_DIRS=/etc/xdg
 
 # user-specific cached data should be written relative to this directory
-XDG_CACHE_HOME=~/.cache
+export XDG_CACHE_HOME=~/.cache
 
 # user-specific runtime files should be placed relative to this directory
-XDG_RUNTIME_DIR=/run/user/$(id -u)
+export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 # some defaults
-EDITOR=vim
-CHROME_BIN=/usr/bin/chromium
+export EDITOR=vim
+export CHROME_BIN=/usr/bin/chromium
 
 # more for less
-PAGER=less
-LESS=-R # use -X to avoid sending terminal initialization
-LESSCHARSET=UTF-8
-LESS_TERMCAP_mb=$'\033[01;31m'
-LESS_TERMCAP_md=$'\033[01;38;5;74m'
-LESS_TERMCAP_me=$'\033[0m'
-LESS_TERMCAP_se=$'\033[0m'
-LESS_TERMCAP_so=$'\033[38;5;246m'
-LESS_TERMCAP_ue=$'\033[0m'
-LESS_TERMCAP_us=$'\033[04;38;5;146m'
+export PAGER=less
+export LESS=-R # use -X to avoid sending terminal initialization
+export LESSCHARSET=UTF-8
+export LESS_TERMCAP_mb=$'\033[01;31m'
+export LESS_TERMCAP_md=$'\033[01;38;5;74m'
+export LESS_TERMCAP_me=$'\033[0m'
+export LESS_TERMCAP_se=$'\033[0m'
+export LESS_TERMCAP_so=$'\033[38;5;246m'
+export LESS_TERMCAP_ue=$'\033[0m'
+export LESS_TERMCAP_us=$'\033[04;38;5;146m'
 
 # font config
-GDK_USE_XFT=1
-QT_XFT=true
+export GDK_USE_XFT=1
+export QT_XFT=true
 
 # setup prompt
 if [ -x /usr/bin/dircolors ]; then
@@ -90,8 +90,8 @@ if [ -f ~/git-completion.sh ]; then
 fi
 
 # actual ruby gems binaries path
-if [ -d $GEM_HOME/bin ]; then
-    PATH+=:$GEM_HOME/bin
+if [ -d GEM_HOME/bin ]; then
+    PATH+=:GEM_HOME/bin
 fi
 
 # set PATH so it includes user's private bin if it exists
