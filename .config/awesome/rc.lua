@@ -1,76 +1,44 @@
----------------------------------------------------
--- Awesome WM config
--- by Sergey Yakovlev (me@klay.me)
----------------------------------------------------
+--[[--
 
--- {{{ Libraries
--- Standart Awesome libs
-local gears = require("gears")
-local awful = require("awful")
-awful.rules = require("awful.rules")
-require("awful.autofocus")
--- Mouse finder
-local mousefinder = require("awful.mouse.finder")()
--- Widgets and layout library
-local wibox = require("wibox")
--- Vicious widget library
-local vicious = require("vicious")
--- Theme handling library
-local beautiful = require("beautiful")
--- Notification library
-local naughty = require("naughty")
--- Menu
-local menubar = require("menubar")
--- Power management
-local power = require("power")
--- }}}
+  Awesome WM config
+  by Sergey Yakovlev (me@klay.me)
 
--- {{{ Error handling
--- Check if awesome encountered an error during startup and fell back to
--- another config (This code will only ever execute for the fallback config)
-if awesome.startup_errors then
-    naughty.notify({ preset = naughty.config.presets.critical,
-                     title = "Oops, there were errors during startup!",
-                     text = awesome.startup_errors })
-end
+--]]--
 
--- Handle runtime errors after startup
-do
-    local in_error = false
-    awesome.connect_signal("debug::error", function (err)
-        -- Make sure we don't go into an endless error loop
-        if in_error then return end
-        in_error = true
+-- Libraries
+gears           = require("gears")
+awful           = require("awful")
+awful.rules     = require("awful.rules")
+awful.autofocus = require("awful.autofocus")
+mousefinder     = require("awful.mouse.finder")()
+wibox           = require("wibox")
+vicious         = require("vicious")
+beautiful       = require("beautiful")
+naughty         = require("naughty")
+menubar         = require("menubar")
+power           = require("power")
 
-        naughty.notify({ preset = naughty.config.presets.critical,
-                         title = "Oops, an error happened!",
-                         text = err })
-        in_error = false
-    end)
-end
--- }}}
 
--- {{{ Defaults
+-- Variable definitions
+__dir__     = os.getenv('HOME') .. "/.config/awesome"
 terminal    = "urxvtc" or "xterm"
 editor      = os.getenv("EDITOR") or "vim"
 editor_cmd  = terminal .. " -e " .. editor
 browser     = "chromium"
 screensaver = "xscreensaver-command -activate"
--- }}}
+modkey      = "Mod4"
 
--- {{{ Variable definitions
--- Themes define colours, icons, and wallpapers
-beautiful.init(awful.util.getdir("config") .. "/themes/copyburn/theme.lua")
+
+-- Open some system files and executes its contents as a Lua chunk
+dofile(__dir__ .. "/config/errors.lua")
+dofile(__dir__ .. "/config/theme.lua")
+
+
+-- {{{ 
 
 -- My widget lib
 local widgets = require("widgets")
 
--- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts =
@@ -118,10 +86,13 @@ tags = {
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
     tags[s] = awful.tag( tags.names, s, tags.layout )
-    -- Individual clients settings for tags
-    -- IM (eg. Pidgin)
+    -- {{{ Individual clients settings for tags
+    -- Psi and qutIM
     awful.tag.setncol(2, tags[s][3])
-    awful.tag.setproperty(tags[s][3], "mwfact", 0.20)
+    awful.tag.setnmaster(1, tags[s][3])
+    awful.tag.setmwfact(0.2, tags[s][3])
+    --awful.tag.setproperty(tags[s][3], "mwfact", 0.20)
+    -- }}}
 
 end
 -- }}}
@@ -493,10 +464,10 @@ awful.rules.rules = {
       properties = { tag = tags[1][2] } },
     { rule = { class = "jetbrains-phpstorm" },
       properties = { tag = tags[1][6] } },
-    { rule = { class = "Pidgin", role = "buddy_list" },
-      properties = { tag = tags[1][3] } },
-    { rule = { class = "Pidgin", role = "conversation" },
-      properties = { tag = tags[1][3], callback = awful.client.setslave } }
+    { rule_any = { class = { "Psi-plus" } }, except = { instance = "main" },
+      properties = { tag = tags[1][3] }, callback = awful.client.setslave },
+    { rule = { class = "Psi-plus", instance = "main" },
+      properties = { tag = tags[1][3] } }
 }
 -- }}}
 
