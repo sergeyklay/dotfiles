@@ -15,7 +15,6 @@ vicious         = require("vicious")
 beautiful       = require("beautiful")
 naughty         = require("naughty")
 menubar         = require("menubar")
-power           = require("power")
 
 
 -- Variable definitions
@@ -35,7 +34,10 @@ dofile(__dir__ .. "/config/layouts.lua")
 dofile(__dir__ .. "/config/tags.lua")
 
 
-widgets = require("lib/widgets")
+widgets = require("lib.widgets")
+power   = require("lib.power")
+
+-------------------------------------------------------------------------
 
 -- {{{ Menu
 local awesome_menu = {
