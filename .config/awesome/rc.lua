@@ -6,7 +6,6 @@
 --]]--
 
 -- Libraries
-gears           = require("gears")
 awful           = require("awful")
 awful.rules     = require("awful.rules")
 awful.autofocus = require("awful.autofocus")
@@ -32,70 +31,11 @@ modkey      = "Mod4"
 -- Open some system files and executes its contents as a Lua chunk
 dofile(__dir__ .. "/config/errors.lua")
 dofile(__dir__ .. "/config/theme.lua")
+dofile(__dir__ .. "/config/layouts.lua")
+dofile(__dir__ .. "/config/tags.lua")
 
 
--- {{{ 
-
--- My widget lib
-local widgets = require("widgets")
-
-
--- Table of layouts to cover with awful.layout.inc, order matters.
-local layouts =
-{
-    awful.layout.suit.floating,         --  1
-    awful.layout.suit.tile,             --  2
-    awful.layout.suit.tile.left,        --  3
-    awful.layout.suit.tile.bottom,      --  4
-    awful.layout.suit.tile.top,         --  5
-    awful.layout.suit.fair,             --  6
-    awful.layout.suit.fair.horizontal,  --  7
-    awful.layout.suit.spiral,           --  8
-    awful.layout.suit.spiral.dwindle,   --  9
-    awful.layout.suit.max,              -- 10
-    awful.layout.suit.max.fullscreen,   -- 11
-    awful.layout.suit.magnifier         -- 12
-}
--- }}}
-
--- {{{ Wallpaper
-if beautiful.wallpaper then
-    for s = 1, screen.count() do
-        gears.wallpaper.maximized(beautiful.wallpaper, s, true)
-    end
-end
--- }}}
-
--- {{{ Tags
--- Define a tag table which hold all screen tags.
-tags = {
-    -- Impractical in the tag names use words because they will spend valuable panel space
-    names   = { "⌘", "☮", "❤", "☢", "✿", "★", "✪", "❖", "☯" },
-    layout  = {
-        layouts[4],
-        layouts[10], -- fullscreen for browsers
-        layouts[2],
-        layouts[6],
-        layouts[10], -- fullscreen for Gimp (I use single windows mode)
-        layouts[10], -- fullscreen for IDEs
-        layouts[2],
-        layouts[10], -- fullscreen for Libre Office
-        layouts[2]
-    }
-}
-for s = 1, screen.count() do
-    -- Each screen has its own tag table.
-    tags[s] = awful.tag( tags.names, s, tags.layout )
-    -- {{{ Individual clients settings for tags
-    -- Psi and qutIM
-    awful.tag.setncol(2, tags[s][3])
-    awful.tag.setnmaster(1, tags[s][3])
-    awful.tag.setmwfact(0.2, tags[s][3])
-    --awful.tag.setproperty(tags[s][3], "mwfact", 0.20)
-    -- }}}
-
-end
--- }}}
+widgets = require("lib/widgets")
 
 -- {{{ Menu
 local awesome_menu = {
@@ -232,19 +172,19 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
     left_layout:add(launcher)
-    left_layout:add(widgets.spacer)
+    left_layout:add(lib.widgets.spacer)
     left_layout:add(taglist[s])
     left_layout:add(promptbox[s])
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
-    right_layout:add(widgets.volicon)
-    right_layout:add(widgets.volwidget)
-    right_layout:add(widgets.separator)
+    right_layout:add(lib.widgets.volicon)
+    right_layout:add(lib.widgets.volwidget)
+    right_layout:add(lib.widgets.separator)
     if s == 1 then right_layout:add(wibox.widget.systray()) end   
-    right_layout:add(widgets.separator)
+    right_layout:add(lib.widgets.separator)
     right_layout:add(textclock)
-    right_layout:add(widgets.separator)
+    right_layout:add(lib.widgets.separator)
     right_layout:add(layoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
@@ -263,25 +203,25 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout2 = wibox.layout.fixed.horizontal()
-    left_layout2:add(widgets.spacer)
-    left_layout2:add(widgets.syswidget)
-    left_layout2:add(widgets.separator)
-    left_layout2:add(widgets.mpdicon)
-    left_layout2:add(widgets.mpdwidget)
+    left_layout2:add(lib.widgets.spacer)
+    left_layout2:add(lib.widgets.syswidget)
+    left_layout2:add(lib.widgets.separator)
+    left_layout2:add(lib.widgets.mpdicon)
+    left_layout2:add(lib.widgets.mpdwidget)
 
-    right_layout2:add(widgets.separator)
-    right_layout2:add(widgets.ramicon)
-    right_layout2:add(widgets.ramwidget)
-    right_layout2:add(widgets.separator)
-    right_layout2:add(widgets.cpuicon)
-    right_layout2:add(widgets.cpuwidget1)
-    right_layout2:add(widgets.separator)
-    right_layout2:add(widgets.cpuicon)
-    right_layout2:add(widgets.cpuwidget2)
-    right_layout2:add(widgets.separator)
-    right_layout2:add(widgets.batticon)
-    right_layout2:add(widgets.battwidget)
-    right_layout2:add(widgets.spacer)
+    right_layout2:add(lib.widgets.separator)
+    right_layout2:add(lib.widgets.ramicon)
+    right_layout2:add(lib.widgets.ramwidget)
+    right_layout2:add(lib.widgets.separator)
+    right_layout2:add(lib.widgets.cpuicon)
+    right_layout2:add(lib.widgets.cpuwidget1)
+    right_layout2:add(lib.widgets.separator)
+    right_layout2:add(lib.widgets.cpuicon)
+    right_layout2:add(lib.widgets.cpuwidget2)
+    right_layout2:add(lib.widgets.separator)
+    right_layout2:add(lib.widgets.batticon)
+    right_layout2:add(lib.widgets.battwidget)
+    right_layout2:add(lib.widgets.spacer)
 
     -- Now bring it all together (with the tasklist in the middle)
     local layout2 = wibox.layout.align.horizontal()
