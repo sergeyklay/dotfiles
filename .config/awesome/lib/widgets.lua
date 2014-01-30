@@ -3,7 +3,7 @@ local wibox     = require("wibox")
 local vicious   = require("vicious")
 local beautiful = require("beautiful")
 
-module("widgets")
+module("lib.widgets")
 
 -- Custom Variables
 local blue_color = "#A9D7F2"
