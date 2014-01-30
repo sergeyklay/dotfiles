@@ -26,59 +26,19 @@ browser     = "chromium"
 screensaver = "xscreensaver-command -activate"
 modkey      = "Mod4"
 
+power   = require("lib.power")
 
--- Open some system files and executes its contents as a Lua chunk
+-- Open system files and execute their contents as Lua chunks
 dofile(__dir__ .. "/config/errors.lua")
 dofile(__dir__ .. "/config/theme.lua")
 dofile(__dir__ .. "/config/layouts.lua")
 dofile(__dir__ .. "/config/tags.lua")
-
+dofile(__dir__ .. "/config/menu.lua")
 
 widgets = require("lib.widgets")
-power   = require("lib.power")
+
 
 -------------------------------------------------------------------------
-
--- {{{ Menu
-local awesome_menu = {
-   { "&Manual",  terminal .. " -e man awesome"         },
-   { "&Config",  editor_cmd .. " " .. awesome.conffile },
-   { "&Restart", awesome.restart                       },
-   { "&Quit",    awesome.quit                          }
-}
-
-local develop_menu = {
-    { "&PhpStorm",       "/opt/phpstorm/bin/phpstorm.sh" },
-    { "&Sublime Text 3", "subl3"                         },
-    { "&Vim",            editor_cmd                      }
-}
-
-local www_menu = {
-    { "&Chromium",     "chromium"         },
-    { "&Firefox",      "firefox"          },
-    { "&Pidgin",       "pidgin"           },
-    { "&Transmission", "transmission-gtk" }
-}
-
-local power_menu = {
-    { "&Lock Screen", power.screensaver },
-    { "&Suspend",     power.suspend     },
-    { "&Hibernate",   power.hibernate   },
-    { "Sl&eep",       power.sleep       },
-    { "&Reboot",      power.reboot      },
-    { "&Power Off",   power.poweroff    }
-}
-
--- Create a main menu
-mainmenu = awful.menu(
-    { items =
-        {
-            { "&Develop",  develop_menu },
-            { "&Internet", www_menu     },
-            { "&Awesome",  awesome_menu },
-            { "&Power",    power_menu   }
-        }
-    })
 
 -- Create a laucher widget
 launcher = awful.widget.launcher({
