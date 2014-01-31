@@ -370,10 +370,8 @@ awful.rules.rules = {
       properties = { tag = tags[1][3] }, callback = awful.client.setslave },
     { rule = { class = "Psi-plus", instance = "main" },
       properties = { tag = tags[1][3] } },
-    { rule = { class = "Skype" },
-      properties = { tag = tags[1][4] } },
     { rule = { class = "Skype" }, except = { role = "ConversationsWindow" },
-      callback = awful.client.setslave }
+      properties = { tag = tags[1][4] }, callback = awful.client.setslave }
 
 }
 -- }}}
