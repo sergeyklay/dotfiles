@@ -1,11 +1,12 @@
---[[--
+--[[
 
   Definition of layouts
 
   Part of Awesome WM config
   by Sergey Yakovlev (me@klay.me)
+  https://github.com/sergeyklay
 
---]]--
+]]
 
 -- Table of layouts to cover with awful.layout.inc, order matters
 layouts = {

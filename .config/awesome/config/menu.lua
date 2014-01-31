@@ -1,11 +1,12 @@
---[[--
+--[[
 
   Definition of menu
 
   Part of Awesome WM config
   by Sergey Yakovlev (me@klay.me)
+  https://github.com/sergeyklay
 
---]]--
+]]
 
 awesome_menu = {
   { "&Manual",  terminal .. " -e man awesome"         },
@@ -37,7 +38,7 @@ power_menu = {
 }
 
 -- Create a main menu
-mainmenu = awful.menu({
+main_menu = awful.menu({
   items = {
     { "&Develop",  develop_menu },
     { "&Internet", www_menu     },
@@ -46,3 +47,12 @@ mainmenu = awful.menu({
   },
   theme = { width = 150 }
 })
+
+-- Create a laucher widget
+launcher = awful.widget.launcher({
+    image = beautiful.awesome_icon,
+    menu  = main_menu
+})
+
+-- Set the terminal for applications that require it
+menubar.utils.terminal = terminal

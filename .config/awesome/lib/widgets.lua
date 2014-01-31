@@ -1,11 +1,12 @@
---[[--
+--[[
 
   Wigtes library
 
   Part of Awesome WM config
   by Sergey Yakovlev (me@klay.me)
+  https://github.com/sergeyklay
 
---]]--
+]]
 
 local awful     = require("awful")
 local wibox     = require("wibox")
