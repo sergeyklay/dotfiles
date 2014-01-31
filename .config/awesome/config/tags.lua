@@ -17,7 +17,7 @@ tags = {
         layouts[3],
         layouts[9], -- fullscreen for browsers
         layouts[1],
-        layouts[2],
+        layouts[1],
         layouts[9], -- fullscreen for Gimp (I use single windows mode)
         layouts[9], -- fullscreen for IDEs
         layouts[1],
