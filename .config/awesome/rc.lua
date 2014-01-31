@@ -369,7 +369,12 @@ awful.rules.rules = {
     { rule_any = { class = { "Psi-plus" } }, except = { instance = "main" },
       properties = { tag = tags[1][3] }, callback = awful.client.setslave },
     { rule = { class = "Psi-plus", instance = "main" },
-      properties = { tag = tags[1][3] } }
+      properties = { tag = tags[1][3] } },
+    { rule = { class = "Skype" },
+      properties = { tag = tags[1][4] } },
+    { rule = { class = "Skype", name = "sergey_klay - Skype™" },
+      properties = { tag = tags[1][4] }, callback = awful.client.setslave }
+
 }
 -- }}}
 
