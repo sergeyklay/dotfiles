@@ -1,11 +1,12 @@
---[[--
+--[[
 
   Theme handling
 
   Part of Awesome WM config
   by Sergey Yakovlev (me@klay.me)
+  https://github.com/sergeyklay
 
---]]--
+]]
 
 local gears = require("gears")
 

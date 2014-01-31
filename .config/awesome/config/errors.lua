@@ -1,11 +1,12 @@
---[[--
+--[[
 
   Error handling
 
   Part of Awesome WM config
   by Sergey Yakovlev (me@klay.me)
+  https://github.com/sergeyklay
 
---]]--
+]]
 
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)

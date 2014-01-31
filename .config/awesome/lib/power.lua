@@ -1,15 +1,16 @@
---[[--
+--[[
 
   Power management
 
   Part of Awesome WM config
   by Sergey Yakovlev (me@klay.me)
+  https://github.com/sergeyklay
 
   For systems with systemd only! Modify this for your system if it needed.
   Polkit is necessary for power management as an unprivileged user.
   See https://wiki.archlinux.org/index.php/systemd#Power_management
 
---]]--
+]]
 
 local awful = require("awful")
 local run   = awful.util.spawn_with_shell
