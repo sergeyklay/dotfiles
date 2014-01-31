@@ -17,7 +17,7 @@ tags = {
         layouts[3],
         layouts[9], -- fullscreen for browsers
         layouts[1],
-        layouts[1],
+        layouts[2],
         layouts[9], -- fullscreen for Gimp (I use single windows mode)
         layouts[9], -- fullscreen for IDEs
         layouts[1],
@@ -33,4 +33,9 @@ for s = 1, screen.count() do
     awful.tag.setncol(2, tags[s][3])
     awful.tag.setnmaster(1, tags[s][3])
     awful.tag.setmwfact(0.2, tags[s][3])
+
+    -- Skype
+    awful.tag.setncol(2, tags[s][4])
+    awful.tag.setnmaster(1, tags[s][4])
+    awful.tag.setmwfact(0.8, tags[s][4])
 end
