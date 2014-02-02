@@ -48,6 +48,7 @@
   last = log -1 HEAD
   mf = merge --no-ff
   visual = !gitk
+  count = !~/bin/git-count
 [url "ssh://[login@]git.gnome.org/git/"]
   insteadof = gnome:
 [mergetool]
