@@ -53,6 +53,6 @@
 [mergetool]
   prompt = true
 [push]
-    default = simple
-#[commit]
-#    template = /home/klay/.gitmessage.txt
+  default = simple
+[commit]
+  template = ~/.gitmessage
