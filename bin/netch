@@ -1,10 +1,13 @@
-#!/bin/bash
+#!/bin/env bash
 
 # Ping with boolean.
+# Version: 0.0.1
 #
 # Original script was received thanks @ZDroid
 # https://github.com/ZDroid/dotfiles/blob/master/bin/netch
 #
+# Usage:
+#   netch
 
 if ping -c1 google.com | grep -w 0% > /dev/null
 then

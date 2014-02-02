@@ -1,5 +1,14 @@
-#!/usr/bin/perl
+#!/bin/env perl
+#
+# Reload GTK theme.
+# Version: 0.0.1
 # License: Same as GTK2
+#
+# Dependencies:
+# + perl
+#
+# Usage:
+#   gtk-reload
 
 use strict;
 use warnings;
