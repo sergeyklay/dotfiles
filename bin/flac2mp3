@@ -1,28 +1,62 @@
-#!/bin/sh
+#!/bin/env bash
+#
+# Bash script to convert Flac to Mp3.
+# Version: 0.0.2
 
-# First you need to install the following software: flac, lame, and id3
-command -v flac >/dev/null 2>&1 || { echo >&2 "First you need to install flac. Aborting."; exit 1; }
-command -v id3 >/dev/null 2>&1 || { echo >&2 "First you need to install id3. Aborting."; exit 1; }
-command -v lame >/dev/null 2>&1 || { echo >&2 "First you need to install lame. Aborting."; exit 1; }
+# Dependencies:
+# + flac
+# + lame
+#
+# Original script was received thanks ArchWiki
+# https://wiki.archlinux.org/index.php/Convert_Flac_to_Mp3
+#
+# Usage:
+#   You need to add this script to $PATH, go to dir with *.flac files
+#   and just use the flac2mp3 for recursive conversion all files to *.mp3
 
+# check dependencies
+function deps {
+    DEPENDENCIES="flac lame"
 
-for a in *.flac; do
-    OUTF=${a%.flac}.mp3
+    deps_ok=YES
+    for dep in $DEPENDENCIES
+    do
+        if ! which $dep &>/dev/null;  then
+            printf "This script requires \033[1;31m$dep\033[0m to run but it is not installed\n\n"
+            deps_ok=NO
+        fi
+    done
 
-    ARTIST=`metaflac "$a" --show-tag=ARTIST | sed s/.*=//g`
-    TITLE=`metaflac "$a" --show-tag=TITLE | sed s/.*=//g`
-    ALBUM=`metaflac "$a" --show-tag=ALBUM | sed s/.*=//g`
-    GENRE=`metaflac "$a" --show-tag=GENRE | sed s/.*=//g`
-    TRACKNUMBER=`metaflac "$a" --show-tag=TRACKNUMBER | sed s/.*=//g`
-    DATE=`metaflac "$a" --show-tag=DATE | sed s/.*=//g`
-
-    flac -c -d "$a" | lame --noreplaygain -V0 \
-        --add-id3v2 --pad-id3v2 --ignore-tag-errors --tt "$TITLE" --tn "${TRACKNUMBER:-0}" \
-        --ta "$ARTIST" --tl "$ALBUM" --ty "$DATE" --tg "${GENRE:-12}" \
-        - "$OUTF"
-    RESULT=$?
-    if [ "$1" ] && [ "$1" = "-d" ] && [ $RESULT -eq 0 ]; then
-        rm "$a"
+    if [[ "$deps_ok" == "NO" ]]; then
+        printf "Unmet dependencies ^\n"
+        printf "Aborting!\n"
+        # failure 
+        exit 1
+    else
+        # success
+        return 0
     fi
+}
+
+# check dependencies
+deps
+
+# conversion
+for a in *.flac; do
+    # give output correct extension
+    OUTF="${a[@]/%flac/mp3}"
+
+    # get the tags
+    ARTIST=$(metaflac "$a" --show-tag=ARTIST | sed s/.*=//g)
+    TITLE=$(metaflac "$a" --show-tag=TITLE | sed s/.*=//g)
+    ALBUM=$(metaflac "$a" --show-tag=ALBUM | sed s/.*=//g)
+    GENRE=$(metaflac "$a" --show-tag=GENRE | sed s/.*=//g)
+    TRACKNUMBER=$(metaflac "$a" --show-tag=TRACKNUMBER | sed s/.*=//g)
+    DATE=$(metaflac "$a" --show-tag=DATE | sed s/.*=//g)
+
+    # stream flac into the lame encoder
+    flac -c -d "$a" | lame -V0 --add-id3v2 --pad-id3v2 --ignore-tag-errors \
+        --ta "$ARTIST" --tt "$TITLE" --tl "$ALBUM"  --tg "${GENRE:-12}" \
+        --tn "${TRACKNUMBER:-0}" --ty "$DATE" - "$OUTF"
 done
 
