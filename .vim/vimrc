@@ -21,7 +21,6 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'thinca/vim-template'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'xolox/vim-misc'
-Bundle 'xolox/vim-lua-inspect'
 
 " Syntax plugins
 Bundle 'hail2u/vim-css3-syntax'
@@ -33,6 +32,8 @@ Bundle 'othree/javascript-libraries-syntax.vim'
 Bundle 'groenewege/vim-less'
 Bundle 'jQuery'
 Bundle 'evanmiller/nginx-vim-syntax'
+Bundle "Matt-Stevens/vim-systemd-syntax"
+Bundle 'xolox/vim-lua-inspect'
 
 " Color schemes
 Bundle 'sergeyklay/desert256-transparent.vim'
