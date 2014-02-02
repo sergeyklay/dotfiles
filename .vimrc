@@ -67,10 +67,9 @@ map <C-g> g<C-g>
 " save sesson to file
 map <C-k> :mks! ~/.vim/session/sess.vim<CR>
 " restore sesion from file
-map <C-l> :so ~/.vim/sess.vim<CR>
+map <C-l> :so ~/.vim/session/sess.vim<CR>
 " that will list file names in the current directory
 map <F2> :e <C-d>
-
 
 " if terminal's color count > 2
 if &t_Co > 2
@@ -128,16 +127,19 @@ map <C-S-Tab> :bprevious<cr>
 " In order for plug-in was able to find a specific template,
 " files must be named template.*
 augroup template-plugin
-    autocmd User plugin-template-loaded call s:template_keywords()
+  autocmd User plugin-template-loaded call s:template_keywords()
 augroup END
 
 function! s:template_keywords()
-    if search('<+FILE_NAME+>')
-        silent %s/<+FILE_NAME+>/\=toupper(expand('%:t:r'))/g
-    endif
-    if search('<+CURSOR+>')
-        execute 'normal! "_da>'
-    endif
-    silent %s/<+DATE+>/\=strftime('%Y-%m-%d')/g
+  " file name
+  if search('<+FILE_NAME+>')
+    silent %s/<+FILE_NAME+>/\=toupper(expand('%:t:r'))/g
+  endif
+  " cursor position
+  if search('<+CURSOR+>')
+    execute 'normal! "_da>'
+  endif
+  " current date
+  silent %s/<+DATE+>/\=strftime('%Y-%m-%d')/g
 endfunction
 
