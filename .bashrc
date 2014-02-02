@@ -90,8 +90,8 @@ if [ -f ~/git-completion.sh ]; then
 fi
 
 # actual ruby gems binaries path
-if [ -d GEM_HOME/bin ]; then
-    PATH+=:GEM_HOME/bin
+if [ -d $GEM_HOME/bin ]; then
+    PATH+=:$GEM_HOME/bin
 fi
 
 # set PATH so it includes user's private bin if it exists
