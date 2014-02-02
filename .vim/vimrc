@@ -5,9 +5,40 @@
 " https://github.com/sergeyklay/
 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-filetype plugin indent on      " filetype dependent indenting and plugins
-
+filetype on                    " need to call on initially to support git
+filetype off                   " Vundle requires
 set nocompatible               " use Vim settings, rather then Vi settings
+
+" Vundle initialization
+set rtp+=~/.vim/bundle/vundle
+call vundle#rc()
+
+" Bundles
+Bundle 'gmarik/vundle'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-rails.git'
+Bundle 'scrooloose/nerdtree'
+Bundle 'thinca/vim-template'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'xolox/vim-misc'
+Bundle 'xolox/vim-lua-inspect'
+
+" Syntax plugins
+Bundle 'hail2u/vim-css3-syntax'
+Bundle 'othree/html5-syntax.vim'
+Bundle 'tpope/vim-markdown'
+Bundle 'jelera/vim-javascript-syntax'
+Bundle 'jiangmiao/simple-javascript-indenter'
+Bundle 'othree/javascript-libraries-syntax.vim'
+Bundle 'groenewege/vim-less'
+Bundle 'jQuery'
+Bundle 'evanmiller/nginx-vim-syntax'
+
+" Color schemes
+Bundle 'sergeyklay/desert256-transparent.vim'
+
+filetype plugin indent on      " filetype dependent indenting and pluginsi
+
 set modelines=0                " prevents some security holes
 set backup                     " create backup files
 set bdir=~/.vim/back,/tmp      " directory to save backup files
@@ -32,7 +63,6 @@ set shiftwidth=4               " number of spaces used for (auto)indent
 set expandtab                  " when inserting replace tabs with spaces
 set softtabstop=4              " tab defaults to 4 spaces while performing
                                " editing operations
-set t_Co=256                   " enable 256 colors support
 set wildmenu                   " enhanced cmdline completion
 set wildchar=<Tab>             " type tab in cmdline to start wildcard expansion
 set wildmode=longest:full,full " cmdline completion mode settings
@@ -69,12 +99,8 @@ set complete=.,t,i,b,w,k       " keyword completion configuration
 set scrolloff=3                " minimal number of screen to keep above
                                " and below the cursor
 set number                     " show line numbers
-
-" pathogen
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-execute pathogen#infect()
-" generate heltags for everything in 'rintimepath'
-call pathogen#helptags()
+set spelllang=en_us            " default spelling language
+set spellsuggest=fast,20       " spelling suggestions operate on 'fast' mode
 
 " save on loss of focus
 au FocusLost * :wa
@@ -113,6 +139,8 @@ elseif (&term == 'rxvt-unicode') || (&term =~ '^xterm') || (&term =~ '^screen-25
     set ttymouse=xterm
     " set encoding to uft-8
     set termencoding=utf-8
+    " enable 256 colors support
+    set t_Co=256
     " set color scheme
     colors desert256-transparent
 " if we're in a different terminal
