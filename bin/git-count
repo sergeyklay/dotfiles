@@ -22,12 +22,12 @@ case "$1" in
         git branch | wc -l
         ;;
     *)
-        printf "\n--------------------------------\n"
+        printf "\n—————————————————————————————————\n"
         printf "\e[1;33mgit-count\033[0m v0.0.1"
         printf "\nCount git commits or branches.\n"
         printf "\nUsage:"
         printf "\n\033[1;32mgit count c \033[1;30m# count commits\033[0m"
         printf "\n\tor"
-        printf "\n\033[1;32mgit count b \033[1;30m# count brances\033[0m"
-        printf "\n--------------------------------\n"
+        printf "\n\033[1;32mgit count b \033[1;30m# count branches\033[0m"
+        printf "\n—————————————————————————————————\n"
 esac
