@@ -59,6 +59,12 @@ set tw=80                     " 80 character per line - limit for all files
 set cc=+1                     " highlight border for tw
 set nohidden                  " When closing tab, remove the buffer
 
+" Pathogen
+runtime bundle/vim-pathogen/autoload/pathogen.vim
+execute pathogen#infect()
+" generate heltags for everything in 'rintimepath'
+call pathogen#helptags()
+
 " save on loss of focus
 au FocusLost * :wa
 
