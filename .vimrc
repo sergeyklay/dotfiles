@@ -124,8 +124,9 @@ map <C-Tab> :bnext<cr>
 map <C-S-Tab> :bprevious<cr>
 
 " Using templates for new files.
-" In order for plug-in was able to find a specific template,
-" files must be named template.*
+" In order for plugin was able to find a specific template,
+" files must be named template.*, and should be located in
+" ~/.vim/template directory
 augroup template-plugin
   autocmd User plugin-template-loaded call s:template_keywords()
 augroup END
