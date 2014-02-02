@@ -1,9 +1,9 @@
 [submodule ".config/awesome/vicious"]
-	path = .config/awesome/vicious
-	url = http://git.sysphere.org/vicious
+    path = .config/awesome/vicious
+    url = http://git.sysphere.org/vicious
 [submodule ".vim/bundle/nerdtree"]
-	path = .vim/bundle/nerdtree
-	url = git@github.com:scrooloose/nerdtree.git
+    path = .vim/bundle/nerdtree
+    url = git@github.com:scrooloose/nerdtree.git
 [submodule ".vim/bundle/vim-pathogen"]
-	path = .vim/bundle/vim-pathogen
-	url = git@github.com:tpope/vim-pathogen.git
+    path = .vim/bundle/vim-pathogen
+    url = git@github.com:tpope/vim-pathogen.git
