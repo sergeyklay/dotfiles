@@ -26,9 +26,6 @@ HISTTIMEFORMAT="%h %d %H:%M:%S "
 # save commands immediately after use
 PROMPT_COMMAND='history -a'
 
-# actual ruby gems home
-export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
-
 # user-specific configuration files
 export XDG_CONFIG_HOME=~/.config
 
@@ -89,12 +86,12 @@ if [ -f ~/git-completion.sh ]; then
     . ~/git-completion.sh
 fi
 
-# actual ruby gems binaries path
-if [ -d $GEM_HOME/bin ]; then
-    PATH+=:$GEM_HOME/bin
-fi
-
 # set PATH so it includes user's private bin if it exists
 if [ -d ~/bin ]; then
     PATH+=:~/bin
+fi
+
+# Add RVM to PATH for scripting
+if [ -d ~/.rvm/bin ]; then
+    PATH+=:~/.rvm/bin
 fi
