@@ -10,31 +10,6 @@ runtime startup/bundles.vim
 runtime startup/settings.vim
 runtime startup/console.vim
 
-set history=1000               " cmdline history table size
-set nowrap                     " don't wrap visible lines
-set wildmenu                   " enhanced cmdline completion
-set wildchar=<Tab>             " type tab in cmdline to start wildcard expansion
-set wildmode=longest:full,full " cmdline completion mode settings
-set makeprg=make               " application for build - make
-set whichwrap=<,>,[,],h,l      " allow line-wrapped navigation
-set fencs=utf8,cp1251,koi8r,cp866 " possible encodings of files
-set showmode                   " show whether in insert, visual mode etc
-set noacd                      " current directory - where is the active file
-set tpm=100                    " maximum number of tab pages to be opened
-set ex                         " use .vimrc from current dir
-set list                       " display the tabs, and leading spaces
-set lcs=tab:»\ ,trail:·,eol:¶  " how to display non-printing characters
-                               " where sensible
-set tw=80                      " maximum column width of inserted text
-                               " longer lines are broken after whitespace
-set cc=+1                      " highlight border for tw
-set nohidden                   " when closing tab, remove the buffer
-set shell=/bin/bash            " set the shell to be used
-set formatoptions=qrn1         " correctly handle long lines
-set cursorline                 " display cursor line
-set scrolloff=3                " minimal number of screen to keep above
-                               " and below the cursor
-
 " save on loss of focus
 au FocusLost * :wa
 
@@ -88,10 +63,7 @@ if !exists(":DiffOrig")
         \ | wincmd p | diffthis
 endif
 
-" using templates for new files.
-" in order for plugin was able to find a specific template,
-" files must be named template.*, and should be located in
-" ~/.vim/template directory
+" Using templates for new files
 augroup template-plugin
   autocmd User plugin-template-loaded call s:template_keywords()
 augroup END
@@ -108,3 +80,15 @@ function! s:template_keywords()
   " current date
   silent %s/<+DATE+>/\=strftime('%Y-%m-%d')/g
 endfunction
+
+" Append modeline after last line in buffer
+function! AppendModeline()
+  let l:modeline = printf(" vim:ts=%d:sw=%d:sts=%d:tw=%d:%set",
+        \ &tabstop, &shiftwidth, &softtabstop, &textwidth, &expandtab ? '' : 'no')
+  let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
+  call append(line("$"), "")
+  call append(line("$"), l:modeline)
+endfunction
+nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
+
+" vim:ts=8:sw=2:sts=2:tw=80:et
