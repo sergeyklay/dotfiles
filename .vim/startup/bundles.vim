@@ -31,8 +31,8 @@ Bundle 'cakebaker/scss-syntax.vim'
 Bundle 'itspriddle/vim-jquery'
 Bundle 'evanmiller/nginx-vim-syntax'
 Bundle 'Matt-Stevens/vim-systemd-syntax'
-Bundle 'xolox/vim-misc'
-Bundle 'xolox/vim-lua-inspect'
 
 " Color schemes
 Bundle 'sergeyklay/desert256-transparent.vim'
+
+" vim:ts=8:sw=2:sts=2:tw=80:et
