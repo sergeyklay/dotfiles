@@ -11,19 +11,12 @@ runtime startup/settings.vim
 runtime startup/console.vim
 
 set history=1000               " cmdline history table size
-set ignorecase                 " search is case insensitive
-set smartcase                  " if search pattern contains an uppercase letter
-set gdefault                   " lets skip the ending '/g' in keystrokes
-set novb                       " beeping instead of flashing
-set showmatch                  " indicate matching parentheses, braces etc
-" status line settings
 set nowrap                     " don't wrap visible lines
 set wildmenu                   " enhanced cmdline completion
 set wildchar=<Tab>             " type tab in cmdline to start wildcard expansion
 set wildmode=longest:full,full " cmdline completion mode settings
 set makeprg=make               " application for build - make
 set whichwrap=<,>,[,],h,l      " allow line-wrapped navigation
-set encoding=utf-8             " encoding
 set fencs=utf8,cp1251,koi8r,cp866 " possible encodings of files
 set showmode                   " show whether in insert, visual mode etc
 set noacd                      " current directory - where is the active file
@@ -55,13 +48,6 @@ map <C-l> :so ~/.vim/session/sess.vim<CR>
 map <C-n> :NERDTreeToggle<CR>
 " that will list file names in the current directory
 map <F2> :e <C-d>
-
-    " allow mouse in all editing modes
-    set mouse=a
-    " use xterm mouse behaviour
-    set ttymouse=xterm
-    " set encoding to uft-8
-    set termencoding=utf-8
 
 " ; the same as :
 nnoremap ; :

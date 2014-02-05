@@ -2,7 +2,6 @@
 syntax on
 set modelines=0
 set clipboard=unnamedplus
-set incsearch nohlsearch
 set isfname-==
 set shortmess=aTOI
 set showcmd
@@ -10,6 +9,15 @@ set ttyfast
 set sidescroll=10
 set splitbelow
 set switchbuf=usetab
+set novb
+set encoding=utf-8
+
+" Search
+set incsearch nohlsearch
+set smartcase
+set gdefault
+set ignorecase
+set showmatch
 
 " Editing
 set complete=.,t,i,b,w,k
@@ -21,8 +29,6 @@ set ruler
 set laststatus=2
 
 " Appearance
-set t_Co=256
-colors desert256-transparent
 set statusline=
 set statusline+=%<%f\ %h%m%r
 set statusline+=%{fugitive#statusline()}
@@ -30,7 +36,6 @@ set statusline+=%=
 set statusline+=[%{&ft}]
 set statusline+=[%{&fenc}/%{&ff}]
 set statusline+=%-14.([%l/%L],%c%V%)
-"%t\ %{strftime(\"%H:%M\ \")}%(%l,%c\ %p%%%)\ %y%m%r[%{&fileencoding}]
 
 " Indentation
 set backspace=indent,eol,start
