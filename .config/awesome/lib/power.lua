@@ -41,3 +41,5 @@ end
 function poweroff()
   run("zenity --question --text 'Shut down and power-off the syste' && systemctl poweroff")
 end
+
+-- vim:ts=8:sw=2:sts=2:tw=80:et

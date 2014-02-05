@@ -32,3 +32,5 @@ alias please=sudo
 
 # clear screen
 alias cls=clear
+
+# vim:filetype=sh:ts=8:sw=2:sts=2:tw=80:et
