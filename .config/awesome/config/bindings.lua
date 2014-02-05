@@ -10,7 +10,7 @@
 
 -- Mouse bindings
 root.buttons(awful.util.table.join(
-  awful.button({                }, 3,        function () mainmenu:toggle() end),
+  awful.button({                }, 3,        function () main_menu:toggle() end),
   awful.button({                }, 4,        awful.tag.viewnext),
   awful.button({                }, 5,        awful.tag.viewprev)
 ))
@@ -33,7 +33,7 @@ globalkeys = awful.util.table.join(
       if client.focus then client.focus:raise() end
     end),
 
-  awful.key({ modkey,           }, "w",      function () mainmenu:show() end),
+  awful.key({ modkey,           }, "w",      function () main_menu:show() end),
 
   -- Layout manipulation
   awful.key({ modkey, "Shift"   }, "j",      function () awful.client.swap.byidx(  1)    end),
@@ -155,3 +155,5 @@ clientbuttons = awful.util.table.join(
 root.keys(globalkeys)
 
 --
+
+-- vim:ts=8:sw=2:sts=2:tw=80:et
