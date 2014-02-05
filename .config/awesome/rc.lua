@@ -38,3 +38,5 @@ widgets         = require("lib.widgets")
 dofile(__dir__ .. "/config/wiboxes.lua")
 dofile(__dir__ .. "/config/rules.lua")
 dofile(__dir__ .. "/config/signals.lua")
+
+-- vim:ts=8:sw=2:sts=2:tw=80:et

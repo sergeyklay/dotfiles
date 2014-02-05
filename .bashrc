@@ -95,3 +95,5 @@ fi
 if [ -d ~/.rvm/bin ]; then
     PATH+=:~/.rvm/bin
 fi
+
+# vim:filetype=sh:ts=8:sw=2:sts=2:tw=80:et
