@@ -91,7 +91,7 @@ if [ -d ~/bin ]; then
     PATH+=:~/bin
 fi
 
-# Add RVM to PATH for scripting
+# add RVM to PATH for scripting
 if [ -d ~/.rvm/bin ]; then
     PATH+=:~/.rvm/bin
 fi
