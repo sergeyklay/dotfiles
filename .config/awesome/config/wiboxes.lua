@@ -8,7 +8,7 @@
 
 ]]
 
-local w = lib.widgets
+local w = require("lib.widgets")
 
 -- Create a textclock widget
 
