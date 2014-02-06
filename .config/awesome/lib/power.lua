@@ -12,34 +12,35 @@
 
 ]]
 
+module("lib.power")
+
 local awful = require("awful")
 local run   = awful.util.spawn_with_shell
-
-module("lib.power")
+local zqt   = "zenity --question --text "
 
 -- Suspend the system
 function suspend()
-  run("zenity --question --text 'Suspend the system' && systemctl suspend")
+  run(zqt .. "'Suspend the system' && systemctl suspend")
 end
 
 -- Put the system into hibernation
 function hibernate()
-  run("zenity --question --text 'Put the system into hibernation' && systemctl hibernate")
+  run(zqt .. "'Put the system into hibernation' && systemctl hibernate")
 end
 
 -- Put the system into hybrid-sleep state (or suspend-to-both)
 function sleep()
-  run("zenity --question --text 'Sleep the system' && systemctl hibrid-sleep")
+  run(zqt .. "'Sleep the system' && systemctl hibrid-sleep")
 end
 
 -- Shut down and reboot the system
 function reboot()
-  run("zenity --question --text 'Shut down and reboot the system' && systemctl reboot")
+  run(zqt .. "'Shut down and reboot the system' && systemctl reboot")
 end
 
 -- Shut down and power-off the system
 function poweroff()
-  run("zenity --question --text 'Shut down and power-off the syste' && systemctl poweroff")
+  run(zqt .. "'Shut down and power-off the system' && systemctl poweroff")
 end
 
 -- vim:ts=8:sw=2:sts=2:tw=80:et
