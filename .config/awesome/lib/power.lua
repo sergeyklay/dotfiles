@@ -12,11 +12,11 @@
 
 ]]
 
-module("lib.power")
-
 local awful = require("awful")
 local run   = awful.util.spawn_with_shell
 local zqt   = "zenity --question --text "
+
+module("lib.power")
 
 -- Suspend the system
 function suspend()
