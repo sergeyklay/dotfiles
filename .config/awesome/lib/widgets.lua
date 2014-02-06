@@ -103,4 +103,10 @@ volwidget = wibox.widget.textbox()
 volwidget:set_align("right")
 vicious.register(volwidget, vicious.widgets.volume, "$1", 1, "Master")
 
+-- Net widget
+upicon = wibox.widget.imagebox(beautiful.net_up)
+downicon = wibox.widget.imagebox(beautiful.net_down)
+netwidget = wibox.widget.textbox()
+vicious.register(netwidget, vicious.widgets.net, " ${enp3s0 up_kb} ${enp3s0 down_kb} ")
+
 -- vim:ts=8:sw=2:sts=2:tw=80:et
