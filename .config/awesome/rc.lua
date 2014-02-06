@@ -16,7 +16,6 @@ vicious         = require("vicious")
 beautiful       = require("beautiful")
 naughty         = require("naughty")
 menubar         = require("menubar")
-power           = require("lib.power")
 
 -- Variable definitions
 __dir__         = os.getenv('HOME') .. "/.config/awesome"
@@ -34,7 +33,6 @@ dofile(__dir__ .. "/config/layouts.lua")
 dofile(__dir__ .. "/config/tags.lua")
 dofile(__dir__ .. "/config/menu.lua")
 dofile(__dir__ .. "/config/bindings.lua")
-widgets         = require("lib.widgets")
 dofile(__dir__ .. "/config/wiboxes.lua")
 dofile(__dir__ .. "/config/rules.lua")
 dofile(__dir__ .. "/config/signals.lua")

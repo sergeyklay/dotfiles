@@ -8,6 +8,8 @@
 
 ]]
 
+local p = require("lib.power")
+
 awesome_menu = {
   { "&Manual",  terminal .. " -e man awesome"         },
   { "&Config",  editor_cmd .. " " .. awesome.conffile },
@@ -29,12 +31,12 @@ www_menu = {
 }
 
 power_menu = {
-  { "&Lock Screen", power.screensaver },
-  { "&Suspend",     power.suspend     },
-  { "&Hibernate",   power.hibernate   },
-  { "Sl&eep",       power.sleep       },
-  { "&Reboot",      power.reboot      },
-  { "&Power Off",   power.poweroff    }
+  { "&Lock Screen", p.screensaver },
+  { "&Suspend",     p.suspend     },
+  { "&Hibernate",   p.hibernate   },
+  { "Sl&eep",       p.sleep       },
+  { "&Reboot",      p.reboot      },
+  { "&Power Off",   p.poweroff    }
 }
 
 -- Create a main menu
@@ -56,3 +58,5 @@ launcher = awful.widget.launcher({
 
 -- Set the terminal for applications that require it
 menubar.utils.terminal = terminal
+
+-- vim:ts=8:sw=2:sts=2:tw=80:et
