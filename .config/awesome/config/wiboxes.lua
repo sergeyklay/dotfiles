@@ -8,14 +8,14 @@
 
 ]]
 
--- Create a textclock widget
-textclock = awful.widget.textclock(" %H:%M ")
+local w = lib.widgets
 
--- Create a wibox for each screen and add it
-top_wiboxes     = {}
-bottom_wiboxes  = {}
-promptbox       = {}
-layoutbox       = {}
+-- Create a textclock widget
+
+top_wiboxes = {}
+bot_wiboxes = {}
+promptbox   = {}
+layoutbox   = {}
 
 taglist   = {}
 taglist.buttons = awful.util.table.join(
@@ -89,19 +89,19 @@ for s = 1, screen.count() do
   -- Widgets that are aligned to the left
   local left_layout = wibox.layout.fixed.horizontal()
   left_layout:add(launcher)
-  left_layout:add(lib.widgets.spacer)
+  left_layout:add(w.spacer)
   left_layout:add(taglist[s])
   left_layout:add(promptbox[s])
 
   -- Widgets that are aligned to the right
   local right_layout = wibox.layout.fixed.horizontal()
-  right_layout:add(lib.widgets.volicon)
-  right_layout:add(lib.widgets.volwidget)
-  right_layout:add(lib.widgets.separator)
-  if s == 1 then right_layout:add(wibox.widget.systray()) end   
-  right_layout:add(lib.widgets.separator)
-  right_layout:add(textclock)
-  right_layout:add(lib.widgets.separator)
+  right_layout:add(w.volicon)
+  right_layout:add(w.volwidget)
+  right_layout:add(w.separator)
+  if s == 1 then right_layout:add(wibox.widget.systray()) end
+  right_layout:add(w.separator)
+  right_layout:add(w.clock)
+  right_layout:add(w.separator)
   right_layout:add(layoutbox[s])
 
   -- Now bring it all together (with the tasklist in the middle)
@@ -113,39 +113,38 @@ for s = 1, screen.count() do
   top_wiboxes[s]:set_widget(layout)
 
   -- Create the bottom wibox
-  top_wiboxes[s] = awful.wibox({ position = "bottom", height="14", screen = s })
+  bot_wiboxes[s] = awful.wibox({ position = "bottom", height="14", screen = s })
 
   -- Widgets that are aligned to the left
-  local left_layout2 = wibox.layout.fixed.horizontal()
+  local bl_layout = wibox.layout.fixed.horizontal()
+
+  bl_layout:add(w.syswidget)
+  bl_layout:add(w.separator)
+  bl_layout:add(w.mpdicon)
+  bl_layout:add(w.mpdwidget)
 
   -- Widgets that are aligned to the right
-  local right_layout2 = wibox.layout.fixed.horizontal()
-  left_layout2:add(lib.widgets.spacer)
-  left_layout2:add(lib.widgets.syswidget)
-  left_layout2:add(lib.widgets.separator)
-  left_layout2:add(lib.widgets.mpdicon)
-  left_layout2:add(lib.widgets.mpdwidget)
+  local br_layout = wibox.layout.fixed.horizontal()
 
-  right_layout2:add(lib.widgets.separator)
-  right_layout2:add(lib.widgets.ramicon)
-  right_layout2:add(lib.widgets.ramwidget)
-  right_layout2:add(lib.widgets.separator)
-  right_layout2:add(lib.widgets.cpuicon)
-  right_layout2:add(lib.widgets.cpuwidget1)
-  right_layout2:add(lib.widgets.separator)
-  right_layout2:add(lib.widgets.cpuicon)
-  right_layout2:add(lib.widgets.cpuwidget2)
-  right_layout2:add(lib.widgets.separator)
-  right_layout2:add(lib.widgets.batticon)
-  right_layout2:add(lib.widgets.battwidget)
-  right_layout2:add(lib.widgets.spacer)
+  br_layout:add(w.separator)
+  br_layout:add(w.ramicon)
+  br_layout:add(w.ramwidget)
+  br_layout:add(w.separator)
+  br_layout:add(w.cpuicon)
+  br_layout:add(w.cpuwidget1)
+  br_layout:add(w.separator)
+  br_layout:add(w.cpuicon)
+  br_layout:add(w.cpuwidget2)
+  br_layout:add(w.separator)
+  br_layout:add(w.batticon)
+  br_layout:add(w.battwidget)
+  br_layout:add(w.spacer)
 
   -- Now bring it all together (with the tasklist in the middle)
   local layout2 = wibox.layout.align.horizontal()
-  layout2:set_left(left_layout2)
-  layout2:set_right(right_layout2)
-
-  top_wiboxes[s]:set_widget(layout2)
+  layout2:set_left(bl_layout)
+  layout2:set_right(br_layout)
+  bot_wiboxes[s]:set_widget(layout2)
 end
 
---
+-- vim:ts=8:sw=2:sts=2:tw=80:et
