@@ -126,6 +126,9 @@ for s = 1, screen.count() do
   -- Widgets that are aligned to the right
   local br_layout = wibox.layout.fixed.horizontal()
 
+  br_layout:add(w.upicon)
+  br_layout:add(w.netwidget)
+  br_layout:add(w.downicon)
   br_layout:add(w.separator)
   br_layout:add(w.ramicon)
   br_layout:add(w.ramwidget)

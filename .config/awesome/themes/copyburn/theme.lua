@@ -138,6 +138,8 @@ theme.mail                                      = theme.dir .. "/icons/mail.png"
 theme.mpd                                       = theme.dir .. "/icons/mpd.png"
 theme.batt                                      = theme.dir .. "/icons/batt.png"
 theme.vol                                       = theme.dir .. "/icons/vol.png"
+theme.net_up                                    = theme.dir .. "/icons/up.png"
+theme.net_down                                  = theme.dir .. "/icons/down.png"
 
 -- {{{ Titlebar
 theme.titlebar_close_button_focus               = theme.dir .. "/icons/titlebar/close_focus.png"
