@@ -1,0 +1,93 @@
+# Directories
+ncmpcpp_directory = "~/.ncmpcpp"
+lyrics_directory  = "~/.lyrics"
+mpd_music_dir     = "/home/media/music"
+
+# Connection settings
+mpd_host = "localhost"
+mpd_port = "6600"
+mpd_connection_timeout = "5"
+mpd_crossfade_time = "0"
+mpd_communication_mode = "notifications"
+
+# Delays
+playlist_disable_highlight_delay = "5"
+message_delay_time = "3"
+
+# Song format
+song_list_format = "{$5%a} $2»$8»$5» {$8%t}|{$8%f}$R{$2%b}"
+song_status_format = "{$8%a} $2»$8»$5» $b{$1%b}$/b"
+song_library_format = "{%n - }{%t}|{%f}"
+tag_editor_album_format = "{%a} - {%b}"
+browser_sort_mode = "name"
+browser_sort_format = "{%a - }{%t}|{%f} {(%l)}"
+browser_playlist_prefix = "$2playlist$9 "
+alternative_header_first_line_format = "{$b$1%t$9$/b}"
+alternative_header_second_line_format ="$0{%a} $b$8-$9$/b {%b}$9"
+now_playing_prefix = "$u$2"
+now_playing_suffix = "$2$/u$2"
+
+# Columns settings
+song_columns_list_format = "(10)[black]{l} (30)[blue]{a} (30)[green]{b} (30)[magenta]{t}"
+
+# Various settings
+playlist_shorten_total_times = "no"
+playlist_display_mode = "classic"      # (classic/columns)
+browser_display_mode = "classic"       # (classic/columns)
+search_engine_display_mode = "classic" # (classic/columns)
+incremental_seeking = "yes"
+seek_time = "1"
+autocenter_mode = "yes"
+centered_cursor = "no"
+progressbar_look = "▉▉▉"
+progressbar_boldness = "no"
+default_place_to_search_in = "database" # (database/playlist)
+user_interface = "classic" # (classic/alternative)
+default_find_mode = "wrapped" # (wrapped/normal)
+default_space_mode = "select"
+default_tag_editor_pattern = "%n - %t"
+header_visibility = "no"
+statusbar_visibility = "yes"
+titles_visibility = "no"
+header_text_scrolling = "yes"
+fancy_scrolling = "yes"
+cyclic_scrolling = "yes"
+lines_scrolled = "5"
+follow_now_playing_lyrics = "no"
+store_lyrics_in_song_dir = "no"
+startup_screen = "2"
+jump_to_now_playing_song_at_start = "yes"
+ask_before_clearing_main_playlist = "no"
+clock_display_seconds = "yes"
+display_volume_level = "yes"
+display_bitrate = "yes"
+display_remaining_time = "no"
+regular_expressions = "basic"
+ignore_leading_the = "yes"
+mouse_support = "yes"
+mouse_list_scroll_whole_page = "yes"
+empty_tag_marker = "<empty>"
+enable_window_title = "no"
+search_engine_default_search_mode = "1"
+allow_physical_files_deletion = "yes" # !
+allow_physical_directories_deletion = "yes" # !
+external_editor = "vim"
+use_console_editor = "yes"
+
+# Colors definitions
+empty_tag_color = "white"
+header_window_color = "white"
+volume_color = "blue"
+state_line_color = "white"
+state_flags_color = "white"
+main_window_color = "blue"
+main_window_highlight_color = "white"
+progressbar_color = "black"
+progressbar_elapsed_color = "cyan"
+statusbar_color = "red"
+alternative_ui_separator_color = "white"
+active_column_color = "red"
+visualizer_color = "white"
+active_window_border = "red"
+
+#  vim:ts=8:sw=2:sts=2:tw=80:et
