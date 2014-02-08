@@ -1,6 +1,9 @@
 # use ~/.bashrc
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
+# local run (per user) of mpd
+[ ! -s ~/.config/mpd/pid ] && mpd
+
 # load RVM into a shell session *as a function*
 [[ -s ~/.rvm/scripts/rvm ]] && . ~/.rvm/scripts/rvm
 
