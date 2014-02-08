@@ -35,6 +35,7 @@
   dump = cat-file -p
   br = branch
   st = status
+  sd = diff --stat
   ci = commit
   co = checkout
   dc = diff --cached
@@ -49,6 +50,7 @@
   mf = merge --no-ff
   visual = !gitk
   count = !~/bin/git-count
+  total = shortlog -s -n
 [url "ssh://[login@]git.gnome.org/git/"]
   insteadof = gnome:
 [mergetool]
