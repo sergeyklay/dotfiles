@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 #
 # Count git commits or branches.
-# Version: 0.0.1
+# Version: 0.0.2
 #
 # Usage:
 #
-#   git count c # count commits
+#   git count options
 #
-#   or
-#
-#   git count b # count branches
+#   Options:
+#     c    Count commits
+#     b    Count branches
+#    ca    Counting the total number of commits for each participant
 #
 # Original script was received thanks @ZDroid
 # https://github.com/ZDroid/dotfiles/blob/master/git/count
@@ -21,13 +22,19 @@ case "$1" in
     b)
         git branch | wc -l
         ;;
+    ca)
+        git shortlog -sn
+        ;;
     *)
         printf "\n—————————————————————————————————\n"
         printf "\e[1;33mgit-count\033[0m v0.0.1"
         printf "\nCount git commits or branches.\n"
         printf "\nUsage:"
-        printf "\n\033[1;32mgit count c \033[1;30m# count commits\033[0m"
-        printf "\n\tor"
-        printf "\n\033[1;32mgit count b \033[1;30m# count branches\033[0m"
+        printf "\ngit count\033[1;32m option \033[0m"
+        printf "\n"
+        printf "\nOption:"
+        printf "\n  c\tCount commits"
+        printf "\n  b\tCount branches"
+        printf "\n ca\tCounting the total number of commits for each participant"
         printf "\n—————————————————————————————————\n"
 esac
