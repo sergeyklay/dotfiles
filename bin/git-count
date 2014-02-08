@@ -23,11 +23,11 @@ case "$1" in
         git branch | wc -l
         ;;
     ca)
-        git shortlog -sn
+        git shortlog -sn --no-merges
         ;;
     *)
-        printf "\n—————————————————————————————————\n"
-        printf "\e[1;33mgit-count\033[0m v0.0.1"
+        printf "\n——————————————————————————————————————————————————————————————\n"
+        printf "\e[1;33mgit-count\033[0m v0.0.2"
         printf "\nCount git commits or branches.\n"
         printf "\nUsage:"
         printf "\ngit count\033[1;32m option \033[0m"
@@ -36,5 +36,5 @@ case "$1" in
         printf "\n  c\tCount commits"
         printf "\n  b\tCount branches"
         printf "\n ca\tCounting the total number of commits for each participant"
-        printf "\n—————————————————————————————————\n"
+        printf "\n——————————————————————————————————————————————————————————————\n"
 esac
