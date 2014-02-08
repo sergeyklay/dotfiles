@@ -82,8 +82,8 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 # git completion
-if [ -f ~/git-completion.sh ]; then
-    . ~/git-completion.sh
+if [ -f ~/git/completion.sh ]; then
+    . ~/git/completion.sh
 fi
 
 # set PATH so it includes user's private bin if it exists

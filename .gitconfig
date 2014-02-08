@@ -56,4 +56,4 @@
 [push]
   default = simple
 [commit]
-  template = ~/.gitmessage
+  template = ~/git/message.txt
