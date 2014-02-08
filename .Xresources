@@ -31,7 +31,7 @@ URxvt*scrollBar_floating:             false
 ! URxvt*scrollTtyKeypress:              boolean
 ! URxvt*scrollWithBuffer:               boolean
 ! URxvt*inheritPixmap:                  boolean
-URxvt*transparent:                    true
+! URxvt*transparent:                    true
 ! URxvt*tintColor:                      color
 URxvt*shading:                        110
 ! URxvt*blurRadius:                     HxV
@@ -48,7 +48,8 @@ URxvt*shading:                        110
 ! URxvt*cursorUnderline:                boolean
 ! URxvt*cursorBlink:                    boolean
 ! URxvt*pointerBlank:                   boolean
-URxvt*background:                     rgba:0000/0000/0000/c900
+URxvt*background:                     #000000
+! rgba:0000/0000/0000/c900
 URxvt*foreground:                     white
 URxvt*color0:                         #2E3436
 URxvt*color1:                         #a40000
