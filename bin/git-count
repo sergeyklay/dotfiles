@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #
 # Count git commits or branches.
-# Version: 0.0.2
+# Version: 0.1.0
 #
 # Usage:
 #
-#   git count options
+#   git count {c|b|ca}
 #
 #   Options:
 #     c    Count commits
@@ -16,25 +16,29 @@
 # https://github.com/ZDroid/dotfiles/blob/master/git/count
 
 case "$1" in
-    c)
-        git rev-list HEAD --count
-        ;;
-    b)
-        git branch | wc -l
-        ;;
-    ca)
-        git shortlog -sn --no-merges
-        ;;
-    *)
-        printf "\n——————————————————————————————————————————————————————————————\n"
-        printf "\e[1;33mgit-count\033[0m v0.0.2"
-        printf "\nCount git commits or branches.\n"
-        printf "\nUsage:"
-        printf "\ngit count\033[1;32m option \033[0m"
-        printf "\n"
-        printf "\nOption:"
-        printf "\n  c\tCount commits"
-        printf "\n  b\tCount branches"
-        printf "\n ca\tCounting the total number of commits for each participant"
-        printf "\n——————————————————————————————————————————————————————————————\n"
+  c)
+    git rev-list HEAD --count
+    ;;
+  b)
+    git branch | wc -l
+    ;;
+  ca)
+    git shortlog -sn --no-merges
+    ;;
+  *)
+    echo $"Usage: $0 {start|stop|restart|condrestart|status}"
+    printf "\n——————————————————————————————————————————————————————————————\n"
+    printf "\e[1;33mgit-count\033[0m v0.1.0"
+    printf "\nCount git commits or branches.\n"
+    printf "\nUsage:"
+    printf "\ngit count {c|b|ca}"
+    printf "\n"
+    printf "\nOptions:"
+    printf "\n  c\tCount commits"
+    printf "\n  b\tCount branches"
+    printf "\n ca\tCounting the total number of commits for each participant"
+    printf "\n——————————————————————————————————————————————————————————————\n"
+    exit 1
 esac
+
+# vim:ts=8:sw=2:sts=2:tw=80:et
