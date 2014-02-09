@@ -26,7 +26,6 @@ case "$1" in
     git shortlog -sn --no-merges
     ;;
   *)
-    echo $"Usage: $0 {start|stop|restart|condrestart|status}"
     printf "\n——————————————————————————————————————————————————————————————\n"
     printf "\e[1;33mgit-count\033[0m v0.1.0"
     printf "\nCount git commits or branches.\n"
