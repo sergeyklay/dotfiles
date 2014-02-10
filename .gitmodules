@@ -4,3 +4,6 @@
 [submodule "/home/klay/.vim/bundle/vundle"]
 	path = /home/klay/.vim/bundle/vundle
 	url = https://github.com/gmarik/vundle.git
+[submodule ".config/awesome/obvious"]
+	path = .config/awesome/obvious
+	url = git@github.com:hoelzro/obvious.git
