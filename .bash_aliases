@@ -1,5 +1,5 @@
 # enable color support of ls and also add handy aliases
-if [ $colors_support = true ]
+if [ "$colors_support" = true ]
 then
   alias ls='ls --color=auto'
   alias dir='dir --color=auto'
