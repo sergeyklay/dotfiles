@@ -52,48 +52,51 @@ export CHROME_BIN=/usr/bin/chromium
 export PAGER=less
 export LESS=-R # use -X to avoid sending terminal initialization
 export LESSCHARSET=UTF-8
-export LESS_TERMCAP_mb=$'\033[01;31m'
-export LESS_TERMCAP_md=$'\033[01;38;5;74m'
-export LESS_TERMCAP_me=$'\033[0m'
-export LESS_TERMCAP_se=$'\033[0m'
-export LESS_TERMCAP_so=$'\033[38;5;246m'
-export LESS_TERMCAP_ue=$'\033[0m'
-export LESS_TERMCAP_us=$'\033[04;38;5;146m'
+
 
 # font config
 export GDK_USE_XFT=1
 export QT_XFT=true
 
 # setup prompt
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval \
+PS1='% \w '
+
+if [ -x /usr/bin/dircolors ]
+then
+  [ -r ~/.dircolors ] && eval "$(dircolors -b ~/.dircolors)" || eval \
     "$(dircolors -b)"
 
-    # Design prompt
-    PS1="\[\033[1;35m\]%\[\033[00m\] \[\033[1;34m\]\w\[\033[00m\] "
-else
-    # Default promt
-    PS1='% \w '
+  colors_support=true
+
+  # color man pages
+  export LESS_TERMCAP_mb=$(printf "\e[01;31m")
+  export LESS_TERMCAP_md=$(printf "\e[01;35m")
+  export LESS_TERMCAP_me=$(printf "\e[0m")
+  export LESS_TERMCAP_se=$(printf "\e[0m")
+  export LESS_TERMCAP_so=$(printf "\e[01;33m")
+  export LESS_TERMCAP_ue=$(printf "\e[0m")
+  export LESS_TERMCAP_us=$(printf "\e[04;36m")
+
 fi
 
 # include aliases
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+  . ~/.bash_aliases
 fi
 
 # git completion
 if [ -f ~/git/completion.sh ]; then
-    . ~/git/completion.sh
+  . ~/git/completion.sh
 fi
 
 # set PATH so it includes user's private bin if it exists
 if [ -d ~/bin ]; then
-    PATH+=:~/bin
+  PATH+=:~/bin
 fi
 
 # add RVM to PATH for scripting
 if [ -d ~/.rvm/bin ]; then
-    PATH+=:~/.rvm/bin
+  PATH+=:~/.rvm/bin
 fi
 
-# vim:filetype=sh:ts=8:sw=2:sts=2:tw=80:et
+# vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
