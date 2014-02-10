@@ -10,4 +10,4 @@
 # add RVM comletion
 [[ -r $rvm_path/scripts/completion ]] && . $rvm_path/scripts/completion
 
-# vim:filetype=sh:ts=8:sw=2:sts=2:tw=80:et
+# vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
