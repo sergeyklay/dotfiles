@@ -24,6 +24,7 @@ map <C-l> :so ~/.vim/session/sess.vim<CR>
 map <C-n> :NERDTreeToggle<CR>
 " that will list file names in the current directory
 map <F2> :e <C-d>
+map <silent> <leader>V :source ~/.vim/vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 " ; the same as :
 nnoremap ; :
