@@ -9,6 +9,7 @@
 runtime startup/bundles.vim
 runtime startup/settings.vim
 runtime startup/console.vim
+runtime startup/plugins.vim
 
 " save on loss of focus
 au FocusLost * :wa
