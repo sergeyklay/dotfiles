@@ -44,9 +44,6 @@ export XDG_CACHE_HOME=~/.cache
 # user-specific runtime files should be placed relative to this directory
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
-# default ruby binaries path, can be overridden interactive
-export RUBY_BIN=$(which ruby | sed 's/ruby$//')
-
 # some defaults
 export EDITOR=vim
 export CHROME_BIN=/usr/bin/chromium

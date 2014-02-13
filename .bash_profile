@@ -10,4 +10,7 @@
 # add RVM comletion
 [[ -r $rvm_path/scripts/completion ]] && . $rvm_path/scripts/completion
 
+# default ruby binaries path, can be overridden interactive
+export RUBY_BIN=$(which ruby | sed 's/ruby$//')
+
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
