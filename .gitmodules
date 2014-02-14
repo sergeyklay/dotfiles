@@ -1,6 +1,3 @@
-[submodule ".config/awesome/obvious"]
-  path = .config/awesome/obvious
-  url = git@github.com:hoelzro/obvious.git
 [submodule "vimfiles"]
   path = .vim
   url = git@github.com:sergeyklay/vimfiles.git
