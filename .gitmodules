@@ -1,3 +1,6 @@
 [submodule "vimfiles"]
   path = .vim
   url = git@github.com:sergeyklay/vimfiles.git
+[submodule "awesome"]
+	path = .config/awesome
+	url = git@github.com:sergeyklay/awesomefiles.git
