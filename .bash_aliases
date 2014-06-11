@@ -34,4 +34,6 @@ alias please=sudo
 # clear screen
 alias cls=clear
 
+alias xup="xrdb ~/.Xresources"
+
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
