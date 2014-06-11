@@ -82,8 +82,8 @@ URxvt*colorUL:                        #4682B4
 ! URxvt*pointerColor2:                  color
 ! URxvt*borderColor:                    color
 ! URxvt*iconFile:                       file
-URxvt*font:                           xft:Monospace:size=10
-URxvt*boldFont:                       xft:Monospace:size=10
+URxvt.font:                           xft:DejaVu Sans Mono:size=11:antialias=true
+URxvt.boldFont:                       xft:DejaVu Sans Mono:bold:size=11:antialias=true
 ! URxvt*italicFont:                     fontname
 ! URxvt*boldItalicFont:                 fontname
 ! URxvt*intensityStyles:                boolean
@@ -113,7 +113,7 @@ URxvt*letterSpace:                    -1
 ! URxvt*secondaryScroll:                boolean
 ! URxvt*perl-lib:                       string
 ! URxvt*perl-eval:                      perl-eval
-URxvt*perl-ext-common:                default,clipboard,matcher
+URxvt*perl-ext-common:                default,clipboard,url-select,keyboard-select,matcher
 ! URxvt*perl-ext:                       string
 ! URxvt*iso14755:                       boolean
 ! URxvt*iso14755_52:                    boolean
@@ -139,4 +139,10 @@ URxvt*matcher.button:                 1
 ! URxvt*tab-fg:                         colour
 ! URxvt*tabbar-bg:                      colour
 ! URxvt*tabbar-fg:                      colour
-URxvt*url-launcher:                   chromium
+URxvt.url-select.launcher:            firefox
+URxvt.url-select.underline:           true
+URxvt.keysum.M-u:                     perl:url-select:select_next
+URxvt.keysum.M-Escape:                perl:keyboard-select:activate
+URxvt.keysum.M-s:                     perl:keyboard-select:search
+
+! vim:ft=xdefaults:ts=8:sw=2:sts=2:tw=78:fenc=utf-8:et
