@@ -23,3 +23,8 @@ set completion-query-items 200
 
 # More intelligent completion by ignoring text after the cursor
 set skip-completed-text on
+
+# Disable PC Speaker
+set bell-style none
+
+#  vim:ft=readline:ts=8:sw=2:sts=2:tw=78:fenc=utf-8:et
