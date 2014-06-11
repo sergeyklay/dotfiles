@@ -20,6 +20,9 @@ fi
 # make the cursor move the right speed
 xset mouse 2 9
 
+# Disable PC Speaker
+xset b off
+
 # starts screensaver daemon
 xscreensaver -no-splash &
 
