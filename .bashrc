@@ -78,6 +78,12 @@ then
 
 fi
 
+# config for mc skins. 256 colors support
+if [ "$color_support" = true ]
+then
+  export TERM=xterm-256color mc
+fi
+
 # include aliases
 if [ -f ~/.bash_aliases ]; then
   . ~/.bash_aliases
