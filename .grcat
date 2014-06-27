@@ -21,7 +21,7 @@ colours=yellow
 
 #date
 regexp=\d{4}-\d{2}-\d{2}
-colours=cyan
+colours=blue
 -
 #time
 regexp=\d{2}:\d{2}:\d{2}
