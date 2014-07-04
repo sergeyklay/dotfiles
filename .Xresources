@@ -144,5 +144,7 @@ URxvt.url-select.underline:           true
 URxvt.keysum.M-u:                     perl:url-select:select_next
 URxvt.keysum.M-Escape:                perl:keyboard-select:activate
 URxvt.keysum.M-s:                     perl:keyboard-select:search
+URxvt.keysym.Control-Insert:          perl:clipboard:copy
+URxvt.keysym.Shift-Insert:            perl:clipboard:paste
 
 ! vim:ft=xdefaults:ts=8:sw=2:sts=2:tw=78:fenc=utf-8:et
