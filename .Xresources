@@ -48,8 +48,7 @@ URxvt*shading:                        110
 ! URxvt*cursorUnderline:                boolean
 ! URxvt*cursorBlink:                    boolean
 ! URxvt*pointerBlank:                   boolean
-URxvt*background:                     #000000
-! rgba:0000/0000/0000/c900
+URxvt*background:                     rgba:0000/0000/0000/c900
 URxvt*foreground:                     white
 URxvt*color0:                         #2E3436
 URxvt*color1:                         #a40000
@@ -83,7 +82,7 @@ URxvt*colorUL:                        #4682B4
 ! URxvt*borderColor:                    color
 ! URxvt*iconFile:                       file
 URxvt.font:                           xft:DejaVu Sans Mono:size=11:antialias=true
-URxvt.boldFont:                       xft:DejaVu Sans Mono:bold:size=11:antialias=true
+URxvt.boldFont:                       xft:DejaVu Sans Mono:size=11:antialias=true
 ! URxvt*italicFont:                     fontname
 ! URxvt*boldItalicFont:                 fontname
 ! URxvt*intensityStyles:                boolean
@@ -113,9 +112,9 @@ URxvt*letterSpace:                    -1
 ! URxvt*secondaryScroll:                boolean
 ! URxvt*perl-lib:                       string
 ! URxvt*perl-eval:                      perl-eval
-URxvt*perl-ext-common:                default,clipboard,url-select,keyboard-select,matcher
+URxvt.perl-ext-common:                default,clipboard,url-select,keyboard-select,matcher
 ! URxvt*perl-ext:                       string
-! URxvt*iso14755:                       boolean
+URxvt.iso14755:                       true
 ! URxvt*iso14755_52:                    boolean
 ! URxvt*xrm:                            string
 ! URxvt*keysym.sym:                     keysym
@@ -123,7 +122,7 @@ URxvt*perl-ext-common:                default,clipboard,url-select,keyboard-sele
 ! URxvt*background.expr:                string
 ! URxvt*background.interval:            seconds
 ! URxvt*bell-command:                   string
-URxvt*matcher.button:                 1
+URxvt.matcher.button:                 1
 ! URxvt*matcher.launcher:               string
 ! URxvt*matcher.launcher.*:             string
 ! URxvt*matcher.pattern.*:              string
@@ -143,8 +142,10 @@ URxvt.url-select.launcher:            firefox
 URxvt.url-select.underline:           true
 URxvt.keysum.M-u:                     perl:url-select:select_next
 URxvt.keysum.M-Escape:                perl:keyboard-select:activate
-URxvt.keysum.M-s:                     perl:keyboard-select:search
+URxvt.keysym.M-s:                     perl:keyboard-select:search
 URxvt.keysym.Control-Insert:          perl:clipboard:copy
 URxvt.keysym.Shift-Insert:            perl:clipboard:paste
+URxvt.clipboard.copycmd: xsel -ib
+URxvt.clipboard.pastemd: xsel -ob
 
 ! vim:ft=xdefaults:ts=8:sw=2:sts=2:tw=78:fenc=utf-8:et
