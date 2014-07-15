@@ -7,11 +7,11 @@
 # 
 XDG_DESKTOP_DIR="$HOME/desktop"
 XDG_DOWNLOAD_DIR="$HOME/downloads"
-XDG_TEMPLATES_DIR="$HOME/template"
+XDG_TEMPLATES_DIR="$HOME/templates"
 XDG_PUBLICSHARE_DIR="$HOME/public"
 XDG_DOCUMENTS_DIR="$HOME/doc"
 XDG_MUSIC_DIR="$HOME/media/music"
 XDG_PICTURES_DIR="$HOME/media/pictures"
-XDG_VIDEOS_DIR="$HOME/media/video"
+XDG_VIDEOS_DIR="$HOME/media/videos"
 
 #  vim:ts=8:sw=2:sts=2:tw=80:et
