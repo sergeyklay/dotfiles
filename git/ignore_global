@@ -25,7 +25,9 @@
 *.log
 *.sql
 *.sqlite
-    
+*.sqlite3
+*.sqlite3-journal
+
 # OS generated files #
 ######################
 .DS_Store
@@ -37,5 +39,6 @@ ehthumbs.db
 Thumbs.db
 
 
-# Ignore RubyMine/PhpStrom
+# Ignore RubyMine/PhpStrom #
+############################
 .idea
