@@ -99,9 +99,10 @@ if [ -d ~/bin ]; then
   PATH+=:~/bin
 fi
 
-# add RVM to PATH for scripting
-if [ -d ~/.rvm/bin ]; then
-  PATH+=:~/.rvm/bin
+# Ruby environment with Rbenv
+if [ -d ~/.rbenv/bin ]
+  PATH+=:~/.rbenv/bin
+  eval "$(rbenv init -)"
 fi
 
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
