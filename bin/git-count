@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Count git commits or branches.
-# Version: 0.1.0
+# Version: 0.1.1
 #
 # Usage:
 #
@@ -22,12 +22,12 @@ case "$1" in
   b)
     git branch | wc -l
     ;;
-  ca)
+  p)
     git shortlog -sn --no-merges
     ;;
   *)
-    printf "\n——————————————————————————————————————————————————————————————\n"
-    printf "\e[1;33mgit-count\033[0m v0.1.0"
+    printf "\n"
+    printf "\e[1;33mgit-count\033[0m v0.1.1"
     printf "\nCount git commits or branches.\n"
     printf "\nUsage:"
     printf "\ngit count {c|b|ca}"
@@ -35,8 +35,8 @@ case "$1" in
     printf "\nOptions:"
     printf "\n  c\tCount commits"
     printf "\n  b\tCount branches"
-    printf "\n ca\tCounting the total number of commits for each participant"
-    printf "\n——————————————————————————————————————————————————————————————\n"
+    printf "\n  p\tCounting the total number of commits for each participant"
+    printf "\n\n"
     exit 1
 esac
 
