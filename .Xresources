@@ -146,6 +146,6 @@ URxvt.keysym.M-s:                     perl:keyboard-select:search
 URxvt.keysym.Control-Insert:          perl:clipboard:copy
 URxvt.keysym.Shift-Insert:            perl:clipboard:paste
 URxvt.clipboard.copycmd: xsel -ib
-URxvt.clipboard.pastemd: xsel -ob
+URxvt.clipboard.pastecmd: xsel -ob
 
 ! vim:ft=xdefaults:ts=8:sw=2:sts=2:tw=78:fenc=utf-8:et
