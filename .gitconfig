@@ -51,8 +51,10 @@
   mf = merge --no-ff
   visual = !gitk
   count = !~/bin/git-count
-[url "ssh://[login@]git.gnome.org/git/"]
-  insteadof = gnome:
+[url "git://github.com/"]
+  insteadOf = github:
+[url "git@github.com:sergeyklay/"]
+  insteadOf = klay:
 [mergetool]
   prompt = true
 [push]
