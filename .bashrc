@@ -11,6 +11,9 @@ shopt -s checkwinsize
 # Save all strings of multiline commands in the same history entry
 shopt -s cmdhist
 
+# Bash can automatically prepend cd when entering just a path in the shell
+shopt -s autocd
+
 # man -P 'less -rp HISTCONTROL' bash
 HISTCONTROL="ignoreboth:erasedups"
 
