@@ -25,8 +25,7 @@ alias pclean='sudo pacman -Qdt'
 # yaourt
 alias ysd='yaourt -Syua --devel'
 
-# alias for Karma
-alias google-chrome='chromium'
+alias google-chrome='google-chrome-stable'
 
 # be more cultured at work in the console`
 alias please=sudo
