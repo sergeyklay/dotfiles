@@ -62,7 +62,7 @@ export GDK_USE_XFT=1
 export QT_XFT=true
 
 # setup prompt
-PS1='\e[0;34m$\e[0m \w '
+PS1='$ \w '
 
 if [ -x /usr/bin/dircolors ]
 then
