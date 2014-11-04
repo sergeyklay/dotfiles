@@ -17,7 +17,7 @@ URxvt*termName:                       rxvt-unicode
 ! URxvt*geometry:                       geometry
 ! URxvt*chdir:                          string
 ! URxvt*reverseVideo:                   boolean
-! URxvt*loginShell:                     boolean
+URxvt.loginShell:                     true
 ! URxvt*jumpScroll:                     boolean
 ! URxvt*skipScroll:                     boolean
 ! URxvt*pastableTabs:                   boolean
@@ -31,9 +31,9 @@ URxvt*scrollBar_floating:             false
 ! URxvt*scrollTtyKeypress:              boolean
 ! URxvt*scrollWithBuffer:               boolean
 ! URxvt*inheritPixmap:                  boolean
-! URxvt*transparent:                    true
+URxvt*transparent:                    true
 ! URxvt*tintColor:                      color
-URxvt*shading:                        110
+URxvt*shading:                        32
 ! URxvt*blurRadius:                     HxV
 ! URxvt*fading:                         number
 ! URxvt*fadeColor:                      color
@@ -48,7 +48,8 @@ URxvt*shading:                        110
 ! URxvt*cursorUnderline:                boolean
 ! URxvt*cursorBlink:                    boolean
 ! URxvt*pointerBlank:                   boolean
-URxvt*background:                     rgba:0000/0000/0000/c900
+! URxvt*background:                     rgba:0000/0000/0000/c900
+URxvt.background:                     rgba:0000/0000/0200/c800
 URxvt*foreground:                     white
 URxvt*color0:                         #2E3436
 URxvt*color1:                         #a40000
@@ -81,8 +82,8 @@ URxvt*colorUL:                        #4682B4
 ! URxvt*pointerColor2:                  color
 ! URxvt*borderColor:                    color
 ! URxvt*iconFile:                       file
-URxvt.font:                           xft:DejaVu Sans Mono:size=11:antialias=true
-URxvt.boldFont:                       xft:DejaVu Sans Mono:size=11:antialias=true
+URxvt.font:                           xft:Ubuntu Mono:size=13:antialias=true
+URxvt.boldFont:                       xft:Ubuntu Mono:size=13:antialias=true
 ! URxvt*italicFont:                     fontname
 ! URxvt*boldItalicFont:                 fontname
 ! URxvt*intensityStyles:                boolean
@@ -94,7 +95,7 @@ URxvt*imLocale:                       en_US.UTF-8
 ! URxvt*iconName:                       string
 URxvt*saveLines:                      1000
 ! URxvt*buffered:                       boolean
-URxvt*depth:                          32
+URxvt.depth:                          32
 ! URxvt*externalBorder:                 number
 ! URxvt*internalBorder:                 number
 ! URxvt*borderLess:                     boolean
@@ -147,5 +148,8 @@ URxvt.keysym.Control-Insert:          perl:clipboard:copy
 URxvt.keysym.Shift-Insert:            perl:clipboard:paste
 URxvt.clipboard.copycmd: xsel -ib
 URxvt.clipboard.pastecmd: xsel -ob
+
+! Xscreensaver
+xscreensaver.logFile:                 ~/log/xscreensaver.log
 
 ! vim:ft=xdefaults:ts=8:sw=2:sts=2:tw=78:fenc=utf-8:et
