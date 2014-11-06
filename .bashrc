@@ -64,12 +64,19 @@ export QT_XFT=true
 # setup prompt
 PS1='$ \w '
 
-if [ -x /usr/bin/dircolors ]
-then
-  [ -r ~/.dircolors ] && eval "$(dircolors -b ~/.dircolors)" || eval \
-    "$(dircolors -b)"
-
+if [ $(which dircolors) ]; then
+  if [ -r ~/.dircolors ]; then
+    eval "$(dircolors -b ~/.dircolors)"
+  else
+    eval "$(dircolors -b)"
+  fi
+ 
   colors_support=true
+fi
+  
+if [ "$color_support" = true ]; then
+  # config for mc skins. 256 colors support
+  export TERM=xterm-256color mc
 
   # color man pages
   export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
@@ -81,12 +88,6 @@ then
   export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
   COLORTERM=1
-fi
-
-# config for mc skins. 256 colors support
-if [ "$color_support" = true ]
-then
-  export TERM=xterm-256color mc
 fi
 
 # include aliases
