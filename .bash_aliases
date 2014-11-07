@@ -25,6 +25,7 @@ alias pclean='sudo pacman -Qdt'
 # yaourt
 alias ysd='yaourt -Syua --devel'
 
+# alias for Karma
 alias google-chrome='google-chrome-stable'
 
 # be more cultured at work in the console`
@@ -34,5 +35,16 @@ alias please=sudo
 alias cls=clear
 
 alias xup="xrdb ~/.Xresources"
+
+
+# Function to deal with the annoying sublime errors
+# Send annoying .output logs to /dev/null
+function _sblm
+{
+  nohup subl3 $1 >/dev/null 2>&1 &
+}
+
+# Call my sublime function
+alias subl3="_sblm"
 
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
