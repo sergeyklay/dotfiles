@@ -149,7 +149,11 @@ URxvt.keysym.Shift-Insert:            perl:clipboard:paste
 URxvt.clipboard.copycmd: xsel -ib
 URxvt.clipboard.pastecmd: xsel -ob
 
-! Xscreensaver
+
+!-------------------------------------------------------------------------------
+! Xscreensaver settings
+!-------------------------------------------------------------------------------
+
 xscreensaver.logFile:                 ~/log/xscreensaver.log
 
 ! vim:ft=xdefaults:ts=8:sw=2:sts=2:tw=78:fenc=utf-8:et
