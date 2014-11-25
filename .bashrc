@@ -26,6 +26,10 @@ HISTFILESIZE=20000
 # for the protection and ability for future analyzing
 HISTTIMEFORMAT="%h %d %H:%M:%S "
 
+# don't log some frequent commands
+# and commands starting with whitespace
+HISTIGNORE="[ \t]*:ls:bg:fg:jobs:pwd"
+
 # save commands immediately after use
 PROMPT_COMMAND='history -a'
 
@@ -56,6 +60,8 @@ export PAGER=less
 export LESS=-R # use -X to avoid sending terminal initialization
 export LESSCHARSET=UTF-8
 [ -x /usr/bin/lesspipe ] && eval "$(lesspipe)"
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 
 # font config
 export GDK_USE_XFT=1
