@@ -53,7 +53,6 @@ export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 # some defaults
 export EDITOR=vim
-export CHROME_BIN=/usr/bin/chromium
 
 # more for less
 export PAGER=less
