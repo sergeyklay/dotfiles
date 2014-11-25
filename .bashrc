@@ -72,8 +72,13 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 export GDK_USE_XFT=1
 export QT_XFT=true
 
-# setup prompt
+# Default ruby binaries path, can be overridden interactive
+export RUBY_BIN=$(which ruby | sed 's/ruby$//')
+
+# Main prompt
 PS1='$ \w '
+# Continuation prompt
+PS2="| "
 
 if [ $(which dircolors) ]; then
   if [ -r ~/.dircolors ]; then
@@ -90,7 +95,8 @@ if [ "$colors_support" = true ]; then
   export TERM=xterm-256color
 
   # colorize prompt
-  PS1='\033[1;32m$\033[0m \w '
+  PS1="\[\033[1;32m\]$\[\033[00m\] \w "
+  PS2="\[\033[1;37m\]|\[\033[00m\] "
 
   # color man pages
   export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
