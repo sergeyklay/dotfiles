@@ -1,3 +1,9 @@
+#!/bin/bash
+
+#
+# Bash configuration
+#
+
 # if not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -79,9 +85,12 @@ if [ $(which dircolors) ]; then
   colors_support=true
 fi
   
-if [ "$color_support" = true ]; then
+if [ "$colors_support" = true ]; then
   # config for mc skins. 256 colors support
-  export TERM=xterm-256color mc
+  export TERM=xterm-256color
+
+  # colorize prompt
+  PS1='\033[1;32m$\033[0m \w '
 
   # color man pages
   export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
