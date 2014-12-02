@@ -32,7 +32,7 @@ xset mouse 2 9
 xset b off
 
 # Starts screensaver daemon
-xscreensaver -no-splash 2>> ~/log/xscreensaver &
+xscreensaver -log ~/log/xscreensaver -no-splash &
 
 # Input
 setxkbmap -layout "us,ru" -variant ",winkeys" \
