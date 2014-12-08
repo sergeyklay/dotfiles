@@ -48,25 +48,32 @@ URxvt*shading:                        32
 ! URxvt*cursorUnderline:                boolean
 ! URxvt*cursorBlink:                    boolean
 ! URxvt*pointerBlank:                   boolean
-! URxvt*background:                     rgba:0000/0000/0000/c900
 URxvt.background:                     rgba:0000/0000/0200/c800
 URxvt*foreground:                     white
-URxvt*color0:                         #2E3436
-URxvt*color1:                         #a40000
-URxvt*color2:                         #4E9A06
-URxvt*color3:                         #C4A000
-URxvt*color4:                         #3465A4
-URxvt*color5:                         #75507B
-URxvt*color6:                         #ce5c00
-URxvt*color7:                         #babdb9
-URxvt*color8:                         #555753
-URxvt*color9:                         #EF2929
-URxvt*color10:                        #8AE234
-URxvt*color11:                        #FCE94F
-URxvt*color12:                        #729FCF
-URxvt*color13:                        #AD7FA8
-URxvt*color14:                        #fcaf3e
-URxvt*color15:                        #EEEEEC
+!black
+URxvt*color0:                         #2D2D2D
+URxvt*color8:                         #3D3D3D
+!red
+URxvt*color1:                         #98422B
+URxvt*color9:                         #B6310E
+!green
+URxvt*color2:                         #5D8A45
+URxvt*color10:                        #569E30
+!yellow
+URxvt*color3:                         #98782B
+URxvt*color11:                        #B6850E
+!blue
+URxvt*color4:                         #2F568B
+URxvt*color12:                        #1C539D
+!magenta
+URxvt*color5:                         #892898
+URxvt*color13:                        #A10EB6
+!cyan
+URxvt*color6:                         #2A9878
+URxvt*color14:                        #0EB685
+!white
+URxvt*color7:                         #B2B2B2
+URxvt*color15:                        #FFFFFF
 ! URxvt*colorBD:                        color
 ! URxvt*colorIT:                        color
 URxvt*colorUL:                        #4682B4
@@ -148,7 +155,6 @@ URxvt.keysym.Control-Insert:          perl:clipboard:copy
 URxvt.keysym.Shift-Insert:            perl:clipboard:paste
 URxvt.clipboard.copycmd: xsel -ib
 URxvt.clipboard.pastecmd: xsel -ob
-
 
 !-------------------------------------------------------------------------------
 ! Xscreensaver settings
