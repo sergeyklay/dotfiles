@@ -120,15 +120,4 @@ if [ -f ~/git/completion.sh ]; then
   . ~/git/completion.sh
 fi
 
-# set PATH so it includes user's private bin if it exists
-if [ -d ~/bin ]; then
-  PATH+=:~/bin
-fi
-
-# Ruby environment with Rbenv
-if [ -d ~/.rbenv/bin ]; then
-  PATH+=:~/.rbenv/bin
-  eval "$(rbenv init -)"
-fi
-
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
