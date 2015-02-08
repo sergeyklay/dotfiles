@@ -1,3 +1,8 @@
+#!/bin/bash
+#
+# Bash aliases
+#
+
 # enable color support of ls and also add handy aliases
 if [ "$colors_support" = true ]
 then
@@ -16,15 +21,6 @@ alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
 
-# alsi
-alias alsi='alsi -a -u'
-
-# pacman
-alias pclean='sudo pacman -Qdt'
-
-# yaourt
-alias ysd='yaourt -Syua --devel'
-
 # alias for Karma
 alias google-chrome='google-chrome-stable'
 
@@ -41,11 +37,10 @@ alias xup="xrdb ~/.Xresources"
 # Send annoying .output logs to /dev/null
 function _sblm
 {
-  nohup subl3 $1 >/dev/null 2>&1 &
+  nohup subl $1 >/dev/null 2>&1 &
 }
 
-# Call my sublime function
-alias subl3="_sblm"
+alias subl="_sblm"
 
 # Add an "alert" alias for long running commands.
 # Use like so:
