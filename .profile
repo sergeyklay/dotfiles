@@ -37,6 +37,16 @@ if [ -d "$HOME/projects/php/phalcon/devtools" ]; then
   PATH="$PATH:$PTOOLSPATH"
 fi
 
+# Composer
+if [ -d "$HOME/.composer" ]; then
+  export COMPOSER_HOME="$HOME/.composer"
+  PATH="$PATH:$COMPOSER_HOME"
+fi
+
+if [ -d "$HOME/.composer/vendor/bin" ]; then
+  PATH="$PATH:$HOME/.composer/vendor/bin"
+fi
+
 # Load RVM into a shell session *as a function*
 if [ -f "$HOME/.rvm/scripts/rvm" ]; then
   . "$HOME/.rvm/scripts/rvm"
