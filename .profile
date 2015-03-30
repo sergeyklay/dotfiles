@@ -11,24 +11,20 @@ if [ -n "$BASH_VERSION" ]; then
   fi
 fi
 
-# Local run (per user) of mpd
-if [ ! -s "$HOME/.config/mpd/pid" ]; then
-  mpd
+# Add RVM to PATH for scripting
+if [ -d "$HOME/.rvm/bin" ]; then
+  PATH="$PATH:$HOME/.rvm/bin"
 fi
 
 # Include local bin
 if [ -d "$HOME/bin" ] ; then
-  PATH="$HOME/bin:$PATH"
+  PATH="$PATH:$HOME/bin"
 fi
 
+# Phpenv
 if [ -d "$HOME/.phpenv/bin" ]; then
   PATH="$PATH:$HOME/.phpenv/bin"
   eval "$(phpenv init -)"
-fi
-
-# Add RVM to PATH for scripting
-if [ -d "$HOME/.rvm/bin" ]; then
-  PATH="$PATH:$HOME/.rvm/bin"
 fi
 
 # Phalcon
@@ -48,7 +44,7 @@ if [ -d "$HOME/.composer/vendor/bin" ]; then
 fi
 
 # Load RVM into a shell session *as a function*
-if [ -f "$HOME/.rvm/scripts/rvm" ]; then
+if [ -s "$HOME/.rvm/scripts/rvm" ]; then
   . "$HOME/.rvm/scripts/rvm"
 fi
 
