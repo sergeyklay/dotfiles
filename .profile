@@ -19,6 +19,7 @@ fi
 # Include local bin
 if [ -d "$HOME/bin" ] ; then
   PATH="$PATH:$HOME/bin"
+  PS1="\$(~/.rvm/bin/rvm-prompt) $PS1"
 fi
 
 # Load RVM into a shell session *as a function*
