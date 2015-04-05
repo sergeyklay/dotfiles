@@ -11,20 +11,30 @@ if [ -n "$BASH_VERSION" ]; then
   fi
 fi
 
-# Add RVM to PATH for scripting
-if [ -d "$HOME/.rvm/bin" ]; then
-  PATH="$PATH:$HOME/.rvm/bin"
+# Add rbenv to PATH for scripting
+if [ -d "$HOME/.rbenv/bin" ]; then
+  PATH="$HOME/.rbenv/bin:$PATH"
+  # Load rbenv
+  eval "$(rbenv init -)"
+
+  # Vim setup
+  export RUBY_BIN=$(rbenv which ruby | sed 's/ruby$//')
 fi
 
-# Include local bin
-if [ -d "$HOME/bin" ] ; then
-  PATH="$PATH:$HOME/bin"
-  PS1="\$(~/.rvm/bin/rvm-prompt) $PS1"
+# Phalcon
+if [ -d "$HOME/projects/php/phalcon/devtools" ]; then
+  export PTOOLSPATH="$HOME/projects/php/phalcon/devtools"
+  PATH="$PATH:$PTOOLSPATH"
 fi
 
-# Load RVM into a shell session *as a function*
-if [ -s "$HOME/.rvm/scripts/rvm" ]; then
-  . "$HOME/.rvm/scripts/rvm"
+# Composer
+if [ -d "$HOME/.composer" ]; then
+  export COMPOSER_HOME="$HOME/.composer"
+  PATH="$PATH:$COMPOSER_HOME"
+fi
+
+if [ -d "$HOME/.composer/vendor/bin" ]; then
+  PATH="$PATH:$HOME/.composer/vendor/bin"
 fi
 
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
