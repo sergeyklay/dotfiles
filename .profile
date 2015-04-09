@@ -11,6 +11,12 @@ if [ -n "$BASH_VERSION" ]; then
   fi
 fi
 
+
+# Include local bin
+if [ -d "$HOME/bin" ] ; then
+  PATH="$HOME/bin:$PATH"
+fi
+
 # Add rbenv to PATH for scripting
 if [ -d "$HOME/.rbenv/bin" ]; then
   PATH="$HOME/.rbenv/bin:$PATH"
