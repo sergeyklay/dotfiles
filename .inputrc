@@ -3,6 +3,9 @@
 
 $include /etc/inputrc
 
+# Two escapes clear command line.
+"\e\e": "\C-a\C-k"
+
 "\e[A": history-search-backward
 "\e[B": history-search-forward
 
@@ -27,4 +30,4 @@ set skip-completed-text on
 # Disable PC Speaker
 set bell-style none
 
-#  vim:ft=readline:ts=8:sw=2:sts=2:tw=78:fenc=utf-8:et
+# vim:ft=readline:ts=8:sw=2:sts=2:tw=78:fenc=utf-8:et
