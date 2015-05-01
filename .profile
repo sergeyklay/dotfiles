@@ -43,4 +43,11 @@ if [ -d "$HOME/.composer/vendor/bin" ]; then
   PATH="$PATH:$HOME/.composer/vendor/bin"
 fi
 
+# Go & local workspace Go directory
+if [ -d "/usr/local/go/bin" ]; then
+  export GOROOT="/usr/local/go"
+  export GOPATH=$HOME/go
+  PATH="$PATH:$GOROOT/bin::$GOPATH/bin"
+fi
+
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
