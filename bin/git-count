@@ -10,7 +10,7 @@
 #   Options:
 #     c    Count commits
 #     b    Count branches
-#    ca    Counting the total number of commits for each participant
+#     p    Counting the total number of commits for each participant
 #
 # Original script was received thanks @ZDroid
 # https://github.com/ZDroid/dotfiles/blob/master/git/count
@@ -30,7 +30,7 @@ case "$1" in
     printf "\e[1;33mgit-count\033[0m v0.1.1"
     printf "\nCount git commits or branches.\n"
     printf "\nUsage:"
-    printf "\ngit count {c|b|ca}"
+    printf "\ngit count {c|b|p}"
     printf "\n"
     printf "\nOptions:"
     printf "\n  c\tCount commits"
