@@ -33,6 +33,13 @@ if [ -d "$HOME/projects/php/phalcon/devtools" ]; then
   PATH="$PATH:$PTOOLSPATH"
 fi
 
+# Add phpenv to PATH
+if [ -d "$HOME/.phpenv/bin" ]; then
+  PATH="$PATH:$HOME/.phpenv/bin"
+  # Load phpenv
+  eval "$(phpenv init -)"
+fi
+
 # Composer
 if [ -d "$HOME/.composer" ]; then
   export COMPOSER_HOME="$HOME/.composer"
