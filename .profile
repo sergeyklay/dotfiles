@@ -11,7 +11,6 @@ if [ -n "$BASH_VERSION" ]; then
   fi
 fi
 
-
 # Include local bin
 if [ -d "$HOME/bin" ] ; then
   PATH="$HOME/bin:$PATH"
@@ -50,11 +49,19 @@ if [ -d "$HOME/.composer/vendor/bin" ]; then
   PATH="$PATH:$HOME/.composer/vendor/bin"
 fi
 
-# Go & local workspace Go directory
+# Go & local workspace
 if [ -d "/usr/local/go/bin" ]; then
   export GOROOT="/usr/local/go"
-  export GOPATH=$HOME/go
-  PATH="$PATH:$GOROOT/bin::$GOPATH/bin"
+fi
+
+if [ -d "$HOME/go" ]; then
+  export GOPATH="$HOME/go"
+
+  if [ -d "$GOPATH/bin" ]; then
+    export GOBIN="$GOPATH/bin"
+    PATH="$PATH::$GOBIN"
+  fi
+
 fi
 
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
