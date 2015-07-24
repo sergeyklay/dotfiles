@@ -59,9 +59,8 @@ if [ -d "$HOME/go" ]; then
 
   if [ -d "$GOPATH/bin" ]; then
     export GOBIN="$GOPATH/bin"
-    PATH="$PATH::$GOBIN"
+    PATH="$PATH:$GOBIN"
   fi
-
 fi
 
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
