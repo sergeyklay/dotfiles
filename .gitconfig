@@ -5,7 +5,7 @@
   editor = vim
   autocrlf = input
   safecrlf = true
-  whitespace=trailing-space,space-before-tab,indent-with-non-tab
+  whitespace = trailing-space,space-before-tab,indent-with-non-tab
   pager = less -R
   excludesfile = ~/git/ignore_global
 [merge]
@@ -51,6 +51,7 @@
   mf = merge --no-ff
   visual = !gitk
   count = !~/bin/git-count
+  puhs = push
 [url "git://github.com/"]
   insteadOf = github:
 [url "git@github.com:sergeyklay/"]
