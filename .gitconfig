@@ -35,7 +35,7 @@
   changed = green
   untracked = cyan
 [alias]
-  hist = log --graph --decorate --pretty=format:\"%Cred%h%Creset | %Cgreen%ad%Creset | %s%d [%C(yellow)%an%Creset]\" --graph --date=iso
+  hist = log --graph --decorate --pretty=format:\"%Cred%h%Creset | %Cgreen%ad%Creset | %s%d [%C(yellow)%an%Creset]\" --graph --date=local
   type = cat-file -t
   dump = cat-file -p
   br = branch
