@@ -62,7 +62,7 @@ export EDITOR=vim
 
 # more for less
 export PAGER=less
-export LESS=-R # use -X to avoid sending terminal initialization
+export LESS=-X
 export LESSCHARSET=UTF-8
 [ -x /usr/bin/lesspipe ] && eval "$(lesspipe)"
 
