@@ -64,4 +64,8 @@ if [ -d "$HOME/go" ]; then
   fi
 fi
 
+# Keyboard input sometimes is blocked when IBus is active
+# See https://goo.gl/i5dhrY
+export IBUS_ENABLE_SYNC_MODE=1
+
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
