@@ -40,6 +40,7 @@
   dump = cat-file -p
   br = branch
   st = status
+  ss = status --short
   sd = diff --stat
   ci = commit
   co = checkout
