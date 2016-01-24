@@ -64,6 +64,12 @@ if [ -d "$HOME/go" ]; then
   fi
 fi
 
+# Enable phpbrew
+if [ -e "$HOME/.phpbrew/bashrc" ]; then
+  source "$HOME/.phpbrew/bashrc"
+  export PHPBREW_SET_PROMPT=1
+fi
+
 # Keyboard input sometimes is blocked when IBus is active
 # See https://goo.gl/i5dhrY
 export IBUS_ENABLE_SYNC_MODE=1
