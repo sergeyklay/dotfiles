@@ -39,6 +39,7 @@ ehthumbs.db
 Thumbs.db
 
 
-# Ignore RubyMine/PhpStrom #
+# Ignore IDE specific dirs #
 ############################
 .idea
+nbproject
