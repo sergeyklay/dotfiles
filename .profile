@@ -32,6 +32,11 @@ if [ -d "$HOME/projects/php/phalcon/devtools" ]; then
   PATH+=:$PTOOLSPATH
 fi
 
+# Zephir
+if [ -d "/usr/share/zephir" ]; then
+  export ZEPHIRDIR="/usr/share/zephir"
+fi
+
 # Add phpenv to PATH
 if [ -d "$HOME/.phpenv/bin" ]; then
   PATH+=:$HOME/.phpenv/bin
