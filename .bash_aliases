@@ -51,7 +51,12 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # psgrep <appname> | awk '{print $2}' | xargs kill
 function _psgrep
 {
-  ps -aux | grep $1 | grep -v grep
+  if [ -z $1 ]; then
+    echo -e "Usage: psgrep <appname> | awk '{print \$2}' | xargs kill"
+    exit 2
+  fi
+
+  ps aux | grep $1 | grep -v grep
 }
 
 alias psgrep="_psgrep"
