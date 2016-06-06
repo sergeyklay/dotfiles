@@ -57,6 +57,9 @@
   visual = !gitk
   count = !~/bin/git-count
   puhs = push
+  top = !\
+    git log --since='last month' --pretty=format: --name-only \
+    | sed '/^$/d' | sort | uniq -c | sort -rg | head -10
 [url "git://github.com/"]
   insteadOf = github:
 [url "git@github.com:sergeyklay/"]
