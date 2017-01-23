@@ -38,7 +38,6 @@
 ehthumbs.db
 Thumbs.db
 
-
 # Ignore IDE specific dirs #
 ############################
 .idea
