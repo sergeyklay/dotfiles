@@ -1,13 +1,10 @@
-[filter "lfs"]
-  clean = git-lfs clean %f
-  smudge = git-lfs smudge %f
-  required = true
 [user]
   name = Serghei Iakovlev
-  email = sadhooklay@gmail.com
+  email = serghei@phalconphp.com
+  signingkey = DC898A5F
 [core]
   editor = vim
-  autocrlf = input
+  autocrlf = false
   safecrlf = true
   whitespace = trailing-space,space-before-tab,indent-with-non-tab
   pager = less -R
@@ -42,7 +39,7 @@
   st = status
   ss = status --short
   sd = diff --stat
-  ci = commit
+  ci = commit -S
   co = checkout
   dc = diff --cached
   rp = remote prune
@@ -54,7 +51,6 @@
   ign = ls-files -o -i --exclude-standard
   last = log -1 HEAD
   mf = merge --no-ff
-  visual = !gitk
   count = !~/bin/git-count
   puhs = push
   top = !\
@@ -70,3 +66,9 @@
   default = simple
 [commit]
   template = ~/git/message.txt
+[filter "lfs"]
+  required = true
+  clean = git-lfs clean %f
+  smudge = git-lfs smudge %f
+[fetch]
+  prune = true
