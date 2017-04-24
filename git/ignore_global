@@ -42,3 +42,6 @@ Thumbs.db
 ############################
 .idea
 nbproject
+*.sublime-project
+*.sublime-workspace
+.php-version
