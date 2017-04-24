@@ -1,5 +1,0 @@
-# Any customization should be done in ~/.gtkrc.mine instead.
-# Use YOUR user name instead klay
-
-include "/home/klay/.gtkrc.mine"
-
