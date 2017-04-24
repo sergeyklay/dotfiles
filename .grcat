@@ -1,54 +1,54 @@
-#default word color
-#regexp=[\w.,\:\-_/]+
+# Default word color
 regexp=.+
 colours=green
 -
 
-#table borders
+# Table borders
 regexp=[+\-]+[+\-]|[|]
 colours=red
 -
 
-#data in ( ) and ' '
+# Data in ( ) and ' '
 regexp=\([\w\d,']+\)
 colours=white
 -
 
-#numeric
+# Numeric
 regexp=\s[\d\.]+\s*($|(?=\|))
 colours=yellow
 -
 
-#date
+# Date
 regexp=\d{4}-\d{2}-\d{2}
 colours=blue
 -
-#time
+
+# Time
 regexp=\d{2}:\d{2}:\d{2}
 colours=cyan
 -
 
-#IP
+# IP
 regexp=(\d{1,3}\.){3}\d{1,3}(:\d{1,5})?
 colours=cyan
 -
 
-#schema
+# Schema
 regexp=`\w+`
 colours=yellow
 -
 
-#email
+# Email
 regexp=[\w\.\-_]+@[\w\.\-_]+
 colours=magenta
 -
 
-#row delimeter when using \G key
+# Row delimeter when using \G key
 regexp=[*]+.+[*]+
 count=stop
 colours=white
 -
 
-#column names when using \G key
+# Column names when using \G key
 regexp=^\s*\w+:
 colours=white
