@@ -1,2 +1,0 @@
-# Disabling XScreenSaver for MPlayer
-heartbeat-cmd="xscreensaver-command -deactivate >&- 2>&- &"
