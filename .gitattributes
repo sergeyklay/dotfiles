@@ -2,3 +2,5 @@
 * text=auto
 
 *.rb diff=ruby
+
+.my.cnf linguist-language=INI
