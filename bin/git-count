@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 #
 # Count git commits or branches.
 # Version: 0.1.1

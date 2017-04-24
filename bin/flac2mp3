@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/bash
 #
 # Bash script to convert Flac to Mp3.
 # Version: 0.0.2
