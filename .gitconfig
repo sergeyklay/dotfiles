@@ -10,6 +10,7 @@
   pager = less -R
   excludesfile = ~/git/ignore_global
 [merge]
+  stat = true
   tool = vimdiff
 [color]
   status = auto
@@ -35,6 +36,8 @@
   hist = log --graph --decorate --pretty=format:\"%Cred%h%Creset | %Cgreen%ad%Creset | %s%d [%C(yellow)%an%Creset]\" --graph --date=local
   type = cat-file -t
   dump = cat-file -p
+  rma = !git ls-files --deleted -z | xargs -0 --no-run-if-empty git rm
+  aliases = "!git config -l | grep alias | cut -c 7-"
   br = branch
   st = status
   ss = status --short
@@ -48,6 +51,10 @@
   lol = log --graph --decorate --pretty=oneline --abbrev-commit
   lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
   ls = ls-files
+  ign = ls-files -o -i --exclude-standard
+  lt = describe --tags --abbrev=0
+  save = !git stash save $(date "+%F_%T")
+  sf = show --pretty="format:" --name-only
   ign = ls-files -o -i --exclude-standard
   last = log -1 HEAD
   mf = merge --no-ff
