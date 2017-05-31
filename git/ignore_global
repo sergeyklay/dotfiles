@@ -18,6 +18,8 @@
 *.jar
 *.rar
 *.tar
+*.tar.gz
+*.sql.gz
 *.zip
    
 # Logs and databases #
@@ -44,4 +46,6 @@ Thumbs.db
 nbproject
 *.sublime-project
 *.sublime-workspace
+
 .php-version
+.ruby-version
