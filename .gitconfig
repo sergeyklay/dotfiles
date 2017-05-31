@@ -9,9 +9,22 @@
   whitespace = trailing-space,space-before-tab,indent-with-non-tab
   pager = less -R
   excludesfile = ~/git/ignore_global
+[diff]
+  tool = meld
+[difftool]
+  prompt = false
+[difftool "meld"]
+  trustExitCode = true
+  cmd = open -W -a Meld --args \"$LOCAL\" \"$PWD/$REMOTE\"
 [merge]
   stat = true
-  tool = vimdiff
+  # tool = vimdiff
+  tool = meld
+[mergetool]
+  prompt = false
+[mergetool "meld"]
+  trustExitCode = true
+  cmd = open -W -a Meld --args --auto-merge \"$PWD/$LOCAL\" \"$PWD/$BASE\" \"$PWD/$REMOTE\" --output=\"$PWD/$MERGED\"
 [color]
   status = auto
   branch = auto
@@ -67,8 +80,6 @@
   insteadOf = github:
 [url "git@github.com:sergeyklay/"]
   insteadOf = klay:
-[mergetool]
-  prompt = true
 [push]
   default = simple
 [commit]
