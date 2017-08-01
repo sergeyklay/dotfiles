@@ -73,6 +73,7 @@
   mf = merge --no-ff
   count = !~/bin/git-count
   puhs = push
+  la = "!sh -c \"git diff $1..HEAD\" -"
   top = !\
     git log --since='last month' --pretty=format: --name-only \
     | sed '/^$/d' | sort | uniq -c | sort -rg | head -10
