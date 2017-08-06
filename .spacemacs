@@ -31,6 +31,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     go
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -62,11 +63,11 @@ values."
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
-     spell-checking
+     (spell-checking :variables
+                     spell-checking-enable-by-default nil)
      syntax-checking
      (version-control :variables
-                      version-control-diff-tool 'git-gutter+)
-     )
+                      version-control-diff-tool 'git-gutter+))
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
@@ -78,8 +79,8 @@ values."
                                       ac-php
                                       lemon-mode
                                       package-lint
-                                      ;; zephir-mode
-                                      )
+                                      (zephir-mode :location (recipe :fetcher file
+                                                                     :path "~/.emacs.d/private/local/zephir-mode/zephir-mode.el")))
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -327,9 +328,7 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   ;; https://github.com/syl20bnr/spacemacs/issues/3920
-  (setq exec-path-from-shell-arguments '("-l"))
-  (load-file "~/Projects/lisp/emacs/zephir-mode/zephir-mode.el")
-  (require 'zephir-mode))
+  (setq exec-path-from-shell-arguments '("-l")))
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -364,7 +363,7 @@ you should place your code here."
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct diff-hl auto-dictionary web-beautify sql-indent org-category-capture livid-mode skewer-mode simple-httpd js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode package-lint lemon-mode helm-gtags go-guru go-eldoc gist gh marshal logito pcache ht ggtags erc-yt erc-view-log erc-terminal-notifier erc-social-graph erc-image erc-hl-nicks company-go go-mode dockerfile-mode docker json-mode tablist docker-tramp json-snatcher json-reformat base16-theme org-projectile org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot editorconfig ac-php ac-php-core xcscope xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help flycheck-pos-tip pos-tip flycheck-haskell yapfify yaml-mode unfill smeargle rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake pyvenv pytest pyenv-mode py-isort pip-requirements orgit ob-elixir mwim mmm-mode minitest markdown-toc markdown-mode magit-gitflow lua-mode live-py-mode intero insert-shebang idris-mode prop-menu hy-mode hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-company helm-c-yasnippet haskell-snippets gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-mix flycheck-credo flycheck fish-mode evil-magit magit magit-popup git-commit with-editor erlang disaster cython-mode company-statistics company-shell company-ghci company-ghc ghc haskell-mode company-cabal company-c-headers company-anaconda cmm-mode cmake-mode clang-format chruby bundler inf-ruby auto-yasnippet anaconda-mode pythonic alchemist company elixir-mode ac-ispell auto-complete phpunit phpcbf php-extras php-auto-yasnippets yasnippet drupal-mode php-mode reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+    (zephir-mode coverage git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct diff-hl auto-dictionary web-beautify sql-indent org-category-capture livid-mode skewer-mode simple-httpd js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode package-lint lemon-mode helm-gtags go-guru go-eldoc gist gh marshal logito pcache ht ggtags erc-yt erc-view-log erc-terminal-notifier erc-social-graph erc-image erc-hl-nicks company-go go-mode dockerfile-mode docker json-mode tablist docker-tramp json-snatcher json-reformat base16-theme org-projectile org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot editorconfig ac-php ac-php-core xcscope xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help flycheck-pos-tip pos-tip flycheck-haskell yapfify yaml-mode unfill smeargle rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake pyvenv pytest pyenv-mode py-isort pip-requirements orgit ob-elixir mwim mmm-mode minitest markdown-toc markdown-mode magit-gitflow lua-mode live-py-mode intero insert-shebang idris-mode prop-menu hy-mode hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-company helm-c-yasnippet haskell-snippets gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-mix flycheck-credo flycheck fish-mode evil-magit magit magit-popup git-commit with-editor erlang disaster cython-mode company-statistics company-shell company-ghci company-ghc ghc haskell-mode company-cabal company-c-headers company-anaconda cmm-mode cmake-mode clang-format chruby bundler inf-ruby auto-yasnippet anaconda-mode pythonic alchemist company elixir-mode ac-ispell auto-complete phpunit phpcbf php-extras php-auto-yasnippets yasnippet drupal-mode php-mode reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
  '(php-mode-coding-style (quote psr2))
  '(php-mode-hook
    (quote
