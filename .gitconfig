@@ -9,22 +9,12 @@
 	whitespace = trailing-space,space-before-tab,indent-with-non-tab
 	pager = diff-so-fancy | less --tabs=4 -RFX
 	excludesfile = ~/git/ignore_global
-[diff]
-	tool = meld
 [difftool]
 	prompt = false
-[difftool "meld"]
-	trustExitCode = true
-	cmd = open -W -a Meld --args \"$LOCAL\" \"$PWD/$REMOTE\"
 [merge]
 	stat = true
-	# tool = vimdiff
-	tool = meld
 [mergetool]
 	prompt = false
-[mergetool "meld"]
-	trustExitCode = true
-	cmd = open -W -a Meld --args --auto-merge \"$PWD/$LOCAL\" \"$PWD/$BASE\" \"$PWD/$REMOTE\" --output=\"$PWD/$MERGED\"
 [color]
 	status = auto
 	branch = auto
@@ -78,6 +68,8 @@
 	top = !\
 		git log --since='last month' --pretty=format: --name-only \
 		| sed '/^$/d' | sort | uniq -c | sort -rg | head -10
+	dsf = "!f() { [ -z \"$GIT_PREFIX\" ] || cd \"$GIT_PREFIX\" && git diff --color \"$@\" | diff-so-fancy  | less --tabs=4 -RFX; }; f"
+	patch = !git --no-pager diff --no-color
 [url "git://github.com/"]
 	insteadOf = github:
 [url "git@github.com:sergeyklay/"]
