@@ -346,9 +346,10 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   ;; Add personal script path, so that "require" works for personal scripts.
   (push "~/.spacemacs.d/config/" load-path)
-
+  ;; Global theme
   (spacemacs/load-theme 'base16-monokai)
-
+  ;; Setting up the REPL alias
+  (defalias 'repl 'ielm)
   ;; Lastly, load custom-file (but only if the file exists).
   (when (file-exists-p custom-file)
     (load-file custom-file)))
