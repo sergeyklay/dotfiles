@@ -1,93 +1,99 @@
 [user]
-  name = Serghei Iakovlev
-  email = serghei@phalconphp.com
-  signingkey = DC898A5F
+	name = Serghei Iakovlev
+	email = serghei@phalconphp.com
+	signingkey = DC898A5F
 [core]
-  editor = vim
-  autocrlf = false
-  safecrlf = true
-  whitespace = trailing-space,space-before-tab,indent-with-non-tab
-  pager = less -R
-  excludesfile = ~/git/ignore_global
+	editor = vim
+	autocrlf = false
+	safecrlf = true
+	whitespace = trailing-space,space-before-tab,indent-with-non-tab
+	pager = diff-so-fancy | less --tabs=4 -RFX
+	excludesfile = ~/git/ignore_global
 [diff]
-  tool = meld
+	tool = meld
 [difftool]
-  prompt = false
+	prompt = false
 [difftool "meld"]
-  trustExitCode = true
-  cmd = open -W -a Meld --args \"$LOCAL\" \"$PWD/$REMOTE\"
+	trustExitCode = true
+	cmd = open -W -a Meld --args \"$LOCAL\" \"$PWD/$REMOTE\"
 [merge]
-  stat = true
-  # tool = vimdiff
-  tool = meld
+	stat = true
+	# tool = vimdiff
+	tool = meld
 [mergetool]
-  prompt = false
+	prompt = false
 [mergetool "meld"]
-  trustExitCode = true
-  cmd = open -W -a Meld --args --auto-merge \"$PWD/$LOCAL\" \"$PWD/$BASE\" \"$PWD/$REMOTE\" --output=\"$PWD/$MERGED\"
+	trustExitCode = true
+	cmd = open -W -a Meld --args --auto-merge \"$PWD/$LOCAL\" \"$PWD/$BASE\" \"$PWD/$REMOTE\" --output=\"$PWD/$MERGED\"
 [color]
-  status = auto
-  branch = auto
-  interactive = auto
-  diff = auto
-  ui = true
+	status = auto
+	branch = auto
+	interactive = auto
+	diff = auto
+	ui = true
 [color "branch"]
-  current = yellow reverse
-  local = yellow
-  remote = green
+	current = yellow reverse
+	local = yellow
+	remote = green
 [color "diff"]
-  meta = yellow bold
-  frag = magenta bold
-  old = red bold
-  new = green bold
-  whitespace = red reverse
+	meta = 227
+	frag = magenta bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+	commit = 227 bold
 [color "status"]
-  added = yellow
-  changed = green
-  untracked = cyan
+	added = yellow
+	changed = green
+	untracked = cyan
 [alias]
-  hist = log --graph --decorate --pretty=format:\"%Cred%h%Creset | %Cgreen%ad%Creset | %s%d [%C(yellow)%an%Creset]\" --graph --date=local
-  type = cat-file -t
-  dump = cat-file -p
-  rma = !git ls-files --deleted -z | xargs -0 --no-run-if-empty git rm
-  aliases = "!git config -l | grep alias | cut -c 7-"
-  br = branch
-  st = status
-  ss = status --short
-  sd = diff --stat
-  ci = commit -S
-  co = checkout
-  dc = diff --cached
-  rp = remote prune
-  rs = remote show
-  lg = log -p
-  lol = log --graph --decorate --pretty=oneline --abbrev-commit
-  lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
-  ls = ls-files
-  ign = ls-files -o -i --exclude-standard
-  lt = describe --tags --abbrev=0
-  save = !git stash save $(date "+%F_%T")
-  sf = show --pretty="format:" --name-only
-  ign = ls-files -o -i --exclude-standard
-  last = log -1 HEAD
-  mf = merge --no-ff
-  count = !~/bin/git-count
-  puhs = push
-  la = "!sh -c \"git diff $1..HEAD\" -"
-  top = !\
-    git log --since='last month' --pretty=format: --name-only \
-    | sed '/^$/d' | sort | uniq -c | sort -rg | head -10
+	hist = log --graph --decorate --pretty=format:\"%Cred%h%Creset | %Cgreen%ad%Creset | %s%d [%C(yellow)%an%Creset]\" --graph --date=local
+	type = cat-file -t
+	dump = cat-file -p
+	rma = !git ls-files --deleted -z | xargs -0 --no-run-if-empty git rm
+	aliases = "!git config -l | grep alias | cut -c 7-"
+	br = branch
+	st = status
+	ss = status --short
+	sd = diff --stat
+	ci = commit -S
+	co = checkout
+	dc = diff --cached
+	rp = remote prune
+	rs = remote show
+	lg = log -p
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit
+	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	ls = ls-files
+	ign = ls-files -o -i --exclude-standard
+	lt = describe --tags --abbrev=0
+	save = !git stash save $(date "+%F_%T")
+	sf = show --pretty="format:" --name-only
+	ign = ls-files -o -i --exclude-standard
+	last = log -1 HEAD
+	mf = merge --no-ff
+	count = !~/bin/git-count
+	puhs = push
+	la = "!sh -c \"git diff $1..HEAD\" -"
+	top = !\
+		git log --since='last month' --pretty=format: --name-only \
+		| sed '/^$/d' | sort | uniq -c | sort -rg | head -10
 [url "git://github.com/"]
-  insteadOf = github:
+	insteadOf = github:
 [url "git@github.com:sergeyklay/"]
-  insteadOf = klay:
+	insteadOf = klay:
 [push]
-  default = simple
+	default = simple
 [commit]
-  template = ~/git/message.txt
+	template = ~/git/message.txt
 [filter "lfs"]
-  required = true
-  clean = git-lfs clean %f
-  smudge = git-lfs smudge %f
+	required = true
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
 [fetch]
-  prune = true
+	prune = true
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
