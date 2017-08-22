@@ -51,13 +51,18 @@ export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 export EDITOR="/usr/local/bin/emacsclient -c"
 
 # Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+export ARCHFLAGS="-arch x86_64"
 
 # Locale setup
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
-export MANPATH="/usr/local/opt/gnu-tar/libexec/gnuman:$MANPATH"
+# Setting up the man pages
+if [ -d "/usr/local/opt/gnu-tar/libexec/gnuman" ]; then
+    export MANPATH="/usr/local/opt/gnu-tar/libexec/gnuman:$MANPATH"
+fi
 
 # Rbenv
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+if [ -d "$HOME/.rbenv/bin" ]; then
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+fi
