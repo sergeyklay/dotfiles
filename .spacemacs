@@ -31,14 +31,16 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     go
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+     go
+     html
      auto-completion
      emacs-lisp
+     common-lisp
      erc
      git
      helm
@@ -72,15 +74,16 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(
-                                      gist
-                                      editorconfig
-                                      base16-theme
-                                      ac-php
-                                      lemon-mode
-                                      package-lint
-                                      (zephir-mode :location (recipe :fetcher file
-                                                                     :path "~/.emacs.d/private/local/zephir-mode/zephir-mode.el")))
+   dotspacemacs-additional-packages
+   '(
+     gist
+     base16-theme
+     ac-php
+     lemon-mode
+     package-lint
+     ssh-config-mode
+     jekyll-modes
+     hasky-stack)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -327,6 +330,10 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+  ;; repl
+  ;; Prevent Custom from dumping its local settings into this file.
+  (setq custom-file "~/.spacemacs.d/custom.el")
+
   ;; https://github.com/syl20bnr/spacemacs/issues/3920
   (setq exec-path-from-shell-arguments '("-l")))
 
@@ -337,72 +344,11 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (spacemacs/load-theme 'base16-monokai))
+  ;; Add personal script path, so that "require" works for personal scripts.
+  (push "~/.spacemacs.d/config/" load-path)
 
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(compilation-message-face (quote default))
- '(evil-want-Y-yank-to-eol nil)
- '(fci-rule-color "#3C3D37" t)
- '(highlight-changes-colors (quote ("#FD5FF0" "#AE81FF")))
- '(highlight-tail-colors
-   (quote
-    (("#3C3D37" . 0)
-     ("#679A01" . 20)
-     ("#4BBEAE" . 30)
-     ("#1DB4D0" . 50)
-     ("#9A8F21" . 60)
-     ("#A75B00" . 70)
-     ("#F309DF" . 85)
-     ("#3C3D37" . 100))))
- '(magit-diff-use-overlays nil)
- '(package-selected-packages
-   (quote
-    (zephir-mode coverage git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter flyspell-correct-helm flyspell-correct diff-hl auto-dictionary web-beautify sql-indent org-category-capture livid-mode skewer-mode simple-httpd js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode package-lint lemon-mode helm-gtags go-guru go-eldoc gist gh marshal logito pcache ht ggtags erc-yt erc-view-log erc-terminal-notifier erc-social-graph erc-image erc-hl-nicks company-go go-mode dockerfile-mode docker json-mode tablist docker-tramp json-snatcher json-reformat base16-theme org-projectile org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot editorconfig ac-php ac-php-core xcscope xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help flycheck-pos-tip pos-tip flycheck-haskell yapfify yaml-mode unfill smeargle rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake pyvenv pytest pyenv-mode py-isort pip-requirements orgit ob-elixir mwim mmm-mode minitest markdown-toc markdown-mode magit-gitflow lua-mode live-py-mode intero insert-shebang idris-mode prop-menu hy-mode hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-company helm-c-yasnippet haskell-snippets gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flycheck-mix flycheck-credo flycheck fish-mode evil-magit magit magit-popup git-commit with-editor erlang disaster cython-mode company-statistics company-shell company-ghci company-ghc ghc haskell-mode company-cabal company-c-headers company-anaconda cmm-mode cmake-mode clang-format chruby bundler inf-ruby auto-yasnippet anaconda-mode pythonic alchemist company elixir-mode ac-ispell auto-complete phpunit phpcbf php-extras php-auto-yasnippets yasnippet drupal-mode php-mode reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
- '(php-mode-coding-style (quote psr2))
- '(php-mode-hook
-   (quote
-    (ignore php-extras-completion-setup php-extras-autocomplete-setup php-extras-eldoc-setup eldoc-mode spacemacs//init-jump-handlers-php-mode spacemacs//init-company-php-mode ignore company-mode)) t)
- '(php-mode-psr2-hook (quote (ignore)))
- '(pos-tip-background-color "#FFFACE")
- '(pos-tip-foreground-color "#272822")
- '(safe-local-variable-values
-   (quote
-    ((firestarter . ert-run-tests-interactively)
-     (elixir-enable-compilation-checking . t)
-     (elixir-enable-compilation-checking))))
- '(vc-annotate-background nil)
- '(vc-annotate-color-map
-   (quote
-    ((20 . "#F92672")
-     (40 . "#CF4F1F")
-     (60 . "#C26C0F")
-     (80 . "#E6DB74")
-     (100 . "#AB8C00")
-     (120 . "#A18F00")
-     (140 . "#989200")
-     (160 . "#8E9500")
-     (180 . "#A6E22E")
-     (200 . "#729A1E")
-     (220 . "#609C3C")
-     (240 . "#4E9D5B")
-     (260 . "#3C9F79")
-     (280 . "#A1EFE4")
-     (300 . "#299BA6")
-     (320 . "#2896B5")
-     (340 . "#2790C3")
-     (360 . "#66D9EF"))))
- '(vc-annotate-very-old-color nil)
- '(weechat-color-list
-   (unspecified "#272822" "#3C3D37" "#F70057" "#F92672" "#86C30D" "#A6E22E" "#BEB244" "#E6DB74" "#40CAE4" "#66D9EF" "#FB35EA" "#FD5FF0" "#74DBCD" "#A1EFE4" "#F8F8F2" "#F8F8F0")))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+  (spacemacs/load-theme 'base16-monokai)
+
+  ;; Lastly, load custom-file (but only if the file exists).
+  (when (file-exists-p custom-file)
+    (load-file custom-file)))
