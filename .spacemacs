@@ -330,7 +330,7 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   ;; Prevent Custom from dumping its local settings into this file.
-  (setq custom-file "~/.spacemacs.d/custom.el")
+  (setq custom-file (expand-file-name "custom.el" user-home-directory))
   ;; https://github.com/syl20bnr/spacemacs/issues/3920
   (setq exec-path-from-shell-arguments '("-l")))
 
