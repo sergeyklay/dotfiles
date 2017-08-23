@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 #
-# zsh startup file
+# Zsh startup file
 #
 
 # Common PATH setup

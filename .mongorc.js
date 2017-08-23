@@ -58,12 +58,12 @@
         print(dbs.join("\n"));
         print("\n");
     }
+
     /**
      * Creates a prompt string for replSets
      *
      * @return {String}
      */
-
     function replsetPrompt () {
         var status;
         var admin = db.getSiblingDB("admin");
@@ -84,7 +84,7 @@
             status = info.info;
         }
 
-        return status + "|" + db + "> "
+        return status + "|" + db + "> ";
     }
 
 })();
