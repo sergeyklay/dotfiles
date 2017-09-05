@@ -36,32 +36,33 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     go
-     html
      auto-completion
-     emacs-lisp
+     better-defaults
+     c-c++
      common-lisp
-     erc
-     git
-     helm
      docker
+     elixir
+     emacs-lisp
+     erc
+     erlang
+     git
+     go
+     haskell
+     helm
+     html
+     idris
      javascript
      lua
      markdown
+     nginx
      org
+     osx
      php
      python
      ruby
-     sql
-     elixir
-     c-c++
-     erlang
-     yaml
      shell-scripts
-     better-defaults
-     osx
-     idris
-     haskell
+     sql
+     yaml
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
@@ -76,14 +77,15 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
    '(
-     gist
-     base16-theme
      ac-php
+     base16-theme
+     font-lock-studio
+     gist
+     hasky-stack
+     jekyll-modes
      lemon-mode
      package-lint
-     ssh-config-mode
-     jekyll-modes
-     hasky-stack)
+     ssh-config-mode)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
