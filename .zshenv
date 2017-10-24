@@ -26,6 +26,14 @@ if [ -d "/opt/local/sbin" ]; then
     PATH="/opt/local/sbin:$PATH"
 fi
 
+if [ -d "/usr/local/sbin" ];then
+    PATH="/usr/local/sbin:$PATH"
+fi
+
+if [ -d "/usr/local/opt/imagemagick@6/bin" ];then
+    PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
+fi
+
 # SSH
 export SSH_KEY_PATH="$HOME/.ssh/dsa_id"
 
@@ -62,7 +70,7 @@ if [ -d "/usr/local/opt/gnu-tar/libexec/gnuman" ]; then
 fi
 
 # Rbenv
-if [ -d "$HOME/.rbenv/bin" ]; then
-    export PATH="$HOME/.rbenv/bin:$PATH"
+if [ -d "$HOME/.rbenv/shims" ]; then
+    export PATH="$HOME/.rbenv/shims:$PATH"
     eval "$(rbenv init -)"
 fi
