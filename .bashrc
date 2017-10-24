@@ -120,4 +120,14 @@ if [ -f ~/git/completion.sh ]; then
   . ~/git/completion.sh
 fi
 
+# auto add ssh key to ssh-agent
+if [ ! -S ~/ssh_auth_sock ]; then
+  eval `ssh-agent`
+
+  ln -sf "$SSH_AUTH_SOCK" ~/ssh_auth_sock
+fi
+
+export SSH_AUTH_SOCK=$(readlink ~/ssh_auth_sock)
+ssh-add -l | grep "The agent has no identities" && ssh-add
+
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
