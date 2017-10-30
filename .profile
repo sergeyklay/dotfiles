@@ -27,8 +27,8 @@ if [ -d "$HOME/.rbenv/bin" ]; then
 fi
 
 # Phalcon
-if [ -d "$HOME/projects/php/phalcon/devtools" ]; then
-  export PTOOLSPATH="$HOME/projects/php/phalcon/devtools"
+if [ -d "$HOME/workspace/php/phalcon/devtools" ]; then
+  export PTOOLSPATH="$HOME/workspace/php/phalcon/devtools"
   PATH+=:$PTOOLSPATH
 fi
 
@@ -69,10 +69,20 @@ if [ -d "$HOME/go" ]; then
   fi
 fi
 
-# Enable phpbrew
-if [ -e "$HOME/.phpbrew/bashrc" ]; then
-  source "$HOME/.phpbrew/bashrc"
-  export PHPBREW_SET_PROMPT=1
+# Enable phpenv
+if [ -d "${HOME}/.phpenv" ]; then
+  export PHPENV_ROOT="${HOME}/.phpenv"
+  export PATH="${PHPENV_ROOT}/bin:${PATH}"
+
+  eval "$(phpenv init -)"
+
+  if [ -d "${PHPENV_ROOT}/plugins/php-build/bin" ]; then
+    export PATH="${PHPENV_ROOT}/plugins/php-build/bin:${PATH}"
+  fi
+
+  if [ -f "$HOME/.php_build_configure_opts" ]; then
+    export PHP_BUILD_CONFIGURE_OPTS=`cat $HOME/.php_build_configure_opts`
+  fi
 fi
 
 # Keyboard input sometimes is blocked when IBus is active
