@@ -130,4 +130,31 @@ fi
 export SSH_AUTH_SOCK=$(readlink ~/ssh_auth_sock)
 ssh-add -l | grep "The agent has no identities" && ssh-add
 
+# this is necessary since enigmail in thunderbird requires gpg2, it no longer# works with the default gnome keyring.
+# this is taken from the gpg-agent man page:
+# /usr/bin/gpg-agent --daemon --write-env-file "${HOME}/.gpg-agent-info"
+# which helps, but it spawns a new agent for each terminal.
+# adjusting for the advice here (even though it's for OSX):
+## https://www.semipol.de/2015/05/03/letting-enigmail-use-gpg-agent-for-passphrase-caching-on-osx.html
+# that is, make sure it's not running already (test the right file exists and
+# that the pid it lists is running (kill -0 just checks if a pid is alive)
+if test -f "$HOME/.gpg-agent-info" && \
+     kill -0 "$(cut -d: -f 2 "$HOME/.gpg-agent-info")" 2>/dev/null
+then
+    echo "already running" > /dev/null
+else
+    /usr/bin/gpg-agent --daemon --write-env-file "${HOME}/.gpg-agent-info" > /dev/null
+fi
+
+# then do the rest of the stuff from the gpg-agent man page
+# This should be run "for each interactive session"
+if [ -f "${HOME}/.gpg-agent-info" ]
+then
+    . "${HOME}/.gpg-agent-info"
+    export GPG_AGENT_INFO
+fi
+
+GPG_TTY=$(tty)
+export GPG_TTY
+
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
