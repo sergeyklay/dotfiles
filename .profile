@@ -69,6 +69,10 @@ if [ -d "$HOME/go" ]; then
   fi
 fi
 
+if [ -d "/opt/phpstorm/bin" ]; then
+  export PATH="/opt/phpstorm/bin:${PATH}"
+fi
+
 # Enable phpenv
 if [ -d "${HOME}/.phpenv" ]; then
   export PHPENV_ROOT="${HOME}/.phpenv"
