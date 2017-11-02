@@ -1,11 +1,11 @@
 {
 	"font_size": 13,
-	"update_check": false,
 	"ignored_packages":
 	[
 		"RestructuredText",
 		"Vintage"
 	],
 	"save_on_focus_lost": true,
-	"theme": "Default.sublime-theme"
+	"theme": "Default.sublime-theme",
+	"update_check": false
 }
