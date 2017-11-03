@@ -120,6 +120,10 @@ if [ -f ~/git/completion.sh ]; then
   . ~/git/completion.sh
 fi
 
+if [ -f /etc/bash_completion.d/docker-compose ]; then
+  . /etc/bash_completion.d/docker-compose
+fi
+
 # auto add ssh key to ssh-agent
 if [ ! -S $HOME/ssh_auth_sock ]; then
   eval `ssh-agent`
