@@ -58,7 +58,7 @@ export XDG_CACHE_HOME=~/.cache
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 # some defaults
-export EDITOR=vim
+export EDITOR="emacs -nw"
 
 # more for less
 export PAGER=less
@@ -86,10 +86,10 @@ if [ $(which dircolors) ]; then
   else
     eval "$(dircolors -b)"
   fi
- 
+
   colors_support=true
 fi
-  
+
 if [ "$colors_support" = true ]; then
   # config for mc skins. 256 colors support
   export TERM=xterm-256color
