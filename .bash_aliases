@@ -32,6 +32,8 @@ alias cls=clear
 
 alias xup="xrdb ~/.Xresources"
 
+alias dc="docker-compose"
+alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Status}}'"
 
 # Function to deal with the annoying sublime errors
 # Send annoying .output logs to /dev/null
