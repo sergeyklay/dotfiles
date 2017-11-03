@@ -3,12 +3,12 @@
 	email = serghei@phalconphp.com
 	signingkey = DC898A5F
 [core]
-	editor = vim
 	autocrlf = false
 	safecrlf = true
 	whitespace = trailing-space,space-before-tab,indent-with-non-tab
 	pager = diff-so-fancy | less --tabs=4 -RFX
 	excludesfile = ~/git/ignore_global
+	editor = "emacs -nw"
 [difftool]
 	prompt = false
 [merge]
