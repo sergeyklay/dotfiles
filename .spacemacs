@@ -157,8 +157,7 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(monokai
-                         spacemacs-dark
+   dotspacemacs-themes '(spacemacs-dark
                          spacemacs-light)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
@@ -346,7 +345,7 @@ you should place your code here."
   ;; Add personal script path, so that "require" works for personal scripts.
   (push "~/.spacemacs.d/config/" load-path)
   ;; Global theme
-  (spacemacs/load-theme 'base16-monokai)
+  (spacemacs/load-theme 'spacemacs-dark)
   ;; Setting up the REPL alias
   (defalias 'repl 'ielm)
   ;; Lastly, load custom-file (but only if the file exists).
