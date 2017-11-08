@@ -62,6 +62,7 @@ values."
      ruby
      shell-scripts
      sql
+     windows-scripts
      yaml
      (shell :variables
             shell-default-height 30
