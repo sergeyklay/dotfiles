@@ -132,7 +132,7 @@ if [ ! -S $HOME/ssh_auth_sock ]; then
 fi
 
 export SSH_AUTH_SOCK=$(readlink $HOME/ssh_auth_sock)
-ssh-add -l | ssh-add 2&>1 > /dev/null
+ssh-add -l | ssh-add &>/dev/null
 
 export GPG_TTY=$(/usr/bin/tty)
 
