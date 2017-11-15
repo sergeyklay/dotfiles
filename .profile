@@ -33,8 +33,9 @@ if [ -d "$HOME/workspace/php/phalcon/devtools" ]; then
 fi
 
 # Zephir
-if [ -d "/usr/share/zephir" ]; then
-  export ZEPHIRDIR="/usr/share/zephir"
+if [ -d "$HOME/workspace/c/zephir" ]; then
+  export ZEPHIRDIR="$HOME/workspace/c/zephir"
+  export PATH="$ZEPHIRDIR/bin:$PATH"
 fi
 
 # Composer
@@ -69,7 +70,6 @@ fi
 # Enable phpenv
 if [ -d "${HOME}/.phpenv" ]; then
   export PHPENV_ROOT="${HOME}/.phpenv"
-  # export RBENV_ROOT="${PHPENV_ROOT}"
   export PATH="${PHPENV_ROOT}/bin:${PATH}"
 
   eval "$(phpenv init -)"
