@@ -70,6 +70,7 @@
 		| sed '/^$/d' | sort | uniq -c | sort -rg | head -10
 	dsf = "!f() { [ -z \"$GIT_PREFIX\" ] || cd \"$GIT_PREFIX\" && git diff --color \"$@\" | diff-so-fancy  | less --tabs=4 -RFX; }; f"
 	patch = !git --no-pager diff --no-color
+	ba = "!for branch in `git branch -r | grep -v HEAD`; do echo `git show --pretty=format:\"%C(green)%cn%Creset %Cblue %ar %>|(80) %Creset\" $branch | head -n 1` $branch; done | sort -r"
 [url "git://github.com/"]
 	insteadOf = github:
 [url "git@github.com:sergeyklay/"]
