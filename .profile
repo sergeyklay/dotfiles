@@ -42,6 +42,12 @@ fi
 if [ -d "$HOME/.composer" ]; then
   export COMPOSER_HOME="$HOME/.composer"
   export PATH="${COMPOSER_HOME}:${PATH}"
+
+  # See: https://github.com/stecman/composer-bash-completion-plugin
+  ac="vendor/stecman/composer-bash-completion-plugin/hooks/bash-completion"
+  if [ -f "${COMPOSER_HOME}/${ac}" ]; then
+    source "${COMPOSER_HOME}/${ac}"
+  fi
 fi
 
 if [ -d "$HOME/.composer/vendor/bin" ]; then
