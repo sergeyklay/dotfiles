@@ -9,39 +9,53 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 # OpenSSL
 if [ -d "/usr/local/opt/openssl/bin" ]; then
-    PATH="/usr/local/opt/openssl/bin:$PATH"
+    export PATH="/usr/local/opt/openssl/bin:$PATH"
 fi
 
 # SQLite
 if [ -d "/usr/local/opt/sqlite/bin" ]; then
-    PATH="/usr/local/opt/sqlite/bin:$PATH"
+    export PATH="/usr/local/opt/sqlite/bin:$PATH"
 fi
 
 # Homebrew and etc
 if [ -d "/opt/local/bin" ]; then
-    PATH="/opt/local/bin:$PATH"
+    export PATH="/opt/local/bin:$PATH"
 fi
 
 if [ -d "/opt/local/sbin" ]; then
-    PATH="/opt/local/sbin:$PATH"
+    export PATH="/opt/local/sbin:$PATH"
 fi
 
-if [ -d "/usr/local/sbin" ];then
-    PATH="/usr/local/sbin:$PATH"
+if [ -d "/usr/local/sbin" ]; then
+    export PATH="/usr/local/sbin:$PATH"
 fi
 
-if [ -d "/usr/local/opt/imagemagick@6/bin" ];then
-    PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
+if [ -d "/usr/local/opt/imagemagick@6/bin" ]; then
+    export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
 fi
 
-# SSH
-export SSH_KEY_PATH="$HOME/.ssh/rsa_id"
+# Rust & Cargo
+if [ -d "$HOME/.cargo/bin" ]; then
+    export PATH="$HOME/.cargo/bin:$PATH"
+fi
 
-# Haskel
-export PATH="$HOME/Library/Haskell/bin:$PATH"
+# Haskell
+if [ -d "$HOME/Library/Haskell/bin" ]; then
+    export PATH="$HOME/Library/Haskell/bin:$PATH"
+fi
 
-# Home PATHs
-export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+# Home bin
+if [ -d "$HOME/.local/bin" ]; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
+if [ -d "$HOME/bin" ]; then
+    export PATH="$HOME/bin:$PATH"
+fi
+
+if [ -d "/usr/local/opt/imagemagick@6/bin" ]; then
+    export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
+fi
 
 # Prefered editor
 export EDITOR="vim"
@@ -57,6 +71,7 @@ if [ -d "/usr/local/opt/gnu-tar/libexec/gnuman" ]; then
     export MANPATH="/usr/local/opt/gnu-tar/libexec/gnuman:$MANPATH"
 fi
 
+# SSH
 SSH_KEY_TYPE=${SSH_KEY_TYPE:-ed25519}
 SSH_KEY_PATH=$HOME/.ssh/id_$SSH_KEY_TYPE
 
@@ -64,3 +79,5 @@ SSH_KEY_PATH=$HOME/.ssh/id_$SSH_KEY_TYPE
 if [ -d "$HOME/.rbenv" ]; then
     eval "$(rbenv init -)"
 fi
+
+#  vim:ft=zsh:ts=4:sw=4:tw=78:fenc=utf-8:et
