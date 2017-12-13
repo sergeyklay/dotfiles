@@ -1,4 +1,4 @@
-export ZSH=/Users/sergheiiakovlev/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 ZSH_THEME="powerlevel9k/powerlevel9k"
 
@@ -24,5 +24,9 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 source $HOME/.zshenv
+
+if [ -f $HOME/.iterm2_shell_integration.zsh ]; then
+  source $HOME/.iterm2_shell_integration.zsh
+fi
 
 alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Status}}'"
