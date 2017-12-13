@@ -61,7 +61,6 @@ SSH_KEY_TYPE=${SSH_KEY_TYPE:-ed25519}
 SSH_KEY_PATH=$HOME/.ssh/id_$SSH_KEY_TYPE
 
 # Rbenv
-if [ -d "$HOME/.rbenv/shims" ]; then
-    export PATH="$HOME/.rbenv/shims:$PATH"
+if [ -d "$HOME/.rbenv" ]; then
     eval "$(rbenv init -)"
 fi
