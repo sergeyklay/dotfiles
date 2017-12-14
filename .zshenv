@@ -35,13 +35,18 @@ if [ -d "/usr/local/opt/imagemagick@6/bin" ]; then
 fi
 
 # Rust & Cargo
-if [ -d "$HOME/.cargo/bin" ]; then
-    export PATH="$HOME/.cargo/bin:$PATH"
+if [ -f "$HOME/.cargo/env" ]; then
+    source "$HOME/.cargo/env"
 fi
 
 # Haskell
 if [ -d "$HOME/Library/Haskell/bin" ]; then
     export PATH="$HOME/Library/Haskell/bin:$PATH"
+fi
+
+# PHP
+if [ -d "$(brew --prefix homebrew/php/php72)/bin" ]; then
+    export PATH="$(brew --prefix homebrew/php/php72)/bin:$PATH"
 fi
 
 # Home bin
