@@ -44,7 +44,6 @@ Thumbs.db
 ############################
 .idea
 nbproject
-.vscode
 *.sublime-project
 *.sublime-workspace
 
