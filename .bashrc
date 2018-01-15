@@ -136,6 +136,7 @@ ssh-add -l | ssh-add &>/dev/null
 
 export GPG_TTY=$(/usr/bin/tty)
 
+# https://gnunn1.github.io/tilix-web/manual/vteconfig/
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
   if [ -f /etc/profile.d/vte.sh ]; then
     source /etc/profile.d/vte.sh
