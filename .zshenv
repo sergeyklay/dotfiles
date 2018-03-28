@@ -17,7 +17,7 @@ if [ -d "/usr/local/opt/sqlite/bin" ]; then
     export PATH="/usr/local/opt/sqlite/bin:$PATH"
 fi
 
-# Homebrew and etc
+# Homebrew, etc
 if [ -d "/opt/local/bin" ]; then
     export PATH="/opt/local/bin:$PATH"
 fi
@@ -26,6 +26,7 @@ if [ -d "/opt/local/sbin" ]; then
     export PATH="/opt/local/sbin:$PATH"
 fi
 
+# Local binaries
 if [ -d "/usr/local/sbin" ]; then
     export PATH="/usr/local/sbin:$PATH"
 fi
@@ -83,6 +84,8 @@ SSH_KEY_PATH=$HOME/.ssh/id_$SSH_KEY_TYPE
 # Rbenv
 if [ -d "$HOME/.rbenv" ]; then
     eval "$(rbenv init -)"
+elif [ -f /usr/local/bin/rbenv ]; then
+    eval "$(/usr/local/bin/rbenv init -)"
 fi
 
 #  vim:ft=zsh:ts=4:sw=4:tw=78:fenc=utf-8:et
