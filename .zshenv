@@ -45,8 +45,8 @@ if [ -d "$HOME/Library/Haskell/bin" ]; then
 fi
 
 # PHP
-if [ -d "$(brew --prefix homebrew/php/php72)/bin" ]; then
-    export PATH="$(brew --prefix homebrew/php/php72)/bin:$PATH"
+if [ -d "$(brew --prefix php)/bin" ]; then
+    export PATH="$(brew --prefix php)/bin:$PATH"
 fi
 
 # Home bin
