@@ -465,11 +465,11 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   ;; Add personal script path, so that "require" works for personal scripts.
   (push "~/.spacemacs.d/config/" load-path)
-  ;; Gloabl theme
+  ;; Global theme
   (spacemacs/load-theme 'spacemacs-dark)
   ;; Setting up the REPL alias
   (defalias 'repl 'ielm)
-  ;; Lastly, load  custom file (but only if the file exists).
+  ;; Lastly, load  custom-file (but only if the file exists).
   (when (file-exists-p custom-file)
     (load-file custom-file)))
 
