@@ -455,6 +455,7 @@ It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; Prevent custom from dumping its local settings into this file
   (setq custom-file (expand-file-name "custom.el" user-home-directory))
+
   ;; https://github.com/syl20bnr/spacemacs/issues/3920
   (setq exec-path-from-shell-arguments '("-l")))
 
@@ -463,12 +464,20 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  (defun highlight-todos ()
+    (font-lock-add-keywords nil '(("\\<\\(NOTE\\|TODO\\|HACK\\|BUG\\):" 1 font-lock-warning-face t))))
+
+  (add-hook 'text-mode-hook 'highlight-todos)
+  (add-hook 'prog-mode-hook 'highlight-todos)
   ;; Add personal script path, so that "require" works for personal scripts.
   (push "~/.spacemacs.d/config/" load-path)
+  
   ;; Global theme
   (spacemacs/load-theme 'spacemacs-dark)
+  
   ;; Setting up the REPL alias
   (defalias 'repl 'ielm)
+  
   ;; Lastly, load  custom-file (but only if the file exists).
   (when (file-exists-p custom-file)
     (load-file custom-file)))
