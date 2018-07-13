@@ -167,4 +167,7 @@ if [ -f "${BASH_IT}/bash_it.sh" ]; then
   source "${BASH_IT}/bash_it.sh"
 fi
 
+# Enabling kubernetes shell autocompletion
+command -v kubectl >/dev/null 2>&1 && source <(kubectl completion bash)
+
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
