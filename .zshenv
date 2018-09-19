@@ -67,9 +67,20 @@ if [ -d "/usr/local/opt/imagemagick@6/bin" ]; then
     export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
 fi
 
+# Go lang
+if [ -d "/usr/local/go/bin" ]; then
+    export PATH="/usr/local/go/bin:$PATH"
+fi
+
 # Setting up the man pages
 if [ -d "/usr/local/opt/gnu-tar/libexec/gnuman" ]; then
     export MANPATH="/usr/local/opt/gnu-tar/libexec/gnuman:$MANPATH"
+fi
+
+# Go lang support
+if [ -d "$HOME/workspace/go" ]; then
+    export GOPATH="$HOME/workspace/go"
+    export PATH="$GOPATH/bin:$PATH"
 fi
 
 # Rbenv
