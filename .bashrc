@@ -163,7 +163,7 @@ export TODO="t"
 export SCM_CHECK=true
 
 # Load Bash It
-if [ -f "${BASH_IT}/bash_it.sh" ]; then
+if [ -n "${BASH_IT}" ] && [ -f "${BASH_IT}/bash_it.sh" ]; then
   source "${BASH_IT}/bash_it.sh"
 fi
 
