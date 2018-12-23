@@ -150,14 +150,8 @@ fi
 echo Agent pid $SSH_AGENT_PID
 
 # auto add ssh key to `ssh-agent'
-# `ssh-add' returns 1 if there is no keys.
-if { ssh-add -l > /dev/null 2>&1; test $? -eq 1; }; then
-  for possiblekey in ${HOME}/.ssh/*; do
-    if grep -q PRIVATE "$possiblekey"; then
-      ssh-add "$possiblekey" >/dev/null 2>&1
-    fi
-  done
-fi
+# Note: to add ECDSA keys see https://stackoverflow.com/a/45370592/1661465
+grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add >/dev/null 2>&1
 
 # Update GPG_TTY
 export GPG_TTY=$(/usr/bin/tty)
