@@ -125,12 +125,14 @@ if [ -f /etc/bash_completion.d/docker-compose ]; then
 fi
 
 # auto add ssh key to ssh-agent
-if [ ! -S $HOME/.ssh/ssh_auth_sock ]; then
-  eval `ssh-agent -s`
-  ln -sf "$SSH_AUTH_SOCK" $HOME/.ssh/ssh_auth_sock
-fi
+if [ -z "${SSH_AUTH_SOCK}" ]; then
+  if [ ! -S $HOME/.ssh/ssh_auth_sock ]; then
+      eval `ssh-agent -s`
+      ln -s "${SSH_AUTH_SOCK}" $HOME/.ssh/ssh_auth_sock
+  fi
 
-export SSH_AUTH_SOCK=$HOME/.ssh/ssh_auth_sock
+  export SSH_AUTH_SOCK=$HOME/.ssh/ssh_auth_sock
+fi
 
 # ssh-add -l >/dev/null || ssh-add >/dev/null
 if [ -n $(ssh-add -l >/dev/null) ]; then
