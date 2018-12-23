@@ -36,12 +36,6 @@ if [ -d "$HOME/workspace/php/phalcon/devtools" ]; then
   export PATH="${PTOOLSPATH}:${PATH}"
 fi
 
-# Zephir
-if [ -d "$HOME/workspace/c/zephir" ]; then
-  export ZEPHIRDIR="$HOME/workspace/c/zephir"
-  export PATH="$ZEPHIRDIR/bin:$PATH"
-fi
-
 # Composer
 if [ -d "$HOME/.composer" ]; then
   export COMPOSER_HOME="$HOME/.composer"
