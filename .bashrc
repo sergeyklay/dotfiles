@@ -40,10 +40,10 @@ HISTIGNORE="[ \t]*:ls:bg:fg:jobs:pwd"
 PROMPT_COMMAND='history -a'
 
 # user-specific configuration files
-export XDG_CONFIG_HOME=~/.config
+export XDG_CONFIG_HOME=$HOME/.config
 
 # user-specific data files
-export XDG_DATA_HOME=~/.local/share
+export XDG_DATA_HOME=$HOME/.local/share
 
 # base directories relative to which data files should be searched
 export XDG_DATA_DIRS=/usr/share
@@ -52,13 +52,13 @@ export XDG_DATA_DIRS=/usr/share
 export XDG_CONFIG_DIRS=/etc/xdg
 
 # user-specific cached data should be written relative to this directory
-export XDG_CACHE_HOME=~/.cache
+export XDG_CACHE_HOME=$HOME/.cache
 
 # user-specific runtime files should be placed relative to this directory
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 # some defaults
-export EDITOR="emacs -nw"
+export EDITOR="vim"
 
 # more for less
 export PAGER=less
@@ -81,8 +81,8 @@ PS1='$ \w '
 PS2="| "
 
 if [ $(which dircolors) ]; then
-  if [ -r ~/.dircolors ]; then
-    eval "$(dircolors -b ~/.dircolors)"
+  if [ -r $HOME/.dircolors ]; then
+    eval "$(dircolors -b $HOME/.dircolors)"
   else
     eval "$(dircolors -b)"
   fi
@@ -111,13 +111,13 @@ if [ "$colors_support" = true ]; then
 fi
 
 # include aliases
-if [ -f ~/.bash_aliases ]; then
-  . ~/.bash_aliases
+if [ -f $HOME/.bash_aliases ]; then
+  . $HOME/.bash_aliases
 fi
 
 # git completion
-if [ -f ~/git/completion.sh ]; then
-  . ~/git/completion.sh
+if [ -f $HOME/git/completion.sh ]; then
+  . $HOME/git/completion.sh
 fi
 
 if [ -f /etc/bash_completion.d/docker-compose ]; then
@@ -125,15 +125,25 @@ if [ -f /etc/bash_completion.d/docker-compose ]; then
 fi
 
 # auto add ssh key to ssh-agent
-if [ ! -S $HOME/ssh_auth_sock ]; then
-  eval `ssh-agent`
-
-  ln -sf "$SSH_AUTH_SOCK" $HOME/ssh_auth_sock
+if [ ! -S $HOME/.ssh/ssh_auth_sock ]; then
+  eval `ssh-agent -s`
+  ln -sf "$SSH_AUTH_SOCK" $HOME/.ssh/ssh_auth_sock
 fi
 
-export SSH_AUTH_SOCK=$(readlink $HOME/ssh_auth_sock)
-ssh-add -l | ssh-add &>/dev/null
+export SSH_AUTH_SOCK=$HOME/.ssh/ssh_auth_sock
 
+# ssh-add -l >/dev/null || ssh-add >/dev/null
+if [ -n $(ssh-add -l >/dev/null) ]; then
+  for possiblekey in ${HOME}/.ssh/*; do
+    if [ ! -S "$possiblekey" ]; then
+      if grep -q PRIVATE "$possiblekey"; then
+        ssh-add "$possiblekey" >/dev/null 2>&1
+      fi
+    fi
+  done
+fi
+
+# Update GPG_TTY
 export GPG_TTY=$(/usr/bin/tty)
 
 # https://gnunn1.github.io/tilix-web/manual/vteconfig/
@@ -143,11 +153,11 @@ if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
   fi
 fi
 
-# Path to the bash it configuration
+# Path to the Bash-it configuration
 export BASH_IT="${HOME}/.bash_it"
 
 # Lock and Load a custom theme file
-# location /.bash_it/themes/
+# location ~/.bash_it/themes/
 export BASH_IT_THEME='powerline-plain'
 
 # Don't check mail when opening terminal.
