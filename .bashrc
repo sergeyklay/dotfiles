@@ -126,12 +126,7 @@ fi
 
 # auto add ssh key to ssh-agent
 if [ -z "${SSH_AUTH_SOCK}" ]; then
-  if [ ! -S $HOME/.ssh/ssh_auth_sock ]; then
-      eval `ssh-agent -s`
-      ln -s "${SSH_AUTH_SOCK}" $HOME/.ssh/ssh_auth_sock
-  fi
-
-  export SSH_AUTH_SOCK=$HOME/.ssh/ssh_auth_sock
+  eval `ssh-agent -s`
 fi
 
 # ssh-add -l >/dev/null || ssh-add >/dev/null
