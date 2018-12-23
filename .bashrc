@@ -124,13 +124,34 @@ if [ -f /etc/bash_completion.d/docker-compose ]; then
   . /etc/bash_completion.d/docker-compose
 fi
 
-# auto add ssh key to ssh-agent
-if [ -z "${SSH_AUTH_SOCK}" ]; then
-  eval `ssh-agent -s`
+export SSH_AGENT_CONFIG="$HOME/.ssh_agent_session"
+if [[ -e "$SSH_AGENT_CONFIG" ]]; then
+  . "$SSH_AGENT_CONFIG" > /dev/null
 fi
 
-# ssh-add -l >/dev/null || ssh-add >/dev/null
-if [ -n $(ssh-add -l >/dev/null) ]; then
+# start `ssh-agent'
+# `ssh-add' returns 2 if it can not connect to the authentication agent.
+if [[ -z "$SSH_AUTH_SOCK" ]] || \
+  { ssh-add -l > /dev/null 2>&1; test $? -eq 2; }; then
+  SSH_AGENT_DATA="$(ssh-agent -s)"
+  UMASK_SAVE="$(umask -p)"
+  umask 077
+  echo "$SSH_AGENT_DATA" >| "$SSH_AGENT_CONFIG"
+  $UMASK_SAVE
+  eval $SSH_AGENT_DATA > /dev/null
+
+  unset SSH_AGENT_DATA UMASK_SAVE
+fi
+
+[[ -n "$INSIDE_EMACS" && -n "$SSH_AUTH_SOCK" && -n "$SSH_AGENT_PID" ]] && \
+  type -t esetenv > /dev/null 2>&1 && \
+  esetenv SSH_AUTH_SOCK SSH_AGENT_PID
+
+echo Agent pid $SSH_AGENT_PID
+
+# auto add ssh key to `ssh-agent'
+# `ssh-add' returns 1 if there is no keys.
+if { ssh-add -l > /dev/null 2>&1; test $? -eq 1; }; then
   for possiblekey in ${HOME}/.ssh/*; do
     if [ ! -S "$possiblekey" ]; then
       if grep -q PRIVATE "$possiblekey"; then
