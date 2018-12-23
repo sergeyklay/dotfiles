@@ -153,10 +153,8 @@ echo Agent pid $SSH_AGENT_PID
 # `ssh-add' returns 1 if there is no keys.
 if { ssh-add -l > /dev/null 2>&1; test $? -eq 1; }; then
   for possiblekey in ${HOME}/.ssh/*; do
-    if [ ! -S "$possiblekey" ]; then
-      if grep -q PRIVATE "$possiblekey"; then
-        ssh-add "$possiblekey" >/dev/null 2>&1
-      fi
+    if grep -q PRIVATE "$possiblekey"; then
+      ssh-add "$possiblekey" >/dev/null 2>&1
     fi
   done
 fi
