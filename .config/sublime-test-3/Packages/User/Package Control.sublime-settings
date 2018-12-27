@@ -1,0 +1,33 @@
+{
+	"bootstrapped": true,
+	"downloader_precedence":
+	{
+		"linux":
+		[
+			"curl",
+			"urllib",
+			"wget"
+		]
+	},
+	"in_process_packages":
+	[
+		"GitGutter",
+		"Guna"
+	],
+	"installed_packages":
+	[
+		"A File Icon",
+		"Autotools",
+		"Bison",
+		"CMake",
+		"CMakeFormat",
+		"Dockerfile Syntax Highlighting",
+		"EditorConfig",
+		"GitGutter",
+		"Guna",
+		"Kubernetes Manifest autocomplete",
+		"nginx",
+		"Package Control",
+		"Zephir"
+	]
+}
