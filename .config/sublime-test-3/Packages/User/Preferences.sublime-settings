@@ -4,7 +4,7 @@
 	"font_size": 10,
 	"ignored_packages":
 	[
-		"GitGutter",
+		"CMake",
 		"Guna",
 		"Vintage"
 	],
