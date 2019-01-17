@@ -63,4 +63,6 @@ function _psgrep
 
 alias psgrep="_psgrep"
 
+alias gpg="gpg --keyserver pgp.mit.edu"
+
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
