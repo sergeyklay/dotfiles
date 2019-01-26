@@ -71,6 +71,18 @@ if [ -d "/opt/phpstorm/bin" ]; then
   export PATH="/opt/phpstorm/bin:${PATH}"
 fi
 
+# Symlink from /opt/ghc/$GHCVER/bin
+# add-apt-repository -y ppa:hvr/ghc
+if [ -d "/opt/ghc/bin" ]; then
+  export PATH="/opt/ghc/bin:${PATH}"
+fi
+
+# Symlink from /opt/cabal/$CABALVER/bin
+# add-apt-repository -y ppa:hvr/ghc
+if [ -d "/opt/cabal/bin" ]; then
+  export PATH="/opt/cabal/bin:${PATH}"
+fi
+
 # Enable phpenv
 if [ -d "${HOME}/.phpenv" ]; then
   export PHPENV_ROOT="${HOME}/.phpenv"
