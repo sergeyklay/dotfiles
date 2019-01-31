@@ -83,6 +83,17 @@ if [ -d "/opt/cabal/bin" ]; then
   export PATH="/opt/cabal/bin:${PATH}"
 fi
 
+# add-apt-repository -y ppa:hvr/ghc
+if [ -d "/opt/ghc-ppa-tools/bin" ]; then
+  export PATH="/opt/ghc-ppa-tools/bin:${PATH}"
+fi
+
+# hlint
+# https://github.com/ndmitchell/hlint
+if [ -d "${HOME}/.hlint" ]; then
+  export PATH="${HOME}/.hlint:${PATH}"
+fi
+
 # Enable phpenv
 if [ -d "${HOME}/.phpenv" ]; then
   export PHPENV_ROOT="${HOME}/.phpenv"
