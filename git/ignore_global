@@ -47,6 +47,7 @@ nbproject
 *.sublime-project
 *.sublime-workspace
 cmake-build-debug
+.gdb_history
 
 .php-version
 .ruby-version
