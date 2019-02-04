@@ -94,6 +94,11 @@ if [ -d "${HOME}/.hlint" ]; then
   export PATH="${HOME}/.hlint:${PATH}"
 fi
 
+# Cabal
+if [ -d "${HOME}/.cabal/bin" ]; then
+  export PATH="${HOME}/.cabal/bin:${PATH}"
+fi
+
 # Enable phpenv
 if [ -d "${HOME}/.phpenv" ]; then
   export PHPENV_ROOT="${HOME}/.phpenv"
