@@ -1,0 +1,109 @@
+! https://wiki.archlinux.org/index.php/X_resources
+! https://wiki.archlinux.org/index.php/rxvt-unicode
+
+!---------!
+! General !
+!---------!
+
+! Fonts
+! *.dpi: 96 ! Disabled, respecting Xserver dpi config
+Xft.antialias: true
+
+! Cursor
+Xcursor.theme: Adwaita
+Xcursor.size: 28
+
+! Colors
+#define black3  #002b36
+#define black2  #073642
+#define black1  #586e75
+#define black0  #657b83
+#define black   #839496
+#define white1  #93a1a1
+#define white2  #eee8d5
+#define white3  #fdf6e3
+
+#define yellow  #b58900
+#define orange  #cb4b16
+#define red     #dc322f
+#define magenta #d33682
+#define violet  #6c71c4
+#define blue    #268bd2
+#define cyan    #2aa198
+#define green   #859900
+
+!-------!
+! Xterm !
+!-------!
+
+xterm*faceName: Fira Code
+xterm*faceSize: 11
+
+!-------!
+! URxvt !
+!-------!
+
+! Fonts
+URxvt.font: xft:Input Mono:size=10,style=medium:antialias=true
+URxvt.boldFont: xft:Input Mono:size=10,style=medium:antialias=true
+URxvt.italicFont: xft:Input Mono:size=10,style=medium:antialias=true
+URxvt.boldItalicFont: xft:Input Mono:size=10,style=medium:antialias=true
+URxvt.letterSpace: -1
+
+! UI
+URxvt*borderless: true
+URxvt.internalBorder: 10
+URxvt*scrollBar: false
+URxvt*scrollBar_right: false
+URxvt*scrollBar_left: false
+URxvt*saveLines: 10000000
+URxvt*dynamicColors: true
+URxvt*termName: rxvt-unicode
+URxvt*fading: 10
+
+! Common
+URxvt.loginShell: true
+URxvt.iso14755: true
+URxvt*imLocale: en_US.UTF-8
+
+! Colors
+URxvt.depth: 32
+URxvt.intensityStyles: false
+
+URxvt*background: [98]black3
+URxvt*foreground: black
+URxvt*fadeColor: [98]black3
+URxvt*cursorColor: white1
+URxvt*pointerColorBackground: black1
+URxvt*pointerColorForeground: white1
+
+URxvt*color0: black2
+URxvt*color1: red
+URxvt*color2: green
+URxvt*color3: yellow
+URxvt*color4: blue
+URxvt*color5: magenta
+URxvt*color6: cyan
+URxvt*color7: white2
+URxvt*color8: black3
+URxvt*color9: orange
+URxvt*color10: black1
+URxvt*color11: black0
+URxvt*color12: black
+URxvt*color13: violet
+URxvt*color14: white1
+URxvt*color15: white3
+
+! Extensions
+URxvt.perl-ext:
+URxvt.perl-ext-common:
+
+! Key bindings
+URxvt.keysym.Control-Insert: eval:selection_to_clipboard
+URxvt.keysym.Shift-Insert: eval:paste_clipboard
+
+!--------------!
+! Xscreensaver !
+!--------------!
+
+xscreensaver.logFile: ~/log/xscreensaver.log
