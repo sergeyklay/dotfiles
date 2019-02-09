@@ -42,7 +42,6 @@ This function should only modify configuration layer settings."
      auto-completion
      better-defaults
      c-c++
-     common-lisp
      docker
      elixir
      emacs-lisp
@@ -425,7 +424,7 @@ It should only modify the values of Spacemacs settings."
    ;; %z - mnemonics of buffer, terminal, and keyboard coding systems
    ;; %Z - like %z, but including the end-of-line format
    ;; (default "%I@%S")
-   dotspacemacs-frame-title-format "%I@%S"
+   dotspacemacs-frame-title-format "%a [%t]"
 
    ;; Format specification for setting the icon title format
    ;; (default nil - same as frame-title-format)
@@ -457,27 +456,34 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq custom-file (expand-file-name "custom.el" user-home-directory))
 
   ;; https://github.com/syl20bnr/spacemacs/issues/3920
-  (setq exec-path-from-shell-arguments '("-l")))
+  (setq exec-path-from-shell-arguments '("-l"))
 
-(defun dotspacemacs/user-config ()  "Configuration for user code:
+  ;; Local packages:
+  (add-to-list 'load-path "~/.emacs.d/private/local/packages")
+  ;; (require 'pkg-name)
+  )
+
+(defun dotspacemacs/user-config ()
+  "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  ;; Highlighting certain words
   (defun highlight-todos ()
     (font-lock-add-keywords nil '(("\\<\\(NOTE\\|TODO\\|HACK\\|BUG\\):" 1 font-lock-warning-face t))))
-
-  (add-hook 'text-mode-hook 'highlight-todos)
   (add-hook 'prog-mode-hook 'highlight-todos)
+  (add-hook 'text-mode-hook 'highlight-todos)
+
   ;; Add personal script path, so that "require" works for personal scripts.
   (push "~/.spacemacs.d/config/" load-path)
-  
+
   ;; Global theme
   (spacemacs/load-theme 'spacemacs-dark)
-  
+
   ;; Setting up the REPL alias
   (defalias 'repl 'ielm)
-  
+
   ;; Lastly, load  custom-file (but only if the file exists).
   (when (file-exists-p custom-file)
     (load-file custom-file)))
