@@ -158,4 +158,4 @@ bar {
 
 # https://superuser.com/questions/1147320/how-to-change-keyboard-layout-in-i3
 exec "setxkbmap -layout us,ru"
-exec "setxkbmap -option 'grp:alt_shift_toggle'"
+exec "setxkbmap -option 'grp:alt_shift_toggle,grp_led:caps'"
