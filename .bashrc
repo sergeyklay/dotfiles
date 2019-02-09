@@ -163,30 +163,6 @@ if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
   fi
 fi
 
-# Path to the Bash-it configuration
-export BASH_IT="${HOME}/.bash_it"
-
-# Lock and Load a custom theme file
-# location ~/.bash_it/themes/
-export BASH_IT_THEME='powerline-plain'
-
-# Don't check mail when opening terminal.
-unset MAILCHECK
-
-# Change this to your console based IRC client of choice.
-export IRC_CLIENT='irssi'
-
-# Set this to the command you use for todo.txt-cli
-export TODO="t"
-
-# Set this to false to turn off version control status checking within the prompt for all themes
-export SCM_CHECK=true
-
-# Load Bash It
-if [ -n "${BASH_IT}" ] && [ -f "${BASH_IT}/bash_it.sh" ]; then
-  source "${BASH_IT}/bash_it.sh"
-fi
-
 # Enabling kubernetes shell autocompletion
 command -v kubectl >/dev/null 2>&1 && source <(kubectl completion bash)
 
