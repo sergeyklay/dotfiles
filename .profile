@@ -4,6 +4,9 @@
 # Bash profile
 #
 
+setxkbmap -layout us,ru
+setxkbmap -option 'grp:caps_toggle,grp_led:caps'
+
 # include .bashrc if it exists
 if [ -n "$BASH_VERSION" ]; then
   if [ -f "$HOME/.bashrc" ]; then
