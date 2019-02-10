@@ -10,6 +10,8 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
+set $alt Mod1
+set $control control
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -155,7 +157,3 @@ bar {
         status_command i3status
         tray_output primary
 }
-
-# https://superuser.com/questions/1147320/how-to-change-keyboard-layout-in-i3
-exec "setxkbmap -layout us,ru"
-exec "setxkbmap -option 'grp:caps_toggle,grp_led:caps'"
