@@ -2,29 +2,40 @@
 	name = Serghei Iakovlev
 	email = serghei@phalconphp.com
 	signingkey = DC898A5F
+
 [core]
 	autocrlf = false
 	safecrlf = true
 	whitespace = trailing-space,space-before-tab,indent-with-non-tab
-	pager = diff-so-fancy | less --tabs=4 -RFX
+	pager = "less -R"
 	excludesfile = ~/git/ignore_global
 	editor = "vim"
+
 [difftool]
 	prompt = false
+
 [merge]
 	stat = true
+
 [mergetool]
 	prompt = false
+
 [color]
 	status = auto
 	branch = auto
 	interactive = auto
 	diff = auto
-	ui = true
+	ui = auto
+	grep = auto
+	decorate = auto
+	showbranch = auto
+	pager = true
+
 [color "branch"]
 	current = yellow reverse
 	local = yellow
 	remote = green
+
 [color "diff"]
 	meta = 227
 	frag = magenta bold
@@ -32,10 +43,12 @@
 	new = green bold
 	whitespace = red reverse
 	commit = 227 bold
+
 [color "status"]
 	added = yellow
 	changed = green
 	untracked = cyan
+
 [alias]
 	hist = log --graph --decorate --pretty=format:\"%Cred%h%Creset | %Cgreen%ad%Creset | %s%d [%C(yellow)%an%Creset]\" --graph --date=local
 	type = cat-file -t
@@ -72,24 +85,29 @@
 	patch = !git --no-pager diff --no-color
 	ba = "!for branch in `git branch -r | grep -v HEAD`; do echo `git show --pretty=format:\"%C(green)%cn%Creset %Cblue %ar %>|(80) %Creset\" $branch | head -n 1` $branch; done | sort -r"
 	pf = "!branch=`git rev-parse --abbrev-ref HEAD -- | head -n 1` && git stash && git checkout master && git fetch --all && git rebase origin/master && git branch -D $branch && git stash pop"
+
 [url "git://github.com/"]
 	insteadOf = github:
+
 [url "git@github.com:sergeyklay/"]
 	insteadOf = klay:
+
 [push]
 	default = simple
+
 [commit]
 	template = ~/git/message.txt
+
 [filter "lfs"]
 	required = true
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
+
 [fetch]
 	prune = true
+
 [color "diff-highlight"]
 	oldNormal = red bold
 	oldHighlight = red bold 52
 	newNormal = green bold
 	newHighlight = green bold 22
-[diff-so-fancy]
-	markEmptyLines = true
