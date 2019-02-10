@@ -91,8 +91,7 @@ if [ $(which dircolors) ]; then
 fi
 
 if [ "$colors_support" = true ]; then
-  # config for mc skins. 256 colors support
-  export TERM=xterm-256color
+  export TERM=rxvt-unicode
 
   # colorize prompt
   PS1="\[\033[1;32m\]$\[\033[00m\] \w "
