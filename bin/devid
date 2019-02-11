@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Device ID printer.
+# I use it to configure my udev.
+
+for DEVICE in /dev/input/by-id/*; do
+    echo $(basename $DEVICE)
+
+    DEVID=$(basename $(readlink $DEVICE))
+    printf "evdev:input:b%sv%sp%se%s*\n\n" \
+           `cat /sys/class/input/$DEVID/device/id/bustype` \
+           `cat /sys/class/input/$DEVID/device/id/vendor` \
+           `cat /sys/class/input/$DEVID/device/id/product` \
+           `cat /sys/class/input/$DEVID/device/id/version`
+done
