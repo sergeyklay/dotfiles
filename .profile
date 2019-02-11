@@ -70,10 +70,6 @@ if [ -d "$HOME/go" ]; then
   fi
 fi
 
-if [ -d "/opt/phpstorm/bin" ]; then
-  export PATH="/opt/phpstorm/bin:${PATH}"
-fi
-
 # Symlink from /opt/ghc/$GHCVER/bin
 # add-apt-repository -y ppa:hvr/ghc
 if [ -d "/opt/ghc/bin" ]; then
