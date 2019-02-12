@@ -25,10 +25,13 @@ xterm*faceSize: 11
 !-------!
 
 ! Fonts
-URxvt.font: xft:Input Mono:size=10,style=medium:antialias=true:hinting=true
-URxvt.boldFont: xft:Input Mono:size=10,style=medium:antialias=true:hinting=true
-URxvt.italicFont: xft:Input Mono:size=10,style=medium:antialias=true:hinting=true
-URxvt.boldItalicFont: xft:Input Mono:size=10,style=medium:antialias=true:hinting=true
+! According to the manual, setting URxvt.<style>Font to empty will
+! disable the <style> (bold, italic, boldItalic) font, and uses
+! regular font instead. This is the preferred way I think.
+URxvt.font: xft:Fira Code:size=11:antialias=true:hinting=true
+URxvt.boldFont:
+URxvt.italicFont:
+URxvt.boldItalicFont:
 URxvt.letterSpace: -1
 
 ! UI
