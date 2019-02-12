@@ -96,6 +96,6 @@ URxvt.keysym.M-Delete: matcher:list
 ! Xscreensaver !
 !--------------!
 
-xscreensaver.logFile: ~/log/xscreensaver.log
+xscreensaver.logFile: /home/klay/log/xscreensaver.log
 xscreensaver.fade: false
 xscreensaver.unfade: false
