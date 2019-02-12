@@ -3,7 +3,7 @@
 # Device ID printer.
 # I use it to configure my udev.
 
-for DEVICE in /dev/input/by-id/*; do
+for DEVICE in /dev/input/by-path/*; do
     echo $(basename $DEVICE)
 
     DEVID=$(basename $(readlink $DEVICE))
