@@ -4,8 +4,16 @@
 # Bash profile
 #
 
-setxkbmap -layout us,ru
-setxkbmap -option 'grp:caps_toggle,grp_led:caps'
+# See ~/.Xresources
+if [ -x "$(command -v xscreensaver 2>/dev/null)" ]; then
+    if [ ! -d "${HOME}/log" ]; then
+        mkdir -p "${HOME}/log"
+    fi
+
+    if [ ! -f "${HOME}/log/xscreensaver.log" ]; then
+        touch "${HOME}/log/xscreensaver.log"
+    fi
+fi
 
 # include .bashrc if it exists
 if [ -n "$BASH_VERSION" ]; then
