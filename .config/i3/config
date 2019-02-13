@@ -134,6 +134,13 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
 # Touchpad controls
 # See: https://github.com/sergeyklay/dotfiles/blob/master/bin/toggletouchpad
 bindsym XF86TouchpadToggle exec toggletouchpad
+bindsym XF86TouchpadOn exec --no-startup-id synclient TouchpadOff=0
+bindsym XF86TouchpadOff exec --no-startup-id synclient TouchpadOff=1
+
+# Microphone control
+# My BIOS has some bugs, for example, XF86Phone key is not recognized as pressed.
+# However, I do not want to upgrade the BIOS firmware provided by the manufacturer.
+# bindsym XF86Phone exec amixer set Capture toggle
 
 # Screen brightness controls
 # See: https://github.com/haikarainen/light
