@@ -3,7 +3,6 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
-set $alt Mod1
 
 # Font for window titles.
 # Will also be used by the bar unless a different font is used in the bar {}
@@ -13,23 +12,28 @@ set $alt Mod1
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 font pango:DejaVu Sans Mono 10
 
-# Use Mouse+$mod to drag floating windows to their wanted position
+# Use Mouse+$mod to drag floating windows to their wanted position.
 floating_modifier $mod
 
-# start a terminal
+# Start a terminal (urxvt).
 bindsym $mod+Return exec i3-sensible-terminal
 
-# kill focused window
+# Kill the focused window.
 bindsym $mod+Shift+q kill
 
-# start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
-# There also is the (new) i3-dmenu-desktop which only displays applications
+# A window switcher, Application launcher and dmenu replacement
+# See: https://github.com/DaveDavenport/rofi
+bindsym $mod+d exec rofi -show run
+#
+# There is also a simple start dmenu (a program launcher)
+# bindsym $mod+d exec dmenu_run
+#
+# Finally, there is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
-# change focus
+# Changing the focus
 bindsym $mod+j focus left
 bindsym $mod+k focus down
 bindsym $mod+l focus up
@@ -112,9 +116,6 @@ bindsym $mod+Shift+r restart
 # Exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
-# A launcher similar to dmenu
-bindsym $alt+space exec rofi -show run
-
 # Pulse Audio controls
 # See: https://github.com/acrisci/playerctl
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
@@ -171,3 +172,9 @@ bar {
     status_command i3status
     tray_output primary
 }
+
+exec feh --bg-scale ~/Pictures/Wallpapers/Black-Metallic-Wallpaper-1.jpg
+
+# Local Variables:
+# require-final-newline: t
+# End:
