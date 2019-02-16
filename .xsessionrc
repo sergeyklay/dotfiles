@@ -1,19 +1,15 @@
 #!/bin/sh
-
+#
 # Ubuntu (and most likely Debian) uses this file instead of `.xinitrc' one
+# Currently I don't call startx or i3wm here because it is handled by my Ubuntu
 
 # Update X resources db.
-[[ -f ~/.Xresources ]] && xrdb -merge -I$HOME "${HOME}/.Xresources"
-
-# I use CapsLock to switch keyboard layout
-setxkbmap \
-    -model "pc105" \
-    -layout "us,ru" \
-    -variant ",winkeys" \
-    -option "grp:caps_toggle,grp_led:caps,compose:ralt,terminate:ctrl_alt_bksp" &
+[[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 
 # starts screensaver daemon
 xscreensaver -no-splash &
+
+feh --bg-scale ~/Pictures/Wallpapers/Black-Metallic-Wallpaper-1.jpg
 
 # sets the cursor icon
 xsetroot -cursor_name left_ptr &
