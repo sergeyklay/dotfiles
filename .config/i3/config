@@ -3,6 +3,7 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
+set $alt Mod1
 
 # Font for window titles.
 # Will also be used by the bar unless a different font is used in the bar {}
@@ -71,11 +72,11 @@ bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
-# toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+# Toggle tiling / floating.
+bindsym $alt+Shift+space floating toggle
 
-# change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+# Change focus between tiling / floating windows.
+bindsym $alt+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -172,8 +173,6 @@ bar {
     status_command i3status
     tray_output primary
 }
-
-exec feh --bg-scale ~/Pictures/Wallpapers/Black-Metallic-Wallpaper-1.jpg
 
 # Local Variables:
 # require-final-newline: t
