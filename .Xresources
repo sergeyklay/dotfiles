@@ -86,7 +86,7 @@ URxvt*color15: #eeeeec
 URxvt.perl-ext:
 URxvt.perl-ext-common: default,matcher
 
-URxvt.matcher.button: 2
+URxvt.matcher.button: 1
 
 ! Key bindings
 URxvt.keysym.Control-Insert: eval:selection_to_clipboard
