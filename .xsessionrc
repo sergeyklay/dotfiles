@@ -16,3 +16,6 @@ xsetroot -cursor_name left_ptr &
 
 # urxvt daemon
 urxvtd -q -f -o &
+
+# dropbox daemon
+dropbox start &
