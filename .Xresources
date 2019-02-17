@@ -17,7 +17,7 @@ Xcursor.size: 28
 ! Xterm !
 !-------!
 
-xterm*faceName: Fira Code
+xterm*faceName: Source Code Pro
 xterm*faceSize: 11
 
 !-------!
@@ -28,7 +28,7 @@ xterm*faceSize: 11
 ! According to the manual, setting URxvt.<style>Font to empty will
 ! disable the <style> (bold, italic, boldItalic) font, and uses
 ! regular font instead. This is the preferred way I think.
-URxvt.font: xft:Fira Code:size=11:antialias=true:hinting=true
+URxvt.font: xft:Source Code Pro:size=11:antialias=true:hinting=true
 URxvt.boldFont:
 URxvt.italicFont:
 URxvt.boldItalicFont:
