@@ -1,0 +1,75 @@
+# i3blocks config file
+#
+# Please see man i3blocks for a complete reference!
+# The man page is also hosted at http://vivien.github.io/i3blocks
+#
+# List of valid properties:
+#
+# align
+# color
+# background
+# border
+# command
+# full_text
+# instance
+# interval
+# label
+# min_width
+# name
+# separator
+# separator_block_width
+# short_text
+# signal
+# urgent
+
+# Global properties
+#
+# The top properties below are applied to every block, but can be overridden.
+
+# Each block command defaults to the script name to avoid boilerplate.
+command=~/.config/i3blocks/scripts/$BLOCK_NAME
+
+separator_block_width=15
+markup=pango
+
+[wifi]
+label=
+separator=true
+interval=3
+
+[volume]
+label=♪
+interval=1
+command=amixer get Master | egrep -o "[0-9]+%"
+signal=1
+separator=true
+
+[cpu]
+label=
+interval=10
+separator=true
+
+[temperature]
+command=T=$(cat /sys/class/thermal/thermal_zone0/temp); echo $(( $T / 1000 ))°C
+label=
+interval=10
+separator=true
+
+[battery]
+command=echo $(upower -i $(upower -e | grep BAT) | grep --color=never -E percentage|xargs|cut -d' ' -f2|sed s/%//)%
+label=
+interval=1
+separator=true
+
+[time]
+command=date '+%I:%M'
+interval=1
+separator=true
+
+[input_source]
+label=
+interval=1
+
+# Local Variables:
+# require-final-newline: t
+# End:
