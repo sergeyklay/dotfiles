@@ -34,37 +34,42 @@ markup=pango
 
 [wifi]
 label=
-separator=true
 interval=3
 
-[volume]
-label=♪
+[separator]
+
+[volume-pulseaudio]
 interval=1
-command=amixer get Master | egrep -o "[0-9]+%"
-signal=1
-separator=true
+color=#C9CCDB
+signal=2
+
+[separator]
 
 [cpu]
 label=
 interval=10
-separator=true
+
+[separator]
 
 [temperature]
 command=T=$(cat /sys/class/thermal/thermal_zone0/temp); echo $(( $T / 1000 ))°C
 label=
 interval=10
-separator=true
+
+[separator]
 
 [battery]
 command=echo $(upower -i $(upower -e | grep BAT) | grep --color=never -E percentage|xargs|cut -d' ' -f2|sed s/%//)%
 label=
 interval=1
-separator=true
+
+[separator]
 
 [time]
 command=date '+%I:%M'
 interval=1
-separator=true
+
+[separator]
 
 [input_source]
 label=
