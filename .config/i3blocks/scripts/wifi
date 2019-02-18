@@ -1,5 +1,0 @@
-#!/bin/bash
-
-iwgetid -r
-
-[[ -z "${BLOCK_BUTTON}" ]] || urxvt -e sh -c "nmcli d wifi list; printf '\n\n   Type the following to connect to a wireless network: \n\n   $ nmcli dev wifi connect <SSID>\n\n'; bash --norc"

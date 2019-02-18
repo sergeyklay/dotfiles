@@ -2,25 +2,6 @@
 #
 # Please see man i3blocks for a complete reference!
 # The man page is also hosted at http://vivien.github.io/i3blocks
-#
-# List of valid properties:
-#
-# align
-# color
-# background
-# border
-# command
-# full_text
-# instance
-# interval
-# label
-# min_width
-# name
-# separator
-# separator_block_width
-# short_text
-# signal
-# urgent
 
 # Global properties
 #
@@ -28,22 +9,36 @@
 
 # Each block command defaults to the script name to avoid boilerplate.
 command=~/.config/i3blocks/scripts/$BLOCK_NAME
+separator_block_width=14
 
-separator_block_width=15
-markup=pango
+[ssid]
+label=
+command=echo "$(iw dev wlp3s0 link | grep SSID | cut -d " " -f 2-)"
+interval=5
 
-[wifi]
-label=
-interval=3
+[wireless]
+instance=wlp3s0
+command=/usr/share/i3blocks/iface
+interval=10
+
+[strength]
+command=echo "$(iw dev wlp3s0 link | grep signal | cut -d " " -f 2-)"
+interval=10
 
 [separator]
 
-[volume-pulseaudio]
-interval=1
-color=#C9CCDB
-signal=2
+[volume]
+label=
+command=/usr/share/i3blocks/volume
+interval=2
+signal=10
 
 [separator]
+
+[load]
+label=
+command=/usr/share/i3blocks/load_average
+interval=10
 
 [cpu]
 label=
@@ -52,16 +47,14 @@ interval=10
 [separator]
 
 [temperature]
-command=T=$(cat /sys/class/thermal/thermal_zone0/temp); echo $(( $T / 1000 ))°C
 label=
+command=echo "$(sensors coretemp-isa-0000 | awk '/Package id 0/ {print $4}')"
 interval=10
 
 [separator]
 
 [battery]
-command=echo $(upower -i $(upower -e | grep BAT) | grep --color=never -E percentage|xargs|cut -d' ' -f2|sed s/%//)%
-label=
-interval=1
+interval=5
 
 [separator]
 
