@@ -9,21 +9,28 @@
 
 # Each block command defaults to the script name to avoid boilerplate.
 command=~/.config/i3blocks/scripts/$BLOCK_NAME
-separator_block_width=14
+full_text=|
+align=center
+color=#7780a1
+separator_block_width=10
+separator=false
 
 [ssid]
 label=
 command=echo "$(iw dev wlp3s0 link | grep SSID | cut -d " " -f 2-)"
 interval=5
+color=#C9CCDB
 
 [wireless]
 instance=wlp3s0
 command=/usr/share/i3blocks/iface
 interval=10
+color=#C9CCDB
 
 [strength]
 command=echo "$(iw dev wlp3s0 link | grep signal | cut -d " " -f 2-)"
 interval=10
+color=#C9CCDB
 
 [separator]
 
@@ -32,6 +39,7 @@ label=
 command=/usr/share/i3blocks/volume
 interval=2
 signal=10
+color=#C9CCDB
 
 [separator]
 
@@ -39,10 +47,12 @@ signal=10
 label=
 command=/usr/share/i3blocks/load_average
 interval=10
+color=#C9CCDB
 
 [cpu]
 label=
 interval=10
+color=#C9CCDB
 
 [separator]
 
@@ -50,23 +60,27 @@ interval=10
 label=
 command=echo "$(sensors coretemp-isa-0000 | awk '/Package id 0/ {print $4}')"
 interval=10
+color=#C9CCDB
 
 [separator]
 
 [battery]
 interval=5
+color=#C9CCDB
 
 [separator]
 
 [time]
 command=date '+%I:%M'
 interval=1
+color=#C9CCDB
 
 [separator]
 
 [input_source]
 label=
 interval=1
+color=#C9CCDB
 
 # Local Variables:
 # require-final-newline: t
