@@ -185,6 +185,9 @@ bar {
     tray_output primary
 }
 
+# Assign program classes to workspaces
+for_window [class="Slack"] move to workspace $workspace9
+
 # Local Variables:
 # require-final-newline: t
 # End:
