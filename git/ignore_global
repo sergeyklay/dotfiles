@@ -40,14 +40,15 @@
 ehthumbs.db
 Thumbs.db
 
-# Ignore IDE specific dirs #
-############################
+# Ignore IDE specific dirs & files #
+###################################
 .idea
 nbproject
 *.sublime-project
 *.sublime-workspace
 cmake-build-debug
 .gdb_history
+.ac-php-conf.json
 
 .php-version
 .ruby-version
