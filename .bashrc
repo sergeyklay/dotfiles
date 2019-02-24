@@ -57,6 +57,9 @@ export XDG_CACHE_HOME=$HOME/.cache
 # user-specific runtime files should be placed relative to this directory
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
+# See: https://stackoverflow.com/a/27965014/1661465
+export XDG_STATE_HOME=$HOME/.local/state
+
 # some defaults
 export EDITOR="vim"
 
