@@ -130,7 +130,7 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 # Pulse Audio controls
 # See: man 1 pactl
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% && pkill -RTMIN+1 i3blocks
-bindsym XF86AudioLowerVolumie exec --no-startup-id pactl set-sink-volume 0 -5% && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle && pkill -RTMIN+1 i3blocks
 
 # Touchpad controls
@@ -186,7 +186,9 @@ bar {
 }
 
 # Assign program classes to workspaces
+for_window [class="jetbrains-phpstorm"] move to workspace $workspace5
 for_window [class="Slack"] move to workspace $workspace9
+for_window [class="discord"] move to workspace $workspace9
 
 # Local Variables:
 # require-final-newline: t

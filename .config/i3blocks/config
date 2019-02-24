@@ -37,7 +37,7 @@ color=#C9CCDB
 [volume]
 label=
 command=/usr/share/i3blocks/volume
-interval=2
+interval=1
 signal=10
 color=#C9CCDB
 
