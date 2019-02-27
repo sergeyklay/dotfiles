@@ -10,7 +10,7 @@ some scripts may work as Zsh accepts Bash interpreter.
 
 ## Links
 
-Other projects that I also support are:
+Other projects I also support are:
 
 - [spacemacs-config](https://github.com/sergeyklay/spacemacs-config) -
   Personal config file, private layer, notes and any other resources
