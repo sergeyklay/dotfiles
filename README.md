@@ -14,7 +14,7 @@ Other projects I also support are:
 
 - [spacemacs-config](https://github.com/sergeyklay/spacemacs-config) -
   Personal config file, private layer, notes and any other resources
-  for the [Spacemacs](https://spacemacs.org/)
+  for the [Spacemacs](http://spacemacs.org/)
 - [vimfiles](https://github.com/sergeyklay/vimfiles) - My Vim setup
 
 ## License
