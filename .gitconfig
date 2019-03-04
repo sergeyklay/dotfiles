@@ -1,3 +1,5 @@
+# -*- gitconfig -*-
+#
 [user]
 	name = Serghei Iakovlev
 	email = serghei@phalconphp.com
@@ -9,7 +11,7 @@
 	whitespace = trailing-space,space-before-tab,indent-with-non-tab
 	pager = "less -R -F"
 	excludesfile = ~/git/ignore_global
-	editor = "vim"
+	editor = "emacs -nw"
 
 [difftool]
 	prompt = false
