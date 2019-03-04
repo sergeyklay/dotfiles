@@ -106,6 +106,11 @@ if [ -d "${HOME}/.cabal/bin" ]; then
   export PATH="${HOME}/.cabal/bin:${PATH}"
 fi
 
+# Cask
+if [ -d "${HOME}/.cask/bin" ]; then
+    export PATH="${HOME}/.cask/bin:${PATH}"
+fi
+
 # Enable phpenv
 if [ -d "${HOME}/.phpenv" ]; then
   export PHPENV_ROOT="${HOME}/.phpenv"
