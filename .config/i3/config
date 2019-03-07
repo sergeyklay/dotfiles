@@ -1,36 +1,12 @@
-# i3 config file (v4)
-#
-# Please see http://i3wm.org/docs/userguide.html for a complete reference!
-
 set $mod Mod4
 set $alt Mod1
 
-# Font for window titles.
-# Will also be used by the bar unless a different font is used in the bar {}
-# block below.
-# See: https://github.com/supermarin/YosemiteSanFranciscoFont
 font pango:SFNS Display 9
-
-# Use Mouse+$mod to drag floating windows to their wanted position.
 floating_modifier $mod
 
-# Start a terminal (urxvt).
 bindsym $mod+Return exec i3-sensible-terminal
-
-# Kill the focused window.
 bindsym $mod+Shift+q kill
-
-# A window switcher, Application launcher and dmenu replacement
-# See: https://github.com/DaveDavenport/rofi
 bindsym $mod+d exec rofi -show run
-#
-# There is also a simple start dmenu (a program launcher)
-# bindsym $mod+d exec dmenu_run
-#
-# Finally, there is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # Changing the focus
 bindsym $mod+j focus left
@@ -38,34 +14,36 @@ bindsym $mod+k focus down
 bindsym $mod+l focus up
 bindsym $mod+semicolon focus right
 
-# alternatively, you can use the cursor keys:
+bindsym $mod+grave exec i3-sensible-terminal
+
+# Alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
-# move focused window
+# Move focused window
 bindsym $mod+Shift+j move left
 bindsym $mod+Shift+k move down
 bindsym $mod+Shift+l move up
 bindsym $mod+Shift+semicolon move right
 
-# alternatively, you can use the cursor keys:
+# Alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-# split in horizontal orientation
+# Split in horizontal orientation
 bindsym $mod+h split h
 
-# split in vertical orientation
+# Split in vertical orientation
 bindsym $mod+v split v
 
-# enter fullscreen mode for the focused container
+# Enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
-# change container layout (stacked, tabbed, toggle split)
+# Change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
@@ -76,13 +54,13 @@ bindsym $alt+Shift+space floating toggle
 # Change focus between tiling / floating windows.
 bindsym $alt+space focus mode_toggle
 
-# focus the parent container
+# Focus the parent container
 bindsym $mod+a focus parent
 
-# focus the child container
+# Focus the child container
 # bindsym $mod+d focus child
 
-# name workspaces
+# Workspace names
 set $workspace1 "1 "
 set $workspace2 "2 "
 set $workspace3 "3 "
@@ -94,7 +72,7 @@ set $workspace8 "8 "
 set $workspace9 "9 "
 set $workspace10 "10 "
 
-# switch to workspace
+# Switch to workspace
 bindsym $mod+1 workspace $workspace1
 bindsym $mod+2 workspace $workspace2
 bindsym $mod+3 workspace $workspace3
@@ -106,7 +84,7 @@ bindsym $mod+8 workspace $workspace8
 bindsym $mod+9 workspace $workspace9
 bindsym $mod+0 workspace $workspace10
 
-# move focused container to workspace
+# Move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $workspace1
 bindsym $mod+Shift+2 move container to workspace $workspace2
 bindsym $mod+Shift+3 move container to workspace $workspace3
@@ -118,10 +96,10 @@ bindsym $mod+Shift+8 move container to workspace $workspace8
 bindsym $mod+Shift+9 move container to workspace $workspace9
 bindsym $mod+Shift+0 move container to workspace $workspace10
 
-# reload the configuration file
+# Reload the configuration file
 bindsym $mod+Shift+c reload
 
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+# Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 
 # Exit i3 (logs you out of your X session)
@@ -150,7 +128,7 @@ bindsym XF86TouchpadOff exec --no-startup-id synclient TouchpadOff=1
 bindsym XF86MonBrightnessUp exec light -A 10
 bindsym XF86MonBrightnessDown exec light -U 10
 
-# resize window (you can also use the mouse for that)
+# Resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
 
@@ -176,8 +154,6 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
 bar {
     font pango:FontAwesome 10
     position top
@@ -185,10 +161,15 @@ bar {
     tray_output primary
 }
 
-# Assign program classes to workspaces
+for_window [class="Shutter"] floating enable
+for_window [class="Shutter"] resize set 800 680
+
 for_window [class="jetbrains-phpstorm"] move to workspace $workspace5
 for_window [class="Slack"] move to workspace $workspace9
 for_window [class="discord"] move to workspace $workspace9
+
+for_window [class="URxvt"] border pixel 1
+for_window [class="Emacs"] border pixel 1
 
 # Local Variables:
 # require-final-newline: t
