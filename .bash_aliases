@@ -35,15 +35,6 @@ alias xup="xrdb ~/.Xresources"
 alias dc="docker-compose"
 alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Status}}'"
 
-# Function to deal with the annoying sublime errors
-# Send annoying .output logs to /dev/null
-function _sblm
-{
-  nohup subl $1 >/dev/null 2>&1 &
-}
-
-alias subl="_sblm"
-
 # Add an "alert" alias for long running commands.
 # Use like so:
 #   sleep 10; alert
