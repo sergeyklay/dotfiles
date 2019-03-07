@@ -11,7 +11,8 @@
 	whitespace = trailing-space,space-before-tab,indent-with-non-tab
 	pager = "less -R -F"
 	excludesfile = ~/git/ignore_global
-	editor = "emacs -nw"
+        # See: https://github.com/sergeyklay/dotfiles/blob/master/bin/em
+	editor = "em"
 
 [difftool]
 	prompt = false
