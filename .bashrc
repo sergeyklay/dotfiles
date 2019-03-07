@@ -60,8 +60,8 @@ export XDG_RUNTIME_DIR=/run/user/$(id -u)
 # See: https://stackoverflow.com/a/27965014/1661465
 export XDG_STATE_HOME=$HOME/.local/state
 
-# some defaults
-export EDITOR="vim"
+# See: https://github.com/sergeyklay/dotfiles/blob/master/bin/em
+export EDITOR="em"
 
 # more for less
 export PAGER=less
