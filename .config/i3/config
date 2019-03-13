@@ -164,7 +164,6 @@ bar {
 for_window [class="Shutter"] floating enable
 for_window [class="Shutter"] resize set 800 680
 
-for_window [class="jetbrains-phpstorm"] move to workspace $workspace5
 for_window [class="Slack"] move to workspace $workspace9
 for_window [class="discord"] move to workspace $workspace9
 
