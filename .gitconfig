@@ -14,14 +14,55 @@
         # See: https://github.com/sergeyklay/dotfiles/blob/master/bin/em
 	editor = "em"
 
-[difftool]
-	prompt = false
+[push]
+	default = simple
+
+[commit]
+	template = ~/git/message.txt
+        gpgsign = true
+
+[fetch]
+	prune = true
 
 [merge]
 	stat = true
 
 [mergetool]
 	prompt = false
+
+[difftool]
+	prompt = false
+
+[alias]
+	hist = log --graph --decorate --pretty=format:\"%Cred%h%Creset | %Cgreen%ad%Creset | %s%d [%C(yellow)%an%Creset]\" --graph --date=local
+	type = cat-file -t
+	dump = cat-file -p
+	rma = !git ls-files --deleted -z | xargs -0 --no-run-if-empty git rm
+	aliases = "!git config -l | grep alias | cut -c 7-"
+	br = branch
+	st = status
+	ss = status --short
+	sd = diff --stat
+	ci = commit
+	co = checkout
+	dc = diff --cached
+	rp = remote prune
+	rs = remote show
+	lg = log -p
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit
+	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	ls = ls-files
+	ign = ls-files -o -i --exclude-standard
+	lt = describe --tags --abbrev=0
+	save = !git stash save $(date "+%F_%T")
+	sf = show --pretty="format:" --name-only
+	ign = ls-files -o -i --exclude-standard
+	last = log -1 HEAD
+	mf = merge --no-ff
+	count = !~/bin/git-count
+	puhs = push
+	la = "!sh -c \"git diff $1..HEAD\" -"
+	patch = !git --no-pager diff --no-color
 
 [color]
 	status = auto
@@ -52,42 +93,11 @@
 	changed = green
 	untracked = cyan
 
-[alias]
-	hist = log --graph --decorate --pretty=format:\"%Cred%h%Creset | %Cgreen%ad%Creset | %s%d [%C(yellow)%an%Creset]\" --graph --date=local
-	type = cat-file -t
-	dump = cat-file -p
-	rma = !git ls-files --deleted -z | xargs -0 --no-run-if-empty git rm
-	aliases = "!git config -l | grep alias | cut -c 7-"
-	br = branch
-	st = status
-	ss = status --short
-	sd = diff --stat
-	ci = commit -S
-	co = checkout
-	dc = diff --cached
-	rp = remote prune
-	rs = remote show
-	lg = log -p
-	lol = log --graph --decorate --pretty=oneline --abbrev-commit
-	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
-	ls = ls-files
-	ign = ls-files -o -i --exclude-standard
-	lt = describe --tags --abbrev=0
-	save = !git stash save $(date "+%F_%T")
-	sf = show --pretty="format:" --name-only
-	ign = ls-files -o -i --exclude-standard
-	last = log -1 HEAD
-	mf = merge --no-ff
-	count = !~/bin/git-count
-	puhs = push
-	la = "!sh -c \"git diff $1..HEAD\" -"
-	top = !\
-		git log --since='last month' --pretty=format: --name-only \
-		| sed '/^$/d' | sort | uniq -c | sort -rg | head -10
-	dsf = "!f() { [ -z \"$GIT_PREFIX\" ] || cd \"$GIT_PREFIX\" && git diff --color \"$@\" | diff-so-fancy  | less --tabs=4 -RFX; }; f"
-	patch = !git --no-pager diff --no-color
-	ba = "!for branch in `git branch -r | grep -v HEAD`; do echo `git show --pretty=format:\"%C(green)%cn%Creset %Cblue %ar %>|(80) %Creset\" $branch | head -n 1` $branch; done | sort -r"
-	pf = "!branch=`git rev-parse --abbrev-ref HEAD -- | head -n 1` && git stash && git checkout master && git fetch --all && git rebase origin/master && git branch -D $branch && git stash pop"
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
 
 [url "git://github.com/"]
 	insteadOf = github:
@@ -95,22 +105,7 @@
 [url "git@github.com:sergeyklay/"]
 	insteadOf = klay:
 
-[push]
-	default = simple
-
-[commit]
-	template = ~/git/message.txt
-
 [filter "lfs"]
 	required = true
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
-
-[fetch]
-	prune = true
-
-[color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
