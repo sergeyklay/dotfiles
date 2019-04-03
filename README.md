@@ -12,10 +12,9 @@ some scripts may work as Zsh accepts Bash interpreter.
 
 Other projects I also support are:
 
-- [spacemacs-config](https://github.com/sergeyklay/spacemacs-config) -
-  Personal config file, private layer, notes and any other resources
-  for the [Spacemacs](http://spacemacs.org/)
-- [vimfiles](https://github.com/sergeyklay/vimfiles) - My Vim setup
+- [My Emacs configuration](https://github.com/sergeyklay/.emacs.d)
+  My personal configuration for GNU Emacs which I port around from
+  system to system with me.
 
 ## License
 
