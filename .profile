@@ -127,4 +127,10 @@ if [ -d "${HOME}/.phpenv" ]; then
   fi
 fi
 
+# Enable Emacs Version Manager
+if [ -d "${HOME}/.evm/bin" ]; then
+  export EVM_ROOT="${HOME}/.evm"
+  export PATH="${EVM_ROOT}/bin:${PATH}"
+fi
+
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
