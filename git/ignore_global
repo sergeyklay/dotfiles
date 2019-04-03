@@ -6,7 +6,7 @@
 *.exe
 *.o
 *.so
-  
+
 # Packages #
 ############
 # it's better to unpack these files and commit the raw source
@@ -21,7 +21,7 @@
 *.tar.gz
 *.sql.gz
 *.zip
-   
+
 # Logs and databases #
 ######################
 *.log
@@ -48,7 +48,14 @@ nbproject
 *.sublime-workspace
 cmake-build-debug
 .gdb_history
+
 .ac-php-conf.json
+.dir-locals.el
+
+GPATH
+GRTAGS
+GTAGS
+TAGS
 
 .php-version
 .ruby-version
