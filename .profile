@@ -63,12 +63,10 @@ if [ -d "$HOME/.composer/vendor/bin" ]; then
   export PATH="${HOME}/.composer/vendor/bin:${PATH}"
 fi
 
-# Go & local workspace
-if [ -d "/usr/local/go/bin" ]; then
-  export GOROOT="/usr/local/go"
-  export PATH="${GOROOT}/bin:${PATH}"
-fi
-
+# Go lang local workspace
+#
+# To append Go binaries to the $PATH see:
+# https://github.com/udhos/update-golang
 if [ -d "$HOME/go" ]; then
   export GOPATH="$HOME/go"
 
