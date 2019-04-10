@@ -21,6 +21,9 @@ alias ll='ls -l'
 alias la='ls -A'
 alias l='ls -CF'
 
+alias vi='emacs -nw'
+alias vim='emacs -nw'
+
 # alias for Karma
 alias google-chrome='google-chrome-stable'
 
