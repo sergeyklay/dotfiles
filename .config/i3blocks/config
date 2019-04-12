@@ -15,25 +15,6 @@ color=#7780a1
 separator_block_width=10
 separator=false
 
-[ssid]
-label=
-command=echo "$(iw dev wlp3s0 link | grep SSID | cut -d " " -f 2-)"
-interval=5
-color=#C9CCDB
-
-[wireless]
-instance=wlp3s0
-command=/usr/share/i3blocks/iface
-interval=10
-color=#C9CCDB
-
-[strength]
-command=echo "$(iw dev wlp3s0 link | grep signal | cut -d " " -f 2-)"
-interval=10
-color=#C9CCDB
-
-[separator]
-
 [volume]
 label=
 command=/usr/share/i3blocks/volume
