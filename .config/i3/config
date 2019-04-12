@@ -154,6 +154,8 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+exec --no-startup-id nm-applet --sm-disable
+
 bar {
     font pango:FontAwesome 10
     position top
