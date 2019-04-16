@@ -6,6 +6,13 @@
 # Update X resources db.
 [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 
+# I use CapsLock to switch keyboard layout
+setxkbmap \
+    -model "pc105" \
+    -layout "us,ru" \
+    -variant ",winkeys" \
+    -option "grp:caps_toggle,grp_led:caps,compose:ralt,terminate:ctrl_alt_bksp" &
+
 # starts screensaver daemon
 xscreensaver -no-splash &
 
@@ -19,3 +26,9 @@ urxvtd -q -f -o &
 
 # dropbox daemon
 dropbox start &
+
+# Swap Ctrl <-> Windows keys
+xmodmap -e 'remove mod4 = Super_L'
+xmodmap -e 'add control = Super_L'
+xmodmap -e 'remove control = Control_L'
+xmodmap -e 'add mod4 = Control_L'
