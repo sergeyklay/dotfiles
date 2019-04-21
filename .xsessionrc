@@ -1,7 +1,8 @@
 #!/bin/sh
 #
-# Ubuntu (and most likely Debian) uses this file instead of `.xinitrc' one
-# Currently I don't call startx or i3wm here because it is handled by my Ubuntu
+# Ubuntu (and most likely Debian) uses this file instead of `.xinitrc' one.
+# Currently I don't call `startx' or `i3w'm here because it is handled by
+# my Ubuntu.
 
 # Update X resources db.
 [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
@@ -16,7 +17,7 @@ setxkbmap \
 # starts screensaver daemon
 xscreensaver -no-splash &
 
-feh --bg-scale ~/Pictures/Wallpapers/Black-Metallic-Wallpaper-1.jpg
+feh --bg-scale ~/.config/i3/wall.png
 
 # sets the cursor icon
 xsetroot -cursor_name left_ptr &
