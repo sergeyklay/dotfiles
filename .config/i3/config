@@ -1,62 +1,68 @@
+# Settings
 set $mod Mod4
 set $alt Mod1
+set $bs bindsym
 
 font pango:SFNS Display 9
 floating_modifier $mod
 
-bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Shift+q kill
-bindsym $mod+d exec rofi -show run
+workspace_auto_back_and_forth yes
+
+$bs $mod+Return exec i3-sensible-terminal
+$bs $mod+Shift+q kill
+$bs $mod+d exec rofi -show run
 
 # Changing the focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+$bs $mod+j focus left
+$bs $mod+k focus down
+$bs $mod+l focus up
+$bs $mod+semicolon focus right
 
 # Alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+$bs $mod+Left focus left
+$bs $mod+Down focus down
+$bs $mod+Up focus up
+$bs $mod+Right focus right
 
 # Move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+$bs $mod+Shift+j move left
+$bs $mod+Shift+k move down
+$bs $mod+Shift+l move up
+$bs $mod+Shift+semicolon move right
 
 # Alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+$bs $mod+Shift+Left move left
+$bs $mod+Shift+Down move down
+$bs $mod+Shift+Up move up
+$bs $mod+Shift+Right move right
 
 # Split in horizontal orientation
-bindsym $mod+h split h
+$bs $mod+h split h
 
 # Split in vertical orientation
-bindsym $mod+v split v
+$bs $mod+v split v
 
 # Enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
+$bs $mod+f fullscreen toggle
 
 # Change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+$bs $mod+s layout stacking
+$bs $mod+w layout tabbed
+$bs $mod+e layout toggle split
 
 # Toggle tiling / floating.
-bindsym $alt+Shift+space floating toggle
+$bs $alt+Shift+space floating toggle
 
 # Change focus between tiling / floating windows.
-bindsym $alt+space focus mode_toggle
+$bs $alt+space focus mode_toggle
 
 # Focus the parent container
-bindsym $mod+a focus parent
+$bs $mod+a focus parent
 
 # Focus the child container
-# bindsym $mod+d focus child
+# $bs $mod+d focus child
+
+
 
 # Workspace names
 set $workspace1 "1"
@@ -71,60 +77,60 @@ set $workspace9 "9"
 set $workspace10 "10"
 
 # Switch to workspace
-bindsym $mod+1 workspace $workspace1
-bindsym $mod+2 workspace $workspace2
-bindsym $mod+3 workspace $workspace3
-bindsym $mod+4 workspace $workspace4
-bindsym $mod+5 workspace $workspace5
-bindsym $mod+6 workspace $workspace6
-bindsym $mod+7 workspace $workspace7
-bindsym $mod+8 workspace $workspace8
-bindsym $mod+9 workspace $workspace9
-bindsym $mod+0 workspace $workspace10
+$bs $mod+1 workspace $workspace1
+$bs $mod+2 workspace $workspace2
+$bs $mod+3 workspace $workspace3
+$bs $mod+4 workspace $workspace4
+$bs $mod+5 workspace $workspace5
+$bs $mod+6 workspace $workspace6
+$bs $mod+7 workspace $workspace7
+$bs $mod+8 workspace $workspace8
+$bs $mod+9 workspace $workspace9
+$bs $mod+0 workspace $workspace10
 
 # Move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $workspace1
-bindsym $mod+Shift+2 move container to workspace $workspace2
-bindsym $mod+Shift+3 move container to workspace $workspace3
-bindsym $mod+Shift+4 move container to workspace $workspace4
-bindsym $mod+Shift+5 move container to workspace $workspace5
-bindsym $mod+Shift+6 move container to workspace $workspace6
-bindsym $mod+Shift+7 move container to workspace $workspace7
-bindsym $mod+Shift+8 move container to workspace $workspace8
-bindsym $mod+Shift+9 move container to workspace $workspace9
-bindsym $mod+Shift+0 move container to workspace $workspace10
+$bs $mod+Shift+1 move container to workspace $workspace1
+$bs $mod+Shift+2 move container to workspace $workspace2
+$bs $mod+Shift+3 move container to workspace $workspace3
+$bs $mod+Shift+4 move container to workspace $workspace4
+$bs $mod+Shift+5 move container to workspace $workspace5
+$bs $mod+Shift+6 move container to workspace $workspace6
+$bs $mod+Shift+7 move container to workspace $workspace7
+$bs $mod+Shift+8 move container to workspace $workspace8
+$bs $mod+Shift+9 move container to workspace $workspace9
+$bs $mod+Shift+0 move container to workspace $workspace10
 
 # Reload the configuration file
-bindsym $mod+Shift+c reload
+$bs $mod+Shift+c reload
 
 # Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
+$bs $mod+Shift+r restart
 
 # Exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+$bs $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # Pulse Audio controls
 # See: man 1 pactl
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% && pkill -RTMIN+1 i3blocks
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% && pkill -RTMIN+1 i3blocks
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle && pkill -RTMIN+1 i3blocks
+$bs XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% && pkill -RTMIN+1 i3blocks
+$bs XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% && pkill -RTMIN+1 i3blocks
+$bs XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle && pkill -RTMIN+1 i3blocks
 
 # Touchpad controls
 # See: https://github.com/sergeyklay/dotfiles/blob/master/bin/toggletouchpad
-bindsym XF86TouchpadToggle exec toggletouchpad
-bindsym XF86TouchpadOn exec --no-startup-id synclient TouchpadOff=0
-bindsym XF86TouchpadOff exec --no-startup-id synclient TouchpadOff=1
+$bs XF86TouchpadToggle exec toggletouchpad
+$bs XF86TouchpadOn exec --no-startup-id synclient TouchpadOff=0
+$bs XF86TouchpadOff exec --no-startup-id synclient TouchpadOff=1
 
 # Microphone control
 # My BIOS is bugged. For example the XF86Phone key is not recognized when pressed.
 # However I do not want to upgrade the BIOS firmware provided by the manufacturer.
 #
-# bindsym XF86Phone exec amixer set Capture toggle
+# $bs XF86Phone exec amixer set Capture toggle
 
 # Screen brightness controls
 # See: https://github.com/haikarainen/light
-bindsym XF86MonBrightnessUp exec light -A 10
-bindsym XF86MonBrightnessDown exec light -U 10
+$bs XF86MonBrightnessUp exec light -A 10
+$bs XF86MonBrightnessDown exec light -U 10
 
 # Resize window (you can also use the mouse for that)
 mode "resize" {
@@ -134,23 +140,23 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+        $bs j resize shrink width 10 px or 10 ppt
+        $bs k resize grow height 10 px or 10 ppt
+        $bs l resize shrink height 10 px or 10 ppt
+        $bs semicolon resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        $bs Left resize shrink width 10 px or 10 ppt
+        $bs Down resize grow height 10 px or 10 ppt
+        $bs Up resize shrink height 10 px or 10 ppt
+        $bs Right resize grow width 10 px or 10 ppt
 
         # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+        $bs Return mode "default"
+        $bs Escape mode "default"
 }
 
-bindsym $mod+r mode "resize"
+$bs $mod+r mode "resize"
 
 exec --no-startup-id nm-applet --sm-disable
 
