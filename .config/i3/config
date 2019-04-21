@@ -161,6 +161,8 @@ bar {
     tray_output primary
 }
 
+for_window [class="^.*"] border pixel 0
+
 for_window [class="Shutter"] floating enable
 for_window [class="zoom"] floating enable
 
@@ -170,9 +172,7 @@ for_window [class="Slack"] move to workspace $workspace9
 for_window [class="discord"] move to workspace $workspace9
 for_window [class="zoom"] move to workspace $workspace8
 
-for_window [class="Gnome-terminal"] border pixel 0
-for_window [class="Emacs"] border pixel 0
-for_window [class="Firefox"] border pixel 0
+for_window [class="Gnome-terminal"] border pixel 1
 
 # Local Variables:
 # require-final-newline: t
