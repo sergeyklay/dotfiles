@@ -22,8 +22,9 @@ feh --bg-scale ~/.config/i3/wall.png
 # sets the cursor icon
 xsetroot -cursor_name left_ptr &
 
-# urxvt daemon
-urxvtd -q -f -o &
+# The urxvt daemon is disbaled for now.
+# I'm experimenting with Gnome Terminal
+# urxvtd -q -f -o &
 
 # dropbox daemon
 dropbox start &
