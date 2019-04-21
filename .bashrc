@@ -23,18 +23,17 @@ shopt -s autocd
 # man -P 'less -rp HISTCONTROL' bash
 HISTCONTROL="ignoreboth:erasedups"
 
-# amount of commands that need to remember in the history list
-HISTSIZE=10000
+# every command being saved on the history list
+HISTSIZE=-1
 
-# maximum file size
-HISTFILESIZE=20000
+# maximum number of history lines
+HISTFILESIZE=100000
 
 # for the protection and ability for future analyzing
 HISTTIMEFORMAT="%h %d %H:%M:%S "
 
-# don't log some frequent commands
-# and commands starting with whitespace
-HISTIGNORE="[ \t]*:ls:bg:fg:jobs:pwd"
+# stroe all commands in the history
+HISTIGNORE=
 
 # save commands immediately after use
 PROMPT_COMMAND='history -a'
@@ -61,7 +60,7 @@ export XDG_RUNTIME_DIR=/run/user/$(id -u)
 export XDG_STATE_HOME=$HOME/.local/state
 
 # See: https://github.com/sergeyklay/dotfiles/blob/master/bin/em
-export EDITOR="em"
+export EDITOR="emacs -nw"
 
 # more for less
 export PAGER=less
@@ -74,9 +73,6 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 # font config
 export GDK_USE_XFT=1
 export QT_XFT=true
-
-# Default ruby binaries path, can be overridden interactive
-export RUBY_BIN=$(which ruby | sed 's/ruby$//')
 
 # Main prompt
 PS1='$ \w '
@@ -158,14 +154,5 @@ grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add >/dev/null 2>&1
 # Update GPG_TTY
 export GPG_TTY=$(/usr/bin/tty)
 
-# https://gnunn1.github.io/tilix-web/manual/vteconfig/
-if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-  if [ -f /etc/profile.d/vte.sh ]; then
-    source /etc/profile.d/vte.sh
-  fi
-fi
-
-# Enabling kubernetes shell autocompletion
-command -v kubectl >/dev/null 2>&1 && source <(kubectl completion bash)
-
-# vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
+# added by travis gem
+[ -f /home/klay/.travis/travis.sh ] && source /home/klay/.travis/travis.sh
