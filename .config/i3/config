@@ -62,8 +62,6 @@ $bs $mod+a focus parent
 # Focus the child container
 # $bs $mod+d focus child
 
-
-
 # Workspace names
 set $workspace1 "1"
 set $workspace2 "2"
@@ -132,6 +130,9 @@ $bs XF86TouchpadOff exec --no-startup-id synclient TouchpadOff=1
 $bs XF86MonBrightnessUp exec light -A 10
 $bs XF86MonBrightnessDown exec light -U 10
 
+$bs $mod+Tab workspace next
+$bs $mod+Shift+Tab workspace prev
+
 # Resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
@@ -158,8 +159,6 @@ mode "resize" {
 
 $bs $mod+r mode "resize"
 
-exec --no-startup-id nm-applet --sm-disable
-
 bar {
     font pango:FontAwesome 10
     position top
@@ -167,18 +166,43 @@ bar {
     tray_output primary
 }
 
-for_window [class="^.*"] border pixel 0
+# Border Colors
 
+# Border colors         border  backgr. text    indicator child_border
+client.focused          #000000 #000000 #000000 #ff69b4   #000000
+client.focused_inactive #000000 #5f676a #ffffff #ff69b4   #000000
+client.unfocused        #000000 #222222 #888888 #ff69b4   #000000
+client.urgent           #ffffff #900000 #ffffff #ff69b4   #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+client.background       #000000
+
+# Window settings
+
+for_window [class="^.*"] border pixel 2
 for_window [class="Shutter"] floating enable
 for_window [class="zoom"] floating enable
-
 for_window [class="Shutter"] resize set 800 680
-
 for_window [class="Slack"] move to workspace $workspace9
 for_window [class="discord"] move to workspace $workspace9
 for_window [class="zoom"] move to workspace $workspace8
-
 for_window [class="Gnome-terminal"] border pixel 1
+
+# Applications
+
+exec_always --no-startup-id nm-applet
+exec_always --no-startup-id feh --bg-scale ~/.config/i3/wall.png
+exec_always --no-startup-id dropbox start
+exec_always --no-startup-id xscreensaver -no-splash
+
+exec_always --no-startup-id xmodmap -e 'remove mod4 = Super_L'
+exec_always --no-startup-id xmodmap -e 'add control = Super_L'
+exec_always --no-startup-id xmodmap -e 'remove control = Control_L'
+exec_always --no-startup-id xmodmap -e 'add mod4 = Control_L'
+
+exec_always --no-startup-id setxkbmap -model "pc105"
+exec_always --no-startup-id setxkbmap -layout "us,ru"
+exec_always --no-startup-id setxkbmap -variant ",winkeys"
+exec_always --no-startup-id setxkbmap -option "grp:caps_toggle,grp_led:caps,compose:ralt,terminate:ctrl_alt_bksp"
 
 # Local Variables:
 # require-final-newline: t
