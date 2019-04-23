@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # Ubuntu (and most likely Debian) uses this file instead of `.xinitrc' one.
-# Currently I don't call `startx' or `i3w'm here because it is handled by
+# Currently I don't call `startx' or `i3wm' here because it's handled by
 # my Ubuntu.
 
 # Update X resources db.
@@ -14,15 +14,15 @@ setxkbmap \
     -variant ",winkeys" \
     -option "grp:caps_toggle,grp_led:caps,compose:ralt,terminate:ctrl_alt_bksp" &
 
-# starts screensaver daemon
+# Start screensaver daemon
 xscreensaver -no-splash &
 
 feh --bg-scale ~/.config/i3/wall.png
 
-# sets the cursor icon
+# Set the cursor icon
 xsetroot -cursor_name left_ptr &
 
-# The urxvt daemon is disbaled for now.
+# The urxvt daemon is disbaled for now because
 # I'm experimenting with Gnome Terminal
 # urxvtd -q -f -o &
 
