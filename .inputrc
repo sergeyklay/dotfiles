@@ -1,13 +1,51 @@
 # This file controls the behaviour of line input editing for
-# programs that use the GNU Readline library
-
+# programs that use the GNU Readline library.  Existing
+# programs include FTP, Bash, and GDB.
+#
+# You can re-read the inputrc file with C-x C-r.
+# Lines beginning with '#' are comments.
+#
+# First, include any system-wide bindings and variable
+# assignments from /etc/Inputrc
 $include /etc/inputrc
+
+set editing-mode emacs
 
 # Two escapes clear command line.
 "\e\e": "\C-a\C-k"
 
+# Arrow keys in ANSI mode
+"\M-[D":        backward-char
+"\M-[C":        forward-char
+"\M-[A":        previous-history
+"\M-[B":        next-history
+
 "\e[A": history-search-backward
 "\e[B": history-search-forward
+
+C-q: quoted-insert
+
+# An old-style binding.  This happens to be the default.
+TAB: complete
+
+# Macros that are convenient for shell interaction
+$if Bash
+# edit the path
+"\C-xp": "PATH=${PATH}\e\C-e\C-a\ef\C-f"
+# prepare to type a quoted word --
+# insert open and close double quotes
+# and move to just after the open quote
+"\C-x\"": "\"\"\C-b"
+# insert a backslash (testing backslash escapes
+# in sequences and macros)
+"\C-x\\": "\\"
+# Quote the current or previous word
+"\C-xq": "\eb\"\ef\""
+# Add a binding to refresh the line, which is unbound
+"\C-xr": redraw-current-line
+# Edit variable on current line.
+"\M-\C-v": "\C-a\C-k$\C-y\M-\C-e\C-a\C-y="
+$endif
 
 # Use case-insensitive expansion
 set completion-ignore-case on
@@ -21,13 +59,44 @@ set visible-stats on
 # Show all completions at once
 set page-completions off
 
-# Only when there are > 200 completions, ask to show them
-set completion-query-items 200
+# if there are more than 150 possible completions for
+# a word, ask the user if he wants to see all of them
+set completion-query-items 150
 
 # More intelligent completion by ignoring text after the cursor
 set skip-completed-text on
 
-# Disable PC Speaker
-set bell-style none
+# use a visible bell if one is available
+set bell-style visible
+set prefer-visible-bell on
 
-# vim:ft=readline:ts=8:sw=2:sts=2:tw=78:fenc=utf-8:et
+# displays possible completions using different colors to indicate their file type
+set colored-stats on
+
+# Immediately add a trailing slash when autocompleting symlinks to directories
+set mark-symlinked-directories on
+
+# don't strip characters to 7 bits when reading
+set input-meta on
+
+# allow iso-latin1 characters to be inserted rather
+# than converted to prefix-meta sequences
+set convert-meta off
+
+# display characters with the eighth bit set directly
+# rather than as meta-prefixed characters
+set output-meta on
+
+# Be more intelligent when autocompleting by also looking at the text after
+# the cursor. For example, when the current line is "cd ~/src/mozil", and
+# the cursor is on the "z", pressing Tab will not autocomplete it to "cd
+# ~/src/mozillail", but to "cd ~/src/mozilla". (This is supported by the
+# Readline used by Bash 4.)
+set skip-completed-text on
+
+# For FTP
+$if Ftp
+"\C-xg": "get \M-?"
+"\C-xt": "put \M-?"
+"\M-.": yank-last-arg
+$endif
