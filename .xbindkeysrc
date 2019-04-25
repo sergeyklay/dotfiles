@@ -1,0 +1,17 @@
+# To find the keycodes for a particular key, enter the following command:
+#
+#   $ xbindkeys --key
+#
+# or the following to grab multiple keys:
+#
+#   $ xbindkeys --multikey
+
+# Switch to English
+"setxkbmap us"
+    m:0x8 + c:10
+    Alt + 1
+
+# Switch to Russinan
+"setxkbmap ru"
+    m:0x8 + c:11
+    Alt + 2
