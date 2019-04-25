@@ -58,11 +58,6 @@ color=#C9CCDB
 
 [separator]
 
-[input_source]
-label=
-interval=1
-color=#C9CCDB
-
 # Local Variables:
 # require-final-newline: t
 # End:
