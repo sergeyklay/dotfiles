@@ -1,6 +1,6 @@
 * =~/.*=
 
-> @sergeyklay's dotfiles
+All my dotfiles that I port around from system to system with me.
 
 ** Shell support
 
