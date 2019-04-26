@@ -8,13 +8,11 @@
 [[ -f ~/.Xresources ]] && xrdb -merge -I$HOME ~/.Xresources
 
 # Ctrl key position: Caps Lock as Ctrl
- setxkbmap \
-    -model "pc105" \
-    -layout "us,ru" \
-    -variant ",winkeys" \
-    -option "ctrl:nocaps,compose:ralt,terminate:ctrl_alt_bksp" &
-
-xbindkeys
+setxkbmap us,ru
+setxkbmap -model pc105
+setxkbmap -variant ",winkeys"
+setxkbmap -option "ctrl:nocaps,compose:ralt,terminate:ctrl_alt_bksp"
+sleep 2 && xbindkeys
 
 # Start screensaver daemon
 xscreensaver -no-splash &
