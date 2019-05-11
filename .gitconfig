@@ -11,12 +11,18 @@
 	excludesfile = ~/git/ignore_global
 	editor = "emacs -nw"
 
+[gpg]
+	program = /usr/bin/gpg2
+
 [push]
 	default = simple
 
 [commit]
 	template = ~/git/message.txt
 	gpgsign = true
+
+[tag]
+	forceSignAnnotated = true
 
 [fetch]
 	prune = true
