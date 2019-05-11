@@ -118,8 +118,10 @@ $bs XF86TouchpadOn exec --no-startup-id synclient TouchpadOff=0
 $bs XF86TouchpadOff exec --no-startup-id synclient TouchpadOff=1
 
 # Microphone control
-# My BIOS is bugged. For example the XF86Phone key is not recognized when pressed.
-# However I do not want to upgrade the BIOS firmware provided by the manufacturer.
+#
+# My BIOS is bugged.  For example the XF86Phone key is not recognized when
+# pressed.  However I don't want to upgrade the BIOS firmware provided by the
+# manufacturer.
 #
 # $bs XF86Phone exec amixer set Capture toggle
 
@@ -166,7 +168,7 @@ bar {
 
 # Border Colors
 
-# Border colors         border  backgr. text    indicator child_border
+#                       border  backgr. text    indicator child_border
 client.focused          #000000 #000000 #000000 #ff69b4   #000000
 client.focused_inactive #000000 #5f676a #ffffff #ff69b4   #000000
 client.unfocused        #000000 #222222 #888888 #ff69b4   #000000
