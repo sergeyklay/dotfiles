@@ -72,6 +72,17 @@ set $workspace8 "8"
 set $workspace9 "9"
 set $workspace10 "10"
 
+workspace $workspace1 output HDMI-1
+workspace $workspace2 output eDP-1
+workspace $workspace3 output HDMI-1
+workspace $workspace4 output eDP-1
+workspace $workspace5 output HDMI-1
+workspace $workspace6 output HDMI-1
+workspace $workspace7 output HDMI-1
+workspace $workspace8 output HDMI-1
+workspace $workspace9 output HDMI-1
+workspace $workspace10 output eDP-1
+
 # Switch to workspace
 $bs $mod+1 workspace $workspace1
 $bs $mod+2 workspace $workspace2
@@ -168,12 +179,13 @@ bar {
 
 # Border Colors
 
-#                       border  backgr. text    indicator child_border
+# class                 border  backgr. text    indicator child_border
 client.focused          #000000 #000000 #000000 #ff69b4   #000000
 client.focused_inactive #000000 #5f676a #ffffff #ff69b4   #000000
 client.unfocused        #000000 #222222 #888888 #ff69b4   #000000
 client.urgent           #ffffff #900000 #ffffff #ff69b4   #900000
 client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+
 client.background       #000000
 
 # Window settings
@@ -182,14 +194,12 @@ for_window [class="^.*"] border pixel 2
 for_window [class="Shutter"] floating enable
 for_window [class="zoom"] floating enable
 for_window [class="Shutter"] resize set 800 680
-for_window [class="Slack"] move to workspace $workspace9
 for_window [class="discord"] move to workspace $workspace9
 for_window [class="zoom"] move to workspace $workspace8
 for_window [class="Gnome-terminal"] border pixel 1
 
 # Assignments
 
-assign [class="Slack"] → $workspace9
 assign [class="discord"] → $workspace9
 assign [class="zoom"] → $workspace8
 
