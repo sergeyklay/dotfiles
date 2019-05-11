@@ -22,6 +22,21 @@ feh --bg-scale ~/.config/i3/wall.png
 # Set the cursor icon
 xsetroot -cursor_name left_ptr &
 
+# Multiple monitors settings
+# TODO: Works on home only. Make it better.
+monitors=$(xrandr --listmonitors | grep Monitors | cut -d ' ' -f2)
+if [ $monitors -gt '1' ]; then
+    xrandr --output HDMI-1 --primary
+    xrandr --output HDMI-1 \
+           --auto \
+           --rotate normal \
+           --pos 0x0 \
+           --output eDP-1 \
+           --auto \
+           --rotate normal \
+           --right-of HDMI-1
+fi
+
 # The urxvt daemon is disbaled for now because
 # I'm experimenting with Gnome Terminal
 # urxvtd -q -f -o &
