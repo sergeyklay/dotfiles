@@ -12,7 +12,8 @@
 	editor = "emacs -nw"
 
 [gpg]
-	program = /usr/bin/gpg2
+	# GnuPG 2.2.x
+	program = /usr/local/bin/gpg
 
 [push]
 	default = simple
