@@ -1,7 +1,7 @@
 [user]
 	name = Serghei Iakovlev
 	email = sadhooklay@gmail.com
-	signingkey = 0A1843DF
+	signingkey = C6AF1016BBDEA800
 
 [core]
 	autocrlf = false
