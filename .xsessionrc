@@ -26,15 +26,8 @@ xsetroot -cursor_name left_ptr &
 # TODO: Works on home only. Make it better.
 monitors=$(xrandr --listmonitors | grep Monitors | cut -d ' ' -f2)
 if [ $monitors -gt '1' ]; then
-    xrandr --output HDMI-1 --primary
-    xrandr --output HDMI-1 \
-           --auto \
-           --rotate normal \
-           --pos 0x0 \
-           --output eDP-1 \
-           --auto \
-           --rotate normal \
-           --right-of HDMI-1
+    source ~/.bash_aliases
+    dual
 fi
 
 # The urxvt daemon is disbaled for now because
