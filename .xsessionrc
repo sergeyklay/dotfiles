@@ -17,7 +17,11 @@ sleep 2 && xbindkeys
 # Start screensaver daemon
 xscreensaver -no-splash &
 
-feh --bg-scale ~/.config/i3/wall.png
+# Restore the background on the next session
+if [ -f "${HOME}/.fehbg" ]; then
+    chmod +x "${HOME}/.fehbg"
+    "${HOME}/.fehbg" &
+fi
 
 # Set the cursor icon
 xsetroot -cursor_name left_ptr &
