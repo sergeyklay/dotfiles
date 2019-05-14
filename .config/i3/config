@@ -9,14 +9,9 @@ floating_modifier $mod
 $bs $mod+Return exec i3-sensible-terminal
 $bs $mod+Shift+q kill
 $bs $mod+d exec rofi -show run
+$bs $mod+l exec i3lock -f -e -p win -c 0000aa -i ~/.config/i3/bsod.png
 
 # Changing the focus
-$bs $mod+j focus left
-$bs $mod+k focus down
-$bs $mod+l focus up
-$bs $mod+semicolon focus right
-
-# Alternatively, you can use the cursor keys:
 $bs $mod+Left focus left
 $bs $mod+Down focus down
 $bs $mod+Up focus up
