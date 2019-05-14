@@ -11,7 +11,7 @@
 setxkbmap us,ru
 setxkbmap -model pc105
 setxkbmap -variant ",winkeys"
-setxkbmap -option "ctrl:nocaps,compose:ralt,terminate:ctrl_alt_bksp"
+setxkbmap -option "ctrl:swapcaps,compose:ralt,terminate:ctrl_alt_bksp"
 sleep 2 && xbindkeys
 
 # Start screensaver daemon
