@@ -1,0 +1,3 @@
+#!/bin/sh
+
+feh --no-fehbg --bg-fill "${HOME}/.config/i3/wall.png"
