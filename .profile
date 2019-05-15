@@ -42,8 +42,8 @@ if [ -d "$HOME/.rbenv/bin" ]; then
 fi
 
 # Phalcon
-if [ -d "$HOME/workspace/php/phalcon/devtools" ]; then
-  export PTOOLSPATH="$HOME/workspace/php/phalcon/devtools"
+if [ -d "$HOME/work/phalcon/devtools" ]; then
+  export PTOOLSPATH="$HOME/work/phalcon/devtools"
   export PATH="${PTOOLSPATH}:${PATH}"
 fi
 
