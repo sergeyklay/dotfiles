@@ -166,6 +166,8 @@ mode "resize" {
 $bs $mod+r mode "resize"
 
 bar {
+    # Works well with v4.7.0
+    # For more see: https://bbs.archlinux.org/viewtopic.php?id=233098
     font pango:FontAwesome 10
     position top
     status_command i3blocks -c ~/.config/i3blocks/config
