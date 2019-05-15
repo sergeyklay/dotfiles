@@ -1,9 +1,0 @@
-#!/bin/bash
-
-INPUT_SOURCE=$(echo `ibus engine | cut -d':' -f 4`)
-
-if [[ "${INPUT_SOURCE}" = "rus" ]]; then
-    echo "RU"
-else
-    echo "EN"
-fi
