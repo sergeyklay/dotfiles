@@ -155,4 +155,4 @@ grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add >/dev/null 2>&1
 export GPG_TTY=$(/usr/bin/tty)
 
 # added by travis gem
-[ -f /home/klay/.travis/travis.sh ] && source /home/klay/.travis/travis.sh
+[ -f ${HOME}/.travis/travis.sh ] && source ${HOME}/.travis/travis.sh
