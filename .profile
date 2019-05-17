@@ -4,14 +4,25 @@
 # Bash profile
 #
 
+# check whether the string given is already in the PATH
+pathmunge () {
+	if ! echo "$PATH" | /bin/grep -Eq "(^|:)$1($|:)" ; then
+		if [ "$2" = "after" ] ; then
+			export PATH="$PATH:$1"
+		else
+			export PATH="$1:$PATH"
+		fi
+	fi
+}
+
 # See ~/.Xresources
 if [ -x "$(command -v xscreensaver 2>/dev/null)" ]; then
-	if [ ! -d "${HOME}/log" ]; then
-		mkdir -p "${HOME}/log"
+	if [ ! -d ${HOME}/log ]; then
+		mkdir -p "$HOME/log"
 	fi
 
-	if [ ! -f "${HOME}/log/xscreensaver.log" ]; then
-		touch "${HOME}/log/xscreensaver.log"
+	if [ ! -f "$HOME/log/xscreensaver.log" ]; then
+		touch "$HOME/log/xscreensaver.log"
 	fi
 fi
 
@@ -23,17 +34,19 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 # Include local bin
-if [ -d "$HOME/bin" ] ; then
-	export PATH="${HOME}/bin:${PATH}"
+if [ -e ${HOME}/bin ]; then
+    if [ -L ${HOME}/bin ] || [ -f ${HOME}/bin ]; then
+		pathmunge "$HOME/bin"
+    fi
 fi
 
-if [ -d "$HOME/.local/bin" ]; then
-	export PATH="$HOME/.local/bin:${PATH}"
+if [ -d ${HOME}/.local/bin ]; then
+	pathmunge "$HOME/.local/bin"
 fi
 
 # Add rbenv to PATH for scripting
-if [ -d "$HOME/.rbenv/bin" ]; then
-	export PATH=$HOME/.rbenv/bin:$PATH
+if [ -d ${HOME}/.rbenv/bin ]; then
+	pathmunge "$HOME/.rbenv/bin"
 	# Load rbenv
 	eval "$(rbenv init -)"
 
@@ -44,95 +57,91 @@ fi
 # Phalcon
 if [ -d "$HOME/work/phalcon/devtools" ]; then
 	export PTOOLSPATH="$HOME/work/phalcon/devtools"
-	export PATH="${PTOOLSPATH}:${PATH}"
+	pathmunge "$PTOOLSPATH"
 fi
 
 # Composer
-if [ -d "$HOME/.composer" ]; then
+if [ -d ${HOME}/.composer ]; then
 	export COMPOSER_HOME="$HOME/.composer"
-	export PATH="${COMPOSER_HOME}:${PATH}"
+	pathmunge "$COMPOSER_HOME"
 
 	# See: https://github.com/stecman/composer-bash-completion-plugin
 	ac="vendor/stecman/composer-bash-completion-plugin/hooks/bash-completion"
-	if [ -f "${COMPOSER_HOME}/${ac}" ]; then
-		source "${COMPOSER_HOME}/${ac}"
+	if [ -f ${COMPOSER_HOME}/${ac} ]; then
+		source ${COMPOSER_HOME}/${ac}
 	fi
 fi
 
-if [ -d "$HOME/.composer/vendor/bin" ]; then
-	export PATH="${HOME}/.composer/vendor/bin:${PATH}"
+if [ -d ${HOME}/.composer/vendor/bin ]; then
+	pathmunge "$HOME/.composer/vendor/bin"
 fi
 
 # Go lang local workspace
 #
 # To append Go binaries to the $PATH see:
 # https://github.com/udhos/update-golang
+# See /etc/profile.d/golang_path.sh file
 if [ -d "$HOME/go" ]; then
 	export GOPATH="$HOME/go"
 
 	if [ -d "$GOPATH/bin" ]; then
 		export GOBIN="$GOPATH/bin"
-		export PATH="${GOBIN}:${PATH}"
 	fi
-fi
-
-if [ -d "/usr/local/go/bin" ]; then
-	export PATH="/usr/local/go/bin:${PATH}"
 fi
 
 # Symlink from /opt/ghc/$GHCVER/bin
 # add-apt-repository -y ppa:hvr/ghc
 if [ -d "/opt/ghc/bin" ]; then
-	export PATH="/opt/ghc/bin:${PATH}"
+	pathmunge "/opt/ghc/bin"
 fi
 
 # Symlink from /opt/cabal/$CABALVER/bin
 # add-apt-repository -y ppa:hvr/ghc
 if [ -d "/opt/cabal/bin" ]; then
-	export PATH="/opt/cabal/bin:${PATH}"
+	pathmunge "/opt/cabal/bin"
 fi
 
 # add-apt-repository -y ppa:hvr/ghc
 if [ -d "/opt/ghc-ppa-tools/bin" ]; then
-	export PATH="/opt/ghc-ppa-tools/bin:${PATH}"
+	pathmunge "/opt/ghc-ppa-tools/bin"
 fi
 
 # hlint
 # https://github.com/ndmitchell/hlint
-if [ -d "${HOME}/.hlint" ]; then
-	export PATH="${HOME}/.hlint:${PATH}"
+if [ -d ${HOME}/.hlint ]; then
+	pathmunge "$HOME/.hlint"
 fi
 
 # Cabal
-if [ -d "${HOME}/.cabal/bin" ]; then
-	export PATH="${HOME}/.cabal/bin:${PATH}"
+if [ -d ${HOME}/.cabal/bin ]; then
+	pathmunge "$HOME/.cabal/bin"
 fi
 
 # Cask
-if [ -d "${HOME}/.cask/bin" ]; then
-	export PATH="${HOME}/.cask/bin:${PATH}"
+if [ -d ${HOME}/.cask/bin ]; then
+	pathmunge "$HOME/.cask/bin"
 fi
 
 # Enable phpenv
-if [ -d "${HOME}/.phpenv" ]; then
-	export PHPENV_ROOT="${HOME}/.phpenv"
-	export PATH="${PHPENV_ROOT}/bin:${PATH}"
+if [ -d ${HOME}/.phpenv ]; then
+	export PHPENV_ROOT="$HOME/.phpenv"
+	pathmunge "$PHPENV_ROOT/bin"
 
 	eval "$(phpenv init -)"
 
-	if [ -d "${PHPENV_ROOT}/plugins/php-build/bin" ]; then
-		export PATH="${PHPENV_ROOT}/plugins/php-build/bin:${PATH}"
+	if [ -d ${PHPENV_ROOT}/plugins/php-build/bin ]; then
+		pathmunge "$PHPENV_ROOT/plugins/php-build/bin"
 	fi
 
-	if [ -f "$HOME/.php_build_configure_opts" ]; then
+	if [ -f ${HOME}/.php_build_configure_opts ]; then
 		export PHP_BUILD_CONFIGURE_OPTS=`cat $HOME/.php_build_configure_opts`
 	fi
 fi
 
 # Enable Emacs Version Manager
-if [ -d "${HOME}/.evm/bin" ]; then
-	export EVM_ROOT="${HOME}/.evm"
-	export PATH="${EVM_ROOT}/bin:${PATH}"
+if [ -d ${HOME}/.evm/bin ]; then
+	export EVM_ROOT="$HOME/.evm"
+	pathmunge "$EVM_ROOT/bin"
 fi
 
 # Local Variables:
