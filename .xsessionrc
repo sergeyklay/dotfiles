@@ -18,9 +18,10 @@ sleep 2 && xbindkeys
 xscreensaver -no-splash &
 
 # Restore the background on the next session
-if [ -f "${HOME}/.fehbg" ]; then
-    chmod +x "${HOME}/.fehbg"
-    "${HOME}/.fehbg" &
+if [ -e ${HOME}/.fehbg ]; then
+    if [ -L ${HOME}/.fehbg ] || [ -f ${HOME}/.fehbg ]; then
+	source ${HOME}/.fehbg
+    fi
 fi
 
 # Set the cursor icon
