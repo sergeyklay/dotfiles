@@ -9,7 +9,7 @@ floating_modifier $mod
 $bs $mod+Return exec i3-sensible-terminal
 $bs $mod+Shift+q kill
 $bs $mod+d exec rofi -show run
-$bs $mod+l exec i3lock -f -e -p win -c 0000aa -i ~/.config/i3/bsod.png
+$bs $mod+l exec xscreensaver-command -lock
 
 # Changing the focus
 $bs $mod+Left focus left
