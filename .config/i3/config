@@ -67,8 +67,15 @@ set $workspace8 "8"
 set $workspace9 "9"
 set $workspace10 "10"
 
+workspace $workspace1 output primary
 workspace $workspace2 output eDP-1
+workspace $workspace3 output primary
 workspace $workspace4 output eDP-1
+workspace $workspace5 output primary
+workspace $workspace6 output primary
+workspace $workspace7 output primary
+workspace $workspace8 output primary
+workspace $workspace9 output primary
 workspace $workspace10 output eDP-1
 
 # Switch to workspace
