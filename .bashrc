@@ -59,8 +59,8 @@ export XDG_RUNTIME_DIR=/run/user/$(id -u)
 # See: https://stackoverflow.com/a/27965014/1661465
 export XDG_STATE_HOME=$HOME/.local/state
 
-# See: https://github.com/sergeyklay/dotfiles/blob/master/bin/em
-export EDITOR="emacs -nw"
+# See: https://github.com/sergeyklay/vimfiles
+export EDITOR="vim"
 
 # more for less
 export PAGER=less
@@ -86,12 +86,16 @@ if [ $(which dircolors) ]; then
     eval "$(dircolors -b)"
   fi
 
+  # used in ~/.bash_aliases
   colors_support=true
 fi
 
-if [ "$colors_support" = true ]; then
-  export TERM=rxvt-unicode
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
 
+if [ "$colors_support" = true ]; then
   # colorize prompt
   PS1="\[\033[1;32m\]$\[\033[00m\] \w "
   PS2="\[\033[1;37m\]|\[\033[00m\] "
@@ -105,12 +109,27 @@ if [ "$colors_support" = true ]; then
   export LESS_TERMCAP_ue=$'\E[0m'           # end underline
   export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
-  COLORTERM=1
+  export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+  [[ -z "$COLORTERM" ]] || COLORTERM=1
 fi
 
 # include aliases
 if [ -f $HOME/.bash_aliases ]; then
   . $HOME/.bash_aliases
+fi
+
+unset colors_support
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
 fi
 
 # git completion
