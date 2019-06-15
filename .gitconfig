@@ -9,11 +9,10 @@
 	whitespace = trailing-space,space-before-tab,indent-with-non-tab
 	pager = "less -R -F"
 	excludesfile = ~/git/ignore_global
-	editor = "emacs -nw"
+	editor = vim
 
 [gpg]
-	# GnuPG 2.2.x
-	program = /usr/local/bin/gpg
+	program = gpg2
 
 [push]
 	default = simple
