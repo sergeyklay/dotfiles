@@ -17,7 +17,7 @@ pathmunge () {
 
 # See ~/.Xresources
 if [ -x "$(command -v xscreensaver 2>/dev/null)" ]; then
-	if [ ! -d ${HOME}/log ]; then
+	if [ ! -d $HOME/log ]; then
 		mkdir -p "$HOME/log"
 	fi
 
@@ -34,18 +34,18 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 # Include local bin
-if [ -e ${HOME}/bin ]; then
-    if [ -L ${HOME}/bin ] || [ -f ${HOME}/bin ]; then
+if [ -e $HOME/bin ]; then
+    if [ -L $HOME/bin ] || [ -f $HOME/bin ]; then
 		pathmunge "$HOME/bin"
     fi
 fi
 
-if [ -d ${HOME}/.local/bin ]; then
+if [ -d $HOME/.local/bin ]; then
 	pathmunge "$HOME/.local/bin"
 fi
 
 # Add rbenv to PATH for scripting
-if [ -d ${HOME}/.rbenv/bin ]; then
+if [ -d $HOME/.rbenv/bin ]; then
 	pathmunge "$HOME/.rbenv/bin"
 	# Load rbenv
 	eval "$(rbenv init -)"
@@ -63,17 +63,16 @@ fi
 # Composer
 if [ -d ${HOME}/.composer ]; then
 	export COMPOSER_HOME="$HOME/.composer"
-	pathmunge "$COMPOSER_HOME"
 
 	# See: https://github.com/stecman/composer-bash-completion-plugin
 	ac="vendor/stecman/composer-bash-completion-plugin/hooks/bash-completion"
-	if [ -f ${COMPOSER_HOME}/${ac} ]; then
-		source ${COMPOSER_HOME}/${ac}
+	if [ -f $COMPOSER_HOME/$ac ]; then
+		. $COMPOSER_HOME/$ac
 	fi
-fi
 
-if [ -d ${HOME}/.composer/vendor/bin ]; then
-	pathmunge "$HOME/.composer/vendor/bin"
+	if [ -d $COMPOSER_HOME/vendor/bin ]; then
+		pathmunge "$COMPOSER_HOME/vendor/bin"
+	fi
 fi
 
 # Go lang local workspace
@@ -108,33 +107,34 @@ fi
 
 # hlint
 # https://github.com/ndmitchell/hlint
-if [ -d ${HOME}/.hlint ]; then
+if [ -d $HOME/.hlint ]; then
 	pathmunge "$HOME/.hlint"
 fi
 
 # Cabal
-if [ -d ${HOME}/.cabal/bin ]; then
+if [ -d $HOME/.cabal/bin ]; then
 	pathmunge "$HOME/.cabal/bin"
 fi
 
 # Cask
-if [ -d ${HOME}/.cask/bin ]; then
+if [ -d $HOME/.cask/bin ]; then
 	pathmunge "$HOME/.cask/bin"
 fi
 
 # Enable phpenv
-if [ -d ${HOME}/.phpenv ]; then
+if [ -d $HOME/.phpenv ]; then
 	export PHPENV_ROOT="$HOME/.phpenv"
 	pathmunge "$PHPENV_ROOT/bin"
 
 	eval "$(phpenv init -)"
 
-	if [ -d ${PHPENV_ROOT}/plugins/php-build/bin ]; then
+	if [ -d $PHPENV_ROOT/plugins/php-build/bin ]; then
 		pathmunge "$PHPENV_ROOT/plugins/php-build/bin"
 	fi
 
-	if [ -f ${HOME}/.php_build_configure_opts ]; then
-		export PHP_BUILD_CONFIGURE_OPTS=`cat $HOME/.php_build_configure_opts`
+	if [ -f $HOME/.php_build_configure_opts ]; then
+		PHP_BUILD_CONFIGURE_OPTS=$(cat $HOME/.php_build_configure_opts)
+		export PHP_BUILD_CONFIGURE_OPTS
 	fi
 fi
 
