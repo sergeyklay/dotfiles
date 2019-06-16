@@ -1,0 +1,17 @@
+[Desktop Entry]
+Version=1.0
+Name=Postman
+Comment=The tool for prototyping APIs with powerful testing features
+Comment[en]=The tool for prototyping APIs with powerful testing features
+Encoding=UTF-8
+Exec="/home/klay/Postman/app/Postman" -disable-gpu %f
+Icon=/home/klay/Postman/app/resources/app/assets/icon.png
+Path=/home/klay/Postman
+Terminal=false
+StartupWMClass=Postman
+Type=Application
+Categories=Network;Development;Application;Utility;
+Keywords=postman;post;api;rest;
+URL=https://www.getpostman.com/
+X-GNOME-UsesNotifications=true
+X-Desktop-File-Install-Version=0.23
