@@ -1,0 +1,24 @@
+{
+    "editor.dragAndDrop": false,
+    "editor.lineNumbers": "off",
+    "editor.renderIndentGuides": false,
+    "editor.minimap.enabled": false,
+    "editor.renderLineHighlight": "none",
+    "editor.cursorStyle": "block",
+    "editor.fontFamily": "'Source Code Pro', 'Droid Sans Mono', 'Liberation Mono', Menlo, Courier, monospace",
+    "editor.fontLigatures": true,
+    "editor.fontSize": 16,
+    "editor.occurrencesHighlight": false,
+
+    "terminal.integrated.cursorBlinking": true,
+    
+    "workbench.colorTheme": "Dracula Soft",
+    "workbench.statusBar.feedback.visible": false,
+
+    "breadcrumbs.enabled": false,
+    "window.menuBarVisibility": "toggle",
+    "calva.lintOnSave": true,
+    
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false
+}
