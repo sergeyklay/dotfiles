@@ -1,6 +1,4 @@
 {
-    "files.trimTrailingWhitespace": true,
-
     "editor.dragAndDrop": false,
     "editor.lineNumbers": "off",
     "editor.renderIndentGuides": false,
@@ -16,6 +14,8 @@
 
     "workbench.colorTheme": "Dracula Soft",
     "workbench.statusBar.feedback.visible": false,
+    "workbench.settings.enableNaturalLanguageSearch": false,
+    "workbench.enableExperiments": false,
 
     "window.menuBarVisibility": "toggle",
     "window.zoomLevel": 0,
@@ -26,6 +26,16 @@
 
     "telemetry.enableTelemetry": false,
     "telemetry.enableCrashReporter": false,
+
+    "extensions.autoUpdate": false,
+    "extensions.showRecommendationsOnlyOnDemand": true,
+    "extensions.autoCheckUpdates": false,
+
+    "update.mode": "manual",
+    "update.showReleaseNotes": false,
+    "update.enableWindowsBackgroundUpdates": false,
+
+    "files.trimTrailingWhitespace": true,
     "files.associations": {
         "environment": "dotenv"
     }
