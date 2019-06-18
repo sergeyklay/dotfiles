@@ -16,6 +16,7 @@
     "workbench.statusBar.feedback.visible": false,
     "workbench.settings.enableNaturalLanguageSearch": false,
     "workbench.enableExperiments": false,
+    "workbench.startupEditor": "newUntitledFile",
 
     "window.menuBarVisibility": "toggle",
     "window.zoomLevel": 0,
