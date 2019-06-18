@@ -1,4 +1,6 @@
 {
+    "files.trimTrailingWhitespace": true,
+
     "editor.dragAndDrop": false,
     "editor.lineNumbers": "off",
     "editor.renderIndentGuides": false,
@@ -11,15 +13,20 @@
     "editor.occurrencesHighlight": false,
 
     "terminal.integrated.cursorBlinking": true,
-    
+
     "workbench.colorTheme": "Dracula Soft",
     "workbench.statusBar.feedback.visible": false,
 
-    "breadcrumbs.enabled": false,
     "window.menuBarVisibility": "toggle",
+    "window.zoomLevel": 0,
+
+    "breadcrumbs.enabled": false,
+
     "calva.lintOnSave": true,
-    
+
     "telemetry.enableTelemetry": false,
     "telemetry.enableCrashReporter": false,
-    "window.zoomLevel": 0
+    "files.associations": {
+        "environment": "dotenv"
+    }
 }
