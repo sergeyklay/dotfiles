@@ -7,7 +7,7 @@
     "editor.cursorStyle": "block",
     "editor.fontFamily": "'Source Code Pro', 'Droid Sans Mono', 'Liberation Mono', Menlo, Courier, monospace",
     "editor.fontLigatures": true,
-    "editor.fontSize": 16,
+    "editor.fontSize": 17,
     "editor.occurrencesHighlight": false,
 
     "terminal.integrated.cursorBlinking": true,
@@ -20,5 +20,6 @@
     "calva.lintOnSave": true,
     
     "telemetry.enableTelemetry": false,
-    "telemetry.enableCrashReporter": false
+    "telemetry.enableCrashReporter": false,
+    "window.zoomLevel": 0
 }
