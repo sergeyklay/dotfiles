@@ -46,10 +46,10 @@ Thumbs.db
 nbproject
 *.sublime-project
 *.sublime-workspace
-.code-workspace
+*.code-workspace
 cmake-build-debug
 .gdb_history
-
+.vscode/
 .ac-php-conf.json
 .dir-locals.el
 
