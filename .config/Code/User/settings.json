@@ -6,7 +6,7 @@
     "editor.renderLineHighlight": "none",
     "editor.cursorStyle": "block",
     "editor.fontFamily": "'Source Code Pro', 'Droid Sans Mono', 'Liberation Mono', Menlo, Courier, monospace",
-    "editor.fontSize": 14,
+    "editor.fontSize": 17,
     "editor.fontLigatures": false,
     "editor.occurrencesHighlight": false,
 
@@ -19,7 +19,7 @@
     "workbench.startupEditor": "newUntitledFile",
 
     "window.menuBarVisibility": "toggle",
-    "window.zoomLevel": 1,
+    "window.zoomLevel": 0,
 
     "breadcrumbs.enabled": false,
 
