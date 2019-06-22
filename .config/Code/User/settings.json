@@ -9,6 +9,7 @@
     "editor.fontSize": 17,
     "editor.fontLigatures": false,
     "editor.occurrencesHighlight": false,
+    "editor.rulers": [72,80,120],
 
     "terminal.integrated.cursorBlinking": true,
 
@@ -17,6 +18,9 @@
     "workbench.settings.enableNaturalLanguageSearch": false,
     "workbench.enableExperiments": false,
     "workbench.startupEditor": "newUntitledFile",
+    "workbench.colorCustomizations": {
+        "editorRuler.foreground": "#50505049"
+    },
 
     "window.menuBarVisibility": "toggle",
     "window.zoomLevel": 0,
