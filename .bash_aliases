@@ -28,7 +28,16 @@ alias cls=clear
 
 alias xup="xrdb ~/.Xresources"
 
-alias dc="docker-compose"
-alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Status}}'"
+if command -v docker-compose >/dev/null 2>&1; then
+  alias dc="docker-compose"
+fi
+
+if command -v docker >/dev/null 2>&1; then
+  alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Status}}'"
+fi
+
+if command -v clojure >/dev/null 2>&1; then
+  alias rebel="clojure -A:rebel"
+fi
 
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
