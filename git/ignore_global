@@ -30,6 +30,12 @@
 *.sqlite3
 *.sqlite3-journal
 
+# Common runtime files
+.lein-*
+.nrepl-port
+.nrepl-history
+.rebel_readline_history
+
 # OS generated files #
 ######################
 .DS_Store
