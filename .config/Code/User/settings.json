@@ -10,9 +10,12 @@
     "editor.fontLigatures": false,
     "editor.occurrencesHighlight": false,
     "editor.rulers": [72,80,120],
+    "editor.renderControlCharacters": false,
+    "editor.renderWhitespace": "none",
 
     "terminal.integrated.cursorBlinking": true,
 
+    "workbench.iconTheme": "vs-minimal",
     "workbench.colorTheme": "Dracula Soft",
     "workbench.statusBar.feedback.visible": false,
     "workbench.settings.enableNaturalLanguageSearch": false,
