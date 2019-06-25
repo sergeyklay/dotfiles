@@ -4,8 +4,11 @@ chrmarti.ssh
 dracula-theme.theme-dracula
 EditorConfig.EditorConfig
 felixfbecker.php-intellisense
+ikappas.phpcs
 joaompinto.asciidoctor-vscode
+junstyle.php-cs-fixer
 jvalecillos.gpg
+mechatroner.rainbow-csv
 mikestead.dotenv
 ms-vscode.cpptools
 onecentlin.laravel-blade
