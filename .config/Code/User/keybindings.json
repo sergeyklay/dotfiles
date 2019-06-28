@@ -33,5 +33,22 @@
         "key": "alt+down",
         "command": "-editor.action.moveLinesDownAction",
         "when": "editorTextFocus && !editorReadonly"
+    },
+
+    // make selected box upper/lower case
+    {
+        "key": "ctrl+shift+u",
+        "command": "editor.action.transformToUppercase",
+        "when": "editorTextFocus && !editorReadonly"
+     },
+     {
+        "key": "ctrl+shift+l",
+        "command": "editor.action.transformToLowercase",
+        "when": "editorTextFocus && !editorReadonly"
+     },
+     {
+        "key": "ctrl+shift+l",
+        "command": "-editor.action.selectHighlights",
+        "when": "editorTextFocus && !editorReadonly"
     }
 ]
