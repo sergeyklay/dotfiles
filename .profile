@@ -60,14 +60,18 @@ if [ -d "$HOME/work/phalcon/devtools" ]; then
 	pathmunge "$PTOOLSPATH"
 fi
 
+# Zephir
+if [ -f /etc/bash_completion.d/zephir-autocomplete ]; then
+	. /etc/bash_completion.d/zephir-autocomplete
+fi
+
 # Composer
 if [ -d ${HOME}/.composer ]; then
 	export COMPOSER_HOME="$HOME/.composer"
 
-	# See: https://github.com/stecman/composer-bash-completion-plugin
-	ac="vendor/stecman/composer-bash-completion-plugin/hooks/bash-completion"
-	if [ -f $COMPOSER_HOME/$ac ]; then
-		. $COMPOSER_HOME/$ac
+	# See: https://github.com/bramus/composer-autocomplete
+	if [ -f /etc/bash_completion.d/composer ]; then
+		. /etc/bash_completion.d/composer
 	fi
 
 	if [ -d $COMPOSER_HOME/vendor/bin ]; then
