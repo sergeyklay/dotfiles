@@ -5,7 +5,7 @@
     "editor.minimap.enabled": false,
     "editor.renderLineHighlight": "none",
     "editor.cursorStyle": "block",
-    "editor.fontFamily": "'Source Code Pro', 'Droid Sans Mono', 'Liberation Mono', Menlo, Courier, monospace",
+    "editor.fontFamily": "SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier,  monospace",
     "editor.fontSize": 17,
     "editor.fontLigatures": false,
     "editor.occurrencesHighlight": false,
@@ -30,8 +30,6 @@
 
     "breadcrumbs.enabled": false,
 
-    "calva.lintOnSave": true,
-
     "telemetry.enableTelemetry": false,
     "telemetry.enableCrashReporter": false,
 
@@ -48,5 +46,12 @@
         "environment": "dotenv"
     },
 
-    "php-cs-fixer.onsave": true
+    // Extensions
+
+    "calva.lintOnSave": true,
+    "calva.syncReplNamespaceToCurrentFile": true,
+
+    "php-cs-fixer.onsave": true,
+
+    "C_Cpp.updateChannel": "Insiders"
 }
