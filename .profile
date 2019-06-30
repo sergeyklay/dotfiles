@@ -35,9 +35,9 @@ fi
 
 # Include local bin
 if [ -e $HOME/bin ]; then
-    if [ -L $HOME/bin ] || [ -f $HOME/bin ]; then
+	if [ -L $HOME/bin ] || [ -f $HOME/bin ]; then
 		pathmunge "$HOME/bin"
-    fi
+	fi
 fi
 
 if [ -d $HOME/.local/bin ]; then
@@ -60,19 +60,10 @@ if [ -d "$HOME/work/phalcon/devtools" ]; then
 	pathmunge "$PTOOLSPATH"
 fi
 
-# Zephir
-if [ -f /etc/bash_completion.d/zephir-autocomplete ]; then
-	. /etc/bash_completion.d/zephir-autocomplete
-fi
-
 # Composer
-if [ -d ${HOME}/.composer ]; then
-	export COMPOSER_HOME="$HOME/.composer"
-
-	# See: https://github.com/bramus/composer-autocomplete
-	if [ -f /etc/bash_completion.d/composer ]; then
-		. /etc/bash_completion.d/composer
-	fi
+if [ -d "$XDG_CONFIG_HOME/composer" ]; then
+	export COMPOSER_HOME="$XDG_CONFIG_HOME/composer"
+	export COMPOSER_CACHE_DIR="$XDG_CACHE_HOME/composer"
 
 	if [ -d $COMPOSER_HOME/vendor/bin ]; then
 		pathmunge "$COMPOSER_HOME/vendor/bin"
