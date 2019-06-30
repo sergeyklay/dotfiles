@@ -116,7 +116,7 @@ fi
 
 # include aliases
 if [ -f $HOME/.bash_aliases ]; then
-  . $HOME/.bash_aliases
+  source $HOME/.bash_aliases
 fi
 
 unset colors_support
@@ -126,24 +126,35 @@ unset colors_support
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
+    source /usr/share/bash-completion/bash_completion
   elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
+    source /etc/bash_completion
   fi
 fi
 
 # git completion
 if [ -f $HOME/git/completion.sh ]; then
-  . $HOME/git/completion.sh
+  source $HOME/git/completion.sh
 fi
 
 if [ -f /etc/bash_completion.d/docker-compose ]; then
-  . /etc/bash_completion.d/docker-compose
+  source /etc/bash_completion.d/docker-compose
+fi
+
+# Zephir completion
+if [ -f /etc/bash_completion.d/zephir-autocomplete ]; then
+  source /etc/bash_completion.d/zephir-autocomplete
+fi
+
+# Composer completion
+# See: https://github.com/bramus/composer-autocomplete
+if [ -f /etc/bash_completion.d/composer ]; then
+  source /etc/bash_completion.d/composer
 fi
 
 export SSH_AGENT_CONFIG="$HOME/.ssh_agent_session"
 if [[ -e "$SSH_AGENT_CONFIG" ]]; then
-  . "$SSH_AGENT_CONFIG" > /dev/null
+  source "$SSH_AGENT_CONFIG" > /dev/null
 fi
 
 # start `ssh-agent'
