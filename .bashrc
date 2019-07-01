@@ -152,6 +152,11 @@ if [ -f /etc/bash_completion.d/composer ]; then
   source /etc/bash_completion.d/composer
 fi
 
+# pass
+if [ -f /usr/share/bash-completion/completions/pass ]; then
+  source /usr/share/bash-completion/completions/pass
+fi
+
 export SSH_AGENT_CONFIG="$HOME/.ssh_agent_session"
 if [[ -e "$SSH_AGENT_CONFIG" ]]; then
   source "$SSH_AGENT_CONFIG" > /dev/null
