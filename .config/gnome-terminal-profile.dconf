@@ -1,0 +1,17 @@
+[/]
+foreground-color='#9f9f9f9fa1a1'
+visible-name='Serghei'
+login-shell=true
+palette=['#2d2d28283f3f', '#eded22226161', '#1f1fa9a91b1b', '#8d8ddcdc2020', '#48487d7df4f4', '#8d8d3535c9c9', '#3b3bdedeeded', '#9e9e9e9ea0a0', '#595951516a6a', '#f0f072729a9a', '#5353aaaa5e5e', '#b2b2dcdc8787', '#a9a9bcbcecec', '#adad8181c2c2', '#9d9de3e3ebeb', '#a2a28888f7f7']
+default-size-columns=150
+default-size-rows=40
+use-system-font=false
+use-theme-colors=false
+font='Source Code Pro Medium 13'
+allow-bold=false
+scrollback-unlimited=true
+use-theme-background=false
+bold-color-same-as-fg=true
+bold-color='#9f9f9f9fa1a1'
+background-color='#171714142323'
+audible-bell=false
