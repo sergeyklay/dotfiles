@@ -4,13 +4,13 @@
 # Bash configuration
 #
 
-# if not running interactively, don't do anything
+# If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# append to the history file, don't overwrite it
+# Append to the history file, don't overwrite it
 shopt -s histappend
 
-# check the window size after each command and, if necessary,
+# Check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
@@ -20,40 +20,40 @@ shopt -s cmdhist
 # Bash can automatically prepend cd when entering just a path in the shell
 shopt -s autocd
 
-# man -P 'less -rp HISTCONTROL' bash
+# See man -P 'less -rp HISTCONTROL' bash
 HISTCONTROL="ignoreboth:erasedups"
 
-# every command being saved on the history list
+# Every command being saved on the history list
 HISTSIZE=-1
 
-# maximum number of history lines
+# Maximum number of history lines
 HISTFILESIZE=100000
 
-# for the protection and ability for future analyzing
+# For the protection and ability for future analyzing
 HISTTIMEFORMAT="%h %d %H:%M:%S "
 
-# stroe all commands in the history
+# Stroe all commands in the history
 HISTIGNORE=
 
-# save commands immediately after use
+# Save commands immediately after use
 PROMPT_COMMAND='history -a'
 
-# user-specific configuration files
+# User-specific configuration files
 export XDG_CONFIG_HOME=$HOME/.config
 
-# user-specific data files
+# User-specific data files
 export XDG_DATA_HOME=$HOME/.local/share
 
-# base directories relative to which data files should be searched
+# Base directories relative to which data files should be searched
 export XDG_DATA_DIRS=/usr/share
 
-# configuration files should be searched relative to this directory
+# Configuration files should be searched relative to this directory
 export XDG_CONFIG_DIRS=/etc/xdg
 
-# user-specific cached data should be written relative to this directory
+# User-specific cached data should be written relative to this directory
 export XDG_CACHE_HOME=$HOME/.cache
 
-# user-specific runtime files should be placed relative to this directory
+# User-specific runtime files should be placed relative to this directory
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 # See: https://stackoverflow.com/a/27965014/1661465
@@ -63,7 +63,7 @@ export XDG_STATE_HOME=$HOME/.local/state
 export EDITOR="vim"
 export VIEWER="vim -R"
 
-# more for less
+# More for less
 export PAGER=less
 
 # See: https://unix.stackexchange.com/q/38634/50400
@@ -90,11 +90,11 @@ if [ $(which dircolors) ]; then
     eval "$(dircolors -b)"
   fi
 
-  # used in ~/.bash_aliases
+  # This will used in ~/.bash_aliases
   colors_support=true
 fi
 
-# set a fancy prompt (non-color, unless we know we "want" color)
+# Set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
@@ -104,7 +104,7 @@ if [ "$colors_support" = true ]; then
   PS1="\[\033[1;32m\]$\[\033[00m\] \w "
   PS2="\[\033[1;37m\]|\[\033[00m\] "
 
-  # color man pages
+  # Color man pages
   export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
   export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
   export LESS_TERMCAP_me=$'\E[0m'           # end mode
@@ -118,14 +118,14 @@ if [ "$colors_support" = true ]; then
   [[ -z "$COLORTERM" ]] || COLORTERM=1
 fi
 
-# include aliases
+# Include aliases
 if [ -f $HOME/.bash_aliases ]; then
   source $HOME/.bash_aliases
 fi
 
 unset colors_support
 
-# enable programmable completion features (you don't need to enable
+# Enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
@@ -136,27 +136,28 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# git completion
+# Enable bash completion for git
 if [ -f $HOME/git/completion.sh ]; then
   source $HOME/git/completion.sh
 fi
 
+# Enable bash completion for docker-compose
 if [ -f /etc/bash_completion.d/docker-compose ]; then
   source /etc/bash_completion.d/docker-compose
 fi
 
-# Zephir completion
+# Enable bash completion for zephir
 if [ -f /etc/bash_completion.d/zephir-autocomplete ]; then
   source /etc/bash_completion.d/zephir-autocomplete
 fi
 
-# Composer completion
+# Enable bash completion for composer
 # See: https://github.com/bramus/composer-autocomplete
 if [ -f /etc/bash_completion.d/composer ]; then
   source /etc/bash_completion.d/composer
 fi
 
-# pass
+# Enable bash completion for pass
 if [ -f /usr/share/bash-completion/completions/pass ]; then
   source /usr/share/bash-completion/completions/pass
 fi
@@ -166,7 +167,7 @@ if [[ -e "$SSH_AGENT_CONFIG" ]]; then
   source "$SSH_AGENT_CONFIG" > /dev/null
 fi
 
-# start `ssh-agent'
+# Start `ssh-agent'
 # `ssh-add' returns 2 if it can not connect to the authentication agent.
 if [[ -z "$SSH_AUTH_SOCK" ]] || \
   { ssh-add -l > /dev/null 2>&1; test $? -eq 2; }; then
@@ -186,14 +187,14 @@ fi
 
 echo Agent pid $SSH_AGENT_PID
 
-# auto add ssh key to `ssh-agent'
+# Auto add ssh key to `ssh-agent'
 # Note: to add ECDSA keys see https://stackoverflow.com/a/45370592/1661465
 grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add >/dev/null 2>&1
 
 # Update GPG_TTY
 export GPG_TTY=$(/usr/bin/tty)
 
-# added by travis gem
+# Added by travis gem
 [ -f ${HOME}/.travis/travis.sh ] && source ${HOME}/.travis/travis.sh
 
 # Path to the bash it configuration
@@ -202,19 +203,22 @@ export BASH_IT="/home/klay/.bash_it"
 # Lock and Load a custom theme file.
 # Leave empty to disable theming.
 # location /.bash_it/themes/
-export BASH_IT_THEME='simple'
+export BASH_IT_THEME='bobby'
 
 # Don't check mail when opening terminal.
 unset MAILCHECK
 
 # Change this to your console based IRC client of choice.
-export IRC_CLIENT='irssi'
+export IRC_CLIENT='weechat'
 
 # Set this to the command you use for todo.txt-cli
 export TODO="t"
 
-# Set this to false to turn off version control status checking within the prompt for all themes
+# Set this to false to turn off version control status checking
+# within the prompt for all themes
 export SCM_CHECK=true
 
 # Load Bash It
 source "$BASH_IT"/bash_it.sh
+
+# vim:ft=sh:ts=2:sw=2:sts=2:tw=78:fenc=utf-8:et
