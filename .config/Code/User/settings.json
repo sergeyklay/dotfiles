@@ -37,7 +37,10 @@
     "extensions.autoCheckUpdates": false,
 
     "update.mode": "manual",
-    "update.enableWindowsBackgroundUpdates": false,
+    "update.showReleaseNotes": false,
+    "typescript.disableAutomaticTypeAcquisition": true,
+    "npm.fetchOnlinePackageInfo": false,
+
     "files.trimTrailingWhitespace": true,
     "files.associations": {
         "environment": "dotenv"
