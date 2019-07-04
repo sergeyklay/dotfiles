@@ -19,7 +19,7 @@
     "workbench.colorTheme": "Dracula Soft",
     "workbench.settings.enableNaturalLanguageSearch": false,
     "workbench.enableExperiments": false,
-    "workbench.startupEditor": "newUntitledFile",
+    "workbench.startupEditor": "none",
     "workbench.colorCustomizations": {
         "editorRuler.foreground": "#50505049"
     },
