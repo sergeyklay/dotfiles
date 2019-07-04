@@ -5,7 +5,7 @@
     "editor.minimap.enabled": false,
     "editor.renderLineHighlight": "none",
     "editor.cursorStyle": "block",
-    "editor.fontFamily": "SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier,  monospace",
+    "editor.fontFamily": "SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace",
     "editor.fontSize": 17,
     "editor.fontLigatures": false,
     "editor.occurrencesHighlight": false,
@@ -17,7 +17,6 @@
 
     "workbench.iconTheme": "vs-minimal",
     "workbench.colorTheme": "Dracula Soft",
-    "workbench.statusBar.feedback.visible": false,
     "workbench.settings.enableNaturalLanguageSearch": false,
     "workbench.enableExperiments": false,
     "workbench.startupEditor": "newUntitledFile",
@@ -52,6 +51,6 @@
     "php-cs-fixer.onsave": true,
 
     "C_Cpp.updateChannel": "Insiders",
-    "markdown.preview.fontFamily": "-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol",
+    "markdown.preview.fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',  sans-serif ",
     "projectManager.showProjectNameInStatusBar": false
 }
