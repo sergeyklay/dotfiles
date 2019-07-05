@@ -53,6 +53,9 @@
 
     "php-cs-fixer.onsave": true,
     "php-cs-fixer.lastDownload": 0,
+    "[php]": {
+        "editor.defaultFormatter": "junstyle.php-cs-fixer"
+    },
 
     "C_Cpp.updateChannel": "Insiders",
     "markdown.preview.fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',  sans-serif ",
