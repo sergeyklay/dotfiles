@@ -66,23 +66,25 @@
 
         ecport GO111MODULE=on
 
-        go get -u golang.org/x/tools/cmd/goimports
-        go get -u golang.org/x/tools/cmd/guru
-        go get -u golang.org/x/tools/cmd/gorename
-        go get -u golang.org/x/lint/golint
-        go get -u sourcegraph.com/sqs/goreturns
-        go get -u github.com/rogpeppe/godef
-        go get -u github.com/tpng/gopkgs
-        go get -u github.com/stamblerre/gocode
-        go get -u github.com/mitchellh/gox
-        go get -u github.com/ramya-rao-a/go-outline
-        go get -u github.com/newhook/go-symbols
-        go get -u github.com/zmb3/gogetdoc
-        go get -u github.com/fatih/gomodifytags
-        go get -u github.com/josharian/impl
         go get -u github.com/davidrjenni/reftools/cmd/fillstruct
-        go get -u github.com/golangci/golangci-lint/cmd/golangci-lint@v1.17.1
+        go get -u github.com/fatih/gomodifytags
         go get -u github.com/go-delve/delve/cmd/dlv
+        go get -u github.com/golangci/golangci-lint/cmd/golangci-lint@v1.17.1
+        go get -u github.com/josharian/impl
+        go get -u github.com/mitchellh/gox
+        go get -u github.com/newhook/go-symbols
+        go get -u github.com/ramya-rao-a/go-outline
+        go get -u github.com/rogpeppe/godef
+        go get -u github.com/stamblerre/gocode
+        go get -u github.com/tpng/gopkgs
+        go get -u github.com/zmb3/gogetdoc
+
+        go get -u golang.org/x/lint/golint
+        go get -u golang.org/x/tools/cmd/goimports
+        go get -u golang.org/x/tools/cmd/gorename
+        go get -u golang.org/x/tools/cmd/guru
+
+        go get -u sourcegraph.com/sqs/goreturns
 
     ----------------------------------------------------------------- */
     "go.buildOnSave": "off",
