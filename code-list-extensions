@@ -1,5 +1,6 @@
 alefragnani.project-manager
 betterthantomorrow.calva
+bungcip.better-toml
 chrmarti.ssh
 dracula-theme.theme-dracula
 EditorConfig.EditorConfig
@@ -15,6 +16,7 @@ mikestead.dotenv
 ms-vscode.cpptools
 ms-vscode.Go
 onecentlin.laravel-blade
+technosophos.vscode-make
 tonsky.clojure-warrior
 vscode-org-mode.org-mode
 zephir-lang.zephir
