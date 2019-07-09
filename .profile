@@ -82,9 +82,19 @@ fi
 if [ -d "$HOME/go" ]; then
   export GOPATH="$HOME/go"
 
-  if [ -d "$GOPATH/bin" ]; then
-    export GOBIN="$GOPATH/bin"
+  if [ ! -d "$GOPATH/bin" ]; then
+    mkdir -p "$GOPATH/bin"
   fi
+
+  # Put binary files created using "go install" command in "$GOPATH/bin"
+  export GOBIN="$GOPATH/bin"
+  pathmunge "$GOBIN"
+
+  # Enable the go modules feature
+  export GO111MODULE=on
+
+  # Set the GOPROXY environment variable
+  export GOPROXY=https://goproxy.io
 fi
 
 # Symlink from /opt/ghc/$GHCVER/bin
