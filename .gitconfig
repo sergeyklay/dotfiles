@@ -11,9 +11,6 @@
 	excludesfile = ~/git/ignore_global
 	editor = vim
 
-[gpg]
-	program = gpg2
-
 [push]
 	default = simple
 
