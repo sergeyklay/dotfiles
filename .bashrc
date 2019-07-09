@@ -137,7 +137,9 @@ if ! shopt -oq posix; then
 fi
 
 # Enable bash completion for git
-if [ -f $HOME/git/completion.sh ]; then
+if [ -f /usr/share/bash-completion/completions/git ]; then
+  source /usr/share/bash-completion/completions/git
+elif [ -f $HOME/git/completion.sh ]; then
   source $HOME/git/completion.sh
 fi
 
