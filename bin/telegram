@@ -1,5 +1,0 @@
-#!/bin/bash
-
-# For more see:
-# https://www.linuxbabe.com/debian/3-ways-install-telegram-messenger-debian-9-stretch
-/opt/Telegram/Telegram -- $USER
