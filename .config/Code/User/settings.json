@@ -43,7 +43,13 @@
 
     "files.trimTrailingWhitespace": true,
     "files.associations": {
-        "environment": "dotenv"
+        "environment": "dotenv",
+        "*.env.dist": "dotenv",
+        "*.neon.dist": "yaml",
+        ".php_cs": "php",
+        ".php_cs.dist": "php",
+        ".php_cs.cache": "json",
+        ".dockerignore": "ignore"
     },
 
     // Extensions
