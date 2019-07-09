@@ -15,6 +15,10 @@ pathmunge () {
   fi
 }
 
+# Some default paths
+pathmunge "/usr/sbin"
+pathmunge "/usr/local/bin"
+
 # See ~/.Xresources
 if [ -x "$(command -v xscreensaver 2>/dev/null)" ]; then
   if [ ! -d $HOME/log ]; then
