@@ -83,6 +83,7 @@
         go get -u github.com/rogpeppe/godef
         go get -u github.com/stamblerre/gocode
         go get -u github.com/tpng/gopkgs
+        go get -u github.com/uudashr/gopkgs/cmd/gopkgs
         go get -u github.com/zmb3/gogetdoc
 
         go get -u golang.org/x/lint/golint
