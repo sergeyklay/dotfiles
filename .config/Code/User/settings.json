@@ -14,6 +14,9 @@
     "editor.renderWhitespace": "none",
 
     "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.shell.linux": "/bin/bash",
+    "terminal.integrated.fontFamily": "'Source Code Pro for Powerline', Consolas, 'Liberation Mono', Menlo, Courier, monospace",
+    "terminal.integrated.fontSize": 17,
 
     "workbench.tree.indent": 22,
     "workbench.tree.renderIndentGuides": "none",
