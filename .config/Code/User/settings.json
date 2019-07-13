@@ -85,8 +85,8 @@
         go get -u github.com/mitchellh/gox
         go get -u github.com/newhook/go-symbols
         go get -u github.com/ramya-rao-a/go-outline
-        go get -u github.com/rogpeppe/godef
-        go get -u github.com/stamblerre/gocode
+        go get -u github.com/rogpeppe/godef && cp $GOBIN/godef $GOBIN/godef-gomod
+        go get -u github.com/stamblerre/gocode && cp $GOBIN/gocode $GOBIN/gocode-gomod
         go get -u github.com/tpng/gopkgs
         go get -u github.com/uudashr/gopkgs/cmd/gopkgs
         go get -u github.com/zmb3/gogetdoc
