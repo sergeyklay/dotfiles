@@ -95,6 +95,7 @@
         go get -u golang.org/x/tools/cmd/goimports
         go get -u golang.org/x/tools/cmd/gorename
         go get -u golang.org/x/tools/cmd/guru
+        go get -u golang.org/x/tools/gopls@latest
 
         go get -u sourcegraph.com/sqs/goreturns
 
@@ -105,7 +106,16 @@
         "--fast"
     ],
     "go.formatTool": "goimports",
+    "go.useLanguageServer": true,
     "[go]": {
-        "editor.formatOnSave": true
+        "editor.snippetSuggestions": "none",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        }
+    },
+    // VSCode will complain about the "gopls" settings, but they will still work.
+    "gopls": {
+        "usePlaceholders": true
     }
 }
