@@ -55,7 +55,8 @@
         ".php_cs.dist": "php",
         ".php_cs.cache": "json",
         "*.json.dist": "json",
-        ".dockerignore": "ignore"
+        ".dockerignore": "ignore",
+        "zephir-autocomplete": "shellscript"
     },
 
     // Extensions
@@ -79,6 +80,8 @@
 
     "php-cs-fixer.onsave": true,
     "php-cs-fixer.lastDownload": 0,
+    // to avoid duplicate suggestions
+    "php.suggest.basic": false,
     "[php]": {
         "editor.defaultFormatter": "junstyle.php-cs-fixer"
     },
