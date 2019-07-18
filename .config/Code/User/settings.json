@@ -59,6 +59,19 @@
 
     // Extensions
 
+    "todo-tree.flat": true,
+    "todo-tree.regex": "((//|#|<!--|;|/\\*|\\*|^)\\s*($TAGS)|^\\s*- \\[ \\])",
+    "todo-tree.tags": [
+        "TODO",
+        "@TODO",
+        "@Todo",
+        "@todo",
+        "FIXME",
+        "@fixme",
+        "@deprecated",
+        "@note"
+    ],
+
     "calva.lintOnSave": true,
     "calva.syncReplNamespaceToCurrentFile": true,
 
