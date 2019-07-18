@@ -54,6 +54,7 @@
         ".php_cs": "php",
         ".php_cs.dist": "php",
         ".php_cs.cache": "json",
+        "*.json.dist": "json",
         ".dockerignore": "ignore"
     },
 
