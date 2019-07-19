@@ -97,6 +97,13 @@ if [ -d "$HOME/go" ]; then
   export GOPROXY=https://goproxy.io
 fi
 
+# TinyGo
+#
+# See: https://github.com/tinygo-org/tinygo
+if [ -d "/usr/local/tinygo/bin" ]; then
+  pathmunge "/usr/local/tinygo/bin"
+fi
+
 # Symlink from /opt/ghc/$GHCVER/bin
 # add-apt-repository -y ppa:hvr/ghc
 if [ -d "/opt/ghc/bin" ]; then
