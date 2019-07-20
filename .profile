@@ -5,6 +5,7 @@
 #
 
 source "$HOME/profile.d/functions.sh"
+source "$HOME/profile.d/docker-tools.sh"
 
 # Some default paths
 pathmunge "/usr/sbin"
