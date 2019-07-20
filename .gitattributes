@@ -5,5 +5,5 @@
 
 .my.cnf                            linguist-language=INI
 
-.config/Code/User/settings.json    linguist-language=CSON
-.config/Code/User/keybindings.json linguist-language=CSON
+.config/Code/User/settings.json    linguist-language=jsonc
+.config/Code/User/keybindings.json linguist-language=jsonc
