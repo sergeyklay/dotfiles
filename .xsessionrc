@@ -19,9 +19,9 @@ xscreensaver -no-splash &
 
 # Restore the background on the next session
 if [ -e ${HOME}/.fehbg ]; then
-    if [ -L ${HOME}/.fehbg ] || [ -f ${HOME}/.fehbg ]; then
-	source ${HOME}/.fehbg
-    fi
+  if [ -L ${HOME}/.fehbg ] || [ -f ${HOME}/.fehbg ]; then
+  source ${HOME}/.fehbg
+  fi
 fi
 
 # Set the cursor icon
@@ -31,8 +31,8 @@ xsetroot -cursor_name left_ptr &
 # TODO: Works on home only. Make it better.
 monitors=$(xrandr --listmonitors | grep Monitors | cut -d ' ' -f2)
 if [ $monitors -gt '1' ]; then
-    source ~/.bash_aliases
-    dual
+  source ~/.bash_aliases
+  dual
 fi
 
 # The urxvt daemon is disbaled for now because
