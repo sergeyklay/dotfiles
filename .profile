@@ -128,7 +128,14 @@ if [ -d $HOME/.cask/bin ]; then
   pathmunge "$HOME/.cask/bin"
 fi
 
-# Enable phpenv
+# php-build
+PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
+
+if [ -d $HOME/src/php ]; then
+    export PHP_BUILD_TMPDIR=$HOME/src/php
+fi
+
+# phpenv
 if [ -d $HOME/.phpenv ]; then
   export PHPENV_ROOT="$HOME/.phpenv"
   pathmunge "$PHPENV_ROOT/bin"
