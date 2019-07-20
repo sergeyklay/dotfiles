@@ -139,8 +139,6 @@ fi
 # Enable bash completion for git
 if [ -f /usr/share/bash-completion/completions/git ]; then
   source /usr/share/bash-completion/completions/git
-elif [ -f $HOME/git/completion.sh ]; then
-  source $HOME/git/completion.sh
 fi
 
 # Enable bash completion for docker-compose
