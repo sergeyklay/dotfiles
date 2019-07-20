@@ -55,6 +55,8 @@
         ".php_cs.dist": "php",
         ".php_cs.cache": "json",
         "*.json.dist": "json",
+        ".my.cnf": "properties",
+        ".wgetrc": "properties",
         ".dockerignore": "ignore",
         "zephir-autocomplete": "shellscript"
     },
