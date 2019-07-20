@@ -4,16 +4,7 @@
 # Bash profile
 #
 
-# check whether the string given is already in the PATH
-pathmunge () {
-  if ! echo "$PATH" | /bin/grep -Eq "(^|:)$1($|:)" ; then
-    if [ "$2" = "after" ] ; then
-      export PATH="$PATH:$1"
-    else
-      export PATH="$1:$PATH"
-    fi
-  fi
-}
+source "$HOME/profile.d/functions.sh"
 
 # Some default paths
 pathmunge "/usr/sbin"
@@ -33,7 +24,7 @@ fi
 # include .bashrc if it exists
 if [ -n "$BASH_VERSION" ]; then
   if [ -f "$HOME/.bashrc" ]; then
-    . "$HOME/.bashrc"
+    source "$HOME/.bashrc"
   fi
 fi
 
