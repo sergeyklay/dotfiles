@@ -3,7 +3,7 @@
 
 *.rb diff=ruby
 
-.my.cnf                            linguist-language=INI
+.my.cnf          linguist-language=INI
 
-.config/Code/User/settings.json    linguist-language=jsonc
-.config/Code/User/keybindings.json linguist-language=jsonc
+settings.json    linguist-language=jsonc
+keybindings.json linguist-language=jsonc
