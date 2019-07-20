@@ -15,7 +15,7 @@
 #   and just use the flac2mp3 for recursive conversion all files to *.mp3
 
 # check dependencies
-function deps {
+function deps() {
   DEPENDENCIES="flac lame"
 
   deps_ok=YES
@@ -31,7 +31,7 @@ function deps {
   if [[ "$deps_ok" == "NO" ]]; then
     printf "Unmet dependencies ^\n"
     printf "Aborting!\n"
-    # failure 
+    # failure
     exit 1
   else
     # success

@@ -5,7 +5,7 @@
 #
 
 if [ -z "$(pidof Xorg)" ]; then
-    exit 0
+  exit 0
 fi
 
 export XAUTHORITY=/home/${USER}/.Xauthority
@@ -14,8 +14,8 @@ export XAUTHORITY=/home/${USER}/.Xauthority
 
 # looks like there is no screensaver running
 if [ $? != 0 ]; then
-    # double check
-    if [ -z "$(pidof xscreensaver)" ] ; then
-        /usr/bin/xscreensaver -no-splash &
-    fi
+  # double check
+  if [ -z "$(pidof xscreensaver)" ] ; then
+    /usr/bin/xscreensaver -no-splash &
+  fi
 fi

@@ -11,8 +11,8 @@
 
 if ping -c1 google.com | grep -w 0% > /dev/null
 then
-    printf "\n\t\033[1;32mTrue!\033[0m\n\n"
+  printf "\n\t\033[1;32mTrue!\033[0m\n\n"
 else
-    printf "\n\t\033[1;31mFalse!\033[0m\n\n"
+  printf "\n\t\033[1;31mFalse!\033[0m\n\n"
 fi
 
