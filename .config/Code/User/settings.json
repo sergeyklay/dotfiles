@@ -46,6 +46,7 @@
     "typescript.disableAutomaticTypeAcquisition": true,
     "npm.fetchOnlinePackageInfo": false,
 
+    "files.autoSave": "onFocusChange",
     "files.trimTrailingWhitespace": true,
     "files.associations": {
         "environment": "dotenv",
