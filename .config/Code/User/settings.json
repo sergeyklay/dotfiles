@@ -81,65 +81,11 @@
     "calva.lintOnSave": true,
     "calva.syncReplNamespaceToCurrentFile": true,
 
-    "php-cs-fixer.onsave": true,
-    "php-cs-fixer.lastDownload": 0,
-    // to avoid duplicate suggestions
-    "php.suggest.basic": false,
-    "[php]": {
-        "editor.defaultFormatter": "junstyle.php-cs-fixer"
-    },
-
     "C_Cpp.updateChannel": "Insiders",
     "C_Cpp.default.intelliSenseMode": "gcc-x64",
     "C_Cpp.intelliSenseCachePath": "~/.cache/vscode/cpptools",
 
     "markdown.preview.fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',  sans-serif ",
 
-    "projectManager.showProjectNameInStatusBar": false,
-
-    /* Go lang ---------------------------------------------------------
-
-        export GO111MODULE=on
-
-        go get -u github.com/davidrjenni/reftools/cmd/fillstruct
-        go get -u github.com/fatih/gomodifytags
-        go get -u github.com/go-delve/delve/cmd/dlv
-        go get -u github.com/golangci/golangci-lint/cmd/golangci-lint@v1.17.1
-        go get -u github.com/josharian/impl
-        go get -u github.com/mitchellh/gox
-        go get -u github.com/newhook/go-symbols
-        go get -u github.com/ramya-rao-a/go-outline
-        go get -u github.com/rogpeppe/godef && cp $GOBIN/godef $GOBIN/godef-gomod
-        go get -u github.com/stamblerre/gocode && cp $GOBIN/gocode $GOBIN/gocode-gomod
-        go get -u github.com/tpng/gopkgs
-        go get -u github.com/uudashr/gopkgs/cmd/gopkgs
-        go get -u github.com/zmb3/gogetdoc
-
-        go get -u golang.org/x/lint/golint
-        go get -u golang.org/x/tools/cmd/goimports
-        go get -u golang.org/x/tools/cmd/gorename
-        go get -u golang.org/x/tools/cmd/guru
-        go get -u golang.org/x/tools/gopls@latest
-
-        go get -u sourcegraph.com/sqs/goreturns
-
-    ----------------------------------------------------------------- */
-    "go.buildOnSave": "off",
-    "go.lintTool":"golangci-lint",
-    "go.lintFlags": [
-        "--fast"
-    ],
-    "go.formatTool": "goimports",
-    "go.useLanguageServer": true,
-    "[go]": {
-        "editor.snippetSuggestions": "none",
-        "editor.formatOnSave": true,
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": true
-        }
-    },
-    // VSCode will complain about the "gopls" settings, but they will still work.
-    "gopls": {
-        "usePlaceholders": true
-    }
+    "projectManager.showProjectNameInStatusBar": false
 }
