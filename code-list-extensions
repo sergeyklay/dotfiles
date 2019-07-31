@@ -1,6 +1,5 @@
 alefragnani.project-manager
 betterthantomorrow.calva
-bmewburn.vscode-intelephense-client
 bungcip.better-toml
 chrmarti.ssh
 coolbear.systemd-unit-file
@@ -9,16 +8,13 @@ eamodio.gitlens
 EditorConfig.EditorConfig
 Gruntfuggly.todo-tree
 igochkov.vscode-ebnf
-ikappas.phpcs
 joaompinto.asciidoctor-vscode
-junstyle.php-cs-fixer
 jvalecillos.gpg
 maelvalais.autoconf
 mechatroner.rainbow-csv
 mikestead.dotenv
 ms-vscode.cpptools
-ms-vscode.Go
-onecentlin.laravel-blade
+timonwong.shellcheck
 tonsky.clojure-warrior
 vscode-org-mode.org-mode
 zephir-lang.zephir
