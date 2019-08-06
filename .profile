@@ -47,7 +47,11 @@ if [ -d $HOME/.rbenv/bin ]; then
   eval "$(rbenv init -)"
 
   # Vim setup
-  export RUBY_BIN=$(rbenv which ruby | sed 's/ruby$//')
+  RUBY_BIN=$(rbenv which ruby 2> /dev/null || true | sed 's/ruby$//')
+  if [ x"$RUBY_BIN" != x ]
+  then
+    export RUBY_BIN
+  fi
 fi
 
 # Phalcon
