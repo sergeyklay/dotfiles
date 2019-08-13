@@ -28,16 +28,29 @@ alias cls=clear
 
 alias xup="xrdb ~/.Xresources"
 
-if command -v docker-compose >/dev/null 2>&1; then
+if command -v docker-compose >/dev/null 2>&1
+then
   alias dc="docker-compose"
 fi
 
-if command -v docker >/dev/null 2>&1; then
+if command -v docker >/dev/null 2>&1
+then
   alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Status}}'"
 fi
 
-if command -v clojure >/dev/null 2>&1; then
+if command -v clojure >/dev/null 2>&1
+then
   alias rebel="clojure -A:rebel"
+fi
+
+if command -v kubectl >/dev/null 2>&1
+then
+  alias k='kubectl'
+fi
+
+if command -v minikube >/dev/null 2>&1
+then
+  alias mk='/usr/local/bin/minikube'
 fi
 
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
