@@ -162,6 +162,10 @@ if [ -f /usr/share/bash-completion/completions/pass ]; then
   source /usr/share/bash-completion/completions/pass
 fi
 
+# Enable bash completion for kubectl
+# See: https://kubernetes.io/docs/tasks/tools/install-kubectl
+source <(kubectl completion bash)
+
 export SSH_AGENT_CONFIG="$HOME/.ssh_agent_session"
 if [[ -e "$SSH_AGENT_CONFIG" ]]; then
   source "$SSH_AGENT_CONFIG" > /dev/null
