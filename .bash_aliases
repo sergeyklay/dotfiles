@@ -43,14 +43,4 @@ then
   alias rebel="clojure -A:rebel"
 fi
 
-if command -v kubectl >/dev/null 2>&1
-then
-  alias k='kubectl'
-fi
-
-if command -v minikube >/dev/null 2>&1
-then
-  alias mk='/usr/local/bin/minikube'
-fi
-
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
