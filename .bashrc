@@ -204,6 +204,17 @@ export GPG_TTY=$(/usr/bin/tty)
 # Added by travis gem
 [ -f ${HOME}/.travis/travis.sh ] && source ${HOME}/.travis/travis.sh
 
+if [ $TILIX_ID ] || [ $VTE_VERSION ]
+then
+  if [ -f /etc/profile.d/vte-2.91.sh ]
+  then
+    source /etc/profile.d/vte-2.91.sh
+  elif [ -f /etc/profile.d/vte.sh ]
+  then
+    source /etc/profile.d/vte.sh
+  fi
+fi
+
 # Path to the bash it configuration
 export BASH_IT="/home/klay/.bash_it"
 
