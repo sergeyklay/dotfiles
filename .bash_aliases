@@ -35,7 +35,12 @@ fi
 
 if command -v docker >/dev/null 2>&1
 then
-  alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Status}}'"
+  alias dps="docker ps --format 'table {{.ID}}\\t{{.Names}}\\t{{.Status}}'"
+fi
+
+if command -v kubectl >/dev/null 2>&1
+then
+  alias kcd='kubectl config set-context $(kubectl config current-context) --namespace'
 fi
 
 if command -v clojure >/dev/null 2>&1
