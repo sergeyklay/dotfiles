@@ -165,7 +165,7 @@ fi
 # Enable bash completion for kubectl
 # See: https://kubernetes.io/docs/tasks/tools/install-kubectl
 test -n "$(command -v kubectl 2>/dev/null)" && \
-  source <(kubectl completion bash)
+  source <(kubectl completion bash | sed s/kubectl/k/g)
 test -n "$(command -v minikube 2>/dev/null)" && \
   source <(minikube completion bash)
 
