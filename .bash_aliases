@@ -40,6 +40,7 @@ fi
 
 if command -v kubectl >/dev/null 2>&1
 then
+  alias k='kubectl'
   alias kcd='kubectl config set-context $(kubectl config current-context) --namespace'
 fi
 
