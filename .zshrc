@@ -43,6 +43,6 @@ fi
 
 if [ -d /usr/local/man ]
 then
-  export MANPATH="/usr/local/man:$MANPATH"
+  export MANPATH="/usr/local/man:/usr/share/man:$MANPATH"
 fi
 
