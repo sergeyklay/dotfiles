@@ -174,6 +174,12 @@ test -n "$(command -v kubectl 2>/dev/null)" && \
 test -n "$(command -v minikube 2>/dev/null)" && \
   source <(minikube completion bash)
 
+# The next line updates PATH for the Google Cloud SDK.
+[ -f "$HOME/gcp/path.bash.inc" ] && source "$HOME/gcp/path.bash.inc"
+
+# The next line enables shell command completion for gcloud.
+[ -f "$HOME/gcp/completion.bash.inc" ] && source "$HOME/gcp/completion.bash.inc"
+
 export SSH_AGENT_CONFIG="$HOME/.ssh_agent_session"
 if [[ -e "$SSH_AGENT_CONFIG" ]]; then
   source "$SSH_AGENT_CONFIG" > /dev/null
@@ -242,6 +248,6 @@ export TODO="t"
 export SCM_CHECK=true
 
 # Load Bash It
-source "$BASH_IT"/bash_it.sh
+[ -f "$BASH_IT/bash_it.sh" ] && source "$BASH_IT/bash_it.sh"
 
 # vim:ft=sh:ts=2:sw=2:sts=2:tw=78:fenc=utf-8:et
