@@ -66,8 +66,13 @@ export VIEWER="vim -R"
 # More for less
 export PAGER=less
 
+# -X will leave the text in your Terminal, so it doesn't disappear
+#    when you exit less
+# -F will exit less if the output fits on one screen (so you don't
+#    have to press "q").
+#
 # See: https://unix.stackexchange.com/q/38634/50400
-export LESS=-X
+export LESS="-X -F"
 
 export LESSCHARSET=UTF-8
 [ -x /usr/bin/lesspipe ] && eval "$(lesspipe)"
