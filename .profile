@@ -29,7 +29,7 @@ fi
 
 # Include local bin
 [ -e $HOME/bin ] && {
-    if [ -L $HOME/bin ] || [ -f $HOME/bin ] && {
+    [ -L $HOME/bin ] || [ -f $HOME/bin ] && {
       pathmunge "$HOME/bin"
     }
 }
