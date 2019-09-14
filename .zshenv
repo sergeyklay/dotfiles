@@ -15,23 +15,22 @@ if [[ -z "$LC_ALL" ]]; then
 fi
 
 # kubectl
-if [ -d /usr/local/Cellar/kubernetes-cli/1.15.3/bin ]
-then
-  pathmunge /usr/local/Cellar/kubernetes-cli/1.15.3/bin
-fi
+[ -z "$(command -v brew 2>/dev/null || true)" ] && {
+  [ -d "$(brew --prefix kubernetes-cli)/bin" ] && {
+    pathmunge "$(brew --prefix kubernetes-cli)/bin"
+  }
+}
+
+# Google Cloud SDK
+[ -d "$HOME/gcp/bin" ] && pathmunge "$HOME/gcp/bin"
 
 # Go lang local workspace
-if [ -d /usr/local/go/bin ]
-then
-  pathmunge /usr/local/go/bin
-fi
+[ -d /usr/local/go/bin ] && pathmunge /usr/local/go/bin
 
 if [ -d "$HOME/go" ]; then
   export GOPATH="$HOME/go"
 
-  if [ ! -d "$GOPATH/bin" ]; then
-    mkdir -p "$GOPATH/bin"
-  fi
+  [ ! -d "$GOPATH/bin" ] && mkdir -p "$GOPATH/bin"
 
   # Put binary files created using "go install" command in "$GOPATH/bin"
   export GOBIN="$GOPATH/bin"
@@ -44,24 +43,21 @@ fi
 # php-build
 PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
 
-if [ -d $HOME/src ]; then
+if [ -d $HOME/src ]
+then
   test -d $HOME/src/php || mkdir -p $HOME/src/php
   export PHP_BUILD_TMPDIR=$HOME/src/php
 fi
 
 # phpenv
-if [ -d $HOME/.phpenv ]; then
+if [ -d $HOME/.phpenv ]
+then
   export PHPENV_ROOT="$HOME/.phpenv"
   pathmunge "$PHPENV_ROOT/bin"
 
   eval "$(phpenv init -)"
 
-  if [ -d $PHPENV_ROOT/plugins/php-build/bin ]; then
+  [ -d $PHPENV_ROOT/plugins/php-build/bin ] && {
     pathmunge "$PHPENV_ROOT/plugins/php-build/bin"
-  fi
-
-  if [ -f $HOME/.php_build_configure_opts ]; then
-    PHP_BUILD_CONFIGURE_OPTS=$(cat $HOME/.php_build_configure_opts)
-    export PHP_BUILD_CONFIGURE_OPTS
-  fi
+  }
 fi
