@@ -65,16 +65,3 @@ if [ -d $HOME/.phpenv ]; then
     export PHP_BUILD_CONFIGURE_OPTS
   fi
 fi
-
-# Aliases
-
-if command -v docker >/dev/null 2>&1
-then
-  alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Status}}'"
-fi
-
-if command -v kubectl >/dev/null 2>&1
-then
-  alias k='kubectl'
-  alias kcd='kubectl config set-context $(kubectl config current-context) --namespace'
-fi
