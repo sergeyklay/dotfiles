@@ -128,4 +128,7 @@ fi
   pathmunge "$EVM_ROOT/bin"
 }
 
+# Google Cloud SDK
+[ -d "$HOME/gcp/bin" ] && pathmunge "$HOME/gcp/bin"
+
 # vim:ft=sh:ts=2:sw=2:sts=2:tw=78:fenc=utf-8:et
