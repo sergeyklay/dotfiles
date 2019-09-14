@@ -41,39 +41,28 @@ plugins=(
   brew
 )
 
-
-if [ -f "$ZSH/oh-my-zsh.sh" ]
-then
-  source "$ZSH/oh-my-zsh.sh"
-fi
-
-source $HOME/.zshenv
+[ -f "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"
+[ -f "$HOME/.zshenv" ] && source "$HOME/.zshenv"
 
 # Include aliases
-if [ -f $HOME/.zsh_aliases ]; then
-  source $HOME/.zsh_aliases
-fi
+[ -f "$HOME/.zsh_aliases" ] && source "$HOME/.zsh_aliases"
 
-if [ "$(command -v brew 2>/dev/null || true)" != "" ]
-then
-  if [ -d "$(brew --prefix)/share/zsh/site-functions" ]
-  then
+[ -z "$(command -v brew 2>/dev/null || true)" ] && {
+  [ -d "$(brew --prefix)/share/zsh/site-functions" ] && {
     FPATH="$(brew --prefix)/share/zsh/site-functions:$FPATH"
-  fi
-fi
+  }
+}
 
-if [ "$(command -v kubectl 2>/dev/null || true)" != "" ]
-then
+# kubectl completion
+[ -z "$(command -v kubectl 2>/dev/null || true)" ] && {
   source <(kubectl completion zsh | sed s/kubectl/k/g)
-fi
+}
 
-if [ -d /usr/local/man ]
-then
-  export MANPATH="/usr/local/man:$MANPATH"
-fi
+[ -d /usr/local/man ] && export MANPATH="/usr/local/man:$MANPATH"
+[ -d /usr/share/man ] && export MANPATH="/usr/share/man:$MANPATH"
 
-if [ -d /usr/share/man ]
-then
-  export MANPATH="/usr/share/man:$MANPATH"
-fi
+# The next line updates PATH for the Google Cloud SDK.
+[ -f "$HOME/gcp/path.zsh.inc" ] && source "$HOME/gcp/path.zsh.inc"
 
+# The next line enables shell command completion for gcloud.
+[ -f "$HOME/gcp/completion.zsh.inc" ] && source "$HOME/gcp/completion.zsh.inc"
