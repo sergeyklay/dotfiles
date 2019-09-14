@@ -7,67 +7,54 @@
 source "$HOME/profile.d/functions.sh"
 source "$HOME/profile.d/docker-tools.sh"
 
-# Some default paths
+# Sane defaults
 pathmunge "/usr/sbin"
 pathmunge "/usr/local/bin"
 
 # See ~/.Xresources
-if [ -x "$(command -v xscreensaver 2>/dev/null)" ]; then
-  if [ ! -d $HOME/log ]; then
-    mkdir -p "$HOME/log"
-  fi
+if [ -x "$(command -v xscreensaver 2>/dev/null)" ]
+then
+  [ ! -d $HOME/log ] && mkdir -p "$HOME/log"
 
-  if [ ! -f "$HOME/log/xscreensaver.log" ]; then
+  if [ ! -f "$HOME/log/xscreensaver.log" ]
+  then
     touch "$HOME/log/xscreensaver.log"
   fi
 fi
 
 # include .bashrc if it exists
-if [ -n "$BASH_VERSION" ]; then
-  if [ -f "$HOME/.bashrc" ]; then
-    source "$HOME/.bashrc"
-  fi
-fi
+[ -n "$BASH_VERSION" ] && {
+  [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"
+}
 
 # Include local bin
-if [ -e $HOME/bin ]; then
-  if [ -L $HOME/bin ] || [ -f $HOME/bin ]; then
-    pathmunge "$HOME/bin"
-  fi
-fi
+[ -e $HOME/bin ] && {
+    if [ -L $HOME/bin ] || [ -f $HOME/bin ] && {
+      pathmunge "$HOME/bin"
+    }
+}
 
-if [ -d $HOME/.local/bin ]; then
-  pathmunge "$HOME/.local/bin"
-fi
+[ -d $HOME/.local/bin ] && pathmunge "$HOME/.local/bin"
 
 # Add rbenv to PATH for scripting
-if [ -d $HOME/.rbenv/bin ]; then
+if [ -d $HOME/.rbenv/bin ]
+then
   pathmunge "$HOME/.rbenv/bin"
   # Load rbenv
   eval "$(rbenv init -)"
 
   # Vim setup
   RUBY_BIN=$(rbenv which ruby 2> /dev/null || true | sed 's/ruby$//')
-  if [ x"$RUBY_BIN" != x ]
-  then
-    export RUBY_BIN
-  fi
-fi
-
-# Phalcon
-if [ -d "$HOME/work/phalcon/devtools" ]; then
-  export PTOOLSPATH="$HOME/work/phalcon/devtools"
-  pathmunge "$PTOOLSPATH"
+  [ x"$RUBY_BIN" != x ] && export RUBY_BIN
 fi
 
 # Composer
-if [ -d "$XDG_CONFIG_HOME/composer" ]; then
+if [ -d "$XDG_CONFIG_HOME/composer" ]
+then
   export COMPOSER_HOME="$XDG_CONFIG_HOME/composer"
   export COMPOSER_CACHE_DIR="$XDG_CACHE_HOME/composer"
 
-  if [ -d $COMPOSER_HOME/vendor/bin ]; then
-    pathmunge "$COMPOSER_HOME/vendor/bin"
-  fi
+  [ -d $COMPOSER_HOME/vendor/bin ] && pathmunge "$COMPOSER_HOME/vendor/bin"
 fi
 
 # Go lang local workspace
@@ -75,12 +62,11 @@ fi
 # To append Go binaries to the $PATH see:
 # https://github.com/udhos/update-golang
 # See /etc/profile.d/golang_path.sh file
-if [ -d "$HOME/go" ]; then
+if [ -d "$HOME/go" ]
+then
   export GOPATH="$HOME/go"
 
-  if [ ! -d "$GOPATH/bin" ]; then
-    mkdir -p "$GOPATH/bin"
-  fi
+  [ ! -d "$GOPATH/bin" ] && mkdir -p "$GOPATH/bin"
 
   # Put binary files created using "go install" command in "$GOPATH/bin"
   export GOBIN="$GOPATH/bin"
@@ -96,49 +82,33 @@ fi
 # TinyGo
 #
 # See: https://github.com/tinygo-org/tinygo
-if [ -d "/usr/local/tinygo/bin" ]; then
-  pathmunge "/usr/local/tinygo/bin"
-fi
+[ -d "/usr/local/tinygo/bin" ] && pathmunge "/usr/local/tinygo/bin"
 
 # Symlink from /opt/ghc/$GHCVER/bin
 # add-apt-repository -y ppa:hvr/ghc
-if [ -d "/opt/ghc/bin" ]; then
-  pathmunge "/opt/ghc/bin"
-fi
+[ -d "/opt/ghc/bin" ] && pathmunge "/opt/ghc/bin"
 
 # Symlink from /opt/cabal/$CABALVER/bin
 # add-apt-repository -y ppa:hvr/ghc
-if [ -d "/opt/cabal/bin" ]; then
-  pathmunge "/opt/cabal/bin"
-fi
+[ -d "/opt/cabal/bin" ] && pathmunge "/opt/cabal/bin"
 
 # add-apt-repository -y ppa:hvr/ghc
-if [ -d "/opt/ghc-ppa-tools/bin" ]; then
-  pathmunge "/opt/ghc-ppa-tools/bin"
-fi
+[ -d "/opt/ghc-ppa-tools/bin" ] &&pathmunge "/opt/ghc-ppa-tools/bin"
 
 # hlint
 # https://github.com/ndmitchell/hlint
-if [ -d $HOME/.hlint ]; then
-  pathmunge "$HOME/.hlint"
-fi
+[ -d $HOME/.hlint ] && pathmunge "$HOME/.hlint"
 
 # Cabal
-if [ -d $HOME/.cabal/bin ]; then
-  pathmunge "$HOME/.cabal/bin"
-fi
+[ -d $HOME/.cabal/bin ] && pathmunge "$HOME/.cabal/bin"
 
 # Cask
-if [ -d $HOME/.cask/bin ]; then
-  pathmunge "$HOME/.cask/bin"
-fi
+[ -d $HOME/.cask/bin ] && pathmunge "$HOME/.cask/bin"
 
 # php-build
 PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
 
-if [ -d $HOME/src/php ]; then
-    export PHP_BUILD_TMPDIR=$HOME/src/php
-fi
+[ -d $HOME/src/php ] && export PHP_BUILD_TMPDIR=$HOME/src/php
 
 # phpenv
 if [ -d $HOME/.phpenv ]; then
@@ -147,20 +117,15 @@ if [ -d $HOME/.phpenv ]; then
 
   eval "$(phpenv init -)"
 
-  if [ -d $PHPENV_ROOT/plugins/php-build/bin ]; then
-    pathmunge "$PHPENV_ROOT/plugins/php-build/bin"
-  fi
-
-  if [ -f $HOME/.php_build_configure_opts ]; then
-    PHP_BUILD_CONFIGURE_OPTS=$(cat $HOME/.php_build_configure_opts)
-    export PHP_BUILD_CONFIGURE_OPTS
-  fi
+  [ -d "$PHPENV_ROOT/plugins/php-build/bin" ] && {
+      pathmunge "$PHPENV_ROOT/plugins/php-build/bin"
+  }
 fi
 
 # Enable Emacs Version Manager
-if [ -d ${HOME}/.evm/bin ]; then
+[ -d ${HOME}/.evm/bin ] && {
   export EVM_ROOT="$HOME/.evm"
   pathmunge "$EVM_ROOT/bin"
-fi
+}
 
 # vim:ft=sh:ts=2:sw=2:sts=2:tw=78:fenc=utf-8:et
