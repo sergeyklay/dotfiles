@@ -47,7 +47,7 @@ plugins=(
 # Include aliases
 [ -f "$HOME/.zsh_aliases" ] && source "$HOME/.zsh_aliases"
 
-[ -z "$(command -v brew 2>/dev/null || true)" ] && {
+[ ! -z "$(command -v brew 2>/dev/null || true)" ] && {
   [ -d "$(brew --prefix)/share/zsh/site-functions" ] && {
     FPATH="$(brew --prefix)/share/zsh/site-functions:$FPATH"
   }
