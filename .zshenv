@@ -19,6 +19,9 @@ pathmunge /usr/local/sbin
   }
 }
 
+# Local binaries
+[ -d "$HOME/.local/bin" ] && pathmunge "$HOME/.local/bin"
+
 # Google Cloud SDK
 [ -d "$HOME/gcp/bin" ] && pathmunge "$HOME/gcp/bin"
 
@@ -59,3 +62,8 @@ then
     pathmunge "$PHPENV_ROOT/plugins/php-build/bin"
   }
 fi
+
+# Use Python 3 by default
+[ -f "$HOME/.virtualenvs/python-3/bin/activate" ] && {
+  source "$HOME/.virtualenvs/python-3/bin/activate"
+}
