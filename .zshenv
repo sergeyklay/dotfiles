@@ -62,8 +62,3 @@ then
     pathmunge "$PHPENV_ROOT/plugins/php-build/bin"
   }
 fi
-
-# Use Python 3 by default
-[ -f "$HOME/.virtualenvs/python-3/bin/activate" ] && {
-  source "$HOME/.virtualenvs/python-3/bin/activate"
-}
