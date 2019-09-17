@@ -47,13 +47,13 @@ export XDG_DATA_HOME=$HOME/.local/share
 export XDG_DATA_DIRS=/usr/share
 
 # Configuration files should be searched relative to this directory
-export XDG_CONFIG_DIRS=/etc/xdg
+[ -d /etc/xdg ] && export XDG_CONFIG_DIRS=/etc/xdg
 
 # User-specific cached data should be written relative to this directory
 export XDG_CACHE_HOME=$HOME/.cache
 
 # User-specific runtime files should be placed relative to this directory
-export XDG_RUNTIME_DIR=/run/user/$(id -u)
+[ -d /run/user ] && export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 # See: https://stackoverflow.com/a/27965014/1661465
 export XDG_STATE_HOME=$HOME/.local/state
