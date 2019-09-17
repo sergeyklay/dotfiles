@@ -1,6 +1,42 @@
 # Path to my oh-my-zsh installation
 [ -d "$HOME/.oh-my-zsh" ] && export ZSH="$HOME/.oh-my-zsh"
 
+# See man -P 'less -rp HISTCONTROL' bash
+HISTCONTROL="ignoreboth:erasedups"
+
+# Every command being saved on the history list
+HISTSIZE=-1
+
+# Maximum number of history lines
+HISTFILESIZE=100000
+
+# For the protection and ability for future analyzing
+HISTTIMEFORMAT="%h %d %H:%M:%S "
+
+# Stroe all commands in the history
+HISTIGNORE=
+
+# if history needs to be trimmed, expire dups first
+setopt HIST_EXPIRE_DUPS_FIRST
+
+# don't add dups to history
+setopt HIST_IGNORE_DUPS
+
+# don't add commands starting with space to history
+setopt HIST_IGNORE_SPACE
+
+# remove junk whitespace from commands before adding to history
+setopt HIST_REDUCE_BLANKS
+
+# if a cmd triggers history expansion, show it instead of running
+setopt HIST_VERIFY
+
+# write and import history on every command
+setopt SHARE_HISTORY
+
+# write timestamps to history
+setopt EXTENDED_HISTORY
+
 # User-specific configuration files
 export XDG_CONFIG_HOME=$HOME/.config
 
@@ -51,25 +87,31 @@ export LESSCHARSET=UTF-8
 ZSH_THEME="robbyrussell"
 
 plugins=(
+  bundler
+  cabal
+  composer
+  docker
+  docker-compose
+  gem
   git
   git-extras
-  bundler
-  gem
+  pass
   rake
   ruby
-  docker
   vagrant
-  # cask
-  cabal
 )
 
+
+[ "$(command -v cask 2>/dev/null || true)" != "" ] && plugins+=(cask)
+
+# Only macOS
 [ "$(uname | cut -d' ' -f1)" = "Darwin" ] && plugins+=(osx)
 [ "$(uname | cut -d' ' -f1)" = "Darwin" ] && plugins+=(brew)
 
 [ -f "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"
 [ -f "$HOME/.zshenv" ] && source "$HOME/.zshenv"
 
-# Include aliases
+# Personal aliases
 [ -f "$HOME/.zsh_aliases" ] && source "$HOME/.zsh_aliases"
 
 [ "$(command -v brew 2>/dev/null || true)" != "" ] && {
