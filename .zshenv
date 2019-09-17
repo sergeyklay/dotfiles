@@ -13,7 +13,7 @@ pathmunge /usr/local/sbin
 [ -z "$LC_ALL" ] && export LC_ALL='en_US.UTF-8'
 
 # kubectl
-[ ! -z "$(command -v brew 2>/dev/null || true)" ] && {
+[ "$(command -v brew 2>/dev/null || true)" != "" ] && {
   [ -d "$(brew --prefix kubernetes-cli)/bin" ] && {
     pathmunge "$(brew --prefix kubernetes-cli)/bin"
   }
