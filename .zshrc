@@ -105,25 +105,24 @@ plugins=(
 [ "$(command -v cask 2>/dev/null || true)" != "" ] && plugins+=(cask)
 
 # Only macOS
-[ "$(uname | cut -d' ' -f1)" = "Darwin" ] && plugins+=(osx)
-[ "$(uname | cut -d' ' -f1)" = "Darwin" ] && plugins+=(brew)
+[ "$(uname)" = "Darwin" ] && plugins+=(osx)
 
+[ ! -z $BREW_PATH ] && plugins+=(brew)
 [ -f "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"
-[ -f "$HOME/.zshenv" ] && source "$HOME/.zshenv"
 
 # Personal aliases
 [ -f "$HOME/.zsh_aliases" ] && source "$HOME/.zsh_aliases"
 
-[ "$(command -v brew 2>/dev/null || true)" != "" ] && {
-  [ -d "$(brew --prefix)/share/zsh/site-functions" ] && {
-    FPATH="$(brew --prefix)/share/zsh/site-functions:$FPATH"
+[ ! -z $BREW_PATH ] && {
+  _bsf="$(brew --prefix)/share/zsh/site-functions"
+  [ ! -z $_bsf ] && [ -d "$_bsf" ] && {
+    FPATH="$_bsf:$FPATH"
   }
+  unset _bsf
 }
 
 # kubectl completion
-[ "$(command -v kubectl 2>/dev/null || true)" != "" ] && {
-  source <(kubectl completion zsh | sed s/kubectl/k/g)
-}
+[ ! -z "$KUBECTL_PATH" ] && source <(kubectl completion zsh | sed s/kubectl/k/g)
 
 [ -d /usr/local/man ] && export MANPATH="/usr/local/man:$MANPATH"
 [ -d /usr/share/man ] && export MANPATH="/usr/share/man:$MANPATH"
