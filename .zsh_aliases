@@ -1,32 +1,25 @@
 #!/usr/bin/env zsh
 
-# some more ls aliases
-alias ll='LC_COLLATE=C ls -alF'
-alias la='LC_COLLATE=C ls -A'
-alias l='LC_COLLATE=C ls -CF'
+# See: https://superuser.com/a/656746/280737
+alias ll='LC_ALL="C.UTF-8" ls -alF'
 
-# clear screen
+# Some more ls aliases
+alias la='ls -A'
+alias l='ls -CF'
+
+# Clear screen
 alias cls=clear
 
-if command -v docker-compose >/dev/null 2>&1
-then
-  alias dc="docker-compose"
-fi
-
-if command -v docker >/dev/null 2>&1
-then
+[ "$(command -v docker-compose 2>/dev/null)" != "" ] && alias dc="docker-compose"
+[ "$(command -v docker 2>/dev/null)" != "" ] && {
   alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Status}}'"
-fi
+}
 
-if command -v kubectl >/dev/null 2>&1
-then
+[ "$(command -v kubectl 2>/dev/null)" != "" ] && {
   alias k='kubectl'
   alias kcd='kubectl config set-context $(kubectl config current-context) --namespace'
-fi
+}
 
-if command -v clojure >/dev/null 2>&1
-then
-  alias rebel="clojure -A:rebel"
-fi
+[ "$(command -v clojure 2>/dev/null)" != "" ] && alias rebel="clojure -A:rebel"
 
 # vim:ft=sh:ts=8:sw=2:sts=2:tw=80:et
