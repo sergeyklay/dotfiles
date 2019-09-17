@@ -63,8 +63,8 @@ plugins=(
   cabal
 )
 
-[ "$(uname -o)" != "GNU/Linux" ] && plugins+=(osx)
-[ "$(uname -o)" != "GNU/Linux" ] && plugins+=(brew)
+[ "$(uname | cut -d' ' -f1)" = "Darwin" ] && plugins+=(osx)
+[ "$(uname | cut -d' ' -f1)" = "Darwin" ] && plugins+=(brew)
 
 [ -f "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"
 [ -f "$HOME/.zshenv" ] && source "$HOME/.zshenv"
