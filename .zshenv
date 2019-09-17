@@ -10,13 +10,18 @@ source "$HOME/profile.d/docker-tools.sh"
 # Sane defaults
 pathmunge /usr/local/sbin
 
+export BREW_PATH="$(command -v brew 2>/dev/null || true)"
+export KUBECTL_PATH="$(command -v kubectl 2>/dev/null || true)"
+
 [ -z "$LC_ALL" ] && export LC_ALL='en_US.UTF-8'
 
 # kubectl
-[ "$(command -v brew 2>/dev/null || true)" != "" ] && {
-  [ -d "$(brew --prefix kubernetes-cli)/bin" ] && {
-    pathmunge "$(brew --prefix kubernetes-cli)/bin"
+[ ! -z "$BREW_PATH" ] && {
+  _k8s="$(brew --prefix kubernetes-cli 2>/dev/null || true)"
+  [ -n $_k8s ] && [ -d "$_k8s/bin" ] && {
+    pathmunge "$_k8s/bin"
   }
+  unset _k8s
 }
 
 # Include local bin
