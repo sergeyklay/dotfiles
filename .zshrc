@@ -91,3 +91,5 @@ plugins=(
 
 # The next line enables shell command completion for gcloud.
 [ -f "$HOME/gcp/completion.zsh.inc" ] && source "$HOME/gcp/completion.zsh.inc"
+
+# vim:ft=sh:ts=2:sw=2:sts=2:tw=78:fenc=utf-8:et

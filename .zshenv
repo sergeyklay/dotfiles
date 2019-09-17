@@ -19,6 +19,25 @@ pathmunge /usr/local/sbin
   }
 }
 
+# Include local bin
+[ -e $HOME/bin ] && {
+  [ -L $HOME/bin ] || [ -f $HOME/bin ] && {
+    pathmunge "$HOME/bin"
+  }
+}
+
+# Add rbenv to PATH for scripting
+if [ -d $HOME/.rbenv/bin ]
+then
+  pathmunge "$HOME/.rbenv/bin"
+  # Load rbenv
+  eval "$(rbenv init -)"
+
+  # Vim setup
+  RUBY_BIN=$(rbenv which ruby 2> /dev/null || true | sed 's/ruby$//')
+  [ x"$RUBY_BIN" != x ] && export RUBY_BIN
+fi
+
 # Local binaries
 [ -d "$HOME/.local/bin" ] && pathmunge "$HOME/.local/bin"
 
@@ -28,6 +47,7 @@ pathmunge /usr/local/sbin
 # Go lang local workspace
 [ -d /usr/local/go/bin ] && pathmunge /usr/local/go/bin
 
+# Go lang local workspace
 if [ -d "$HOME/go" ]; then
   export GOPATH="$HOME/go"
 
@@ -41,6 +61,21 @@ if [ -d "$HOME/go" ]; then
   export GO111MODULE=on
 fi
 
+# TinyGo
+#
+# See: https://github.com/tinygo-org/tinygo
+[ -d "/usr/local/tinygo/bin" ] && pathmunge "/usr/local/tinygo/bin"
+
+# hlint
+# https://github.com/ndmitchell/hlint
+[ -d $HOME/.hlint ] && pathmunge "$HOME/.hlint"
+
+# Cabal
+[ -d $HOME/.cabal/bin ] && pathmunge "$HOME/.cabal/bin"
+
+# Cask
+[ -d $HOME/.cask/bin ] && pathmunge "$HOME/.cask/bin"
+
 # php-build
 PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
 
@@ -48,6 +83,15 @@ if [ -d $HOME/src ]
 then
   test -d $HOME/src/php || mkdir -p $HOME/src/php
   export PHP_BUILD_TMPDIR=$HOME/src/php
+fi
+
+# Composer
+if [ -d "$XDG_CONFIG_HOME/composer" ]
+then
+  export COMPOSER_HOME="$XDG_CONFIG_HOME/composer"
+  export COMPOSER_CACHE_DIR="$XDG_CACHE_HOME/composer"
+
+  [ -d $COMPOSER_HOME/vendor/bin ] && pathmunge "$COMPOSER_HOME/vendor/bin"
 fi
 
 # phpenv
@@ -62,3 +106,5 @@ then
     pathmunge "$PHPENV_ROOT/plugins/php-build/bin"
   }
 fi
+
+# vim:ft=sh:ts=2:sw=2:sts=2:tw=78:fenc=utf-8:et
