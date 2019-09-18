@@ -9,6 +9,10 @@
 source "$HOME/profile.d/functions.sh"
 source "$HOME/profile.d/docker-tools.sh"
 
+export LC_ALL='en_US.UTF-8'
+export LC_TYPE='en_US.UTF-8'
+export LANG='en_US.UTF-8'
+
 # User-specific configuration files
 [ -d "$HOME/.config" ] && export XDG_CONFIG_HOME="$HOME/.config"
 
@@ -29,6 +33,11 @@ source "$HOME/profile.d/docker-tools.sh"
 
 # See: https://stackoverflow.com/a/27965014/1661465
 [ -d "$HOME/.local/state" ] && export XDG_STATE_HOME="$HOME/.local/state"
+
+[ ! -d "$XDG_CACHE_HOME/zsh" ] && mkdir -p "$XDG_CACHE_HOME/zsh"
+
+export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
+export ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump"
 
 # See: https://github.com/sergeyklay/vimfiles
 export EDITOR="vim"
@@ -60,8 +69,6 @@ pathmunge /usr/local/sbin
 
 export BREW_PATH="$(command -v brew 2>/dev/null || true)"
 export KUBECTL_PATH="$(command -v kubectl 2>/dev/null || true)"
-
-[ -z "$LC_ALL" ] && export LC_ALL='en_US.UTF-8'
 
 # kubectl
 [ ! -z "$BREW_PATH" ] && {
@@ -159,4 +166,4 @@ then
   }
 fi
 
-# vim:ft=sh:ts=2:sw=2:sts=2:tw=78:fenc=utf-8:et
+# vim:ft=zsh:ts=2:sw=2:sts=2:tw=78:fenc=utf-8:et
