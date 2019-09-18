@@ -1,4 +1,6 @@
-#
+# Shell is non-interactive. Be done now
+[[ $- != *i* ]] && return
+
 # Zsh startup file.
 #
 # Used for setting user's interactive shell configuration and
@@ -23,6 +25,8 @@ HISTTIMEFORMAT="%h %d %H:%M:%S "
 
 # Stroe all commands in the history
 HISTIGNORE=
+
+HISTFILE="$ZSH_CACHE_DIR/history"
 
 # if history needs to be trimmed, expire dups first
 setopt HIST_EXPIRE_DUPS_FIRST
@@ -67,7 +71,7 @@ plugins=(
 [ "$(command -v cask 2>/dev/null || true)" != "" ] && plugins+=(cask)
 
 # Only macOS
-[ "$(uname)" = "Darwin" ] && plugins+=(osx)
+[[  "$OSTYPE" = darwin*  ]] && plugins+=(osx)
 
 [ ! -z "$BREW_PATH" ] && plugins+=(brew)
 [ -f "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"
@@ -95,4 +99,4 @@ plugins=(
 # The next line enables shell command completion for gcloud.
 [ -f "$HOME/gcp/completion.zsh.inc" ] && source "$HOME/gcp/completion.zsh.inc"
 
-# vim:ft=sh:ts=2:sw=2:sts=2:tw=78:fenc=utf-8:et
+# vim:ft=zsh:ts=2:sw=2:sts=2:tw=78:fenc=utf-8:et
