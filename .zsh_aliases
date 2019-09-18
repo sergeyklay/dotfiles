@@ -7,19 +7,22 @@ alias ll='LC_ALL="C.UTF-8" ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
-# Clear screen
-alias cls=clear
+# Wget will use the supplied file as the HSTS database
+[ ! -z "$(command -v wget 2>/dev/null || true)" ] && {
+  alias wget='wget --hsts-file=$XDG_CACHE_HOME/wget-hsts'
+}
 
-[ "$(command -v docker-compose 2>/dev/null)" != "" ] && alias dc="docker-compose"
-[ "$(command -v docker 2>/dev/null)" != "" ] && {
+[ ! -z "$(command -v docker 2>/dev/null || true)" ] && {
   alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Status}}'"
 }
 
-[ "$(command -v kubectl 2>/dev/null)" != "" ] && {
+[ ! -z "$(command -v kubectl 2>/dev/null || true)" ] && {
   alias k='kubectl'
-  alias kcd='kubectl config set-context $(kubectl config current-context) --namespace'
+  alias kcd='kubectl config set-context $(kubectl config current-context) -n'
 }
 
-[ "$(command -v clojure 2>/dev/null)" != "" ] && alias rebel="clojure -A:rebel"
+[ ! -z "$(command -v clojure 2>/dev/null || true)" ] && {
+  alias rebel="clojure -A:rebel"
+}
 
 # vim:ft=zsh:ts=2:sw=2:sts=2:tw=78:fenc=utf-8:et
