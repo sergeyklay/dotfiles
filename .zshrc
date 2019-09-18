@@ -1,3 +1,11 @@
+#
+# Zsh startup file.
+#
+# Used for setting user's interactive shell configuration and
+# executing commands, will be read when starting as an interactive
+# shell.
+#
+
 # Path to my oh-my-zsh installation
 [ -d "$HOME/.oh-my-zsh" ] && export ZSH="$HOME/.oh-my-zsh"
 
@@ -37,52 +45,6 @@ setopt SHARE_HISTORY
 # write timestamps to history
 setopt EXTENDED_HISTORY
 
-# User-specific configuration files
-export XDG_CONFIG_HOME=$HOME/.config
-
-# User-specific data files
-export XDG_DATA_HOME=$HOME/.local/share
-
-# Base directories relative to which data files should be searched
-export XDG_DATA_DIRS=/usr/share
-
-# Configuration files should be searched relative to this directory
-[ -d /etc/xdg ] && export XDG_CONFIG_DIRS=/etc/xdg
-
-# User-specific cached data should be written relative to this directory
-export XDG_CACHE_HOME=$HOME/.cache
-
-# User-specific runtime files should be placed relative to this directory
-[ -d /run/user ] && export XDG_RUNTIME_DIR=/run/user/$(id -u)
-
-# See: https://stackoverflow.com/a/27965014/1661465
-export XDG_STATE_HOME=$HOME/.local/state
-
-# See: https://github.com/sergeyklay/vimfiles
-export EDITOR="vim"
-export VIEWER="vim -R"
-
-# More for less
-export PAGER=less
-
-if [ -f /usr/local/bin/lesspipe.sh ]
-then
-  LESSPIPE="$(which lesspipe.sh)"
-  LESSOPEN="| ${LESSPIPE} %s"; export LESSOPEN
-elif [ -x /usr/bin/lesspipe ]
-then
-  eval "$(lesspipe)"
-fi
-
-# -X will leave the text in your Terminal, so it doesn't disappear
-#    when you exit less
-# -F will exit less if the output fits on one screen (so you don't
-#    have to press "q").
-#
-# See: https://unix.stackexchange.com/q/38634/50400
-export LESS="-X -F"
-export LESSCHARSET=UTF-8
-
 # Set name of the theme to load
 ZSH_THEME="robbyrussell"
 
@@ -107,13 +69,13 @@ plugins=(
 # Only macOS
 [ "$(uname)" = "Darwin" ] && plugins+=(osx)
 
-[ ! -z $BREW_PATH ] && plugins+=(brew)
+[ ! -z "$BREW_PATH" ] && plugins+=(brew)
 [ -f "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"
 
 # Personal aliases
 [ -f "$HOME/.zsh_aliases" ] && source "$HOME/.zsh_aliases"
 
-[ ! -z $BREW_PATH ] && {
+[ ! -z "$BREW_PATH" ] && {
   _bsf="$(brew --prefix)/share/zsh/site-functions"
   [ ! -z $_bsf ] && [ -d "$_bsf" ] && {
     FPATH="$_bsf:$FPATH"
