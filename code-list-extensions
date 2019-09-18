@@ -6,6 +6,7 @@ coolbear.systemd-unit-file
 dracula-theme.theme-dracula
 eamodio.gitlens
 EditorConfig.EditorConfig
+eserozvataf.one-dark-pro-monokai-darker
 Gruntfuggly.todo-tree
 igochkov.vscode-ebnf
 joaompinto.asciidoctor-vscode
@@ -14,6 +15,7 @@ maelvalais.autoconf
 mechatroner.rainbow-csv
 mikestead.dotenv
 ms-vscode.cpptools
+seanwu.vscode-qt-for-python
 timonwong.shellcheck
 tonsky.clojure-warrior
 vscode-org-mode.org-mode
