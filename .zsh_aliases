@@ -18,7 +18,7 @@ alias l='ls -CF'
 
 [ ! -z "$(command -v kubectl 2>/dev/null || true)" ] && {
   alias k='kubectl'
-  alias kcd='kubectl config set-context $(kubectl config current-context) --namespace='
+  alias kcd='kubectl config set-context $(kubectl config current-context) --namespace '
 }
 
 [ ! -z "$(command -v clojure 2>/dev/null || true)" ] && {
