@@ -73,13 +73,13 @@ plugins=(
 # Only macOS
 [[  "$OSTYPE" = darwin*  ]] && plugins+=(osx)
 
-[ ! -z "$BREW_PATH" ] && plugins+=(brew)
+[ ! -z "$BREW_BIN" ] && plugins+=(brew)
 [ -f "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"
 
 # Personal aliases
 [ -f "$HOME/.zsh_aliases" ] && source "$HOME/.zsh_aliases"
 
-[ ! -z "$BREW_PATH" ] && {
+[ ! -z "$BREW_BIN" ] && {
   _bsf="$(brew --prefix)/share/zsh/site-functions"
   [ ! -z $_bsf ] && [ -d "$_bsf" ] && {
     FPATH="$_bsf:$FPATH"
@@ -88,7 +88,7 @@ plugins=(
 }
 
 # kubectl completion
-[ ! -z "$KUBECTL_PATH" ] && {
+[ ! -z "$KUBECTL_BIN" ] && {
     source <(kubectl completion zsh | sed s/kubectl/k/g)
 }
 

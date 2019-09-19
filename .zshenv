@@ -66,11 +66,11 @@ fi
 export LESS="-X -F"
 export LESSCHARSET=UTF-8
 
-export BREW_PATH="$(command -v brew 2>/dev/null || true)"
-export KUBECTL_PATH="$(command -v kubectl 2>/dev/null || true)"
+export BREW_BIN="$(command -v brew 2>/dev/null || true)"
+export KUBECTL_BIN="$(command -v kubectl 2>/dev/null || true)"
 
 # kubectl
-[ ! -z "$BREW_PATH" ] && {
+[ ! -z "$BREW_BIN" ] && {
   _k8s="$(brew --prefix kubernetes-cli 2>/dev/null || true)"
   [ -n $_k8s ] && [ -d "$_k8s/bin" ] && {
     path+=("$_k8s/bin")
