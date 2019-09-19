@@ -92,9 +92,6 @@ plugins=(
     source <(kubectl completion zsh | sed s/kubectl/k/g)
 }
 
-[ -d /usr/local/man ] && export MANPATH="/usr/local/man:$MANPATH"
-[ -d /usr/share/man ] && export MANPATH="/usr/share/man:$MANPATH"
-
 # The next line updates PATH for the Google Cloud SDK.
 [ -f "$HOME/gcp/path.zsh.inc" ] && source "$HOME/gcp/path.zsh.inc"
 
@@ -102,40 +99,5 @@ plugins=(
 [ -f "$HOME/gcp/completion.zsh.inc" ] && {
     source "$HOME/gcp/completion.zsh.inc"
 }
-
-# TODO: Move to .zprofile
-
-# rbenv
-if [ -d "$HOME/.rbenv/bin" ]
-then
-  pathmunge "$HOME/.rbenv/bin"
-  # Load rbenv
-  eval "$(rbenv init -)"
-
-  # Vim setup
-  RUBY_BIN=$(rbenv which ruby 2> /dev/null || true | sed 's/ruby$//')
-  [ x"$RUBY_BIN" != x ] && export RUBY_BIN
-fi
-
-# php-build
-PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
-
-[ -d "$HOME/src" ] && {
-  [ -d "$HOME/src/php" ] || mkdir -p "$HOME/src/php"
-  export PHP_BUILD_TMPDIR="$HOME/src/php"
-}
-
-# phpenv
-if [ -d "$HOME/.phpenv" ]
-then
-  export PHPENV_ROOT="$HOME/.phpenv"
-  pathmunge "$PHPENV_ROOT/bin"
-  # Load phpenv
-  eval "$(phpenv init -)"
-
-  [ -d "$PHPENV_ROOT/plugins/php-build/bin" ] && {
-    pathmunge "$PHPENV_ROOT/plugins/php-build/bin"
-  }
-fi
 
 # vim:ft=zsh:ts=2:sw=2:sts=2:tw=78:fenc=utf-8:et

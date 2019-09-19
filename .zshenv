@@ -5,8 +5,8 @@
 # Used for setting user's environment variables.
 #
 
-source "$HOME/profile.d/functions.sh"
-source "$HOME/profile.d/docker-tools.sh"
+typeset -U path
+path=(/usr/local/bin /usr/bin /bin /usr/local/sbin /usr/sbin /sbin)
 
 export LC_ALL='en_US.UTF-8'
 export LC_TYPE='en_US.UTF-8'
@@ -38,6 +38,9 @@ export LANG='en_US.UTF-8'
 export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 export ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump"
 
+[ -d /usr/local/man ] && export MANPATH="/usr/local/man:$MANPATH"
+[ -d /usr/share/man ] && export MANPATH="/usr/share/man:$MANPATH"
+
 # See: https://github.com/sergeyklay/vimfiles
 export EDITOR="vim"
 export VIEWER="vim -R"
@@ -63,9 +66,6 @@ fi
 export LESS="-X -F"
 export LESSCHARSET=UTF-8
 
-# Sane defaults
-pathmunge /usr/local/sbin
-
 export BREW_PATH="$(command -v brew 2>/dev/null || true)"
 export KUBECTL_PATH="$(command -v kubectl 2>/dev/null || true)"
 
@@ -73,7 +73,7 @@ export KUBECTL_PATH="$(command -v kubectl 2>/dev/null || true)"
 [ ! -z "$BREW_PATH" ] && {
   _k8s="$(brew --prefix kubernetes-cli 2>/dev/null || true)"
   [ -n $_k8s ] && [ -d "$_k8s/bin" ] && {
-    pathmunge "$_k8s/bin"
+    path+=("$_k8s/bin")
   }
   unset _k8s
 }
@@ -81,18 +81,18 @@ export KUBECTL_PATH="$(command -v kubectl 2>/dev/null || true)"
 # Include local bin
 [ -e "$HOME/bin" ] && {
   [ -L "$HOME/bin" ] || [ -f "$HOME/bin" ] && {
-    pathmunge "$HOME/bin"
+    path+=("$HOME/bin")
   }
 }
 
 # Local binaries
-[ -d "$HOME/.local/bin" ] && pathmunge "$HOME/.local/bin"
+[ -d "$HOME/.local/bin" ] && path+=("$HOME/.local/bin")
 
 # Google Cloud SDK
-[ -d "$HOME/gcp/bin" ] && pathmunge "$HOME/gcp/bin"
+[ -d "$HOME/gcp/bin" ] && path+=("$HOME/gcp/bin")
 
 # Go lang local workspace
-[ -d /usr/local/go/bin ] && pathmunge /usr/local/go/bin
+[ -d /usr/local/go/bin ] && path+=(/usr/local/go/bin)
 
 # Go lang local workspace
 if [ -d "$HOME/go" ]; then
@@ -102,7 +102,7 @@ if [ -d "$HOME/go" ]; then
 
   # Put binary files created using "go install" command in "$GOPATH/bin"
   export GOBIN="$GOPATH/bin"
-  pathmunge "$GOBIN"
+  path+=("$GOBIN")
 
   # Enable the go modules feature
   export GO111MODULE=on
@@ -111,17 +111,17 @@ fi
 # TinyGo
 #
 # See: https://github.com/tinygo-org/tinygo
-[ -d "/usr/local/tinygo/bin" ] && pathmunge "/usr/local/tinygo/bin"
+[ -d "/usr/local/tinygo/bin" ] && path+=("/usr/local/tinygo/bin")
 
 # hlint
 # https://github.com/ndmitchell/hlint
-[ -d "$HOME/.hlint" ] && pathmunge "$HOME/.hlint"
+[ -d "$HOME/.hlint" ] && path+=("$HOME/.hlint")
 
 # Cabal
-[ -d "$HOME/.cabal/bin" ] && pathmunge "$HOME/.cabal/bin"
+[ -d "$HOME/.cabal/bin" ] && path+=("$HOME/.cabal/bin")
 
 # Cask
-[ -d "$HOME/.cask/bin" ] && pathmunge "$HOME/.cask/bin"
+[ -d "$HOME/.cask/bin" ] && path+=("$HOME/.cask/bin")
 
 # Composer
 if [ -d "$XDG_CONFIG_HOME/composer" ]
@@ -129,7 +129,9 @@ then
   export COMPOSER_HOME="$XDG_CONFIG_HOME/composer"
   export COMPOSER_CACHE_DIR="$XDG_CACHE_HOME/composer"
 
-  [ -d "$COMPOSER_HOME/vendor/bin" ] && pathmunge "$COMPOSER_HOME/vendor/bin"
+  [ -d "$COMPOSER_HOME/vendor/bin" ] && path+=("$COMPOSER_HOME/vendor/bin")
 fi
+
+export PATH
 
 # vim:ft=zsh:ts=2:sw=2:sts=2:tw=78:fenc=utf-8:et
