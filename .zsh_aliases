@@ -7,6 +7,8 @@ alias ll='LC_ALL="C.UTF-8" ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
+alias make='time nice make -j"$(getconf _NPROCESSORS_ONLN)"'
+
 # Wget will use the supplied file as the HSTS database
 [ ! -z "$(command -v wget 2>/dev/null || true)" ] && {
   alias wget='wget --hsts-file=$XDG_CACHE_HOME/wget-hsts'
