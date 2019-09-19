@@ -1,12 +1,15 @@
-# Shell is non-interactive. Be done now
-[[ $- != *i* ]] && return
+#!/bin/zsh
 
+#
 # Zsh startup file.
 #
 # Used for setting user's interactive shell configuration and
 # executing commands, will be read when starting as an interactive
 # shell.
 #
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
 
 # Path to my oh-my-zsh installation
 [ -d "$HOME/.oh-my-zsh" ] && export ZSH="$HOME/.oh-my-zsh"
