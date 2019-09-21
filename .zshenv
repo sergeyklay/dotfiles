@@ -66,6 +66,8 @@ fi
 export LESS="-X -F"
 export LESSCHARSET=UTF-8
 
+export LESSHISTFILE="$XDG_CACHE_HOME/lesshst"
+
 export BREW_BIN="$(command -v brew 2>/dev/null || true)"
 export KUBECTL_BIN="$(command -v kubectl 2>/dev/null || true)"
 
