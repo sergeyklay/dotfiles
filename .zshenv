@@ -39,6 +39,7 @@ export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 export ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump"
 
 manpath=(/usr/local/share/man /usr/share/man)
+export MANPATH
 
 # See: https://github.com/sergeyklay/vimfiles
 export EDITOR="vim"
