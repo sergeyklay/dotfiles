@@ -38,8 +38,7 @@ export LANG='en_US.UTF-8'
 export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 export ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump"
 
-[ -d /usr/local/man ] && export MANPATH="/usr/local/man:$MANPATH"
-[ -d /usr/share/man ] && export MANPATH="/usr/share/man:$MANPATH"
+manpath=(/usr/local/share/man /usr/share/man)
 
 # See: https://github.com/sergeyklay/vimfiles
 export EDITOR="vim"
