@@ -5,6 +5,7 @@
 # Used for setting user's environment variables.
 #
 
+# No duplicate entries are needed.
 typeset -U path
 path=(/usr/local/bin /usr/bin /bin /usr/local/sbin /usr/sbin /sbin)
 
@@ -38,8 +39,37 @@ export LANG='en_US.UTF-8'
 export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 export ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump"
 
-manpath=(/usr/local/share/man /usr/share/man)
-export MANPATH
+# MANPATH: path for the man command to search.
+# Look at the manpath command's output and prepend
+# my own manual paths manually.
+if [ -z "$MANPATH" ]
+then
+  # Only do this if the MANPATH variable isn't already set.
+  if whence manpath >/dev/null 2>&1
+  then
+    # Get the original manpath, then modify it.
+    MANPATH="`manpath`"
+    manpath=(
+      "$HOME/man"
+      /opt/man
+      "$manpath[@]"
+      /usr/man
+    )
+  else
+    # This list is out of date, but it will suffice.
+    manpath=(
+      "$HOME/man"
+      /opt/man
+      /usr/local/share/man
+      /usr/local/man
+      /usr/share/man
+      /usr/man
+    )
+  fi
+  # No duplicate entries are needed.
+  typeset -U manpath
+  export MANPATH
+fi
 
 # See: https://github.com/sergeyklay/vimfiles
 export EDITOR="vim"
