@@ -53,7 +53,7 @@ setopt SHARE_HISTORY
 setopt EXTENDED_HISTORY
 
 # Set name of the theme to load
-ZSH_THEME="robbyrussell"
+ZSH_THEME=bira
 
 plugins=(
   bundler
