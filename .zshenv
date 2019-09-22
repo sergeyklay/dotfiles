@@ -39,6 +39,8 @@ export LANG='en_US.UTF-8'
 export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 export ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump"
 
+export HOSTNAME=$(hostname)
+
 # MANPATH: path for the man command to search.
 # Look at the manpath command's output and prepend
 # my own manual paths manually.
