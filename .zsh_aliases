@@ -7,7 +7,12 @@ alias ll='LC_ALL="C.UTF-8" ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
-alias make='time nice make -j"$(getconf _NPROCESSORS_ONLN)"'
+if [ ! -z "$(command -v gmake 2>/dev/null || true)" ]
+then
+  alias make='gmake -j"$(getconf _NPROCESSORS_ONLN)"'
+else
+  alias make='make -j"$(getconf _NPROCESSORS_ONLN)"'
+fi
 
 # Wget will use the supplied file as the HSTS database
 [ ! -z "$(command -v wget 2>/dev/null || true)" ] && {
