@@ -39,4 +39,16 @@ PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
   }
 }
 
+# https://gnunn1.github.io/tilix-web/manual/vteconfig
+if [ $TILIX_ID ] || [ $VTE_VERSION ]
+then
+  if [ -f /etc/profile.d/vte-2.91.sh ]
+  then
+    source /etc/profile.d/vte-2.91.sh
+  elif [ -f /etc/profile.d/vte.sh ]
+  then
+    source /etc/profile.d/vte.sh
+  fi
+fi
+
 # vim:ft=zsh:ts=2:sw=2:sts=2:tw=78:fenc=utf-8:et
