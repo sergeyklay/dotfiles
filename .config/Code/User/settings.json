@@ -44,7 +44,7 @@
     "npm.fetchOnlinePackageInfo": false,
 
     "files.autoSave": "onFocusChange",
-    "files.trimTrailingWhitespace": true,
+    "files.hotExit": "onExitAndWindowClose",
     "files.associations": {
         "environment": "dotenv",
         "*.env.dist": "dotenv",
