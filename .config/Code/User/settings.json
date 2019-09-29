@@ -56,7 +56,8 @@
         ".my.cnf": "properties",
         ".wgetrc": "properties",
         ".dockerignore": "ignore",
-        "zephir-autocomplete": "shellscript"
+        "zephir-autocomplete": "shellscript",
+        "*.mem": "valgrind"
     },
 
     // Extensions
