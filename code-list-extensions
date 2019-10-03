@@ -9,6 +9,7 @@ EditorConfig.EditorConfig
 eserozvataf.one-dark-pro-monokai-darker
 Gruntfuggly.todo-tree
 igochkov.vscode-ebnf
+jbenden.c-cpp-flylint
 joaompinto.asciidoctor-vscode
 jvalecillos.gpg
 krosf.vscode-valgrind
@@ -22,4 +23,5 @@ serghei-iakovlev.language-lemon
 timonwong.shellcheck
 tonsky.clojure-warrior
 vscode-org-mode.org-mode
+webfreak.debug
 zephir-lang.zephir
