@@ -54,8 +54,11 @@ then
     manpath=(
       "$HOME/man"
       /opt/man
-      "$manpath[@]"
+      /usr/local/share/man
+      /usr/local/man
+      /usr/share/man
       /usr/man
+      "$manpath[@]"
     )
   else
     # This list is out of date, but it will suffice.
