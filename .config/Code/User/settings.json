@@ -18,7 +18,7 @@
 
     "workbench.tree.indent": 22,
     "workbench.tree.renderIndentGuides": "none",
-    "workbench.iconTheme": "vs-minimal",
+    "workbench.iconTheme": "vscode-great-icons",
     "workbench.colorTheme": "One Dark Pro Monokai Darker",
     "workbench.settings.enableNaturalLanguageSearch": false,
     "workbench.enableExperiments": false,
