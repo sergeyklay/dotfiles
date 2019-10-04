@@ -57,7 +57,9 @@
         ".wgetrc": "properties",
         ".dockerignore": "ignore",
         "zephir-autocomplete": "shellscript",
-        "*.mem": "valgrind"
+        "*.mem": "valgrind",
+        "*.re": "c",
++        "Makefile.*": "makefile"
     },
 
     // Extensions
