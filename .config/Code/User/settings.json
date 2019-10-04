@@ -23,6 +23,7 @@
     "workbench.settings.enableNaturalLanguageSearch": false,
     "workbench.enableExperiments": false,
     "workbench.startupEditor": "none",
+    "workbench.fontAliasing":   "antialiased",
     "workbench.colorCustomizations": {
         "editorRuler.foreground": "#50505049"
     },
@@ -59,7 +60,7 @@
         "zephir-autocomplete": "shellscript",
         "*.mem": "valgrind",
         "*.re": "c",
-+        "Makefile.*": "makefile"
+        "Makefile.*": "makefile"
     },
 
     // Extensions
@@ -82,6 +83,20 @@
     "C_Cpp.updateChannel": "Insiders",
     "C_Cpp.default.intelliSenseMode": "clang-x64",
     "C_Cpp.intelliSenseCachePath": "~/.cache/vscode/cpptools",
+    "C_Cpp.default.browse.path": [
+        "/usr/include",
+        "/usr/local/include",
+        "/usr/include/x86_64-linux-gnu"
+    ],
+    "C_Cpp.default.includePath": [
+        "/usr/include",
+        "/usr/local/include",
+        "/usr/include/x86_64-linux-gnu"
+    ],
+    "C_Cpp.default.macFrameworkPath": [
+        "/System/Library/Frameworks",
+        "/Library/Frameworks"
+    ],
 
     "markdown.preview.fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',  sans-serif ",
 
@@ -93,5 +108,11 @@
         "**/.zprofile": true,
         "**/.zlogout": true,
         "**/.zlogin": true,
-    }
+    },
+
+    "c-cpp-flylint.flexelint.enable":    false,
+    "c-cpp-flylint.clang.enable":       false,
+    "c-cpp-flylint.cppcheck.enable":    true,
+    "c-cpp-flylint.cppcheck.platform":  "unix64",
+    "c-cpp-flylint.run":                "onType"
 }
