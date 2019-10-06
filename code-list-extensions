@@ -1,6 +1,7 @@
 alefragnani.project-manager
 betterthantomorrow.calva
 bungcip.better-toml
+cheshirekow.cmake-format
 chrmarti.ssh
 coolbear.systemd-unit-file
 eamodio.gitlens
@@ -22,6 +23,7 @@ seanwu.vscode-qt-for-python
 serghei-iakovlev.language-lemon
 timonwong.shellcheck
 tonsky.clojure-warrior
+twxs.cmake
 vscode-org-mode.org-mode
 webfreak.debug
 zephir-lang.zephir
