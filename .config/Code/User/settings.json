@@ -60,7 +60,6 @@
         ".dockerignore": "ignore",
         "zephir-autocomplete": "shellscript",
         "*.mem": "valgrind",
-        "*.re": "c",
         "Makefile.*": "makefile"
     },
 
@@ -87,7 +86,8 @@
     "C_Cpp.default.browse.path": [
         "/usr/include",
         "/usr/local/include",
-        "/usr/include/x86_64-linux-gnu"
+        "/usr/include/x86_64-linux-gnu",
+        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"
     ],
     "C_Cpp.default.includePath": [
         "/usr/include",
