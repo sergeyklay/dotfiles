@@ -8,7 +8,7 @@
     "editor.occurrencesHighlight": false,
     "editor.rulers": [68,78,80,120],
     "editor.renderControlCharacters": false,
-    "editor.renderWhitespace": "all",
+    "editor.renderWhitespace": "none",
 
     "terminal.integrated.cursorBlinking": true,
     "terminal.integrated.shell.linux": "/bin/bash",
@@ -91,7 +91,8 @@
     "C_Cpp.default.includePath": [
         "/usr/include",
         "/usr/local/include",
-        "/usr/include/x86_64-linux-gnu"
+        "/usr/include/x86_64-linux-gnu",
+        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"
     ],
     "C_Cpp.default.macFrameworkPath": [
         "/System/Library/Frameworks",
