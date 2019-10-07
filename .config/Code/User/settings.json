@@ -44,6 +44,7 @@
     "typescript.disableAutomaticTypeAcquisition": true,
     "npm.fetchOnlinePackageInfo": false,
 
+    "files.insertFinalNewline": true,
     "files.autoSave": "onFocusChange",
     "files.hotExit": "onExitAndWindowClose",
     "files.associations": {
@@ -111,9 +112,9 @@
         "**/.zlogin": true,
     },
 
-    "c-cpp-flylint.flexelint.enable":    false,
-    "c-cpp-flylint.clang.enable":       false,
-    "c-cpp-flylint.cppcheck.enable":    true,
-    "c-cpp-flylint.cppcheck.platform":  "unix64",
-    "c-cpp-flylint.run":                "onType"
+    "c-cpp-flylint.flexelint.enable": false,
+    "c-cpp-flylint.clang.enable": false,
+    "c-cpp-flylint.cppcheck.enable": true,
+    "c-cpp-flylint.cppcheck.platform": "unix64",
+    "c-cpp-flylint.run": "onType"
 }
