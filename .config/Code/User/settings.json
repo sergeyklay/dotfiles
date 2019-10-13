@@ -14,7 +14,7 @@
     "terminal.integrated.shell.linux": "/bin/bash",
     "terminal.integrated.shell.osx": "/bin/zsh",
     "terminal.integrated.fontFamily": "'Source Code Pro', Consolas, 'Liberation Mono', Menlo, Courier, monospace",
-    "terminal.integrated.fontSize": 17,
+    "terminal.integrated.fontSize": 14,
 
     "workbench.tree.indent": 22,
     "workbench.tree.renderIndentGuides": "none",
