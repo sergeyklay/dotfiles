@@ -65,11 +65,15 @@ plugins=(
   git
   git-extras
   pass
+  ssh-agent
   rake
   ruby
   vagrant
 )
 
+zstyle :omz:plugins:ssh-agent agent-forwarding on
+zstyle :omz:plugins:ssh-agent identities \
+  $(grep -slR "PRIVATE" ~/.ssh | grep -E -v "\.pem" | xargs basename | xargs)
 
 [ ! -z "$(command -v cask 2>/dev/null || true)" ] && plugins+=(cask)
 
