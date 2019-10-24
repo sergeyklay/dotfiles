@@ -60,7 +60,8 @@
         ".dockerignore": "ignore",
         "zephir-autocomplete": "shellscript",
         "*.mem": "valgrind",
-        "Makefile.*": "makefile"
+        "Makefile.*": "makefile",
+        "*.cmake.in": "cmake"
     },
 
     // Extensions
@@ -116,5 +117,6 @@
     "c-cpp-flylint.clang.enable": false,
     "c-cpp-flylint.cppcheck.enable": true,
     "c-cpp-flylint.cppcheck.platform": "unix64",
-    "c-cpp-flylint.run": "onType"
+    "c-cpp-flylint.run": "onType",
+    "cmake.configureOnOpen": true
 }
