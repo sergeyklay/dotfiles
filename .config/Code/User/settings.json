@@ -83,7 +83,7 @@
 
     "C_Cpp.updateChannel": "Insiders",
     "C_Cpp.default.intelliSenseMode": "clang-x64",
-    "C_Cpp.intelliSenseCachePath": "~/.cache/vscode/cpptools",
+    "C_Cpp.intelliSenseCachePath": "~/.cache/vscode/intelliSense",
     "C_Cpp.default.browse.path": [
         "/usr/include",
         "/usr/local/include",
@@ -118,5 +118,10 @@
     "c-cpp-flylint.cppcheck.enable": true,
     "c-cpp-flylint.cppcheck.platform": "unix64",
     "c-cpp-flylint.run": "onType",
-    "cmake.configureOnOpen": true
+    
+    "cmake.configureOnOpen": true,
+
+    "[cpp]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    }
 }
