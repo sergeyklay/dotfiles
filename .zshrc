@@ -73,7 +73,7 @@ plugins=(
 
 zstyle :omz:plugins:ssh-agent agent-forwarding on
 zstyle :omz:plugins:ssh-agent identities \
-  $(grep -slR "PRIVATE" ~/.ssh | grep -E -v "\.pem" | xargs basename | xargs)
+  $(grep -sLR "PRIVATE" ~/.ssh | grep -E -v "authorized_keys$|config$|known_hosts$" | xargs -L 1 basename | xargs)
 
 [ ! -z "$(command -v cask 2>/dev/null || true)" ] && plugins+=(cask)
 
