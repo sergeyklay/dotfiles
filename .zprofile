@@ -12,7 +12,7 @@
 }
 
 # php-build
-PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
+export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
 
 [ -d "$HOME/src" ] && {
   [ -d "$HOME/src/php" ] || mkdir -p "$HOME/src/php"
