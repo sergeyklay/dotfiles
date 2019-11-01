@@ -11,8 +11,12 @@
     "editor.renderWhitespace": "none",
 
     "terminal.integrated.cursorBlinking": true,
-    "terminal.integrated.shell.linux": "/bin/bash",
+    "terminal.integrated.shell.linux": "/bin/zsh",
     "terminal.integrated.shell.osx": "/bin/zsh",
+    "terminal.integrated.automationShell.osx": "/bin/zsh",
+    "terminal.integrated.automationShell.linux": "/bin/zsh",
+    "terminal.integrated.shellArgs.osx": ["-l"],
+    "terminal.integrated.shellArgs.linux": ["-l"],
     "terminal.integrated.fontFamily": "'Source Code Pro', Consolas, 'Liberation Mono', Menlo, Courier, monospace",
     "terminal.integrated.fontSize": 14,
 
