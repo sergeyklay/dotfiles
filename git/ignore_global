@@ -58,6 +58,7 @@ cmake-build-debug
 .vscode/
 .ac-php-conf.json
 .dir-locals.el
+.project
 
 GPATH
 GRTAGS
