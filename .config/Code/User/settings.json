@@ -128,5 +128,38 @@
 
     "[cpp]": {
         "editor.defaultFormatter": "xaver.clang-format"
-    }
+    },
+
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": "googletest.failed",
+                "settings": {
+                    "foreground": "#f00"
+                }
+            },
+            {
+                "scope": "googletest.passed",
+                "settings": {
+                    "foreground": "#0f0"
+                }
+            },
+            {
+                "scope": "googletest.run",
+                "settings": {
+                    "foreground": "#0f0"
+                }
+            }
+        ]
+    },
+    "gtest-adapter.debugConfig": "Debug",
+    "gtest-adapter.supportLocation": true,
+    "gtest-adapter.showCodeLens": true,
+    "gtest-adapter.refreshAfterBuild": true,
+    "gtest-adapter.runAfterBuild": false,
+    "gtest-adapter.gotoTestTitle": "Go to Tree",
+    "gtest-adapter.runTitle": "Run",
+    "gtest-adapter.debugTitle": "Debug",
+    "gtest-adapter.showRunOutput": true,
+    "gtest-adapter.clearRunOutput": true,
 }
