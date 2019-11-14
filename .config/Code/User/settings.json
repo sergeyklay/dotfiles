@@ -27,7 +27,6 @@
     "workbench.settings.enableNaturalLanguageSearch": false,
     "workbench.enableExperiments": false,
     "workbench.startupEditor": "none",
-    "workbench.fontAliasing":   "antialiased",
     "workbench.colorCustomizations": {
         "editorRuler.foreground": "#50505049"
     },
@@ -83,7 +82,6 @@
         "@note"
     ],
 
-    "calva.lintOnSave": true,
     "calva.syncReplNamespaceToCurrentFile": true,
 
     "C_Cpp.updateChannel": "Insiders",
