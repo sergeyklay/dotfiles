@@ -65,7 +65,8 @@
         "zephir-autocomplete": "shellscript",
         "*.mem": "valgrind",
         "Makefile.*": "makefile",
-        "*.cmake.in": "cmake"
+        "*.cmake.in": "cmake",
+        ".cmake-format": "yaml"
     },
 
     // Extensions
