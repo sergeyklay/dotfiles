@@ -23,7 +23,7 @@
     "workbench.tree.indent": 22,
     "workbench.tree.renderIndentGuides": "none",
     "workbench.iconTheme": "vscode-great-icons",
-    "workbench.colorTheme": "One Dark Pro Monokai Darker",
+    "workbench.colorTheme": "One Dark Pro",
     "workbench.settings.enableNaturalLanguageSearch": false,
     "workbench.enableExperiments": false,
     "workbench.startupEditor": "none",
@@ -65,6 +65,8 @@
         "*.mem": "valgrind",
         "Makefile.*": "makefile",
         "*.cmake.in": "cmake",
+        "*.re": "cpp",
+        ".clang-format": "yaml",
         ".cmake-format": "yaml"
     },
 
@@ -121,7 +123,7 @@
     "c-cpp-flylint.cppcheck.enable": true,
     "c-cpp-flylint.cppcheck.platform": "unix64",
     "c-cpp-flylint.run": "onType",
-    
+
     "cmake.configureOnOpen": true,
 
     "[cpp]": {
@@ -160,4 +162,6 @@
     "gtest-adapter.debugTitle": "Debug",
     "gtest-adapter.showRunOutput": true,
     "gtest-adapter.clearRunOutput": true,
+
+    "clang-format.style": "Google",
 }
