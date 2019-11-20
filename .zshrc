@@ -67,6 +67,7 @@ plugins=(
   pass
   ssh-agent
   rake
+  rbenv
   ruby
   vagrant
 )
