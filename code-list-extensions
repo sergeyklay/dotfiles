@@ -7,8 +7,8 @@ DavidSchuldenfrei.gtest-adapter
 eamodio.gitlens
 EditorConfig.EditorConfig
 emmanuelbeziat.vscode-great-icons
-eserozvataf.one-dark-pro-monokai-darker
 faustinoaq.lex-flex-yacc-bison
+ginfuru.ginfuru-vscode-jekyll-syntax
 Gruntfuggly.todo-tree
 igochkov.vscode-ebnf
 jbenden.c-cpp-flylint
@@ -23,6 +23,7 @@ natqe.reload
 seanwu.vscode-qt-for-python
 serghei-iakovlev.language-lemon
 shd101wyy.markdown-preview-enhanced
+sissel.shopify-liquid
 timonwong.shellcheck
 tonsky.clojure-warrior
 twxs.cmake
@@ -31,3 +32,4 @@ vscode-org-mode.org-mode
 webfreak.debug
 xaver.clang-format
 zephir-lang.zephir
+zhuangtongfa.material-theme
