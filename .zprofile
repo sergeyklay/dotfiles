@@ -5,7 +5,7 @@ if [ -d "$HOME/.rbenv/bin" ] || [ ! -z "$(command -v rbenv 2>/dev/null)" ]
 then
   [ -d "$HOME/.rbenv/bin" ] && path+=("$HOME/.rbenv/bin")
 
-  echo "Load rbenv"
+  # Load rbenv
   eval "$(rbenv init -)"
 
   # Vim setup
