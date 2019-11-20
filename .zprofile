@@ -1,15 +1,17 @@
 #!/usr/bin/env zsh
 
 # rbenv
-[ -d "$HOME/.rbenv/bin" ] && {
-  path+=("$HOME/.rbenv/bin")
-  # Load rbenv
+if [ -d "$HOME/.rbenv/bin" ] || [ ! -z "$(command -v rbenv 2>/dev/null)" ]
+then
+  [ -d "$HOME/.rbenv/bin" ] && path+=("$HOME/.rbenv/bin")
+
+  echo "Load rbenv"
   eval "$(rbenv init -)"
 
   # Vim setup
   RUBY_BIN=$(rbenv which ruby 2> /dev/null || true | sed 's/ruby$//')
   [ ! -z "$RUBY_BIN" ] && export RUBY_BIN
-}
+fi
 
 # php-build
 export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
