@@ -10,6 +10,8 @@
 	pager = "less -R -F"
 	excludesfile = ~/git/ignore_global
 	editor = vim
+	precomposeunicode = true
+	quotePath = false
 
 [push]
 	default = simple
