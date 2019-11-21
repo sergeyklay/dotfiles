@@ -65,6 +65,7 @@ plugins=(
   git
   git-extras
   pass
+  pip
   ssh-agent
   rake
   rbenv
