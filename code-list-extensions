@@ -18,6 +18,7 @@ krosf.vscode-valgrind
 maelvalais.autoconf
 mechatroner.rainbow-csv
 mikestead.dotenv
+ms-vscode.cmake-tools
 ms-vscode.cpptools
 natqe.reload
 seanwu.vscode-qt-for-python
@@ -27,7 +28,6 @@ sissel.shopify-liquid
 timonwong.shellcheck
 tonsky.clojure-warrior
 twxs.cmake
-vector-of-bool.cmake-tools
 vscode-org-mode.org-mode
 webfreak.debug
 xaver.clang-format
