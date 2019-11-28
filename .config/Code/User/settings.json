@@ -164,4 +164,5 @@
     "gtest-adapter.clearRunOutput": true,
 
     "clang-format.style": "Google",
+    "liquid.format": true,
 }
