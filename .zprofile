@@ -35,9 +35,9 @@ export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
 
 # virtualenv
 [ -z "$VIRTUAL_ENV" ] && {
-  # Use Python 3.7 by default
-  [ -f "$HOME/.venv/python3.7/bin/activate" ] && {
-    source "$HOME/.venv/python3.7/bin/activate"
+  # Use local Python by default
+  [ -f "$HOME/.venv/local/bin/activate" ] && {
+    source "$HOME/.venv/local/bin/activate"
   }
 }
 
