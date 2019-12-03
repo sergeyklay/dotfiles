@@ -38,6 +38,7 @@ export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
   # Use local Python by default
   [ -f "$HOME/.venv/local/bin/activate" ] && {
     source "$HOME/.venv/local/bin/activate"
+    path+=("$HOME/.venv/local/bin")
   }
 }
 
