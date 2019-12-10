@@ -131,6 +131,24 @@ export KUBECTL_BIN="$(command -v kubectl 2>/dev/null || true)"
 # Go lang local workspace
 [ -d /usr/local/go/bin ] && path+=(/usr/local/go/bin)
 
+# LLVM
+[ ! -z "$BREW_BIN" ] && {
+    _llvm="$(brew --prefix llvm 2>/dev/null || true)"
+    [ -n $_llvm ] && [ -d "$_llvm/bin" ] && {
+        path+=("$_llvm/bin")
+    }
+    unset _llvm
+}
+
+# QT
+[ ! -z "$BREW_BIN" ] && {
+    _qt="$(brew --prefix qt 2>/dev/null || true)"
+    [ -n $_qt ] && [ -d "$_qt/bin" ] && {
+        path+=("$_qt/bin")
+    }
+    unset _qt
+}
+
 # Go lang local workspace
 if [ -d "$HOME/go" ]; then
   export GOPATH="$HOME/go"
