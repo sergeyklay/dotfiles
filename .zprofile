@@ -1,5 +1,11 @@
 #!/usr/bin/env zsh
 
+# Add .NET Core SDK tools
+[ -d "$HOME/.dotnet/tools" ] && {
+  export DOTNET_CLI_TELEMETRY_OPTOUT=1
+  path+=("$HOME/.dotnet/tools")
+}
+
 # rbenv
 if [ -d "$HOME/.rbenv/bin" ] || [ ! -z "$(command -v rbenv 2>/dev/null)" ]
 then
