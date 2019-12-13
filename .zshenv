@@ -71,6 +71,12 @@ then
       /usr/man
     )
   fi
+  # Only macOS
+  [[  "$OSTYPE" = darwin*  ]] && {
+    [ -d /usr/local/CMake.app/Contents/man ] && {
+      manpath+=(/usr/local/CMake.app/Contents/man)
+    }
+  }
   # No duplicate entries are needed.
   typeset -U manpath
   export MANPATH
