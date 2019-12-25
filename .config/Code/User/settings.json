@@ -152,16 +152,11 @@
             }
         ]
     },
-    "gtest-adapter.debugConfig": "Debug",
-    "gtest-adapter.supportLocation": true,
-    "gtest-adapter.showCodeLens": true,
-    "gtest-adapter.refreshAfterBuild": true,
-    "gtest-adapter.runAfterBuild": false,
-    "gtest-adapter.gotoTestTitle": "Go to Tree",
-    "gtest-adapter.runTitle": "Run",
-    "gtest-adapter.debugTitle": "Debug",
-    "gtest-adapter.showRunOutput": true,
-    "gtest-adapter.clearRunOutput": true,
+    
+    "yaml.hover": true,
+    "yaml.validate": true,
+    "yaml.completion": true,
+    "yaml.format.enable": true,
 
     "clang-format.style": "Google",
     "liquid.format": true,
