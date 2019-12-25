@@ -73,6 +73,7 @@ plugins=(
   vagrant
 )
 
+zstyle :omz:plugins:ssh-agent ssh_add_args "-q"
 zstyle :omz:plugins:ssh-agent agent-forwarding on
 zstyle :omz:plugins:ssh-agent identities \
   $(grep -slR "PRIVATE" ~/.ssh | grep -E -v "authorized_keys$|config$|known_hosts$" | xargs -L 1 basename | xargs)
