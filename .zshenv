@@ -193,7 +193,9 @@ then
   [ -d "$COMPOSER_HOME/vendor/bin" ] && path+=("$COMPOSER_HOME/vendor/bin")
 fi
 
-export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
+# disabled
+# export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
+
 export PATH
 
 # vim:ft=zsh:ts=2:sw=2:sts=2:tw=78:fenc=utf-8:et
