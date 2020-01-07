@@ -9,7 +9,7 @@
 	whitespace = trailing-space,space-before-tab,indent-with-non-tab
 	pager = "less -R -F"
 	excludesfile = ~/git/ignore_global
-	editor = vim
+	editor = emacs -nw
 	precomposeunicode = true
 	quotePath = false
 
