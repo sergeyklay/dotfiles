@@ -77,9 +77,9 @@ then
   export MANPATH
 fi
 
-# See: https://github.com/sergeyklay/vimfiles
-export EDITOR="vim"
-export VIEWER="vim -R"
+# See: https://github.com/sergeyklay/.emacs.d
+export EDITOR="emacs -nw"
+export VIEWER="emacs -nw"
 
 # More for less
 export PAGER=less
