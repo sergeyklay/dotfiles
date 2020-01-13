@@ -29,4 +29,14 @@ alias l='ls -CF'
   alias rebel="clojure -A:rebel"
 }
 
-# vim:ft=zsh:ts=2:sw=2:sts=2:tw=78:fenc=utf-8:et
+# To run GNU Emacs in server mode see:
+# https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html
+[ ! -z "$(command -v emacsclient 2>/dev/null || true)" ] && {
+  alias ec='emacsclient'
+  alias vim='emacsclient'
+  alias vi='emacsclient'
+}
+
+# Local Variables:
+# mode: sh
+# End:
