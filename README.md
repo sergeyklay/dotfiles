@@ -12,12 +12,10 @@ support colors so everything works well.
 Other projects I also support from time to time are:
 
 - [GNU Emacs configuration][1]
-  My personal configuration for GNU Emacs which I port around from
-  system to system with me.
+  My personal configuration for GNU Emacs
 
 - [Vim configuration][2]
-  My personal configuration for Vim which I port around from
-  system to system with me.
+  My personal configuration for Vim
 
 ## License
 
