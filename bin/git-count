@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+#
+# Count git commits or branches.
+# Version: 0.1.1
+#
+# Usage:
+#
+#   git count {c|b|ca}
+#
+#   Options:
+#     c    Count commits
+#     b    Count branches
+#     p    Counting the total number of commits for each participant
+#
+# Original script was received thanks @ZDroid
+# https://github.com/ZDroid/dotfiles/blob/master/git/count
+
+case "$1" in
+  c)
+    git rev-list HEAD --count
+    ;;
+  b)
+    git branch | wc -l
+    ;;
+  p)
+    git shortlog -sn --no-merges
+    ;;
+  *)
+    printf "\n"
+    printf "\e[1;33mgit-count\033[0m v0.1.1"
+    printf "\nCount git commits or branches.\n"
+    printf "\nUsage:"
+    printf "\ngit count {c|b|p}"
+    printf "\n"
+    printf "\nOptions:"
+    printf "\n  c\tCount commits"
+    printf "\n  b\tCount branches"
+    printf "\n  p\tCounting the total number of commits for each participant"
+    printf "\n\n"
+    exit 1
+esac
+
+# Local Variables:
+# mode: sh
+# End:
