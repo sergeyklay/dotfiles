@@ -9,7 +9,8 @@
 	whitespace = trailing-space,space-before-tab,indent-with-non-tab
 	pager = "less -R -F"
 	excludesfile = ~/git/ignore_global
-	editor = emacs -nw
+	;; See: https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html
+	editor = emacsclient
 	precomposeunicode = true
 	quotePath = false
 
@@ -114,5 +115,4 @@
 
 # Local Variables:
 # mode: gitconfig
-# tab-width: 2
 # End:
