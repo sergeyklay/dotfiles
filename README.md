@@ -13,7 +13,6 @@ Other projects I also support from time to time are:
 
 - [GNU Emacs configuration][1]
   My personal configuration for GNU Emacs
-
 - [Vim configuration][2]
   My personal configuration for Vim
 
