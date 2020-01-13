@@ -78,8 +78,11 @@ then
 fi
 
 # See: https://github.com/sergeyklay/.emacs.d
-export EDITOR="emacs -nw"
-export VIEWER="emacs -nw"
+#
+# To run GNU Emacs in server mode see:
+# https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html
+export EDITOR="emacsclient"
+export VIEWER="emacsclient --eval '(setq buffer-read-only t)'"
 
 # More for less
 export PAGER=less
@@ -193,4 +196,6 @@ fi
 
 export PATH
 
-# vim:ft=zsh:ts=2:sw=2:sts=2:tw=78:fenc=utf-8:et
+# Local Variables:
+# mode: sh
+# End:
