@@ -81,8 +81,14 @@ fi
 #
 # To run GNU Emacs in server mode see:
 # https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html
-export EDITOR="emacsclient"
-export VIEWER="emacsclient --eval '(setq buffer-read-only t)'"
+#
+# $EDITOR should open in terminal
+# $VISUAL opens in GUI with non-daemon as alternate
+export ALTERNATE_EDITOR=""
+export EDITOR="emacsclient -t"
+export VISUAL="emacsclient -c -a emacs"
+
+export VIEWER=less
 
 # More for less
 export PAGER=less
