@@ -7,12 +7,13 @@
 	autocrlf = false
 	safecrlf = true
 	whitespace = trailing-space,space-before-tab,indent-with-non-tab
-	pager = "less -R -F"
+	pager = less -FRSX
 	excludesfile = ~/git/ignore_global
-	;; See: https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html
-	editor = emacsclient
 	precomposeunicode = true
 	quotePath = false
+	;; See: https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html
+	editor = emacsclient -t
+
 
 [push]
 	default = simple
@@ -32,6 +33,9 @@
 
 [mergetool]
 	prompt = false
+
+[diff]
+	colormoved = zebra
 
 [difftool]
 	prompt = false
