@@ -6,6 +6,11 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
   path+=("$HOME/.dotnet/tools")
 }
 
+# Cargo binaries
+[ -d /usr/lib/cargo/bin ] && {
+  path+=("/usr/lib/cargo/bin")
+}
+
 # rbenv
 if [ -d "$HOME/.rbenv/bin" ] || [ ! -z "$(command -v rbenv 2>/dev/null)" ]
 then
