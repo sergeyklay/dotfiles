@@ -3,7 +3,6 @@
 # Zsh startup file.
 #
 # Used for setting user's environment variables.
-#
 
 # No duplicate entries are needed.
 typeset -U path
@@ -153,6 +152,15 @@ export KUBECTL_BIN="$(command -v kubectl 2>/dev/null || true)"
 [ -d /usr/local/opt/kubernetes-cli/bin ] &&
   path+=(/usr/local/opt/kubernetes-cli/bin)
 
+# Add .NET Core SDK tools
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+[ -d "$HOME/.dotnet/tools" ] && {
+  path+=("$HOME/.dotnet/tools")
+}
+
+# Cargo binaries
+[ -d /usr/lib/cargo/bin ] && path+=(/usr/lib/cargo/bin)
+
 # Go lang local workspace
 if [ -d "$HOME/go" ]
 then
@@ -200,6 +208,14 @@ fi
 # https://github.com/linux-test-project/lcov/issues/37
 #
 # export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
+
+# php-build
+#
+# This works as expected
+export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
+[ -d "$HOME/src/php" ] && {
+  export PHP_BUILD_TMPDIR="$HOME/src/php"
+}
 
 export PATH
 
