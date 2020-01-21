@@ -53,13 +53,6 @@ export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
   }
 }
 
-# Modern cmake. Only macOS
-[[  "$OSTYPE" = darwin*  ]] && {
-  [ -d /usr/local/CMake.app/Contents/bin ] && {
-    path+=(/usr/local/CMake.app/Contents/bin)
-  }
-}
-
 # https://gnunn1.github.io/tilix-web/manual/vteconfig
 if [ $TILIX_ID ] || [ $VTE_VERSION ]
 then
