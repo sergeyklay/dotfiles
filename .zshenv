@@ -95,10 +95,11 @@ export PAGER=less
 
 if [ -f /usr/local/bin/lesspipe.sh ]
 then
-  LESSPIPE="$(which lesspipe.sh)"
-  LESSOPEN="| ${LESSPIPE} %s"; export LESSOPEN
+  # brew install lesspipe
+  export LESSOPEN="| lesspipe.sh %s";
 elif [ -x /usr/bin/lesspipe ]
 then
+  # Linux way
   eval "$(lesspipe)"
 fi
 
@@ -115,15 +116,6 @@ export LESSHISTFILE="$XDG_CACHE_HOME/lesshst"
 
 export BREW_BIN="$(command -v brew 2>/dev/null || true)"
 export KUBECTL_BIN="$(command -v kubectl 2>/dev/null || true)"
-
-# kubectl
-[ ! -z "$BREW_BIN" ] && {
-  _k8s="$(brew --prefix kubernetes-cli 2>/dev/null || true)"
-  [ -n $_k8s ] && [ -d "$_k8s/bin" ] && {
-    path+=("$_k8s/bin")
-  }
-  unset _k8s
-}
 
 # Include local bin
 [ -e "$HOME/bin" ] && {
@@ -142,30 +134,34 @@ export KUBECTL_BIN="$(command -v kubectl 2>/dev/null || true)"
 [ -d /usr/local/go/bin ] && path+=(/usr/local/go/bin)
 
 # LLVM
-[ ! -z "$BREW_BIN" ] && {
-    _llvm="$(brew --prefix llvm 2>/dev/null || true)"
-    [ -n $_llvm ] && [ -d "$_llvm/bin" ] && {
-        path+=("$_llvm/bin")
-    }
-    unset _llvm
-}
+#
+# Previously I used here 'brew --prefix llvm'
+# however, profiling showed a catastrophic performanse regression,
+# especially slow start at first time.  This rate is critical for me
+# because current file is taken into account by various integrations,
+# for example, by Emacs.
+[ -d /usr/local/opt/llvm/bin ] && path+=(/usr/local/opt/llvm/bin)
 
 # QT
-[ ! -z "$BREW_BIN" ] && {
-    _qt="$(brew --prefix qt 2>/dev/null || true)"
-    [ -n $_qt ] && [ -d "$_qt/bin" ] && {
-        path+=("$_qt/bin")
-    }
-    unset _qt
-}
+#
+# To explain the reasons for this design, see above (LLVM).
+[ -d /usr/local/opt/qt/bin ] && path+=(/usr/local/opt/qt/bin)
+
+# kubectl
+#
+# To explain the reasons for this design, see above (LLVM).
+[ -d /usr/local/opt/kubernetes-cli/bin ] &&
+  path+=(/usr/local/opt/kubernetes-cli/bin)
 
 # Go lang local workspace
-if [ -d "$HOME/go" ]; then
+if [ -d "$HOME/go" ]
+then
   export GOPATH="$HOME/go"
 
   [ ! -d "$GOPATH/bin" ] && mkdir -p "$GOPATH/bin"
 
-  # Put binary files created using "go install" command in "$GOPATH/bin"
+  # Put binary files created using "go install" command
+  # in "$GOPATH/bin"
   export GOBIN="$GOPATH/bin"
   path+=("$GOBIN")
 
@@ -176,10 +172,11 @@ fi
 # TinyGo
 #
 # See: https://github.com/tinygo-org/tinygo
-[ -d "/usr/local/tinygo/bin" ] && path+=("/usr/local/tinygo/bin")
+[ -d /usr/local/tinygo/bin ] && path+=(/usr/local/tinygo/bin)
 
 # hlint
-# https://github.com/ndmitchell/hlint
+#
+# See: https://github.com/ndmitchell/hlint
 [ -d "$HOME/.hlint" ] && path+=("$HOME/.hlint")
 
 # Cabal
@@ -197,7 +194,11 @@ then
   [ -d "$COMPOSER_HOME/vendor/bin" ] && path+=("$COMPOSER_HOME/vendor/bin")
 fi
 
-# disabled
+# Disabled.
+#
+# There are some issues, for example see:
+# https://github.com/linux-test-project/lcov/issues/37
+#
 # export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
 
 export PATH
