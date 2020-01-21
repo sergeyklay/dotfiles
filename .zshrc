@@ -57,7 +57,6 @@ ZSH_THEME=bira
 
 plugins=(
   bundler
-  cabal
   composer
   docker
   docker-compose
@@ -68,7 +67,6 @@ plugins=(
   pip
   ssh-agent
   rake
-  rbenv
   ruby
   vagrant
 )
@@ -81,25 +79,20 @@ zstyle :omz:plugins:ssh-agent identities \
 [ ! -z "$(command -v cask 2>/dev/null || true)" ] && plugins+=(cask)
 
 # Only macOS
-[[  "$OSTYPE" = darwin*  ]] && plugins+=(osx)
+[[  "$OSTYPE" = darwin*  ]] && {
+  plugins+=(osx brew)
+  [ -d /usr/local/share/zsh/site-functions ] &&
+    FPATH="/usr/local/share/zsh/site-functions:$FPATH"
+}
 
-[ ! -z "$BREW_BIN" ] && plugins+=(brew)
 [ -f "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"
 
 # Personal aliases
 [ -f "$HOME/.zsh_aliases" ] && source "$HOME/.zsh_aliases"
 
-[ ! -z "$BREW_BIN" ] && {
-  _bsf="$(brew --prefix)/share/zsh/site-functions"
-  [ ! -z $_bsf ] && [ -d "$_bsf" ] && {
-    FPATH="$_bsf:$FPATH"
-  }
-  unset _bsf
-}
-
 # kubectl completion
-[ ! -z "$KUBECTL_BIN" ] && {
-    source <(kubectl completion zsh | sed s/kubectl/k/g)
+[ ! -z "$(command -v kubectl 2>/dev/null || true)" ] && {
+  source <(kubectl completion zsh | sed s/kubectl/k/g)
 }
 
 # The next line updates PATH for the Google Cloud SDK.
@@ -107,7 +100,7 @@ zstyle :omz:plugins:ssh-agent identities \
 
 # The next line enables shell command completion for gcloud.
 [ -f "$HOME/gcp/completion.zsh.inc" ] && {
-    source "$HOME/gcp/completion.zsh.inc"
+  source "$HOME/gcp/completion.zsh.inc"
 }
 
 # Local Variables:
