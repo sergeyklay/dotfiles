@@ -113,15 +113,46 @@ export LESSCHARSET=UTF-8
 
 export LESSHISTFILE="$XDG_CACHE_HOME/lesshst"
 
-export BREW_BIN="$(command -v brew 2>/dev/null || true)"
-export KUBECTL_BIN="$(command -v kubectl 2>/dev/null || true)"
-
 # Include local bin
 [ -e "$HOME/bin" ] && {
   [ -L "$HOME/bin" ] || [ -f "$HOME/bin" ] && {
     path+=("$HOME/bin")
   }
 }
+
+# rbenv
+#
+# Only set PATH here to prevent performance degradation.
+# For explanation see bellow (LLVM).
+rbenvdirs=("$HOME/.rbenv" "/usr/local/opt/rbenv")
+for dir in $rbenvdirs; do
+  if [[ -d $dir/bin ]]; then
+    path+=("$dir/bin:$PATH")
+    break
+  fi
+done
+
+# phpenv
+#
+# Only set PATH here to prevent performance degradation.
+# For explanation see bellow (LLVM).
+[ -d "$HOME/.phpenv/bin" ] && path+=("$HOME/.phpenv/bin")
+
+# php-build
+export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
+[ -d "$HOME/src/php" ] && {
+  export PHP_BUILD_TMPDIR="$HOME/src/php"
+}
+
+[ -d "$HOME/.phpenv/plugins/php-build/bin" ] && {
+  path+=("$HOME/.phpenv/plugins/php-build/bin")
+}
+
+# virtualenv
+#
+# Only set PATH here to prevent performance degradation.
+# For explanation see bellow (LLVM).
+[ -d "$HOME/.venv/local/bin" ] && path+=("$HOME/.venv/local/bin")
 
 # Local binaries
 [ -d "$HOME/.local/bin" ] && path+=("$HOME/.local/bin")
@@ -143,12 +174,12 @@ export KUBECTL_BIN="$(command -v kubectl 2>/dev/null || true)"
 
 # QT
 #
-# To explain the reasons for this design, see above (LLVM).
+# For explanation of this design, see above (LLVM).
 [ -d /usr/local/opt/qt/bin ] && path+=(/usr/local/opt/qt/bin)
 
 # kubectl
 #
-# To explain the reasons for this design, see above (LLVM).
+# For explanation of this design, see above (LLVM).
 [ -d /usr/local/opt/kubernetes-cli/bin ] &&
   path+=(/usr/local/opt/kubernetes-cli/bin)
 
@@ -208,14 +239,6 @@ fi
 # https://github.com/linux-test-project/lcov/issues/37
 #
 # export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
-
-# php-build
-#
-# This works as expected
-export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
-[ -d "$HOME/src/php" ] && {
-  export PHP_BUILD_TMPDIR="$HOME/src/php"
-}
 
 export PATH
 
