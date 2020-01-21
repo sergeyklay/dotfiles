@@ -185,9 +185,7 @@ export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
 
 # Add .NET Core SDK tools
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
-[ -d "$HOME/.dotnet/tools" ] && {
-  path+=("$HOME/.dotnet/tools")
-}
+[ -d "$HOME/.dotnet/tools" ] && path+=("$HOME/.dotnet/tools")
 
 # Cargo binaries
 [ -d /usr/lib/cargo/bin ] && path+=(/usr/lib/cargo/bin)
@@ -197,12 +195,12 @@ if [ -d "$HOME/go" ]
 then
   export GOPATH="$HOME/go"
 
-  [ ! -d "$GOPATH/bin" ] && mkdir -p "$GOPATH/bin"
-
-  # Put binary files created using "go install" command
-  # in "$GOPATH/bin"
-  export GOBIN="$GOPATH/bin"
-  path+=("$GOBIN")
+  [ -d "$GOPATH/bin" ] && {
+    # Put binary files created using "go install" command
+    # in "$GOPATH/bin"
+    export GOBIN="$GOPATH/bin"
+    path+=("$GOBIN")
+  }
 
   # Enable the go modules feature
   export GO111MODULE=on
