@@ -2,21 +2,6 @@
 #
 # Executes commands at login post-zshrc.
 
-# rbenv
-[ ! -z "$(command -v rbenv 2>/dev/null || true)" ] &&
-  eval "$($dir/bin/rbenv init -)"
-
-# phpenv
-[ ! -z "$(command -v phpenv 2>/dev/null || true)" ] && eval "$(phpenv init -)"
-
-# virtualenv
-[ -z "$VIRTUAL_ENV" ] && {
-  # Use local Python by default
-  [ -f "$HOME/.venv/local/bin/activate" ] && {
-    source "$HOME/.venv/local/bin/activate"
-  }
-}
-
 # https://gnunn1.github.io/tilix-web/manual/vteconfig
 [[ $- != *i* ]] && { # only interactive mode
   if [ $TILIX_ID ] || [ $VTE_VERSION ]

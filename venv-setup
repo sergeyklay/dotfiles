@@ -1,0 +1,12 @@
+#!/bin/bash
+
+[ -z "$VIRTUAL_ENV" ] && {
+  # Use local Python by default
+  [ -f "$HOME/.venv/local/bin/activate" ] && {
+    source "$HOME/.venv/local/bin/activate"
+  }
+}
+
+# Local Variables:
+# mode: sh
+# End:
