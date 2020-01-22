@@ -1,0 +1,8 @@
+#!/bin/bash
+
+[ ! -z "$(command -v rbenv 2>/dev/null || true)" ] &&
+  eval "$($dir/bin/rbenv init -)"
+
+# Local Variables:
+# mode: sh
+# End:

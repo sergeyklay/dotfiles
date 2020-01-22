@@ -1,0 +1,7 @@
+#!/bin/bash
+
+[ ! -z "$(command -v phpenv 2>/dev/null || true)" ] && eval "$(phpenv init -)"
+
+# Local Variables:
+# mode: sh
+# End:
