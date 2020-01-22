@@ -3,10 +3,13 @@
 # Zsh startup file.
 #
 # Used for setting user's environment variables.
+#
+# This file will be read (sourced) first (after /etc/zshenv if any).
+# For more see 'man 1 zsh'.
 
 # No duplicate entries are needed.
 typeset -U path
-path=(/usr/local/bin /usr/bin /bin /usr/local/sbin /usr/sbin /sbin)
+path=(/usr/local/bin /usr/local/sbin $path)
 
 export LC_ALL='en_US.UTF-8'
 export LC_TYPE='en_US.UTF-8'
@@ -33,12 +36,15 @@ export LANG='en_US.UTF-8'
 # See: https://stackoverflow.com/a/27965014/1661465
 [ -d "$HOME/.local/state" ] && export XDG_STATE_HOME="$HOME/.local/state"
 
+# It is no so good, to silently create a directory, but I use it on my Linux
+# and macOs machines.  So, this will create this dir if needed arises.
 [ ! -d "$XDG_CACHE_HOME/zsh" ] && mkdir -p "$XDG_CACHE_HOME/zsh"
 
 export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 export ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump"
 
-export HOSTNAME=$(hostname)
+# Take a look at HOST first to be consistency and in for speed reasons.
+export HOSTNAME="${HOST:=$(hostname)}"
 
 # MANPATH: path for the man command to search.
 # Look at the manpath command's output and prepend
@@ -50,25 +56,21 @@ then
   then
     # Get the original manpath, then modify it.
     MANPATH="`manpath`"
-    manpath=(
-      "$HOME/man"
-      /opt/man
-      /usr/local/share/man
-      /usr/local/man
-      /usr/share/man
-      /usr/man
-      "$manpath[@]"
-    )
+    manpath=("$HOME/man"
+             /opt/man
+             /usr/local/share/man
+             /usr/local/man
+             /usr/share/man
+             /usr/man
+             "$manpath[@]")
   else
     # This list is out of date, but it will suffice.
-    manpath=(
-      "$HOME/man"
-      /opt/man
-      /usr/local/share/man
-      /usr/local/man
-      /usr/share/man
-      /usr/man
-    )
+    manpath=("$HOME/man"
+             /opt/man
+             /usr/local/share/man
+             /usr/local/man
+             /usr/share/man
+             /usr/man)
   fi
 
   # No duplicate entries are needed.
@@ -130,13 +132,27 @@ for dir in $rbenvdirs; do
     path+=("$dir/bin:$PATH")
     break
   fi
+
+  # Settin path to my functions collection
+  [ -d "$HOME/site-functions/rbenv" ] &&
+    fpath=("$HOME/site-functions/rbenv" "${fpath[@]}")
+
+  autoload -Uz rbenv-init
 done
 
 # phpenv
 #
 # Only set PATH here to prevent performance degradation.
 # For explanation see bellow (LLVM).
-[ -d "$HOME/.phpenv/bin" ] && path+=("$HOME/.phpenv/bin")
+[ -d "$HOME/.phpenv/bin" ] && {
+  path+=("$HOME/.phpenv/bin")
+
+  # Settin path to my functions collection
+  [ -d "$HOME/site-functions/phpenv" ] &&
+    fpath=("$HOME/site-functions/phpenv" "${fpath[@]}")
+
+  autoload -Uz phpenv-init
+}
 
 # php-build
 export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
@@ -152,7 +168,15 @@ export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
 #
 # Only set PATH here to prevent performance degradation.
 # For explanation see bellow (LLVM).
-[ -d "$HOME/.venv/local/bin" ] && path+=("$HOME/.venv/local/bin")
+[ -d "$HOME/.venv/local/bin" ] && {
+  path+=("$HOME/.venv/local/bin")
+
+  # Settin path to my functions collection
+  [ -d "$HOME/site-functions/venv" ] &&
+    fpath=("$HOME/site-functions/venv" "${fpath[@]}")
+
+  autoload -Uz venv-init
+}
 
 # Local binaries
 [ -d "$HOME/.local/bin" ] && path+=("$HOME/.local/bin")

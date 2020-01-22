@@ -1,0 +1,15 @@
+# function rbenv-init {
+
+if [ -z "$RBENV_SHELL" ]
+then
+  if command -v rbenv >/dev/null 2>&1
+  then
+    source <(rbenv init -)
+  fi
+fi
+
+# }
+
+# Local Variables:
+# mode: sh
+# End:
