@@ -2,20 +2,6 @@
 #
 # Executes commands at login post-zshrc.
 
-# https://gnunn1.github.io/tilix-web/manual/vteconfig
-[[ $- != *i* ]] && { # only interactive mode
-  if [ $TILIX_ID ] || [ $VTE_VERSION ]
-  then
-    if [ -f /etc/profile.d/vte-2.91.sh ]
-    then
-      source /etc/profile.d/vte-2.91.sh
-    elif [ -f /etc/profile.d/vte.sh ]
-    then
-      source /etc/profile.d/vte.sh
-    fi
-  fi
-}
-
 # execute code that does not affect the current session in the background.
 {
   # compile the completion dump to increase startup speed.

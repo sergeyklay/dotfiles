@@ -85,6 +85,18 @@ zstyle :omz:plugins:ssh-agent identities \
     FPATH="/usr/local/share/zsh/site-functions:$FPATH"
 }
 
+# https://gnunn1.github.io/tilix-web/manual/vteconfig
+if [ $TILIX_ID ] || [ $VTE_VERSION ]
+then
+  if [ -f /etc/profile.d/vte-2.91.sh ]
+  then
+    source /etc/profile.d/vte-2.91.sh
+  elif [ -f /etc/profile.d/vte.sh ]
+  then
+    source /etc/profile.d/vte.sh
+  fi
+fi
+
 [ -f "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"
 
 # Personal aliases
