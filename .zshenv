@@ -43,7 +43,7 @@ export LANG='en_US.UTF-8'
 export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 export ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump"
 
-# Take a look at HOST first to be consistency and in for speed reasons.
+# Take a look at HOST first to be consistency and for speed reasons.
 export HOSTNAME="${HOST:=$(hostname)}"
 
 # MANPATH: path for the man command to search.
