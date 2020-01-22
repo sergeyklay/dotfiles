@@ -1,0 +1,12 @@
+# function phpenv-init {
+
+if command -v phpenv >/dev/null 2>&1
+then
+  source <(phpenv init -)
+fi
+
+# }
+
+# Local Variables:
+# mode: sh
+# End:
