@@ -1,12 +1,23 @@
+# Request Blocker configuration file.
 #
-# domainless
+# https://addons.mozilla.org/en-US/firefox/addon/request-blocker-we
 #
+# For the syntax rules see:
+# https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns
+
+# Google's domainless
+# I prefer to not say Google my location and locale.
 *://*.google.com/domainless/*
 *://*.google.com.ua/domainless/*
 
+# I have no idea what is it.
+# Was detected on google.com
 *://apis.google.com/_/scs/abc-static/*
 
-#
-# google translate uses it
-#
+# Google Translate
+# I have no idea what is it, but I don't need it.
 *://play.google.com/log?*
+
+# Local variables:
+# require-final-newline: t
+# End:
