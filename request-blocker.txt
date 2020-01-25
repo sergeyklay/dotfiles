@@ -1,0 +1,12 @@
+#
+# domainless
+#
+*://*.google.com/domainless/*
+*://*.google.com.ua/domainless/*
+
+*://apis.google.com/_/scs/abc-static/*
+
+#
+# google translate uses it
+#
+*://play.google.com/log?*
