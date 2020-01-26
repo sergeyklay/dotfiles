@@ -1,7 +1,10 @@
 #!/usr/bin/env zsh
-#
+
 # Zsh startup file.
 #
+# This file is sourced on all invokations of zsh.
+#   .zshenv -> .zprofile -> .zshrc -> .zlogin
+
 # Used for setting user's environment variables.
 #
 # This file will be read (sourced) first (after /etc/zshenv if any).

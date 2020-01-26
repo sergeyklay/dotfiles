@@ -1,8 +1,10 @@
 #!/usr/bin/env zsh
 
-#
 # Zsh startup file.
 #
+# This file is sourced on all interactive shells.
+#   .zshenv -> .zprofile -> .zshrc -> .zlogin
+
 # Used for setting user's interactive shell configuration and
 # executing commands, will be read when starting as an interactive
 # shell.
