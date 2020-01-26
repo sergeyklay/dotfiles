@@ -1,6 +1,8 @@
 #!/usr/bin/env zsh
 
-# clean maybe broken zcompdump file
+# This file is sourced when logging out from a login shell.
+
+# Clean maybe broken zcompdump file
 [[ -e "$ZSH_COMPDUMP" ]] && rm -f "$ZSH_COMPDUMP"
 
 # Local Variables:
