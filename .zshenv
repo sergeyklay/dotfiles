@@ -10,6 +10,11 @@
 # This file will be read (sourced) first (after /etc/zshenv if any).
 # For more see 'man 1 zsh'.
 
+# The base directories for all startup/shutdown files.
+# `ZDOT_USER' should be symlinked to `HOME/.config/zsh'.
+ZDOTDIR=$HOME
+ZDOT_USER=$ZDOTDIR/.config/zsh
+
 # No duplicate entries are needed.
 typeset -U path
 path=(/usr/local/bin /usr/local/sbin $path)
