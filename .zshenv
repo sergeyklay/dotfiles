@@ -51,7 +51,7 @@ export LANG='en_US.UTF-8'
 export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 export ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump"
 
-# Take a look at HOST first to be consistency and for speed reasons.
+# Take a look at HOST first to be consistency and for a speed reason.
 export HOSTNAME="${HOST:=$(hostname)}"
 
 # MANPATH: path for the man command to search.
@@ -126,7 +126,7 @@ export LESSHISTFILE="$XDG_CACHE_HOME/lesshst"
 # Include local bin
 [ -e "$HOME/bin" ] && {
   [ -L "$HOME/bin" ] || [ -f "$HOME/bin" ] && {
-    path+=("$HOME/bin")
+    path=("$HOME/bin" $path)
   }
 }
 
@@ -137,7 +137,7 @@ export LESSHISTFILE="$XDG_CACHE_HOME/lesshst"
 rbenvdirs=("$HOME/.rbenv" "/usr/local/opt/rbenv")
 for dir in $rbenvdirs; do
   if [[ -d $dir/bin ]]; then
-    path+=("$dir/bin:$PATH")
+    path=("$dir/bin" $path)
     break
   fi
 
@@ -153,7 +153,7 @@ done
 # Only set PATH here to prevent performance degradation.
 # For explanation see bellow (LLVM).
 [ -d "$HOME/.phpenv/bin" ] && {
-  path+=("$HOME/.phpenv/bin")
+  path=("$HOME/.phpenv/bin" $path)
 
   # Settin path to my functions collection
   [ -d "$HOME/site-functions/phpenv" ] &&
@@ -169,7 +169,7 @@ export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
 }
 
 [ -d "$HOME/.phpenv/plugins/php-build/bin" ] && {
-  path+=("$HOME/.phpenv/plugins/php-build/bin")
+  path=("$HOME/.phpenv/plugins/php-build/bin" $path)
 }
 
 # virtualenv
@@ -177,7 +177,7 @@ export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
 # Only set PATH here to prevent performance degradation.
 # For explanation see bellow (LLVM).
 [ -d "$HOME/.venv/local/bin" ] && {
-  path+=("$HOME/.venv/local/bin")
+  path=("$HOME/.venv/local/bin" $path)
 
   # Settin path to my functions collection
   [ -d "$HOME/site-functions/venv" ] &&
@@ -187,13 +187,13 @@ export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
 }
 
 # Local binaries
-[ -d "$HOME/.local/bin" ] && path+=("$HOME/.local/bin")
+[ -d "$HOME/.local/bin" ] && path=("$HOME/.local/bin" $path)
 
 # Google Cloud SDK
-[ -d "$HOME/gcp/bin" ] && path+=("$HOME/gcp/bin")
+[ -d "$HOME/gcp/bin" ] && path=("$HOME/gcp/bin" $path)
 
 # Go lang local workspace
-[ -d /usr/local/go/bin ] && path+=(/usr/local/go/bin)
+[ -d /usr/local/go/bin ] && path=(/usr/local/go/bin $path)
 
 # LLVM
 #
@@ -202,25 +202,25 @@ export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
 # especially slow start at first time.  This rate is critical for me
 # because current file is taken into account by various integrations,
 # for example, by Emacs.
-[ -d /usr/local/opt/llvm/bin ] && path+=(/usr/local/opt/llvm/bin)
+[ -d /usr/local/opt/llvm/bin ] && path=(/usr/local/opt/llvm/bin $path)
 
 # QT
 #
 # For explanation of this design, see above (LLVM).
-[ -d /usr/local/opt/qt/bin ] && path+=(/usr/local/opt/qt/bin)
+[ -d /usr/local/opt/qt/bin ] && path=(/usr/local/opt/qt/bin $path)
 
 # kubectl
 #
 # For explanation of this design, see above (LLVM).
 [ -d /usr/local/opt/kubernetes-cli/bin ] &&
-  path+=(/usr/local/opt/kubernetes-cli/bin)
+  path=(/usr/local/opt/kubernetes-cli/bin $path)
 
 # Add .NET Core SDK tools
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
-[ -d "$HOME/.dotnet/tools" ] && path+=("$HOME/.dotnet/tools")
+[ -d "$HOME/.dotnet/tools" ] && path=("$HOME/.dotnet/tools" $path)
 
 # Cargo binaries
-[ -d /usr/lib/cargo/bin ] && path+=(/usr/lib/cargo/bin)
+[ -d /usr/lib/cargo/bin ] && path=(/usr/lib/cargo/bin $path)
 
 # Go lang local workspace
 if [ -d "$HOME/go" ]
@@ -231,7 +231,7 @@ then
     # Put binary files created using "go install" command
     # in "$GOPATH/bin"
     export GOBIN="$GOPATH/bin"
-    path+=("$GOBIN")
+    path=("$GOBIN" $path)
   }
 
   # Enable the go modules feature
@@ -241,18 +241,18 @@ fi
 # TinyGo
 #
 # See: https://github.com/tinygo-org/tinygo
-[ -d /usr/local/tinygo/bin ] && path+=(/usr/local/tinygo/bin)
+[ -d /usr/local/tinygo/bin ] && path=(/usr/local/tinygo/bin $path)
 
 # hlint
 #
 # See: https://github.com/ndmitchell/hlint
-[ -d "$HOME/.hlint" ] && path+=("$HOME/.hlint")
+[ -d "$HOME/.hlint" ] && path=("$HOME/.hlint" $path)
 
 # Cabal
-[ -d "$HOME/.cabal/bin" ] && path+=("$HOME/.cabal/bin")
+[ -d "$HOME/.cabal/bin" ] && path=("$HOME/.cabal/bin" $path)
 
 # Cask
-[ -d "$HOME/.cask/bin" ] && path+=("$HOME/.cask/bin")
+[ -d "$HOME/.cask/bin" ] && path=("$HOME/.cask/bin" $path)
 
 # Composer
 if [ -d "$XDG_CONFIG_HOME/composer" ]
@@ -260,7 +260,8 @@ then
   export COMPOSER_HOME="$XDG_CONFIG_HOME/composer"
   export COMPOSER_CACHE_DIR="$XDG_CACHE_HOME/composer"
 
-  [ -d "$COMPOSER_HOME/vendor/bin" ] && path+=("$COMPOSER_HOME/vendor/bin")
+  [ -d "$COMPOSER_HOME/vendor/bin" ] &&
+    path=("$COMPOSER_HOME/vendor/bin" $path)
 fi
 
 # Disabled.
