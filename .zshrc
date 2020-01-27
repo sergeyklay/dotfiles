@@ -59,7 +59,6 @@ ZSH_THEME=bira
 
 plugins=(
   bundler
-  composer
   docker
   docker-compose
   gem
