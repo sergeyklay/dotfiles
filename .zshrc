@@ -13,6 +13,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# TODO(serghei): Deprecated
 # Path to my oh-my-zsh installation
 [ -d "$HOME/.oh-my-zsh" ] && export ZSH="$HOME/.oh-my-zsh"
 
@@ -98,10 +99,14 @@ then
   fi
 fi
 
+# TODO(serghei): Deprecated
 [ -f "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"
 
+# TODO(serghei): Deprecated
 # Personal aliases
 [ -f "$HOME/.zsh_aliases" ] && source "$HOME/.zsh_aliases"
+
+[ -r $ZDOT_USER/conf.d/gopts ] && source $ZDOT_USER/conf.d/gopts
 
 # kubectl completion
 [ ! -z "$(command -v kubectl 2>/dev/null || true)" ] && {

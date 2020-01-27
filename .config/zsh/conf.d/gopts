@@ -1,0 +1,17 @@
+# The file containing the default shell options for all shells
+
+# If a word begins with an unquoted '=' and the EQUALS option is set,
+# the remainder of the word is taken as the name of a command.
+#
+#   $ (setopt equals; echo =make)
+#   /usr/bin/make
+#
+#   $ (setopt noequals; echo =make)
+#   =make
+#
+# For more see: man 1 zshexpn
+setopt equals
+
+# Local Variables:
+# mode: sh
+# End:
