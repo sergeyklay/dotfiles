@@ -34,7 +34,43 @@ setopt clobber
 #   1
 #
 # For more see: man 1 zshoptions
-setopt localoptions
+setopt local_options
+
+# Resolve the path to the physical directory when changing to a
+# directory containing a path segment '..'.
+#
+#   $ setopt no_chase_dots
+#   $ mkdir -p /tmp/foo/bar && ln -s /tmp/foo /tmp/alt
+#   $ cd /tmp/alt/bar/..
+#   $ pwd
+#   /tmp/alt
+#
+#   $ setopt chase_dots
+#   $ mkdir -p /tmp/foo/bar && ln -s /tmp/foo /tmp/alt
+#   $ cd /tmp/alt/bar/..
+#   $ pwd
+#   /tmp/foo
+#
+# For more see: man 1 zshoptions
+setopt chase_dots
+
+# Resolve symbolic links to their true values when changing
+# directory.
+#
+#   $ setopt no_chase_links
+#   $ mkdir -p /tmp/foo/bar && ln -s /tmp/foo /tmp/alt
+#   $ cd /tmp/alt/bar
+#   $ pwd
+#   /tmp/alt/bar
+#
+#   $ setopt chase_links
+#   $ mkdir -p /tmp/foo/bar && ln -s /tmp/foo /tmp/alt
+#   $ cd /tmp/alt/bar
+#   $ pwd
+#   /tmp/foo/bar
+#
+# For more see: man 1 zshoptions
+setopt no_chase_links
 
 # Local Variables:
 # mode: sh
