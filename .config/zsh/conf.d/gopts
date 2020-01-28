@@ -72,6 +72,19 @@ setopt chase_dots
 # For more see: man 1 zshoptions
 setopt no_chase_links
 
+# Do not warn if there a glob with no matches.
+#
+#   $ setopt nomatch
+#   $ ls *bar
+#   zsh: no matches found: *bar
+#
+#   $ setopt no_nomatch
+#   $ ls *bar
+#   ls: cannot access '*bar': No such file or directory
+#
+# For more see: man 1 zshoptions
+setopt no_nomatch
+
 # Local Variables:
 # mode: sh
 # End:
