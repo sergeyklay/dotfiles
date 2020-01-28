@@ -1,7 +1,10 @@
 # The file containing the default shell options for all shells
+#
+# The main purpose of this file is to set options that influence the
+# shell's behaviour in scripts.
 
-# If a word begins with an unquoted '=' and the EQUALS option is set,
-# the remainder of the word is taken as the name of a command.
+# If a word begins with an unquoted '=' and the EQUALS option is
+# set, the remainder of the word is taken as the name of a command.
 #
 #   $ (setopt equals; echo =make)
 #   /usr/bin/make
@@ -16,7 +19,7 @@ setopt equals
 # For more see: man 1 zshoptions
 setopt clobber
 
-# This will enable a separated context (space) for options in functions.
+# This will enable a separated context for options in functions.
 #
 #   $ setopt localoptions
 #   $ function t { setopt noequals; }
