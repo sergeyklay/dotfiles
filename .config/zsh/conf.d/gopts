@@ -12,6 +12,27 @@
 # For more see: man 1 zshexpn
 setopt equals
 
+# Allows '>' redirection to truncate existing files.
+# For more see: man 1 zshoptions
+setopt clobber
+
+# This will enable a separated context (space) for options in functions.
+#
+#   $ setopt localoptions
+#   $ function t { setopt noequals; }
+#   $ t
+#   $ setopt | grep noequals | wc -l
+#   0
+#
+#   $ setopt nolocaloptions
+#   $ function t { setopt noequals; }
+#   $ t
+#   $ setopt | grep noequals | wc -l
+#   1
+#
+# For more see: man 1 zshoptions
+setopt localoptions
+
 # Local Variables:
 # mode: sh
 # End:
