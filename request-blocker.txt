@@ -18,6 +18,9 @@
 # I have no idea what is it, but I don't need it.
 *://play.google.com/log?*
 
+# Please, no.
+https://www.youtube.com/youtubei/v1/log_event?*
+
 # Local variables:
 # require-final-newline: t
 # End:
