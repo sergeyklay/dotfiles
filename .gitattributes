@@ -3,7 +3,8 @@
 
 *.rb diff=ruby
 
-.my.cnf          linguist-language=INI
+.config/zsh/conf.d linguist-language=Shell
+.my.cnf            linguist-language=INI
 
-settings.json    linguist-language=jsonc
-keybindings.json linguist-language=jsonc
+settings.json      linguist-language=jsonc
+keybindings.json   linguist-language=jsonc
