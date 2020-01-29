@@ -11,7 +11,7 @@ defuns=$ZDOT_USER/lib/defuns
   for df in $defuns/^*.zwc ; do autoload ${df##*/} ; done
   setopt no_extended_glob
 
-  # [ ! -f $defuns/.dc ] && optimize-defuns
+  # [ ! -f $defuns/.dc ] && zcompdf
 }
 
 # Autoload some bundled functions.
