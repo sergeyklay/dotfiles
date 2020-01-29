@@ -85,6 +85,31 @@ setopt no_chase_links
 # For more see: man 1 zshoptions
 setopt no_nomatch
 
+# Do not send the HUP signal to running jobs when the shell exits.
+# For more see: man 1 zshoptions.
+setopt no_hup
+
+# Split white space separated strings into arrays. The splitting
+# is done by default, in most other shells but in zsh it should be
+# disabled (by default).  In fact this is the only way for zsh to
+# convert a list of words into an array.  I disable this by default
+# an will enable in functions thanks to `local_optoins'.
+#
+#   $ touch a b c
+#   $ files="a b c"
+#   $ setopt sh_word_split
+#   $ ls $files
+#   a  b  c
+#
+#   $ touch a b c
+#   $ files="a b c"
+#   $ setopt no_sh_word_split
+#   $ ls $files
+#   ls: cannot access 'a b c': No such file or directory
+#
+# For more see: man 1 zshoptions.
+setopt no_sh_word_split
+
 # Local Variables:
 # mode: sh
 # End:
