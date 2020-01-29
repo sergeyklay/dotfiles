@@ -143,12 +143,6 @@ for dir in $rbenvdirs; do
     path=("$dir/bin" $path)
     break
   fi
-
-  # Settin path to my functions collection
-  [ -d "$HOME/site-functions/rbenv" ] &&
-    fpath=("$HOME/site-functions/rbenv" "${fpath[@]}")
-
-  autoload -Uz rbenv-init
 done
 
 # phpenv
@@ -157,12 +151,6 @@ done
 # For explanation see bellow (LLVM).
 [ -d "$HOME/.phpenv/bin" ] && {
   path=("$HOME/.phpenv/bin" $path)
-
-  # Settin path to my functions collection
-  [ -d "$HOME/site-functions/phpenv" ] &&
-    fpath=("$HOME/site-functions/phpenv" "${fpath[@]}")
-
-  autoload -Uz phpenv-init
 }
 
 # php-build
@@ -181,12 +169,6 @@ export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
 # For explanation see bellow (LLVM).
 [ -d "$HOME/.venv/local/bin" ] && {
   path=("$HOME/.venv/local/bin" $path)
-
-  # Settin path to my functions collection
-  [ -d "$HOME/site-functions/venv" ] &&
-    fpath=("$HOME/site-functions/venv" "${fpath[@]}")
-
-  autoload -Uz venv-init
 }
 
 # Local binaries
