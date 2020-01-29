@@ -1,0 +1,24 @@
+# This file containing user wide settings for functions.
+
+defuns=$ZDOT_USER/lib/defuns
+
+[ -d $defuns ] && {
+  fpath=($defuns $fpath)
+
+  # Treat the '#', '~' and '^' characters as part
+  # of patterns for filename generation, etc.
+  setopt extended_glob
+  for df in $defuns/^*.zwc ; do autoload ${df##*/} ; done
+  setopt no_extended_glob
+
+  # [ ! -f $defuns/.dc ] && optimize-defuns
+}
+
+# Autoload some bundled functions.
+# For more information on completion control see: man 1 zshcompsys
+autoload -U compinit history-search-end colors
+
+# Local Variables:
+# mode: sh
+# fill-column: 68
+# End:
