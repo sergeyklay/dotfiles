@@ -15,6 +15,9 @@
 ZDOTDIR=$HOME
 ZDOT_USER=$ZDOTDIR/.config/zsh
 
+# Export ZDOT_USER so that any other script will able to rely on it.
+export ZDOT_USER
+
 # No duplicate entries are needed.
 typeset -U path
 path=(/usr/local/bin /usr/local/sbin $path)
