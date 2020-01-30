@@ -1,0 +1,27 @@
+#!/usr/bin/env zsh
+
+# function zcompdf {
+
+err=0
+
+pushd -q $ZDOT_DEFUNS
+
+for defun in *
+do
+  if [ ${defun%.zwc} = ${defun} ]
+  then
+    [ -f ${defun}.zwc ] && rm -f ${defun}.zwc
+    zcompile $defun || err=1
+  fi
+done
+popd -q
+
+test $err = 0 && touch $ZDOT_DEFUNS/.cdf
+unset err
+
+# }
+
+# Local Variables:
+# mode: sh
+# fill-column: 68
+# End:

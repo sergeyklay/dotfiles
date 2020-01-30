@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # function phpenv-init {
 
 if command -v phpenv >/dev/null 2>&1

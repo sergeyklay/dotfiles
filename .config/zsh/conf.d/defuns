@@ -1,17 +1,17 @@
 # This file containing user wide settings for functions.
 
-defuns=$ZDOT_USER/lib/defuns
+ZDOT_DEFUNS=$ZDOT_USER/lib/defuns
 
-[ -d $defuns ] && {
-  fpath=($defuns $fpath)
+[ -d $ZDOT_DEFUNS ] && {
+  fpath=($ZDOT_DEFUNS $fpath)
 
   # Treat the '#', '~' and '^' characters as part
   # of patterns for filename generation, etc.
   setopt extended_glob
-  for df in $defuns/^*.zwc ; do autoload ${df##*/} ; done
+  for df in $ZDOT_DEFUNS/^*.zwc ; do autoload ${df##*/} ; done
   setopt no_extended_glob
 
-  # [ ! -f $defuns/.dc ] && zcompdf
+  [ ! -f $ZDOT_DEFUNS/.cdf ] && zcompdf
 }
 
 # Autoload some bundled functions.
