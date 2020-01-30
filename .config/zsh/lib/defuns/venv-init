@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # function venv-init {
 
 [ -z "$VIRTUAL_ENV" ] && {

@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # function rbenv-init {
 
 if [ -z "$RBENV_SHELL" ]
