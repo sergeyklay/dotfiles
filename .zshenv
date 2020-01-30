@@ -258,6 +258,9 @@ fi
 
 export PATH
 
+[ -r $ZDOT_USER/conf.d/gopts ] && source $ZDOT_USER/conf.d/gopts
+[ -r $ZDOT_USER/conf.d/defuns ] && source $ZDOT_USER/conf.d/defuns
+
 # Local Variables:
 # mode: sh
 # End:
