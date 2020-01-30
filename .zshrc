@@ -106,9 +106,6 @@ fi
 # Personal aliases
 [ -f "$HOME/.zsh_aliases" ] && source "$HOME/.zsh_aliases"
 
-[ -r $ZDOT_USER/conf.d/gopts ] && source $ZDOT_USER/conf.d/gopts
-[ -r $ZDOT_USER/conf.d/defuns ] && source $ZDOT_USER/conf.d/defuns
-
 # kubectl completion
 [ ! -z "$(command -v kubectl 2>/dev/null || true)" ] && {
   source <(kubectl completion zsh | sed s/kubectl/k/g)
