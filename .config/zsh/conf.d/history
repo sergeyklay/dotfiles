@@ -1,0 +1,71 @@
+# Setting up history.
+#
+# The file containing the user specific settings for the history.
+
+# The number of events loaded from $HISTFILE at startup.
+HISTSIZE=1000
+
+# The last $SAVEHIST events are the ones that are saved to $HISTFILE
+SAVEHIST=5000
+
+HISTFILE="$ZDOT_USER/var/.history"
+
+# For the protection and ability for future analyzing
+HISTTIMEFORMAT="%h %d %H:%M:%S "
+
+# New history lines are added to the $HISTFILE as soon as they are
+# entered.
+#
+# For more see: man 1 zshoptions
+setopt inc_append_history
+
+# Write and import history on every command.
+#
+# For more see: man 1 zshoptions
+setopt share_history
+
+# Don't add commands starting with space to history.
+#
+# For more see: man 1 zshoptions
+setopt hist_ignore_space
+
+# The older command will be removed from the list (if any).
+#
+# For more see: man 1 zshoptions
+setopt hist_ignore_all_dups
+
+# Allow events recalled from history to clobber with >
+#
+# For more see: man 1 zshoptions
+setopt hist_allow_clobber
+
+# Remove superfluous blanks from each command line being added to
+# the history list.
+#
+# For more see: man 1 zshoptions
+setopt hist_reduce_blanks
+
+# Do store `history' and `fc' commands in the history.
+#
+# For more see: man 1 zshoptions
+setopt no_hist_no_store
+
+# Do not store function definitions in the history.
+#
+# For more see: man 1 zshoptions
+setopt hist_no_functions
+
+# Don't beep when reaching the limits of history.
+#
+# For more see: man 1 zshoptions
+setopt no_hist_beep
+
+# Write timestamps to history.
+#
+# For more see: man 1 zshoptions
+setopt extended_history
+
+# Local Variables:
+# mode: sh
+# fill-column: 68
+# End:
