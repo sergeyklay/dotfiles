@@ -21,7 +21,7 @@ colors
 # Only macOS
 [ $OSSHORT = darwin ] && {
   [ -d /usr/local/share/zsh/site-functions ] &&
-    FPATH="/usr/local/share/zsh/site-functions:$FPATH"
+    fpath=("/usr/local/share/zsh/site-functions" $fpath)
 }
 
 # https://gnunn1.github.io/tilix-web/manual/vteconfig

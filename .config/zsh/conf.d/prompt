@@ -1,9 +1,11 @@
 # The file containing the definition of the prompts.
 
+fpath=($ZSHDDIR/lib/prompts $fpath)
+
 autoload -Uz promptinit
 promptinit
 
-prompt clint
+prompt ptfancy
 
 # Local Variables:
 # mode: sh
