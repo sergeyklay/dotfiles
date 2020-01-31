@@ -27,10 +27,10 @@ export LC_TYPE='en_US.UTF-8'
 export LANG='en_US.UTF-8'
 
 # User-specific configuration files
-[ -d "$HOME/.config" ] && export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CONFIG_HOME="$HOME/.config"
 
 # User-specific data files
-[ -d "$HOME/.local/share" ] && export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_DATA_HOME="$HOME/.local/share"
 
 # Base directories relative to which data files should be searched
 [ -d /usr/share ] && export XDG_DATA_DIRS=/usr/share
@@ -39,19 +39,20 @@ export LANG='en_US.UTF-8'
 [ -d /etc/xdg ] && export XDG_CONFIG_DIRS=/etc/xdg
 
 # User-specific cached data should be written relative to this directory
-[ -d "$HOME/.cache" ] && export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_CACHE_HOME="$HOME/.cache"
 
 # User-specific runtime files should be placed relative to this directory
 [ -d /run/user ] && export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 # See: https://stackoverflow.com/a/27965014/1661465
-[ -d "$HOME/.local/state" ] && export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_STATE_HOME="$HOME/.local/state"
+
+export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 
 # It is no so good, to silently create a directory, but I use it on my Linux
 # and macOs machines.  So, this will create this dir if needed arises.
-[ ! -d "$XDG_CACHE_HOME/zsh" ] && mkdir -p "$XDG_CACHE_HOME/zsh"
+[ -d $ZSH_CACHE_DIR ] || mkdir -p $ZSH_CACHE_DIR
 
-export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 export ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump"
 
 # Take a look at HOST first to be consistency and for a speed reason.
