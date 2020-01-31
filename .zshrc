@@ -10,50 +10,12 @@
 # shell.
 #
 
-# If not running interactively, don't do anything
+# If not running interactively, don't do anything.
 [[ $- != *i* ]] && return
 
 # TODO(serghei): Deprecated
 # Path to my oh-my-zsh installation
 [ -d "$HOME/.oh-my-zsh" ] && export ZSH="$HOME/.oh-my-zsh"
-
-# See man -P 'less -rp HISTCONTROL' bash
-HISTCONTROL="ignoreboth:erasedups"
-
-# Every command being saved on the history list
-HISTSIZE=-1
-
-# Maximum number of history lines
-HISTFILESIZE=100000
-
-# For the protection and ability for future analyzing
-HISTTIMEFORMAT="%h %d %H:%M:%S "
-
-# Stroe all commands in the history
-HISTIGNORE=
-
-HISTFILE="$ZSH_CACHE_DIR/history"
-
-# if history needs to be trimmed, expire dups first
-setopt HIST_EXPIRE_DUPS_FIRST
-
-# don't add dups to history
-setopt HIST_IGNORE_DUPS
-
-# don't add commands starting with space to history
-setopt HIST_IGNORE_SPACE
-
-# remove junk whitespace from commands before adding to history
-setopt HIST_REDUCE_BLANKS
-
-# if a cmd triggers history expansion, show it instead of running
-setopt HIST_VERIFY
-
-# write and import history on every command
-setopt SHARE_HISTORY
-
-# write timestamps to history
-setopt EXTENDED_HISTORY
 
 # Set name of the theme to load
 ZSH_THEME=bira
@@ -105,6 +67,8 @@ fi
 # TODO(serghei): Deprecated
 # Personal aliases
 [ -f "$HOME/.zsh_aliases" ] && source "$HOME/.zsh_aliases"
+
+[ -r $ZDOT_USER/conf.d/history ] && source $ZDOT_USER/conf.d/history
 
 # kubectl completion
 [ ! -z "$(command -v kubectl 2>/dev/null || true)" ] && {
