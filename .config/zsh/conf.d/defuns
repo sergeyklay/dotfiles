@@ -11,7 +11,7 @@ ZDOT_DEFUNS=$ZDOT_USER/lib/defuns
   for df in $ZDOT_DEFUNS/^*.zwc ; do autoload ${df##*/} ; done
   setopt no_extended_glob
 
-  [ ! -f $ZDOT_DEFUNS/.cdf ] && zcompdf
+  [ ! -f $ZSH_CACHE_DIR/.compdf ] && zcompdf
 }
 
 # Autoload some bundled functions.
