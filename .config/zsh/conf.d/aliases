@@ -1,44 +1,47 @@
 # This file contains the definition of aliases.
 
 # Things the shell shouldn't correct on:
-alias mkdir='nocorrect mkdir'
 alias cp='nocorrect cp'
 alias mv='nocorrect mv'
 
 # Globbing doesn't make sense for mkdir.
-alias mkdir='noglob mkdir'
+alias mkdir='nocorrect noglob mkdir'
 
 # See: https://superuser.com/a/656746/280737
-alias ll='LC_ALL="C.UTF-8" ls -alF'
+alias ll='LC_ALL="C.UTF-8" ls --color=auto -alF'
 
 # Some more ls aliases
-alias la='ls -A'
-alias l='ls -CF'
+alias la='ls --color=auto -A'
+alias l='ls --color=auto -CF'
+
+# Color support for grep
+alias grep='grep --colour=auto'
+alias egrep='egrep --colour=auto'
 
 # Linux only aliases
 [ $OSSHORT = linux ] && {
   [ -x /usr/bin/xdg-open ] && open() { (xdg-open $@ &) }
 }
 
-[ ! -z "$(command -v gmake 2>/dev/null || true)" ] && {
+[ command -v gmake >/dev/null 2>&1 ] && {
   alias make='gmake'
 }
 
 # Wget will use the supplied file as the HSTS database
-[ ! -z "$(command -v wget 2>/dev/null || true)" ] && {
+[ command -v wget >/dev/null 2>&1 ] && {
   alias wget='wget --hsts-file=$XDG_CACHE_HOME/wget-hsts'
 }
 
-[ ! -z "$(command -v docker 2>/dev/null || true)" ] && {
+[ command -v docker >/dev/null 2>&1 ] && {
   alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Status}}'"
 }
 
-[ ! -z "$(command -v kubectl 2>/dev/null || true)" ] && {
+[ command -v kubectl >/dev/null 2>&1 ] && {
   alias k='kubectl'
   alias kcd='k config set-context $(k config current-context) --namespace '
 }
 
-[ ! -z "$(command -v clojure 2>/dev/null || true)" ] && {
+[ command -v clojure >/dev/null 2>&1 ] && {
   alias rebel="clojure -A:rebel"
 }
 
@@ -47,6 +50,13 @@ alias l='ls -CF'
 alias ec='emacsclient -t'
 alias vim='emacsclient -t'
 alias vi='emacsclient -t'
+
+if command -v colordiff >/dev/null 2>&1
+then
+    alias diff="colordiff -Nuar"
+else
+    alias diff="diff -Nuar"
+fi
 
 # Local Variables:
 # mode: sh
