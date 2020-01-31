@@ -94,6 +94,8 @@ setopt pushd_silent
 DIRSTACKSIZE=20
 DIRSTACKFILE=$ZSH_CACHE_DIR/dirs
 
+# This will change directory when zsh starts session
+# to the last visited directory.
 if [[ -f "$DIRSTACKFILE" ]] && (( ${#dirstack} == 0 ))
 then
   dirstack=("${(@f)"$(< "$DIRSTACKFILE")"}")
