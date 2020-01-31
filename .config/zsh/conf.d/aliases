@@ -15,6 +15,11 @@ alias ll='LC_ALL="C.UTF-8" ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
+# Linux only aliases
+[[  "$OSTYPE" = linux*  ]] && {
+  [ -x /usr/bin/xdg-open ] && open() { (xdg-open $@ &) }
+}
+
 [ ! -z "$(command -v gmake 2>/dev/null || true)" ] && {
   alias make='gmake'
 }
