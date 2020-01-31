@@ -8,7 +8,7 @@ HISTSIZE=1000
 # The last $SAVEHIST events are the ones that are saved to $HISTFILE
 SAVEHIST=5000
 
-HISTFILE="$ZDOT_USER/var/.history"
+HISTFILE="$ZDOTDIR/.history"
 
 # For the protection and ability for future analyzing
 HISTTIMEFORMAT="%h %d %H:%M:%S "
@@ -64,6 +64,22 @@ setopt no_hist_beep
 #
 # For more see: man 1 zshoptions
 setopt extended_history
+
+# Keep track of visited directories.
+#   $ dirs -v # See  stack
+#   $ cd -N   # Go to N
+#
+# For more see: man 1 zshoptions
+setopt auto_pushd
+
+# Don't push multiple copies of the same directory onto the
+# directory stack.
+#
+# For more see: man 1 zshoptions
+setopt pushd_ignore_dups
+
+DIRSTACKSIZE=20
+DIRSTACKFILE=$ZDOTDIR/.dirstack
 
 # Local Variables:
 # mode: sh
