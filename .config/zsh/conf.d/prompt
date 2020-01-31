@@ -5,10 +5,6 @@ promptinit
 
 prompt clint
 
-# Allow comments even in interactive shells.
-# For more see: man zshoptions(1)
-setopt interactive_comments
-
 # Local Variables:
 # mode: sh
 # End:
