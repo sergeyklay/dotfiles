@@ -65,9 +65,12 @@ setopt no_hist_beep
 # For more see: man 1 zshoptions
 setopt extended_history
 
+# Bellow configuration related to directories history.
+
 # Keep track of visited directories.
-#   $ dirs -v # See  stack
-#   $ cd -N   # Go to N
+#
+#   $ dirs -v # See the directores stack
+#   $ cd -N   # Go back to a visited folder N
 #
 # For more see: man 1 zshoptions
 setopt auto_pushd
@@ -78,8 +81,32 @@ setopt auto_pushd
 # For more see: man 1 zshoptions
 setopt pushd_ignore_dups
 
+# Have pushd with no arguments act like `pushd $HOME'.
+#
+# For more see: man 1 zshoptions
+setopt pushd_to_home
+
+# Do not print the directory stack after pushd or popd.
+#
+# For more see: man 1 zshoptions
+setopt pushd_silent
+
 DIRSTACKSIZE=20
-DIRSTACKFILE=$ZDOTDIR/.dirstack
+DIRSTACKFILE=$ZSH_CACHE_DIR/dirs
+
+autoload -Uz add-zsh-hook
+
+if [[ -f "$DIRSTACKFILE" ]] && (( ${#dirstack} == 0 ))
+then
+  dirstack=("${(@f)"$(< "$DIRSTACKFILE")"}")
+  [[ -d "${dirstack[1]}" ]] && cd -- "${dirstack[1]}"
+fi
+
+pushd-hook() {
+  print -l -- "$PWD" "${(u)dirstack[@]}" > "$DIRSTACKFILE"
+}
+
+add-zsh-hook -Uz chpwd pushd-hook
 
 # Local Variables:
 # mode: sh

@@ -16,7 +16,7 @@ ZDOT_DEFUNS=$ZDOT_USER/lib/defuns
 
 # Autoload some bundled functions.
 # For more information on completion control see: man 1 zshcompsys
-autoload -U compinit history-search-end colors
+autoload -U compinit history-search-end colors add-zsh-hook
 
 # Local Variables:
 # mode: sh
