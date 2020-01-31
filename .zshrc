@@ -14,12 +14,12 @@
 
 # Initializes several associative arrays to map color names to
 # the ANSI standard eight-color terminal codes.  This function
-# should be autoloaded before using (see `.zshenv -> defuns').
+# should be autoloaded before using (see .zshenv -> defuns).
 # These are used by the prompt theme system.
 colors
 
 # Only macOS
-[[  "$OSTYPE" = darwin*  ]] && {
+[ $OSSHORT = darwin ] && {
   [ -d /usr/local/share/zsh/site-functions ] &&
     FPATH="/usr/local/share/zsh/site-functions:$FPATH"
 }
