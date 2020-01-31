@@ -36,9 +36,9 @@ then
   fi
 fi
 
-[ -r $ZDOT_USER/conf.d/history ] && source $ZDOT_USER/conf.d/history
-[ -r $ZDOT_USER/conf.d/aliases ] && source $ZDOT_USER/conf.d/aliases
-[ -r $ZDOT_USER/conf.d/prompt ] && source $ZDOT_USER/conf.d/prompt
+[ -r $ZSHDDIR/conf.d/history ] && source $ZSHDDIR/conf.d/history
+[ -r $ZSHDDIR/conf.d/aliases ] && source $ZSHDDIR/conf.d/aliases
+[ -r $ZSHDDIR/conf.d/prompt ] && source $ZSHDDIR/conf.d/prompt
 
 # kubectl completion
 [ ! -z "$(command -v kubectl 2>/dev/null || true)" ] && {

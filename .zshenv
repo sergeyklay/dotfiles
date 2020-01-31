@@ -9,10 +9,10 @@
 # For more see 'man zsh(1)'.
 
 # The base directories for all startup/shutdown files.
-ZDOTDIR=$HOME
+ZDOTDIR=${ZDOTDIR:-${HOME}}
 
 # This should be symlinked to $HOME/.config/zsh.
-ZDOT_USER=$ZDOTDIR/.config/zsh
+ZSHDDIR=$ZDOTDIR/.config/zsh
 
 # Will be used in zsh scripts to provide OS-wide configuration.
 OSSHORT="${(L)OSTYPE%-*}"
@@ -261,8 +261,8 @@ fi
 
 export PATH
 
-[ -r $ZDOT_USER/conf.d/gopts ] && source $ZDOT_USER/conf.d/gopts
-[ -r $ZDOT_USER/conf.d/defuns ] && source $ZDOT_USER/conf.d/defuns
+[ -r $ZSHDDIR/conf.d/gopts ] && source $ZSHDDIR/conf.d/gopts
+[ -r $ZSHDDIR/conf.d/defuns ] && source $ZSHDDIR/conf.d/defuns
 
 # Local Variables:
 # mode: sh
