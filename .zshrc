@@ -8,10 +8,15 @@
 # Used for setting user's interactive shell configuration and
 # executing commands, will be read when starting as an interactive
 # shell.
-#
 
 # If not running interactively, don't do anything.
 [[ $- != *i* ]] && return
+
+# Initializes several associative arrays to map color names to
+# the ANSI standard eight-color terminal codes.  This function
+# should be autoloaded before using (see `.zshenv -> defuns').
+# These are used by the prompt theme system.
+colors
 
 # Only macOS
 [[  "$OSTYPE" = darwin*  ]] && {
@@ -31,11 +36,8 @@ then
   fi
 fi
 
-# TODO(serghei): Deprecated
-# Personal aliases
-[ -f "$HOME/.zsh_aliases" ] && source "$HOME/.zsh_aliases"
-
 [ -r $ZDOT_USER/conf.d/history ] && source $ZDOT_USER/conf.d/history
+[ -r $ZDOT_USER/conf.d/aliases ] && source $ZDOT_USER/conf.d/aliases
 
 # kubectl completion
 [ ! -z "$(command -v kubectl 2>/dev/null || true)" ] && {
