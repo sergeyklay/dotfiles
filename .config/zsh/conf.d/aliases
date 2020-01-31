@@ -16,7 +16,7 @@ alias la='ls -A'
 alias l='ls -CF'
 
 # Linux only aliases
-[[  "$OSTYPE" = linux*  ]] && {
+[ $OSSHORT = linux ] && {
   [ -x /usr/bin/xdg-open ] && open() { (xdg-open $@ &) }
 }
 
