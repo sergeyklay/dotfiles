@@ -6,17 +6,16 @@
 #   .zshenv -> .zprofile -> .zshrc -> .zlogin
 
 # Used for setting user's environment variables.
-#
-# This file will be read (sourced) first (after /etc/zshenv if any).
-# For more see 'man 1 zsh'.
+# For more see 'man zsh(1)'.
 
 # The base directories for all startup/shutdown files.
-# `$ZDOT_USER' should be symlinked to `$HOME/.config/zsh'.
 ZDOTDIR=$HOME
+
+# This should be symlinked to $HOME/.config/zsh.
 ZDOT_USER=$ZDOTDIR/.config/zsh
 
-# Export $ZDOT_USER so that any other script will able to rely on it.
-export ZDOT_USER
+# Will be used in zsh scripts to provide OS-wide configuration.
+OSSHORT="${(L)OSTYPE%-*}"
 
 # No duplicate entries are needed.
 typeset -U path
@@ -38,24 +37,28 @@ export XDG_DATA_HOME="$HOME/.local/share"
 # Configuration files should be searched relative to this directory
 [ -d /etc/xdg ] && export XDG_CONFIG_DIRS=/etc/xdg
 
-# User-specific cached data should be written relative to this directory
+# User-specific cached data should be written relative to this
+# directory.
 export XDG_CACHE_HOME="$HOME/.cache"
 
-# User-specific runtime files should be placed relative to this directory
+# User-specific runtime files should be placed relative to this
+# directory.
 [ -d /run/user ] && export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 # See: https://stackoverflow.com/a/27965014/1661465
 export XDG_STATE_HOME="$HOME/.local/state"
 
-export ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
+ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
 
-# It is no so good, to silently create a directory, but I use it on my Linux
-# and macOs machines.  So, this will create this dir if needed arises.
+# It is no so good, to silently create a directory, but I use it on
+# my Linux and macOs machines.  So, this will create this dir if
+# needed arises.
 [ -d $ZSH_CACHE_DIR ] || mkdir -p $ZSH_CACHE_DIR
 
-export ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump"
+ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump"
 
-# Take a look at HOST first to be consistency and for a speed reason.
+# Take a look at HOST first to be consistency and for a speed
+# reason.
 export HOSTNAME="${HOST:=$(hostname)}"
 
 # MANPATH: path for the man command to search.
