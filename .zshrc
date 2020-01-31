@@ -13,38 +13,8 @@
 # If not running interactively, don't do anything.
 [[ $- != *i* ]] && return
 
-# TODO(serghei): Deprecated
-# Path to my oh-my-zsh installation
-[ -d "$HOME/.oh-my-zsh" ] && export ZSH="$HOME/.oh-my-zsh"
-
-# Set name of the theme to load
-ZSH_THEME=bira
-
-plugins=(
-  bundler
-  docker
-  docker-compose
-  gem
-  git
-  git-extras
-  pass
-  pip
-  ssh-agent
-  rake
-  ruby
-  vagrant
-)
-
-zstyle :omz:plugins:ssh-agent ssh_add_args "-q"
-zstyle :omz:plugins:ssh-agent agent-forwarding on
-zstyle :omz:plugins:ssh-agent identities \
-  $(grep -slR "PRIVATE" ~/.ssh | grep -E -v "authorized_keys$|config$|known_hosts$" | xargs -L 1 basename | xargs)
-
-[ ! -z "$(command -v cask 2>/dev/null || true)" ] && plugins+=(cask)
-
 # Only macOS
 [[  "$OSTYPE" = darwin*  ]] && {
-  plugins+=(osx brew)
   [ -d /usr/local/share/zsh/site-functions ] &&
     FPATH="/usr/local/share/zsh/site-functions:$FPATH"
 }
@@ -60,9 +30,6 @@ then
     source /etc/profile.d/vte.sh
   fi
 fi
-
-# TODO(serghei): Deprecated
-[ -f "$ZSH/oh-my-zsh.sh" ] && source "$ZSH/oh-my-zsh.sh"
 
 # TODO(serghei): Deprecated
 # Personal aliases
