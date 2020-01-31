@@ -1,0 +1,70 @@
+#!/usr/bin/env zsh
+#
+# Fancy prompt.
+#
+
+# function pt-fancy {
+
+over_ssh() {
+  if [ -n "${SSH_CLIENT}" ]
+  then
+    return 0
+  else
+    return 1
+  fi
+}
+
+setup_git_prompt() {
+  if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1
+  then
+    unset git_prompt
+    return 0
+  fi
+
+  local git_status_dirty git_branch
+
+  if [ "$(git --no-optional-locks status --untracked-files='no' --porcelain)" ]
+  then
+    git_status_dirty='%F{green}*'
+  else
+    unset git_status_dirty
+  fi
+
+  git_branch="$(git symbolic-ref HEAD 2>/dev/null)"
+  git_branch="${git_branch#refs/heads/}"
+
+  if [ "${#git_branch}" -ge 24 ]
+  then
+    git_branch="${git_branch:0:21}..."
+  fi
+
+  git_branch="${git_branch:-no branch}"
+  git_prompt=" %F{blue}[%F{253}${git_branch}${git_status_dirty}%F{blue}]"
+}
+
+if over_ssh && [ -z "${TMUX}" ]
+then
+  prompt_is_ssh='%F{blue}[%F{red}SSH%F{blue}] '
+elif over_ssh
+then
+  prompt_is_ssh='%F{blue}[%F{253}SSH%F{blue}] '
+else
+  unset prompt_is_ssh
+fi
+
+setup_git_prompt
+
+case $USER in
+  root)
+    PS1="%B%F{cyan}%m%k %(?..%F{blue}[%F{253}%?%F{blue}] )${prompt_is_ssh}%B%F{blue}%1~${git_prompt}%F{blue} %# %b%f%k"
+    ;;
+  *)
+    PS1="%B%F{blue}%n@%m%k %(?..%F{blue}[%F{253}%?%F{blue}] )${prompt_is_ssh}%B%F{cyan}%1~${git_prompt}%F{cyan} %# %b%f%k"
+    ;;
+esac
+
+# }
+
+# Local Variables:
+# mode: sh
+# End:
