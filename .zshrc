@@ -4,7 +4,7 @@
 #
 # This file is sourced on all interactive shells.
 #   .zshenv -> .zprofile -> .zshrc -> .zlogin
-
+#
 # Used for setting user's interactive shell configuration and
 # executing commands, will be read when starting as an interactive
 # shell.
@@ -18,22 +18,11 @@
 # using (see .zshenv -> defuns).
 colors
 
-# Only macOS
-[ $OSSHORT = darwin ] && {
-  [ -d /usr/local/share/zsh/site-functions ] &&
-    fpath=("/usr/local/share/zsh/site-functions" $fpath)
-}
-
-# https://gnunn1.github.io/tilix-web/manual/vteconfig
-if [ $TILIX_ID ] || [ $VTE_VERSION ]
+# OS specific configuration.
+# This comes first as it tends to mess up things.
+if [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/zshrc ]
 then
-  if [ -f /etc/profile.d/vte-2.91.sh ]
-  then
-    source /etc/profile.d/vte-2.91.sh
-  elif [ -f /etc/profile.d/vte.sh ]
-  then
-    source /etc/profile.d/vte.sh
-  fi
+  source $ZSHDDIR/conf.d/OS/$OSSHORT/zshrc
 fi
 
 [ -r $ZSHDDIR/conf.d/history ] && source $ZSHDDIR/conf.d/history
