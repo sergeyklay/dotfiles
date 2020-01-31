@@ -112,5 +112,4 @@ setopt no_sh_word_split
 
 # Local Variables:
 # mode: sh
-# fill-column: 68
 # End:

@@ -20,5 +20,4 @@ autoload -U compinit history-search-end colors
 
 # Local Variables:
 # mode: sh
-# fill-column: 68
 # End:

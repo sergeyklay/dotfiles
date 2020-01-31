@@ -3,6 +3,7 @@
 
 ((nil . ((indent-tabs-mode . nil)
 	 (fill-column . 78)))
- (sh-mode . ((sh-indentation . 2)))
+ (sh-mode . ((sh-indentation . 2)
+             (fill-column . 68)))
  (gitconfig-mode . ((tab-width . 2)
                     (indent-tabs-mode . t))))
