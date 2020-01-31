@@ -12,10 +12,10 @@
 # If not running interactively, don't do anything.
 [[ $- != *i* ]] && return
 
-# Initializes several associative arrays to map color names to
-# the ANSI standard eight-color terminal codes.  This function
-# should be autoloaded before using (see .zshenv -> defuns).
-# These are used by the prompt theme system.
+# Initialize several associative arrays to map color names to the
+# ANSI standard eight-color terminal codes.  These are used by the
+# prompt theme system.  This function should be autoloaded before
+# using (see .zshenv -> defuns).
 colors
 
 # Only macOS
@@ -38,6 +38,7 @@ fi
 
 [ -r $ZDOT_USER/conf.d/history ] && source $ZDOT_USER/conf.d/history
 [ -r $ZDOT_USER/conf.d/aliases ] && source $ZDOT_USER/conf.d/aliases
+[ -r $ZDOT_USER/conf.d/prompt ] && source $ZDOT_USER/conf.d/prompt
 
 # kubectl completion
 [ ! -z "$(command -v kubectl 2>/dev/null || true)" ] && {

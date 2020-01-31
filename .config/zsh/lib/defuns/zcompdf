@@ -16,7 +16,7 @@ do
 done
 popd -q
 
-test $err = 0 && touch $ZDOT_DEFUNS/.cdf
+test $err = 0 && touch $ZSH_CACHE_DIR/.compdf
 unset err
 
 # }
