@@ -1,4 +1,12 @@
-#!/usr/bin/env zsh
+# This file contains the definition of aliases.
+
+# Things the shell shouldn't correct on:
+alias mkdir='nocorrect mkdir'
+alias cp='nocorrect cp'
+alias mv='nocorrect mv'
+
+# Globbing doesn't make sense for mkdir.
+alias mkdir='noglob mkdir'
 
 # See: https://superuser.com/a/656746/280737
 alias ll='LC_ALL="C.UTF-8" ls -alF'
@@ -22,7 +30,7 @@ alias l='ls -CF'
 
 [ ! -z "$(command -v kubectl 2>/dev/null || true)" ] && {
   alias k='kubectl'
-  alias kcd='kubectl config set-context $(kubectl config current-context) --namespace '
+  alias kcd='k config set-context $(k config current-context) --namespace '
 }
 
 [ ! -z "$(command -v clojure 2>/dev/null || true)" ] && {
