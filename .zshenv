@@ -11,11 +11,11 @@
 # For more see 'man 1 zsh'.
 
 # The base directories for all startup/shutdown files.
-# `ZDOT_USER' should be symlinked to `HOME/.config/zsh'.
+# `$ZDOT_USER' should be symlinked to `$HOME/.config/zsh'.
 ZDOTDIR=$HOME
 ZDOT_USER=$ZDOTDIR/.config/zsh
 
-# Export ZDOT_USER so that any other script will able to rely on it.
+# Export $ZDOT_USER so that any other script will able to rely on it.
 export ZDOT_USER
 
 # No duplicate entries are needed.

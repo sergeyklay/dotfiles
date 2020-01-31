@@ -35,6 +35,10 @@ fi
 # Personal aliases
 [ -f "$HOME/.zsh_aliases" ] && source "$HOME/.zsh_aliases"
 
+# TODO(serghei): Move this outide
+autoload -Uz compinit
+compinit
+
 [ -r $ZDOT_USER/conf.d/history ] && source $ZDOT_USER/conf.d/history
 
 # kubectl completion
@@ -52,5 +56,4 @@ fi
 
 # Local Variables:
 # mode: sh
-# fill-column: 68
 # End:
