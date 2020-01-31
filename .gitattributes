@@ -1,10 +1,4 @@
 # Automatically normalize line endings for all text-based files
 * text=auto
 
-*.rb diff=ruby
-
 .config/zsh/conf.d/* linguist-language=Shell
-.my.cnf              linguist-language=INI
-
-settings.json        linguist-language=jsonc
-keybindings.json     linguist-language=jsonc
