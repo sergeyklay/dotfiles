@@ -15,8 +15,22 @@ ZDOT_DEFUNS=$ZDOT_USER/lib/defuns
 }
 
 # Autoload some bundled functions.
-# For more information on completion control see: man 1 zshcompsys
-autoload -U compinit history-search-end colors add-zsh-hook
+autoload -Uz history-search-end
+
+# Completion support.
+#
+# For more see: man zshcompsys(1)
+autoload -Uz compinit && compinit
+
+# Put standard ANSI color codes in shell parameters for easy use.
+autoload -Uz colors
+
+# Manipulating hook functions.
+# This will provide ability to add and remove custom functions for
+# builtin zsh hooks.
+#
+# For more see: man zshcontrib(1)
+autoload -Uz add-zsh-hook
 
 # Local Variables:
 # mode: sh

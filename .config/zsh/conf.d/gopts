@@ -12,11 +12,11 @@
 #   $ (setopt noequals; echo =make)
 #   =make
 #
-# For more see: man 1 zshexpn
+# For more see: man zshexpn(1)
 setopt equals
 
 # Allows '>' redirection to truncate existing files.
-# For more see: man 1 zshoptions
+# For more see: man zshoptions(1)
 setopt clobber
 
 # This will enable a separated context for options in functions.
@@ -33,7 +33,7 @@ setopt clobber
 #   $ setopt | grep noequals | wc -l
 #   1
 #
-# For more see: man 1 zshoptions
+# For more see: man zshoptions(1)
 setopt local_options
 
 # Resolve the path to the physical directory when changing to a
@@ -51,7 +51,7 @@ setopt local_options
 #   $ pwd
 #   /tmp/foo
 #
-# For more see: man 1 zshoptions
+# For more see: man zshoptions(1)
 setopt chase_dots
 
 # Resolve symbolic links to their true values when changing
@@ -69,7 +69,7 @@ setopt chase_dots
 #   $ pwd
 #   /tmp/foo/bar
 #
-# For more see: man 1 zshoptions
+# For more see: man zshoptions(1)
 setopt no_chase_links
 
 # Do not warn if there a glob with no matches.
@@ -82,11 +82,11 @@ setopt no_chase_links
 #   $ ls *bar
 #   ls: cannot access '*bar': No such file or directory
 #
-# For more see: man 1 zshoptions
+# For more see: man zshoptions(1)
 setopt no_nomatch
 
 # Do not send the HUP signal to running jobs when the shell exits.
-# For more see: man 1 zshoptions.
+# For more see: man zshoptions(1).
 setopt no_hup
 
 # Split white space separated strings into arrays. The splitting
@@ -107,7 +107,7 @@ setopt no_hup
 #   $ ls $files
 #   ls: cannot access 'a b c': No such file or directory
 #
-# For more see: man 1 zshoptions.
+# For more see: man zshoptions(1).
 setopt no_sh_word_split
 
 # Local Variables:
