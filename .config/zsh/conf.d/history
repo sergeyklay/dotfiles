@@ -8,7 +8,7 @@ HISTSIZE=1000
 # The last $SAVEHIST events are the ones that are saved to $HISTFILE
 SAVEHIST=5000
 
-HISTFILE="$ZDOTDIR/.history"
+HISTFILE="$ZDOTDIR/.zsh_history"
 
 # For the protection and ability for future analyzing
 HISTTIMEFORMAT="%h %d %H:%M:%S "
