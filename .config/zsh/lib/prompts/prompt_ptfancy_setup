@@ -207,6 +207,17 @@ prompt_ptfancy_precmd () {
   PS3="$base_prompt$status_prompt$ssh_prompt$path_prompt $git_prompt ?# $post_prompt"
 }
 
+prompt_ptfancy_preview () {
+  local -a colors
+  colors=(red green blue)
+
+  if (( ! $#* )); then
+    prompt_preview_theme ptfancy $colors[1] $colors[2] $colors[3]
+  else
+    prompt_preview_theme ptfancy "$@"
+  fi
+}
+
 prompt_ptfancy_setup "$@"
 
 # Local Variables:
