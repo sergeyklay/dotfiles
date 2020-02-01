@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 #
-# Fancy prompt.
+# ptfancy prompt theme
 #
 # This theme relly on the folowing options:
 #   - local_options (see: conf.d/gops)
@@ -9,7 +9,8 @@
 # As well as on the following functions:
 #   - add-zsh-hook (see: conf.d/defuns)
 #
-# Thi file is autoloaded as a function in the current shell context.
+# Note: This file is autoloaded as a function in the current shell
+# context.
 
 # Cheat Sheet:
 #
@@ -72,19 +73,19 @@ git_info() {
   local modified="%{$fg[yellow]%}●%{$reset_color%}"
   local staged="%{$fg[green]%}●%{$reset_color%}"
 
-  local -a divergences
+  local -a divs
   local -a flags
 
   local num_ahead="$(git log --oneline @{u}.. 2> /dev/null | wc -l | tr -d ' ')"
   if [ "$num_ahead" -gt 0 ]
   then
-    divergences+=( "${ahead//num/$num_ahead}" )
+    divs+=( "${ahead//num/$num_ahead}" )
   fi
 
   local num_behind="$(git log --oneline ..@{u} 2> /dev/null | wc -l | tr -d ' ')"
   if [ "$num_behind" -gt 0 ]
   then
-    divergences+=( "${behind//num/$num_behind}" )
+    divs+=( "${behind//num/$num_behind}" )
   fi
 
   local git_dir="$(git rev-parse --git-dir 2> /dev/null)"
@@ -110,22 +111,16 @@ git_info() {
   local -a git_prompt
 
   # ±
-  git_prompt+=( "\033[38;5;15m± " )
+  git_prompt+=( '%F{white}±%f ' )
 
   # Git branch.
-  git_prompt+=( "%F{yellow}${location}" )
+  git_prompt+=( "%F{yellow}${location}%f" )
 
   # Git divergences.
-  if [ ${#divergences[@]} -ne 0 ]
-  then
-    git_prompt+=( " ${(j::)divergences}" )
-  fi
+  [[ ${#divs[@]} -ne 0 ]] && git_prompt+=( " ${(j::)divs}" )
 
   # Exist status.
-  if [ ${#flags[@]} -ne 0 ]
-  then
-    git_prompt+=( " ${(j::)flags}" )
-  fi
+  [[ ${#flags[@]} -ne 0 ]] && git_prompt+=( " ${(j::)flags}" )
 
   # Join the words of arrays together.
   echo "${(j::)git_prompt}"
@@ -137,19 +132,17 @@ This prompt is color-scheme-able.  You can invoke it thus:
 
   prompt ptfancy [<color1> [<color2> [<color3>]]]
 
-where the colors are for the user@host foreground, exist status and
-current working directory respectively.  The default colors are
+where the colors are for the user@host foreground, exist status, and
+current working directory, respectively.  The default colors are
 cyan, red and blue.  This theme works best with a dark background.
 
 Recommended fonts for this theme: Roboto Mono, DejaVu Sans Mono,
 Source Code Pro or similar.
 
-This theme relly on the folowing options:
-   - local_options (see: man zshoptions(1))
-   - prompt_subst (see: man zshoptions(1))
-
-As well as on the following functions:
-   - add-zsh-hook (man zshcontrib(1))
+This theme relly on `localoptions' and `promptsubst' options.  Thus
+these options should be set before.  For more see zshoptions(1).  To
+modify `precmd' and `preexec' the availability of `add-zsh-hook' is
+required.   For more see zshcontrib(1).
 EOF
 }
 
@@ -178,9 +171,9 @@ prompt_ptfancy_setup () {
   # git info
   git_prompt='$(git_info)'
 
-  setopt extendedglob
-  base_prompt_no_color="${base_prompt//(%B|%F{[^\\\}]#\}|%f|%b)/}"
-  post_prompt_no_color="${post_prompt//(%B|%F{[^\\\}]#\}|%f|%b)/}"
+  local zero='%([BSUbfksu]|[FBK]{*})'
+  base_prompt_no_color="${base_prompt//$~zero/}"
+  post_prompt_no_color="${post_prompt//$~zero/}"
 
   add-zsh-hook precmd prompt_ptfancy_precmd
 }
