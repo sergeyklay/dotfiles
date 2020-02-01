@@ -5,6 +5,12 @@ fpath=($ZSHDDIR/lib/prompts $fpath)
 autoload -Uz promptinit
 promptinit
 
+# Parameter expansion, command substitution and arithmetic expansion
+# are performed in prompts.
+#
+# For more see: man zshoptions(1)
+setopt prompt_subst
+
 prompt ptfancy
 
 # Local Variables:
