@@ -1,8 +1,9 @@
 # This file containing user wide settings for functions.
 
-ZDOT_DEFUNS=$ZDOT_USER/lib/defuns
+ZDOT_DEFUNS=$ZSHDDIR/lib/defuns
 
-[ -d $ZDOT_DEFUNS ] && {
+if [ -d $ZDOT_DEFUNS ]
+then
   fpath=($ZDOT_DEFUNS $fpath)
 
   # Treat the '#', '~' and '^' characters as part
@@ -12,10 +13,7 @@ ZDOT_DEFUNS=$ZDOT_USER/lib/defuns
   setopt no_extended_glob
 
   [ ! -f $ZSH_CACHE_DIR/.compdf ] && zcompdf
-}
-
-# Autoload some bundled functions.
-autoload -Uz history-search-end
+fi
 
 # Completion support.
 #
