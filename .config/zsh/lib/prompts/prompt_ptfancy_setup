@@ -32,11 +32,10 @@
 ssh_info() {
   local -a ssh_prompt
 
-  if [ -n "${SSH_CONNECTION}" ]
-  then
-    ssh_prompt+=( '%F{blue}[%f' )  # [
-    ssh_prompt+=( '%F{red}SSH%f' ) # SSH
-    ssh_prompt+=( '%F{blue}]%f ' ) # ]
+  if [ -n "${SSH_CONNECTION}" ]; then
+    ssh_prompt+=( '%F{$prompt_ptfancy_color3}[%f' )   # [
+    ssh_prompt+=( '%F{$prompt_ptfancy_color2}SSH%f' ) # SSH
+    ssh_prompt+=( '%F{$prompt_ptfancy_color3}]%f ' )  # ]
   fi
 
   # Join the words of arrays together.
@@ -51,20 +50,13 @@ git_info() {
 
   # Git branch/tag, or name-rev if on detached head.
   local location
-  location="$(git symbolic-ref -q HEAD || git name-rev --name-only --no-undefined --always HEAD)"
+  location="$(git symbolic-ref -q HEAD || \
+            git name-rev --name-only --no-undefined --always HEAD)"
   location="${location#(refs/heads/|tags/)}"
 
   [ "${#location}" -ge 24 ] && location="${location:0:21}..."
 
   location="${location:-no branch}"
-
-  local status_dirty
-  if [ "$(git --no-optional-locks status --untracked-files='no' --porcelain)" ]
-  then
-    status_dirty='%F{green}*'
-  else
-    unset status_dirty
-  fi
 
   local ahead="%{$fg[red]%}⇡num%{$reset_color%}"
   local behind="%{$fg[cyan]%}⇣num%{$reset_color%}"
@@ -76,15 +68,15 @@ git_info() {
   local -a divs
   local -a flags
 
-  local num_ahead="$(git log --oneline @{u}.. 2> /dev/null | wc -l | tr -d ' ')"
-  if [ "$num_ahead" -gt 0 ]
-  then
+  local num_ahead="$(git log --oneline @{u}.. 2> /dev/null | \
+                   wc -l | tr -d ' ')"
+  if [ "$num_ahead" -gt 0 ]; then
     divs+=( "${ahead//num/$num_ahead}" )
   fi
 
-  local num_behind="$(git log --oneline ..@{u} 2> /dev/null | wc -l | tr -d ' ')"
-  if [ "$num_behind" -gt 0 ]
-  then
+  local num_behind="$(git log --oneline ..@{u} 2> /dev/null | \
+                    wc -l | tr -d ' ')"
+  if [ "$num_behind" -gt 0 ]; then
     divs+=( "${behind//num/$num_behind}" )
   fi
 
@@ -98,13 +90,11 @@ git_info() {
     flags+=( "$untracked" )
   fi
 
-  if ! git diff --quiet 2> /dev/null
-  then
+  if ! git diff --quiet 2> /dev/null; then
     flags+=( "$modified" )
   fi
 
-  if ! git diff --cached --quiet 2> /dev/null
-  then
+  if ! git diff --cached --quiet 2> /dev/null; then
     flags+=( "$staged" )
   fi
 
@@ -114,7 +104,7 @@ git_info() {
   git_prompt+=( '%F{white}±%f ' )
 
   # Git branch.
-  git_prompt+=( "%F{yellow}${location}%f" )
+  git_prompt+=( "%F{$prompt_ptfancy_color4}${location}%f" )
 
   # Git divergences.
   [[ ${#divs[@]} -ne 0 ]] && git_prompt+=( " ${(j::)divs}" )
@@ -152,9 +142,11 @@ prompt_ptfancy_setup () {
   # For more see: man zshoptions(1)
   setopt no_warn_create_global
 
+  # Colour scheme
   prompt_ptfancy_color1=${1:-'cyan'}
   prompt_ptfancy_color2=${2:-'red'}
   prompt_ptfancy_color3=${3:-'blue'}
+  prompt_ptfancy_color4=${4:-'yellow'}
 
   # reset colors
   post_prompt='%b%f'
@@ -163,7 +155,7 @@ prompt_ptfancy_setup () {
   base_prompt='%B%F{$prompt_ptfancy_color1}%(!.%m.%n@%m)%f '
 
   # exit status
-  status_prompt='%(?..%F{blue}[%F{$prompt_ptfancy_color2}%?%F{blue}] )'
+  status_prompt='%(?..%F{$prompt_ptfancy_color3}[%F{$prompt_ptfancy_color2}%?%F{$prompt_ptfancy_color3}] )'
 
   # ssh info
   ssh_prompt='$(ssh_info)'
@@ -202,17 +194,26 @@ prompt_ptfancy_precmd () {
     path_prompt="%B%F{$prompt_ptfancy_color3}%${space_left}<...<%~%F{white}"
   fi
 
+  # The  value  of  this parameter is expanded and used as the
+  # primary prompt string.
   PS1="$base_prompt$status_prompt$ssh_prompt$path_prompt $git_prompt %# $post_prompt"
+
+  # The  value of this parameter is expanded as with PS1 and
+  # used as the secondary prompt string.
   PS2="$base_prompt$status_prompt$ssh_prompt$path_prompt $git_prompt %_> $post_prompt"
+
+  # The value of this parameter is used as the prompt for
+  # the select command.
   PS3="$base_prompt$status_prompt$ssh_prompt$path_prompt $git_prompt ?# $post_prompt"
 }
 
 prompt_ptfancy_preview () {
   local -a colors
-  colors=(red green blue)
+  colors=(red green blue magenta)
 
   if (( ! $#* )); then
-    prompt_preview_theme ptfancy $colors[1] $colors[2] $colors[3]
+    prompt_preview_theme \
+      ptfancy $colors[1] $colors[2] $colors[3] $colors[4]
   else
     prompt_preview_theme ptfancy "$@"
   fi
