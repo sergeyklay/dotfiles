@@ -1,7 +1,15 @@
 #!/usr/bin/env zsh
 #
 # Fancy prompt.
-# The file is autoloaded as a function in the current shell context.
+#
+# This theme relly on the folowing options:
+#   - local_options (see: conf.d/gops)
+#   - prompt_subst (see: conf.d/prompt)
+#
+# As well as on the following functions:
+#   - add-zsh-hook (see: conf.d/defuns)
+#
+# Thi file is autoloaded as a function in the current shell context.
 
 # Cheat Sheet:
 #
@@ -124,13 +132,13 @@ prompt_ptfancy_setup () {
   # For more see: man zshoptions(1)
   setopt no_warn_create_global
 
-  post_prompt="%b%f%k" # reset colors
+  post_prompt='%b%f%k' # reset colors
 
-  base_prompt="%B%F{cyan}%(!.%m.%n@%m)%k "           # host
-  status_prompt="%(?..%F{blue}[%F{red}%?%F{blue}] )" # exit status
-  ssh_prompt="$(ssh_info)"                           # ssh info
-  path_prompt="%B%F{blue}%~ "                        # cwd
-  git_prompt="$(git_info)"                           # git info
+  base_prompt='%B%F{cyan}%(!.%m.%n@%m)%k '           # host
+  status_prompt='%(?..%F{blue}[%F{red}%?%F{blue}] )' # exit status
+  ssh_prompt='$(ssh_info)'                           # ssh info
+  path_prompt='%B%F{blue}%~ '                        # cwd
+  git_prompt='$(git_info)'                           # git info
 
   add-zsh-hook precmd prompt_ptfancy_precmd
 }
