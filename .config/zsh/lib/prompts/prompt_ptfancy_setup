@@ -33,9 +33,9 @@ ssh_info() {
 
   if [ -n "${SSH_CONNECTION}" ]
   then
-    ssh_prompt+=( '%F{blue}[' )  # [
-    ssh_prompt+=( '%F{red}SSH' ) # SSH
-    ssh_prompt+=( '%F{blue}] ' ) # ]
+    ssh_prompt+=( '%F{blue}[%f' )  # [
+    ssh_prompt+=( '%F{red}SSH%f' ) # SSH
+    ssh_prompt+=( '%F{blue}]%f ' ) # ]
   fi
 
   # Join the words of arrays together.
@@ -109,21 +109,48 @@ git_info() {
 
   local -a git_prompt
 
-  git_prompt+=( "\033[38;5;15m± " )       # ±
-  git_prompt+=( "%F{yellow}${location}" ) # branch
+  # ±
+  git_prompt+=( "\033[38;5;15m± " )
 
+  # Git branch.
+  git_prompt+=( "%F{yellow}${location}" )
+
+  # Git divergences.
   if [ ${#divergences[@]} -ne 0 ]
   then
-    git_prompt+=( " ${(j::)divergences}" ) # divergences
+    git_prompt+=( " ${(j::)divergences}" )
   fi
 
+  # Exist status.
   if [ ${#flags[@]} -ne 0 ]
   then
-    git_prompt+=( " ${(j::)flags}" )      # status
+    git_prompt+=( " ${(j::)flags}" )
   fi
 
   # Join the words of arrays together.
   echo "${(j::)git_prompt}"
+}
+
+prompt_ptfancy_help () {
+  cat <<'EOF'
+This prompt is color-scheme-able.  You can invoke it thus:
+
+  prompt ptfancy [<color1> [<color2> [<color3>]]]
+
+where the colors are for the user@host foreground, exist status and
+current working directory respectively.  The default colors are
+cyan, red and blue.  This theme works best with a dark background.
+
+Recommended fonts for this theme: Roboto Mono, DejaVu Sans Mono,
+Source Code Pro or similar.
+
+This theme relly on the folowing options:
+   - local_options (see: man zshoptions(1))
+   - prompt_subst (see: man zshoptions(1))
+
+As well as on the following functions:
+   - add-zsh-hook (man zshcontrib(1))
+EOF
 }
 
 prompt_ptfancy_setup () {
@@ -132,13 +159,28 @@ prompt_ptfancy_setup () {
   # For more see: man zshoptions(1)
   setopt no_warn_create_global
 
-  post_prompt='%b%f%k' # reset colors
+  prompt_ptfancy_color1=${1:-'cyan'}
+  prompt_ptfancy_color2=${2:-'red'}
+  prompt_ptfancy_color3=${3:-'blue'}
 
-  base_prompt='%B%F{cyan}%(!.%m.%n@%m)%k '           # host
-  status_prompt='%(?..%F{blue}[%F{red}%?%F{blue}] )' # exit status
-  ssh_prompt='$(ssh_info)'                           # ssh info
-  path_prompt='%B%F{blue}%~ '                        # cwd
-  git_prompt='$(git_info)'                           # git info
+  # reset colors
+  post_prompt='%b%f'
+
+  # host info
+  base_prompt='%B%F{$prompt_ptfancy_color1}%(!.%m.%n@%m)%f '
+
+  # exit status
+  status_prompt='%(?..%F{blue}[%F{$prompt_ptfancy_color2}%?%F{blue}] )'
+
+  # ssh info
+  ssh_prompt='$(ssh_info)'
+
+  # git info
+  git_prompt='$(git_info)'
+
+  setopt extendedglob
+  base_prompt_no_color="${base_prompt//(%B|%F{[^\\\}]#\}|%f|%b)/}"
+  post_prompt_no_color="${post_prompt//(%B|%F{[^\\\}]#\}|%f|%b)/}"
 
   add-zsh-hook precmd prompt_ptfancy_precmd
 }
@@ -153,9 +195,23 @@ prompt_ptfancy_precmd () {
   # For more see: man zshoptions(1)
   setopt no_warn_create_global
 
-  PS1="$base_prompt$status_prompt$ssh_prompt$path_prompt$git_prompt %# $post_prompt"
-  PS2="$base_prompt$status_prompt$ssh_prompt$path_prompt$git_prompt %_> $post_prompt"
-  PS3="$base_prompt$status_prompt$ssh_prompt$path_prompt$git_prompt ?# $post_prompt"
+  local base_prompt_expanded_no_color base_prompt_etc
+  local prompt_length space_left
+
+  base_prompt_expanded_no_color=$(print -P "$base_prompt_no_color")
+  base_prompt_etc=$(print -P "$base_prompt%(4~|...|)%3~")
+  prompt_length=${#base_prompt_etc}
+
+  if [[ $prompt_length -lt 40 ]]; then
+    path_prompt="%B%F{$prompt_ptfancy_color3}%(4~|...|)%3~%F{white}"
+  else
+    space_left=$(( $COLUMNS - $#base_prompt_expanded_no_color - 2 ))
+    path_prompt="%B%F{$prompt_ptfancy_color3}%${space_left}<...<%~%F{white}"
+  fi
+
+  PS1="$base_prompt$status_prompt$ssh_prompt$path_prompt $git_prompt %# $post_prompt"
+  PS2="$base_prompt$status_prompt$ssh_prompt$path_prompt $git_prompt %_> $post_prompt"
+  PS3="$base_prompt$status_prompt$ssh_prompt$path_prompt $git_prompt ?# $post_prompt"
 }
 
 prompt_ptfancy_setup "$@"
