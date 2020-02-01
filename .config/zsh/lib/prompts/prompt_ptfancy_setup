@@ -118,26 +118,39 @@ git_info() {
   echo "${(j::)git_prompt}"
 }
 
-# function ptfancy {
+prompt_ptfancy_setup () {
+  # Do not print a warning message when a global parameter is
+  # created in a function by an assignment or in math context.
+  # For more see: man zshoptions(1)
+  setopt no_warn_create_global
 
-theme=()
-theme+=( '%B%F{cyan}%(!.%m.%n@%m)%k' )           # host
-theme+=( ' %(?..%F{blue}[%F{253}%?%F{blue}] )' ) # exit status
-theme+=( '$(ssh_info)' )                         # ssh onfo
-theme+=( '%B%F{blue}%~ ' )                       # cwd
-theme+=( '$(git_info)' )                         # git info
-theme+=( '%F{blue} %# ' )                        # use '#' for root
-theme+=( '%b%f%k' )                              # reset colors
+  post_prompt="%b%f%k" # reset colors
 
-# Join the words of arrays together.
-# By convention, themes use PS1, PS2, RPS1, etc., rather than the
-# longer PROMPT and RPROMPT.
-PS1=${(j::)theme}
+  base_prompt="%B%F{cyan}%(!.%m.%n@%m)%k "           # host
+  status_prompt="%(?..%F{blue}[%F{red}%?%F{blue}] )" # exit status
+  ssh_prompt="$(ssh_info)"                           # ssh info
+  path_prompt="%B%F{blue}%~ "                        # cwd
+  git_prompt="$(git_info)"                           # git info
 
-# Cleanup unnecessary variables.
-unset theme
+  add-zsh-hook precmd prompt_ptfancy_precmd
+}
 
-# }
+prompt_ptfancy_precmd () {
+  # Do not print commands and their arguments as they are executed.
+  # For more see: man zshoptions(1)
+  setopt no_xtrace
+
+  # Do not print a warning message when a global parameter is
+  # created in a function by an assignment or in math context.
+  # For more see: man zshoptions(1)
+  setopt no_warn_create_global
+
+  PS1="$base_prompt$status_prompt$ssh_prompt$path_prompt$git_prompt %# $post_prompt"
+  PS2="$base_prompt$status_prompt$ssh_prompt$path_prompt$git_prompt %_> $post_prompt"
+  PS3="$base_prompt$status_prompt$ssh_prompt$path_prompt$git_prompt ?# $post_prompt"
+}
+
+prompt_ptfancy_setup "$@"
 
 # Local Variables:
 # mode: sh
