@@ -1,67 +1,141 @@
 #!/usr/bin/env zsh
 #
 # Fancy prompt.
+# The file is autoloaded as a function in the current shell context.
+
+# Cheat Sheet:
 #
+# %B   - Start boldface mode
+# %b   - Stop boldface mode
+#
+# %K   - Start using a different background color
+# %k   - Stop using a different background color
+#
+# %F   - Start using a different foreground color
+# %f   - Stop using a different foreground color
+#
+# %?   - Exit status
+# %#   - A '#' if the shell is running with privileges, a '%' if not
+# %~   - Current working directory
 
-# function pt-fancy {
+# Echoes a username/host string when connected over SSH
+# (empty otherwise).
+ssh_info() {
+  local -a ssh_prompt
 
-over_ssh() {
-  if [ -n "${SSH_CLIENT}" ]
+  if [ -n "${SSH_CONNECTION}" ]
   then
-    return 0
-  else
-    return 1
+    ssh_prompt+=( '%F{blue}[' )  # [
+    ssh_prompt+=( '%F{red}SSH' ) # SSH
+    ssh_prompt+=( '%F{blue}] ' ) # ]
   fi
+
+  # Join the words of arrays together.
+  echo "${(j::)ssh_prompt}"
 }
 
-setup_git_prompt() {
-  if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1
-  then
-    unset git_prompt
-    return 0
-  fi
+# Echoes information about Git repository status when inside a Git
+# repository.
+git_info() {
+  # Exit if not inside a Git repository.
+  ! git rev-parse --is-inside-work-tree > /dev/null 2>&1 && return
 
-  local git_status_dirty git_branch
+  # Git branch/tag, or name-rev if on detached head.
+  local location
+  location="$(git symbolic-ref -q HEAD || git name-rev --name-only --no-undefined --always HEAD)"
+  location="${location#(refs/heads/|tags/)}"
 
+  [ "${#location}" -ge 24 ] && location="${location:0:21}..."
+
+  location="${location:-no branch}"
+
+  local status_dirty
   if [ "$(git --no-optional-locks status --untracked-files='no' --porcelain)" ]
   then
-    git_status_dirty='%F{green}*'
+    status_dirty='%F{green}*'
   else
-    unset git_status_dirty
+    unset status_dirty
   fi
 
-  git_branch="$(git symbolic-ref HEAD 2>/dev/null)"
-  git_branch="${git_branch#refs/heads/}"
+  local ahead="%{$fg[red]%}⇡num%{$reset_color%}"
+  local behind="%{$fg[cyan]%}⇣num%{$reset_color%}"
+  local merging="%{$fg[magenta]%}⚡︎%{$reset_color%}"
+  local untracked="%{$fg[red]%}●%{$reset_color%}"
+  local modified="%{$fg[yellow]%}●%{$reset_color%}"
+  local staged="%{$fg[green]%}●%{$reset_color%}"
 
-  if [ "${#git_branch}" -ge 24 ]
+  local -a divergences
+  local -a flags
+
+  local num_ahead="$(git log --oneline @{u}.. 2> /dev/null | wc -l | tr -d ' ')"
+  if [ "$num_ahead" -gt 0 ]
   then
-    git_branch="${git_branch:0:21}..."
+    divergences+=( "${ahead//num/$num_ahead}" )
   fi
 
-  git_branch="${git_branch:-no branch}"
-  git_prompt=" %F{blue}[%F{253}${git_branch}${git_status_dirty}%F{blue}]"
+  local num_behind="$(git log --oneline ..@{u} 2> /dev/null | wc -l | tr -d ' ')"
+  if [ "$num_behind" -gt 0 ]
+  then
+    divergences+=( "${behind//num/$num_behind}" )
+  fi
+
+  local git_dir="$(git rev-parse --git-dir 2> /dev/null)"
+  if [ -n $git_dir ] && test -r $git_dir/MERGE_HEAD; then
+    flags+=( "$merging" )
+  fi
+
+  if [[ -n $(git ls-files --other --exclude-standard 2> /dev/null) ]]
+  then
+    flags+=( "$untracked" )
+  fi
+
+  if ! git diff --quiet 2> /dev/null
+  then
+    flags+=( "$modified" )
+  fi
+
+  if ! git diff --cached --quiet 2> /dev/null
+  then
+    flags+=( "$staged" )
+  fi
+
+  local -a git_prompt
+
+  git_prompt+=( "\033[38;5;15m± " )       # ±
+  git_prompt+=( "%F{yellow}${location}" ) # branch
+
+  if [ ${#divergences[@]} -ne 0 ]
+  then
+    git_prompt+=( " ${(j::)divergences}" ) # divergences
+  fi
+
+  if [ ${#flags[@]} -ne 0 ]
+  then
+    git_prompt+=( " ${(j::)flags}" )      # status
+  fi
+
+  # Join the words of arrays together.
+  echo "${(j::)git_prompt}"
 }
 
-if over_ssh && [ -z "${TMUX}" ]
-then
-  prompt_is_ssh='%F{blue}[%F{red}SSH%F{blue}] '
-elif over_ssh
-then
-  prompt_is_ssh='%F{blue}[%F{253}SSH%F{blue}] '
-else
-  unset prompt_is_ssh
-fi
+# function ptfancy {
 
-setup_git_prompt
+theme=()
+theme+=( '%B%F{cyan}%(!.%m.%n@%m)%k' )           # host
+theme+=( ' %(?..%F{blue}[%F{253}%?%F{blue}] )' ) # exit status
+theme+=( '$(ssh_info)' )                         # ssh onfo
+theme+=( '%B%F{blue}%~ ' )                       # cwd
+theme+=( '$(git_info)' )                         # git info
+theme+=( '%F{blue} %# ' )                        # use '#' for root
+theme+=( '%b%f%k' )                              # reset colors
 
-case $USER in
-  root)
-    PS1="%B%F{cyan}%m%k %(?..%F{blue}[%F{253}%?%F{blue}] )${prompt_is_ssh}%B%F{blue}%1~${git_prompt}%F{blue} %# %b%f%k"
-    ;;
-  *)
-    PS1="%B%F{blue}%n@%m%k %(?..%F{blue}[%F{253}%?%F{blue}] )${prompt_is_ssh}%B%F{cyan}%1~${git_prompt}%F{cyan} %# %b%f%k"
-    ;;
-esac
+# Join the words of arrays together.
+# By convention, themes use PS1, PS2, RPS1, etc., rather than the
+# longer PROMPT and RPROMPT.
+PS1=${(j::)theme}
+
+# Cleanup unnecessary variables.
+unset theme
 
 # }
 
