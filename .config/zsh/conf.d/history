@@ -112,19 +112,20 @@ setopt auto_pushd
 
 # Don't push multiple copies of the same directory onto the
 # directory stack.
-#
 # For more see: man zshoptions(1)
 setopt pushd_ignore_dups
 
 # Have pushd with no arguments act like `pushd $HOME'.
-#
 # For more see: man zshoptions(1)
 setopt pushd_to_home
 
 # Do not print the directory stack after pushd or popd.
-#
 # For more see: man zshoptions(1)
 setopt pushd_silent
+
+# This reverts the +/- operators.
+# For more see: man zshoptions(1)
+setopt pushd_minus
 
 DIRSTACKSIZE=20
 DIRSTACKFILE=$ZSH_CACHE_DIR/dirs
