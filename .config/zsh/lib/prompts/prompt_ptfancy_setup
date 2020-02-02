@@ -156,10 +156,6 @@ prompt_ptfancy_setup () {
   # host info
   base_prompt='%B%F{$prompt_ptfancy_color1}%(!.%m.%n@%m)%f '
 
-  local zero='%([BSUbfksu]|[FBK]{*})'
-  base_prompt_no_color="${base_prompt//$~zero/}"
-  post_prompt_no_color="${post_prompt//$~zero/}"
-
   add-zsh-hook precmd prompt_ptfancy_precmd
 }
 
@@ -175,6 +171,9 @@ prompt_ptfancy_precmd () {
 
   local base_prompt_expanded_no_color base_prompt_etc
   local prompt_length space_left
+
+  local zero='%([BSUbfksu]|[FBK]{*})'
+  local base_prompt_no_color="${base_prompt//$~zero/}"
 
   base_prompt_expanded_no_color=$(print -P "$base_prompt_no_color")
   base_prompt_etc=$(print -P "$base_prompt%(4~|...|)%3~")
