@@ -101,7 +101,7 @@ git_info() {
   local -a git_prompt
 
   # ±
-  git_prompt+=( '%F{white}±%f ' )
+  git_prompt+=( '%F{default}±%f ' )
 
   # Git branch.
   git_prompt+=( "%F{$prompt_ptfancy_color4}${location}%f" )
@@ -127,9 +127,9 @@ current working directory, and Git branch respectively.  The default
 colors are cyan, red, blue, and yellow.  To specify colours, use
 English words like `magenta'.
 
-This theme works best with a dark background.  Recommended fonts for
-this theme: Roboto Mono, DejaVu Sans Mono, Source Code Pro or
-similar.
+This theme works with a dark and light backgrounds.  Recommended
+fonts for this theme: Roboto Mono, DejaVu Sans Mono, Fira Code,
+Source Code Pro, Hack, Consolas or similar.
 
 This theme relly on `localoptions' and `promptsubst' options.  Thus
 these options should be set before.  For more see zshoptions(1).  To
@@ -180,10 +180,10 @@ prompt_ptfancy_precmd () {
   prompt_length=${#base_prompt_etc}
 
   if [[ $prompt_length -lt 40 ]]; then
-    path_prompt="%B%F{$prompt_ptfancy_color3}%(4~|...|)%3~%F{white}"
+    path_prompt="%B%F{$prompt_ptfancy_color3}%(4~|...|)%3~%F{default}"
   else
     space_left=$(( $COLUMNS - $#base_prompt_expanded_no_color - 2 ))
-    path_prompt="%B%F{$prompt_ptfancy_color3}%${space_left}<...<%~%F{white}"
+    path_prompt="%B%F{$prompt_ptfancy_color3}%${space_left}<...<%~%F{default}"
   fi
 
   # exit status
