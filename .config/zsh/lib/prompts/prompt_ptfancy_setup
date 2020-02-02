@@ -120,16 +120,16 @@ prompt_ptfancy_help () {
   cat <<'EOF'
 This prompt is color-scheme-able.  You can invoke it thus:
 
-  prompt ptfancy [<color1> [<color2> [<color3>]]]
+  prompt ptfancy [<color1> [<color2> [<color3> [<color4>]]]]
 
-where the colors are for the user@host foreground, exist status, and
-current working directory, respectively.  The default colors are
-cyan, red and blue.  To specify colours, use English words like
-`yellow', `magenta', `green', and so on.  This theme works best with
-a dark background.
+where the colors are for the user@host foreground, exist status,
+current working directory, and Git branch respectively.  The default
+colors are cyan, red, blue, and yellow.  To specify colours, use
+English words like `magenta'.
 
-Recommended fonts for this theme: Roboto Mono, DejaVu Sans Mono,
-Source Code Pro or similar.
+This theme works best with a dark background.  Recommended fonts for
+this theme: Roboto Mono, DejaVu Sans Mono, Source Code Pro or
+similar.
 
 This theme relly on `localoptions' and `promptsubst' options.  Thus
 these options should be set before.  For more see zshoptions(1).  To
