@@ -2,8 +2,7 @@
 
 # function phpenv-init {
 
-if command -v phpenv >/dev/null 2>&1
-then
+if command -v phpenv >/dev/null 2>&1 ; then
   eval "$(phpenv init -)"
 fi
 
