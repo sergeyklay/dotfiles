@@ -124,7 +124,9 @@ This prompt is color-scheme-able.  You can invoke it thus:
 
 where the colors are for the user@host foreground, exist status, and
 current working directory, respectively.  The default colors are
-cyan, red and blue.  This theme works best with a dark background.
+cyan, red and blue.  To specify colours, use English words like
+`yellow', `magenta', `green', and so on.  This theme works best with
+a dark background.
 
 Recommended fonts for this theme: Roboto Mono, DejaVu Sans Mono,
 Source Code Pro or similar.
@@ -153,15 +155,6 @@ prompt_ptfancy_setup () {
 
   # host info
   base_prompt='%B%F{$prompt_ptfancy_color1}%(!.%m.%n@%m)%f '
-
-  # exit status
-  status_prompt='%(?..%F{$prompt_ptfancy_color3}[%F{$prompt_ptfancy_color2}%?%F{$prompt_ptfancy_color3}] )'
-
-  # ssh info
-  ssh_prompt='$(ssh_info)'
-
-  # git info
-  git_prompt='$(git_info)'
 
   local zero='%([BSUbfksu]|[FBK]{*})'
   base_prompt_no_color="${base_prompt//$~zero/}"
@@ -194,17 +187,30 @@ prompt_ptfancy_precmd () {
     path_prompt="%B%F{$prompt_ptfancy_color3}%${space_left}<...<%~%F{white}"
   fi
 
-  # The  value  of  this parameter is expanded and used as the
-  # primary prompt string.
+  # exit status
+  local status_prompt='%F{$prompt_ptfancy_color2}%?%f'
+  local lsb='%F{$prompt_ptfancy_color3}[%f'
+  local rsb='%F{$prompt_ptfancy_color3}]%f'
+
+  status_prompt="%(?..$lsb$status_prompt$rsb )"
+
+  # ssh info
+  local ssh_prompt='$(ssh_info)'
+
+  # git info
+  local git_prompt='$(git_info)'
+
+  # The primary prompt string, printed before a command is read.
   PS1="$base_prompt$status_prompt$ssh_prompt$path_prompt $git_prompt %# $post_prompt"
 
-  # The  value of this parameter is expanded as with PS1 and
-  # used as the secondary prompt string.
-  PS2="$base_prompt$status_prompt$ssh_prompt$path_prompt $git_prompt %_> $post_prompt"
+  # The secondary prompt, printed when the shell needs more
+  # information to complete a command.  It is expanded in the same
+  # way as PS1.
+  PS2='%_> '
 
-  # The value of this parameter is used as the prompt for
-  # the select command.
-  PS3="$base_prompt$status_prompt$ssh_prompt$path_prompt $git_prompt ?# $post_prompt"
+  # Selection prompt used within a select loop.  It is expanded in
+  # the same way as PS1.
+  PS3='?# '
 }
 
 prompt_ptfancy_preview () {
