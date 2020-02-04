@@ -1,0 +1,16 @@
+#!/usr/bin/env zsh
+
+LOCKFILE=$1
+GRANULARITY=1
+TIMEOUT=""
+
+# Introduce some randomness to avoid conflicts when doing massive
+# locking in parallel.
+
+sleep $(( $RANDOM / 80000.0 ))
+
+echo Done
+
+# Local Variables:
+# mode: sh
+# End:
