@@ -11,11 +11,16 @@
 # The base directories for all startup/shutdown files.
 ZDOTDIR=${ZDOTDIR:-${HOME}}
 
-# This should be symlinked to $HOME/.config/zsh.
+# This should be at $HOME/.config/zsh.
 ZSHDDIR=$ZDOTDIR/.config/zsh
 
-# Will be used in zsh scripts to provide OS-wide configuration.
-OSSHORT="${(L)OSTYPE%-*}"
+[ -r $ZSHDDIR/conf.d/gopts ] && source $ZSHDDIR/conf.d/gopts
+[ -r $ZSHDDIR/conf.d/defuns ] && source $ZSHDDIR/conf.d/defuns
+
+# This function tries to setup platoform independed environment
+# variables.  This function WILL NOT change previously set veriables
+# (if any).
+zenv
 
 # No duplicate entries are needed.
 typeset -U path
@@ -47,12 +52,6 @@ export XDG_CACHE_HOME="$HOME/.cache"
 
 # See: https://stackoverflow.com/a/27965014/1661465
 export XDG_STATE_HOME="$HOME/.local/state"
-
-# It is no so good, to silently create a directory, but I use it on
-# my Linux and macOs machines.  So, this will create this dir if
-# needed arises.
-ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
-[ -d $ZSH_CACHE_DIR ] || mkdir -p $ZSH_CACHE_DIR
 
 ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump"
 
@@ -260,9 +259,6 @@ fi
 # export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
 
 export PATH
-
-[ -r $ZSHDDIR/conf.d/gopts ] && source $ZSHDDIR/conf.d/gopts
-[ -r $ZSHDDIR/conf.d/defuns ] && source $ZSHDDIR/conf.d/defuns
 
 # Local Variables:
 # mode: sh

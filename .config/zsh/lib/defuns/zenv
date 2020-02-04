@@ -1,0 +1,87 @@
+#!/usr/bin/env zsh
+#
+# This function tries to setup platoform independed environment
+# variables.  This function WILL NOT change previously set veriables
+# (if any).
+#
+# OSLONG      Contains the (long) name of the operating system, e.g.
+#             GNU/Linux, macOS, etc.
+# OSSHORT     Contains the short name of the operating system, e.g.
+#             Linux, OSX, etc.  Will be used in zsh scripts to
+#             provide OS-wide configuration.
+#
+
+# function zenv {
+
+# If one of these is already set we won't override it.
+# Thus we need a copy before we load the cache.
+[ -z "$OSSHORT" ] || OSSHORT_BACK="$OSSHORT"
+
+if [ -z "$ZSH_CACHE_DIR" ]; then
+  ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+fi
+
+# Probable it is no so good, to silently create a directory, but I
+# use it on my Linux and macOS machines.  Thus, this will create this
+# directory if is not present.
+[ -d $ZSH_CACHE_DIR ] || mkdir -p $ZSH_CACHE_DIR
+
+# If the values of the somewhat more complex variables are already
+# detected, source them from a file instead of invoking this whole
+# thing each time the function call.
+
+if [ -z "$HOST" ]; then
+  ZSH_ENV_CACHE=$ZSH_CACHE_DIR/env/generic
+else
+  ZSH_ENV_CACHE=$ZSH_CACHE_DIR/env/$HOST
+fi
+
+ZSH_ENV_CACHE_LOCK=$ZSH_ENV_CACHE.lock
+# if [ -L $ZSH_ENV_CACHE_LOCK ]; then
+  #TODO(sergey): Implement me
+# fi
+
+if [ -r $ZSH_ENV_CACHE ]; then
+  source $ZSH_ENV_CACHE
+
+  [ x$OSLONG_BACK = x ]  || OSLONG=$OSLONG_BACK
+  [ x$OSSHORT_BACK = x ] || OSSHORT=$OSSHORT_BACK
+
+  # Stop sourcing this file
+  return 0
+fi
+
+# If we can't load from cache, then set all the required variables
+# by hand.
+
+[ -d ${ZSH_ENV_CACHE%/*} ] || mkdir -p ${ZSH_ENV_CACHE%/*}
+
+OSLONG=$(uname)
+
+case $OSLONG in
+  Linux)
+    OSLONG=GNU/Linux
+    OSSHORT=Linux
+    ;;
+  Darwin)
+    OSLONG=macOS
+    OSSHORT=OSX
+    ;;
+esac
+
+if ! touch $ZSH_ENV_CACHE >/dev/null 2>&1; then
+  (>&2 printf "zenv: unable to create file %s\\n" $ZSH_ENV_CACHE)
+else
+  chmod 600 $ZSH_ENV_CACHE
+fi
+
+echo "export OSLONG=\"$OSLONG\"" >> $ZSH_ENV_CACHE
+echo "export OSSHORT=\"$OSSHORT\"" >> $ZSH_ENV_CACHE
+
+export OSLONG OSSHORT
+echo Yay!
+# }
+
+# Local Variables:
+# mode: sh
+# End:
