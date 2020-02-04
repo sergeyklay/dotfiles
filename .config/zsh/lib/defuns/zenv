@@ -11,35 +11,34 @@
 #             provide OS-wide configuration.
 # OSDISTRO    Contains the distribution-name in case of a Linux
 #             system, e.g. Debian, Gentoo, Ubuntu, Fedora, OpenSuSE.
+# OSRELEASE   Contains the release number of the OS, e.g. 7.0
+#             (FreeBSD), 10.4 (OSX), etc.
 
 # function zenv {
 
 # If one of these is already set we won't override it.
 # Thus we need a copy before we load the cache.
-[ -z "$OSLONG" ]   || OSLONG_BACK="$OSLONG"
-[ -z "$OSSHORT" ]  || OSSHORT_BACK="$OSSHORT"
-[ -z "$OSDISTRO" ] || OSDISTRO_BACK="$OSDISTRO"
+[ -z "$OSLONG" ]    || OSLONG_BACK="$OSLONG"
+[ -z "$OSSHORT" ]   || OSSHORT_BACK="$OSSHORT"
+[ -z "$OSDISTRO" ]  || OSDISTRO_BACK="$OSDISTRO"
+[ -z "$OSRELEASE" ] || OSRELEASE_BACK="$OSRELEASE"
 
 if [ -z "$ZSH_CACHE_DIR" ]; then
   ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 fi
 
 # Probable it is no so good, to silently create a directory, but I
-# use it on my Linux and macOS machines.  Thus, this will create this
-# directory if isn't present.
+# use it on my Linux and macOS machines.  Thus, this will create
+# this directory if isn't present.
 [ -d $ZSH_CACHE_DIR ] || mkdir -p $ZSH_CACHE_DIR
 
 # If the values of the somewhat more complex variables are already
 # detected, source them from a file instead of invoking this whole
 # thing each time the function call.
 
-if [ -z "$HOST" ]; then
-  ZSH_ENV_CACHE=$ZSH_CACHE_DIR/env/generic
-else
-  ZSH_ENV_CACHE=$ZSH_CACHE_DIR/env/$HOST
-fi
-
+ZSH_ENV_CACHE="$ZSH_CACHE_DIR/env/$(hostname -s 2>/dev/null || generic)"
 ZSH_ENV_CACHE_LOCK=$ZSH_ENV_CACHE.lock
+
 if [ -L $ZSH_ENV_CACHE_LOCK ]; then
   # Someone is writing to the cache, let's just wait a little.
   echo -n "zenv: Found lockfile: \"$ZSH_ENV_CACHE_LOCK\", "
@@ -61,9 +60,10 @@ if [ -r $ZSH_ENV_CACHE ]; then
   source $ZSH_ENV_CACHE
 
   # Restore previously set variables (if any).
-  [ x$OSLONG_BACK = x ]   || OSLONG=$OSLONG_BACK
-  [ x$OSSHORT_BACK = x ]  || OSSHORT=$OSSHORT_BACK
-  [ x$OSDISTRO_BACK = x ] || OSDISTRO=$OSDISTRO_BACK
+  [ x$OSLONG_BACK = x ]    || OSLONG=$OSLONG_BACK
+  [ x$OSSHORT_BACK = x ]   || OSSHORT=$OSSHORT_BACK
+  [ x$OSDISTRO_BACK = x ]  || OSDISTRO=$OSDISTRO_BACK
+  [ x$OSRELEASE_BACK = x ] || OSRELEASE=$OSRELEASE_BACK
 
   # Stop sourcing this file and exit with a success status.
   return 0
@@ -87,6 +87,7 @@ case $OSLONG in
     OSSHORT=Linux
     if builtin which lsb_release >/dev/null ; then
       OSDISTRO=$(lsb_release -i | cut -f2-)
+      OSRELEASE=$(lsb_release -r | cut -f2-)
     elif [ -f /etc/redhat-release ]; then
       OSDISTRO=$(head -n 1 /etc/redhat-release | cut -d' ' -f1)
     elif [ -f /etc/os-release ]; then
@@ -103,16 +104,21 @@ case $OSLONG in
     ;;
   FreeBSD)
     OSSHORT=$OSLONG
+    OSRELEASE="$(uname -r)"
     ;;
   Darwin)
     OSLONG=macOS
     OSSHORT=OSX
+    OSX_VERSION=$(sw_vers | grep ProductVersion | cut -f2)
+    OSRELEASE="${OSX_VERSION%.*}"
+    unset OSX_VERSION
+
     ;;
   *)
     OSSHORT=Unknown
 esac
 
-export OSLONG OSSHORT
+export OSLONG OSSHORT OSRELEASE
 
 if [ $OSSHORT = Linux ]; then
   export OSDISTRO
@@ -128,6 +134,7 @@ fi
 
 echo "export OSLONG=\"$OSLONG\"" >> $ZSH_ENV_CACHE
 echo "export OSSHORT=\"$OSSHORT\"" >> $ZSH_ENV_CACHE
+echo "export OSRELEASE=\"$OSRELEASE\"" >> $ZSH_ENV_CACHE
 
 if [ $OSSHORT = Linux ]; then
   echo "export OSDISTRO=\"$OSDISTRO\"" >> $ZSH_ENV_CACHE
