@@ -12,15 +12,32 @@ then
   for df in $ZDOT_DEFUNS/^*.zwc ; do autoload ${df##*/} ; done
   setopt no_extended_glob
 
-  [ ! -f $ZSH_CACHE_DIR/.compdf ] && zcompdf
+  # Setting $ZSH_CACHE_DIR at an early stage to be able to call
+  # `zcompdf' which is depends on this variable.  This will allow us
+  # safely source this file as soon as possible.  We don't export
+  # this variable to allow set it (and check it) before.
+  [ -z "$ZSH_CACHE_DIR" ] && {
+    ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+  }
+
+  if [[ -d "$ZSH_CACHE_DIR" ]] && [[ ! -f "$ZSH_CACHE_DIR/.compdf" ]]
+  then
+    zcompdf
+  fi
 fi
 
 # Completion support.
 #
 # For more see: man zshcompsys(1)
+#
+# TODO(serghei): This is called from '.zshenv' file. It is redundant
+# and is needed only in interactive shells.
 autoload -Uz compinit && compinit
 
 # Put standard ANSI color codes in shell parameters for easy use.
+#
+# TODO(serghei): This is called from '.zshenv' file. It is redundant
+# and is needed only in interactive shells.
 autoload -Uz colors
 
 # Manipulating hook functions.
