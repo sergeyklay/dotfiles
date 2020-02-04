@@ -12,12 +12,6 @@
 # If not running interactively, don't do anything.
 [[ $- != *i* ]] && return
 
-# Initialize several associative arrays to map color names to the
-# ANSI standard eight-color terminal codes.  These are used by the
-# prompt theme system.  This function should be autoloaded before
-# using (see .zshenv -> defuns).
-colors
-
 # OS specific configuration.
 # This comes first as it tends to mess up things.
 if [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/zshrc ]
