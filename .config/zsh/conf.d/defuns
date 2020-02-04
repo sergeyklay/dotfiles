@@ -20,7 +20,7 @@ then
     ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
   }
 
-  if [[ -d "$ZSH_CACHE_DIR" ]] && [[ ! -f "$ZSH_CACHE_DIR/.compdf" ]]
+  if [[ -d "$ZSH_CACHE_DIR" ]] && [[ ! -f "$ZSH_CACHE_DIR/zwcs" ]]
   then
     zcompdf
   fi
