@@ -40,9 +40,22 @@ else
 fi
 
 ZSH_ENV_CACHE_LOCK=$ZSH_ENV_CACHE.lock
-# if [ -L $ZSH_ENV_CACHE_LOCK ]; then
-  #TODO(sergey): Implement me
-# fi
+if [ -L $ZSH_ENV_CACHE_LOCK ]; then
+  # Someone is writing to the cache, let's just wait a little.
+  echo -n "zenv: Found lockfile: \"$ZSH_ENV_CACHE_LOCK\", "
+  echo -n "sleeping for 1 second..."
+  sleep 1
+
+  if [ -L $ZSH_ENV_CACHE_LOCK ]; then
+    echo "zenv: Lockfile still around, giving another 5 seconds..."
+    sleep 5
+
+    if [ -L $ZSH_ENV_CACHE_LOCK ]; then
+      echo "zenv: Assuming stale lockfile, removing both lock and cache..."
+      rm -f $ZSH_ENV_CACHE_LOCK $ZSHENV_CACHE
+    fi
+  fi
+fi
 
 if [ -r $ZSH_ENV_CACHE ]; then
   source $ZSH_ENV_CACHE
@@ -59,8 +72,12 @@ fi
 # If we can't load from cache, then set all the required variables
 # by hand.
 
+autoload locknwait
+
 # Create the cache directory if it isn't present.  Again.
 [ -d ${ZSH_ENV_CACHE%/*} ] || mkdir -p ${ZSH_ENV_CACHE%/*}
+
+locknwait $ZSH_ENV_CACHE_LOCK
 
 # A workaround to get OS name on Linux and macOS systems.
 OSLONG="$(uname -o 2>/dev/null || uname -s)"
@@ -95,23 +112,25 @@ case $OSLONG in
     OSSHORT=Unknown
 esac
 
-if ! touch $ZSH_ENV_CACHE >/dev/null 2>&1; then
-  (>&2 printf "Unable to create cache file: \"%s\"\\n" $ZSH_ENV_CACHE)
-else
-  chmod 600 $ZSH_ENV_CACHE
-
-  echo "export OSLONG=\"$OSLONG\"" >> $ZSH_ENV_CACHE
-  echo "export OSSHORT=\"$OSSHORT\"" >> $ZSH_ENV_CACHE
-
-  if [ $OSSHORT = Linux ]; then
-    echo "export OSDISTRO=\"$OSDISTRO\"" >> $ZSH_ENV_CACHE
-  fi
-fi
-
 export OSLONG OSSHORT
 
 if [ $OSSHORT = Linux ]; then
   export OSDISTRO
+fi
+
+if ! touch $ZSH_ENV_CACHE >/dev/null 2>&1; then
+  >&2 echo -n "zenv: Unable to create cache file: "
+  >&2 echo "\"$ZSH_ENV_CACHE\".  Using \"/dev/null\" as a fallback."
+  ZSH_ENV_CACHE=/dev/null
+else
+  chmod 600 $ZSH_ENV_CACHE
+fi
+
+echo "export OSLONG=\"$OSLONG\"" >> $ZSH_ENV_CACHE
+echo "export OSSHORT=\"$OSSHORT\"" >> $ZSH_ENV_CACHE
+
+if [ $OSSHORT = Linux ]; then
+  echo "export OSDISTRO=\"$OSDISTRO\"" >> $ZSH_ENV_CACHE
 fi
 
 # We don't need lock file now.
