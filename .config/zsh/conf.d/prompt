@@ -2,8 +2,13 @@
 
 fpath=($ZSHDDIR/lib/prompts $fpath)
 
-autoload -Uz promptinit
-promptinit
+# Initialize several associative arrays to map color names to the
+# ANSI standard eight-color terminal codes.  These are used by the
+# prompt theme system.
+autoload -Uz colors && colors
+
+# Initialize prompt init.
+autoload -Uz promptinit && promptinit
 
 # Parameter expansion, command substitution and arithmetic expansion
 # are performed in prompts.
