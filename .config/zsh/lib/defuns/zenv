@@ -118,12 +118,6 @@ case $OSLONG in
     OSSHORT=Unknown
 esac
 
-export OSLONG OSSHORT OSRELEASE
-
-if [ $OSSHORT = Linux ]; then
-  export OSDISTRO
-fi
-
 if ! touch $ZSH_ENV_CACHE >/dev/null 2>&1; then
   >&2 echo -n "zenv: Unable to create cache file: "
   >&2 echo "\"$ZSH_ENV_CACHE\".  Using \"/dev/null\" as a fallback."
@@ -142,6 +136,12 @@ fi
 
 # We don't need lock file now.
 rm -f $ZSH_ENV_CACHE_LOCK
+
+export OSLONG OSSHORT OSRELEASE
+
+if [ $OSSHORT = Linux ]; then
+  export OSDISTRO
+fi
 
 # }
 
