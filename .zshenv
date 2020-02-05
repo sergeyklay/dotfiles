@@ -22,6 +22,11 @@ ZSHDDIR=$ZDOTDIR/.config/zsh
 # (if any).
 zenv
 
+# OS specific environment.
+if [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/zshenv ]; then
+  source $ZSHDDIR/conf.d/OS/$OSSHORT/zshenv
+fi
+
 # No duplicate entries are needed.
 typeset -U path
 path=(/usr/local/bin /usr/local/sbin $path)
