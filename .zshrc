@@ -8,6 +8,8 @@
 # Used for setting user's interactive shell configuration and
 # executing commands, will be read when starting as an interactive
 # shell.
+#
+# For $OSSHORT, $ZSHDDIR and other variables see .zshenv.
 
 # If not running interactively, don't do anything.
 [[ $- != *i* ]] && return
@@ -16,6 +18,7 @@ configs=(
   OS/$OSSHORT/zshrc          # OS specific configuration
   history                    # Setting up history
   aliases                    # The Common aliases
+  OS/$OSSHORT/aliases        # OS specific aliases
   prompt                     # The definition of the prompts
 )
 

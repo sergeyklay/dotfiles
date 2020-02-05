@@ -7,33 +7,9 @@ alias mv='nocorrect mv'
 # Globbing doesn't make sense for mkdir.
 alias mkdir='nocorrect noglob mkdir'
 
-# See: https://superuser.com/a/656746/280737
-# TODO(serghei): Move to macOS-wide aliases file
-if [ $OSSHORT = OSX ]; then
-  # BSD ls uses -G to enable colorized output
-  alias ll='LC_ALL="C.UTF-8" ls -G -alF'
-  alias la='ls -G -A'
-  alias l='ls -G -CF'
-else
-  # GNU ls uses --color to enable colorized output
-  alias ll='LC_ALL="C.UTF-8" ls --color=auto -alF'
-  alias la='ls --color=auto -A'
-  alias l='ls --color=auto -CF'
-fi
-
 # Color support for grep
 alias grep='grep --colour=auto'
 alias egrep='egrep --colour=auto'
-
-# Linux only aliases
-# TODO(serghei): Move to macOS-wide aliases file
-[ $OSSHORT = Linux ] && {
-  [ -x /usr/bin/xdg-open ] && open() { (xdg-open $@ &) }
-}
-
-[ command -v gmake >/dev/null 2>&1 ] && {
-  alias make='gmake'
-}
 
 # Wget will use the supplied file as the HSTS database
 [ command -v wget >/dev/null 2>&1 ] && {

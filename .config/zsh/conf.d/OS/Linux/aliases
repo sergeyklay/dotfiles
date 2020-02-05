@@ -1,0 +1,21 @@
+# Linux-wide Zsh aliases file.
+#
+# This file is sourced on all interactive shells.
+#   .zshenv -> .zprofile -> .zshrc -> [aliases] -> .zlogin
+#                                       ^
+#   ------------------------------------
+
+# GNU's ls uses --color to enable colorized output.
+# For LS_ALL see URL https://superuser.com/a/656746/280737 .
+alias ll='LC_ALL="C.UTF-8" ls --color=auto -alF'
+alias la='ls --color=auto -A'
+alias l='ls --color=auto -CF'
+
+[ command -v xdg-open >/dev/null 2>&1 ] &&
+  open() {
+    (xdg-open $@ &)
+  }
+
+# Local Variables:
+# mode: sh
+# End:
