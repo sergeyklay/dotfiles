@@ -10,9 +10,7 @@
 
 # The base directories for all startup/shutdown files.
 ZDOTDIR=${ZDOTDIR:-${HOME}}
-
-# This should be at $HOME/.config/zsh.
-ZSHDDIR=$ZDOTDIR/.config/zsh
+ZSHDDIR="${XDG_CONFIG_HOME:-$ZDOTDIR/.config}/zsh"
 
 [ -r $ZSHDDIR/conf.d/gopts ] && source $ZSHDDIR/conf.d/gopts
 [ -r $ZSHDDIR/conf.d/defuns ] && source $ZSHDDIR/conf.d/defuns
@@ -34,29 +32,6 @@ path=(/usr/local/bin /usr/local/sbin $path)
 export LC_ALL='en_US.UTF-8'
 export LC_TYPE='en_US.UTF-8'
 export LANG='en_US.UTF-8'
-
-# User-specific configuration files
-export XDG_CONFIG_HOME="$HOME/.config"
-
-# User-specific data files
-export XDG_DATA_HOME="$HOME/.local/share"
-
-# Base directories relative to which data files should be searched
-[ -d /usr/share ] && export XDG_DATA_DIRS=/usr/share
-
-# Configuration files should be searched relative to this directory
-[ -d /etc/xdg ] && export XDG_CONFIG_DIRS=/etc/xdg
-
-# User-specific cached data should be written relative to this
-# directory.
-export XDG_CACHE_HOME="$HOME/.cache"
-
-# User-specific runtime files should be placed relative to this
-# directory.
-[ -d /run/user ] && export XDG_RUNTIME_DIR=/run/user/$(id -u)
-
-# See: https://stackoverflow.com/a/27965014/1661465
-export XDG_STATE_HOME="$HOME/.local/state"
 
 ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump"
 

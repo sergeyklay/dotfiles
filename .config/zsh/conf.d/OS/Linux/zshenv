@@ -1,0 +1,40 @@
+# Linux-wide Zsh environment configuration.
+#
+# This file is sourced on all invokations of zsh.
+#   .zshenv -> [zshenv] -> .zprofile -> .zshrc -> .zlogin
+#                ^
+#   -------------
+
+# User-specific configuration files.
+[ -z "$XDG_CONFIG_HOME" ] && export XDG_CONFIG_HOME=$HOME/.config
+
+# User-specific data files.
+[ -z "$XDG_DATA_HOME" ] && export XDG_DATA_HOME=$HOME/.local/share
+
+# Base directories relative to which data files should be searched.
+[ -z "$XDG_DATA_DIRS" ] && {
+  [ -d /usr/share ] && export XDG_DATA_DIRS=/usr/share
+}
+
+# Configuration files should be searched relative to this directory.
+[ -z "$XDG_CONFIG_DIRS" ] && {
+  [ -d /etc/xdg ] && export XDG_CONFIG_DIRS=/etc/xdg
+}
+
+# User-specific cached data should be written relative to this
+# directory.
+[ -z "$XDG_CACHE_HOME" ] && export XDG_CACHE_HOME=$HOME/.cache
+
+# User-specific runtime files should be placed relative to this
+# directory.
+[ -z "$XDG_RUNTIME_DIR" ] && {
+  [ -d /run/user ] && export XDG_RUNTIME_DIR=/run/user/$(id -u)
+}
+
+# See: https://stackoverflow.com/a/27965014/1661465
+[ -z "$XDG_STATE_HOME" ] && export XDG_STATE_HOME=$HOME/.local/state
+[ ! -d $XDG_STATE_HOME ] && mkdir -p $XDG_STATE_HOME
+
+# Local Variables:
+# mode: sh
+# End:
