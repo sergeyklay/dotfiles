@@ -30,6 +30,8 @@ for c in "$configs[@]" ;  do
   [ -r $ZSHDDIR/conf.d/$c ] && source $ZSHDDIR/conf.d/$c
 done
 
+unset c configs
+
 # kubectl completion
 [ ! -z "$(command -v kubectl 2>/dev/null || true)" ] && {
   source <(kubectl completion zsh | sed s/kubectl/k/g)
