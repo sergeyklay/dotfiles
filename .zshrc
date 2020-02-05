@@ -12,16 +12,16 @@
 # If not running interactively, don't do anything.
 [[ $- != *i* ]] && return
 
-# OS specific configuration.
-# This comes first as it tends to mess up things.
-if [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/zshrc ]
-then
-  source $ZSHDDIR/conf.d/OS/$OSSHORT/zshrc
-fi
+configs=(
+  OS/$OSSHORT/zshrc          # OS specific configuration
+  history                    # Setting up history
+  aliases                    # The Common aliases
+  prompt                     # The definition of the prompts
+)
 
-[ -r $ZSHDDIR/conf.d/history ] && source $ZSHDDIR/conf.d/history
-[ -r $ZSHDDIR/conf.d/aliases ] && source $ZSHDDIR/conf.d/aliases
-[ -r $ZSHDDIR/conf.d/prompt ] && source $ZSHDDIR/conf.d/prompt
+for c in "$configs[@]" ;  do
+  [ -r $ZSHDDIR/conf.d/$c ] && ech source $ZSHDDIR/conf.d/$c
+done
 
 # kubectl completion
 [ ! -z "$(command -v kubectl 2>/dev/null || true)" ] && {
