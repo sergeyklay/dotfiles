@@ -29,10 +29,6 @@ fi
 typeset -U path
 path=(/usr/local/bin /usr/local/sbin $path)
 
-export LC_ALL='en_US.UTF-8'
-export LC_TYPE='en_US.UTF-8'
-export LANG='en_US.UTF-8'
-
 ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump"
 
 # MANPATH: path for the man command to search.
