@@ -14,6 +14,8 @@
 # OSRELEASE   Contains the release number of the OS, e.g. 7.0
 #             (FreeBSD), 10.4 (OSX), etc.
 # ARCH        Contains the CPU-architecture of the system.
+# HOST        Contains the effective (short) hostname.
+# HOSTNAME    Contains the effective (fully qualified) hostname.
 
 # function zenv {
 
@@ -24,6 +26,8 @@
 [ -z "$OSDISTRO" ]  || OSDISTRO_BACK="$OSDISTRO"
 [ -z "$OSRELEASE" ] || OSRELEASE_BACK="$OSRELEASE"
 [ -z "$ARCH" ]      || ARCH_BACK="$ARCH"
+[ -z "$HOST" ]      || HOST_BACK="$HOST"
+[ -z "$HOSTNAME" ]  || HOSTNAME_BACK="$HOSTNAME"
 
 if [ -z "$ZSH_CACHE_DIR" ]; then
   ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
@@ -38,7 +42,7 @@ fi
 # detected, source them from a file instead of invoking this whole
 # thing each time the function call.
 
-ZSH_ENV_CACHE="$ZSH_CACHE_DIR/env/$(hostname -s 2>/dev/null || generic)"
+ZSH_ENV_CACHE="$ZSH_CACHE_DIR/env/$(hostname -s)"
 ZSH_ENV_CACHE_LOCK=$ZSH_ENV_CACHE.lock
 
 if [ -L $ZSH_ENV_CACHE_LOCK ]; then
@@ -67,6 +71,8 @@ if [ -r $ZSH_ENV_CACHE ]; then
   [ x$OSDISTRO_BACK = x ]  || OSDISTRO=$OSDISTRO_BACK
   [ x$OSRELEASE_BACK = x ] || OSRELEASE=$OSRELEASE_BACK
   [ x$ARCH_BACK = x ]      || ARCH=$ARCH_BACK
+  [ x$HOST_BACK = x ]      || HOST=$HOST_BACK
+  [ x$HOSTNAME_BACK = x ]  || HOSTNAME=$HOSTNAME_BACK
 
   # Stop sourcing this file and exit with a success status.
   return 0
@@ -89,6 +95,8 @@ case $OSLONG in
   *Linux)
     OSSHORT=Linux
 
+    HOST=$(hostname -s)
+    HOSTNAME=$(hostname --fqdn)
     ARCH=$(uname -m)
     [ $ARCH = i386 ] && ARCH=x86_32
     [ $ARCH = amd64 ] && ARCH=x86_64
@@ -121,12 +129,17 @@ case $OSLONG in
     ;;
   FreeBSD)
     OSSHORT=$OSLONG
+    HOST=$(hostname -s)
+    HOSTNAME=$(hostname -f)
     ARCH=$(uname -m)
     OSRELEASE="$(uname -r)"
     ;;
   Darwin)
     OSLONG=macOS
     OSSHORT=OSX
+    HOST=$(hostname -s)
+    HOSTNAME=$(hostname -f)
+
     ARCH=$(uname -p)
     case $ARCH in
       i386)
@@ -189,6 +202,8 @@ case $OSLONG in
     OSLONG=$OSSHORT
     OSRELEASE=$OSSHORT
     ARCH=$OSSHORT
+    HOST=localhost
+    HOSTNAME=$HOST.localdomain
 esac
 
 if ! touch $ZSH_ENV_CACHE >/dev/null 2>&1; then
@@ -206,6 +221,9 @@ fi
 
 export ARCH=$ARCH
 
+export HOST=$HOST
+export HOSTNAME=$HOSTNAME
+
 export OSLONG="$OSLONG"
 export OSSHORT="$OSSHORT"
 export OSRELEASE="$OSRELEASE"
@@ -218,6 +236,7 @@ fi
 # We don't need lock file now.
 rm -f $ZSH_ENV_CACHE_LOCK
 
+export HOST HOSTNAME
 export OSLONG OSSHORT ARCH OSRELEASE
 
 if [ $OSSHORT = Linux ]; then

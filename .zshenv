@@ -55,10 +55,6 @@ export XDG_STATE_HOME="$HOME/.local/state"
 
 ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump"
 
-# Take a look at HOST first to be consistency and for a speed
-# reason.
-export HOSTNAME="${HOST:=$(hostname)}"
-
 # MANPATH: path for the man command to search.
 # Look at the manpath command's output and prepend
 # my own manual paths manually.
