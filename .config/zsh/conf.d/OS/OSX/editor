@@ -1,0 +1,15 @@
+# macOS-wide configuration for editor, pager, and so on.
+#
+# This file is sourced on all invokations of zsh.
+#   .zshenv -> [editor] -> .zprofile -> .zshrc -> .zlogin
+#                ^
+#   -------------
+
+# brew install lesspipe
+if command -v lesspipe.sh >/dev/null 2>&1 ; then
+  export LESSOPEN="| lesspipe.sh %s";
+fi
+
+# Local Variables:
+# mode: sh
+# End:

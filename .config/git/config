@@ -13,7 +13,6 @@
 	;; See: https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html
 	editor = emacsclient --create-frame --no-wait
 
-
 [push]
 	default = simple
 

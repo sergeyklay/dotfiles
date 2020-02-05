@@ -30,7 +30,8 @@ fi
 typeset -U path
 path=(/usr/local/bin /usr/local/sbin $path)
 
-ZSH_COMPDUMP="$ZSH_CACHE_DIR/zcompdump"
+# TODO(serghei): Deprecated
+ZSH_COMPDUMP="${XDG_CACHE_HOME:-$HOME/.cache}/zcompdump"
 
 # MANPATH: path for the man command to search.
 # Look at the manpath command's output and prepend
@@ -63,30 +64,6 @@ then
   typeset -U manpath
   export MANPATH
 fi
-
-# More for less
-export PAGER=less
-
-if [ -f /usr/local/bin/lesspipe.sh ]
-then
-  # brew install lesspipe
-  export LESSOPEN="| lesspipe.sh %s";
-elif [ -x /usr/bin/lesspipe ]
-then
-  # Linux way
-  eval "$(lesspipe)"
-fi
-
-# -X will leave the text in your Terminal, so it doesn't disappear
-#    when you exit less
-# -F will exit less if the output fits on one screen (so you don't
-#    have to press "q").
-#
-# See: https://unix.stackexchange.com/q/38634/50400
-export LESS="-X -F"
-export LESSCHARSET=UTF-8
-
-export LESSHISTFILE="$XDG_CACHE_HOME/lesshst"
 
 # Include local bin
 [ -e "$HOME/bin" ] && {
@@ -202,10 +179,10 @@ fi
 [ -d "$HOME/.cask/bin" ] && path=("$HOME/.cask/bin" $path)
 
 # Composer
-if [ -d "$XDG_CONFIG_HOME/composer" ]
+if [ -d "${XDG_CONFIG_HOME:-$ZDOTDIR/.config}/composer" ]
 then
-  export COMPOSER_HOME="$XDG_CONFIG_HOME/composer"
-  export COMPOSER_CACHE_DIR="$XDG_CACHE_HOME/composer"
+  export COMPOSER_HOME="${XDG_CONFIG_HOME:-$ZDOTDIR/.config}/composer"
+  export COMPOSER_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/composer"
 
   [ -d "$COMPOSER_HOME/vendor/bin" ] &&
     path=("$COMPOSER_HOME/vendor/bin" $path)
