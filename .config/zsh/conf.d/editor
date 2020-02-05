@@ -1,0 +1,32 @@
+# This file contains the definition of the editor.
+#
+# EDITOR             Terminal editor (GNU Emacs).  Should be able to
+#                    work without use of "advanced" terminal
+#                    functionality.
+# VISUAL             A GUI editor could be a full screen editor.
+# ALTERNATE_EDITOR   Editor to fallback to if the server is not
+#                    running.
+#
+# To see GNU Emacs configuration I use refer to:
+# https://github.com/sergeyklay/.emacs.d
+#
+# To run GNU Emacs in server mode see:
+# https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html
+
+if [ -z "$SSH_CONNECTION" ]; then
+  # Editor to fallback to if the server is not running.  If this
+  # variable is the empty, start GNU Emacs in daemon mode and try
+  # connecting again.
+  export ALTERNATE_EDITOR=''
+  export EDITOR='emacsclient --create-frame --no-wait'
+else
+  # I only want to use Emacs client when I am on my desktop.
+  export EDITOR=emacs
+fi
+
+export VISUAL=emacs
+alias ec=$EDITOR
+
+# Local Variables:
+# mode: sh
+# End:

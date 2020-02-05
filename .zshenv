@@ -14,6 +14,7 @@ ZSHDDIR="${XDG_CONFIG_HOME:-$ZDOTDIR/.config}/zsh"
 
 [ -r $ZSHDDIR/conf.d/gopts ] && source $ZSHDDIR/conf.d/gopts
 [ -r $ZSHDDIR/conf.d/defuns ] && source $ZSHDDIR/conf.d/defuns
+[ -r $ZSHDDIR/conf.d/editor ] && source $ZSHDDIR/conf.d/editor
 
 # This function tries to setup platoform independed environment
 # variables.  This function WILL NOT change previously set veriables
@@ -62,19 +63,6 @@ then
   typeset -U manpath
   export MANPATH
 fi
-
-# See: https://github.com/sergeyklay/.emacs.d
-#
-# To run GNU Emacs in server mode see:
-# https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html
-#
-# $EDITOR should open in terminal
-# $VISUAL opens in GUI with non-daemon as alternate
-export ALTERNATE_EDITOR=""
-export EDITOR="emacsclient -t"
-export VISUAL="emacsclient -c -a emacs"
-
-export VIEWER=less
 
 # More for less
 export PAGER=less
