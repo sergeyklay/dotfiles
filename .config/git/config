@@ -8,7 +8,6 @@
 	safecrlf = true
 	whitespace = trailing-space,space-before-tab,indent-with-non-tab
 	pager = less -FRSX
-	excludesfile = ~/git/ignore_global
 	precomposeunicode = true
 	quotePath = false
 	;; See: https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html
@@ -19,7 +18,7 @@
 	default = simple
 
 [commit]
-	template = ~/git/message.txt
+	template = ~/.config/git/message
 	gpgsign = true
 
 [tag]
