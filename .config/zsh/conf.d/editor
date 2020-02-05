@@ -27,6 +27,25 @@ fi
 export VISUAL=emacs
 alias ec=$EDITOR
 
+# More for less
+export PAGER=less
+
+# -X will leave the text in your Terminal, so it doesn't disappear
+#    when you exit less
+# -F will exit less if the output fits on one screen (so you don't
+#    have to press "q").
+#
+# See: https://unix.stackexchange.com/q/38634/50400
+export LESS="-X -F"
+export LESSCHARSET=UTF-8
+
+export LESSHISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/lesshst"
+
+# OS specific settings for editor, pager, and so on.
+if [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/editor ]; then
+  source $ZSHDDIR/conf.d/OS/$OSSHORT/editor
+fi
+
 # Local Variables:
 # mode: sh
 # End:
