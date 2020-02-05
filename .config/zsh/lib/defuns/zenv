@@ -96,6 +96,15 @@ case $OSLONG in
     if builtin which lsb_release >/dev/null ; then
       OSDISTRO=$(lsb_release -i | cut -f2-)
       OSRELEASE=$(lsb_release -r | cut -f2-)
+      OSCODENAME=$(lsb_release -c | cut -f2-)
+
+      if [ $OSRELSEASE = "n/a" -o $OSRELEASE = "rolling" ]; then
+        unset OSRELEASE
+      elif [ $OSCODENAME = "n/a" -o $OSCODENAME = "Final" ]; then
+        unset OSCODENAME
+      else
+        OSRELEASE="$OSRELEASE ($OSCODENAME)"
+      fi
     elif [ -f /etc/redhat-release ]; then
       OSDISTRO=$(head -n 1 /etc/redhat-release | cut -d' ' -f1)
     elif [ -f /etc/os-release ]; then
@@ -132,10 +141,54 @@ case $OSLONG in
     OSX_VERSION=$(sw_vers | grep ProductVersion | cut -f2)
     OSRELEASE="${OSX_VERSION%.*}"
     unset OSX_VERSION
-
+    case $OSRELEASE in
+      10.4)
+        OSCODENAME="Tiger"
+        ;;
+      10.5)
+        OSCODENAME="Leopard"
+        ;;
+      10.6)
+        OSCODENAME="Snow Leopard"
+        ;;
+      10.7)
+        OSCODENAME="Lion"
+        ;;
+      10.8)
+        OSCODENAME="Mountain Lion"
+        ;;
+      10.9)
+        OSCODENAME="Mavericks"
+        ;;
+      10.10)
+        OSCODENAME="Yosemite"
+        ;;
+      10.11)
+        OSCODENAME="El Capitan"
+        ;;
+      10.12)
+        OSCODENAME="Sierra"
+        ;;
+      10.13)
+        OSCODENAME="High Sierra"
+        ;;
+      10.14)
+        OSCODENAME="Mojave"
+        ;;
+      10.15)
+        OSCODENAME="Catalina"
+        ;;
+      *)
+        OSCODENAME="Unknown"
+        ;;
+    esac
+    OSRELEASE="$OSRELEASE ($OSCODENAME)"
     ;;
   *)
     OSSHORT=Unknown
+    OSLONG=$OSSHORT
+    OSRELEASE=$OSSHORT
+    ARCH=$OSSHORT
 esac
 
 if ! touch $ZSH_ENV_CACHE >/dev/null 2>&1; then
