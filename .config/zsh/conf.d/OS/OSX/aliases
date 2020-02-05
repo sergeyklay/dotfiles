@@ -5,11 +5,20 @@
 #                                       ^
 #   ------------------------------------
 
-# BSD's ls uses -G to enable colorized output.
-# For LS_ALL see URL https://superuser.com/a/656746/280737 .
-alias ll='LC_ALL="C.UTF-8" ls -G -alF'
-alias la='ls -G -A'
-alias l='ls -G -CF'
+# brew install coreutils
+if command -v gls >/dev/null 2>&1; then
+  # GNU's ls uses --color to enable colorized output.
+  # For LC_ALL see URL https://superuser.com/a/656746/280737 .
+  alias ll='LC_ALL="C.UTF-8" gls --color=auto -alF --group-directories-first'
+  alias la='gls --color=auto -A'
+  alias l='gls --color=auto -CF'
+else
+  # BSD's ls uses -G to enable colorized output.
+  # For LC_ALL see URL https://superuser.com/a/656746/280737 .
+  alias ll='LC_ALL="C.UTF-8" ls -G -alF'
+  alias la='ls -G -A'
+  alias l='ls -G -CF'
+fi
 
 # macOS uses too outdated make.   I prefer install a frew one using
 # brew and alias it here.

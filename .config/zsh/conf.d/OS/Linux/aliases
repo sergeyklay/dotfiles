@@ -6,8 +6,8 @@
 #   ------------------------------------
 
 # GNU's ls uses --color to enable colorized output.
-# For LS_ALL see URL https://superuser.com/a/656746/280737 .
-alias ll='LC_ALL="C.UTF-8" ls --color=auto -alF'
+# For LC_ALL see URL https://superuser.com/a/656746/280737 .
+alias ll='LC_ALL="C.UTF-8" ls --color=auto -alF --group-directories-first'
 alias la='ls --color=auto -A'
 alias l='ls --color=auto -CF'
 
