@@ -15,7 +15,8 @@ Other projects I also support from time to time are:
 
 ## License
 
-Licensed under the MIT License.  © [Serghei Iakovlev][github]
+This project is open source software licensed under the GNU General
+Public Licence version 3 .  © [Serghei Iakovlev][github]
 
 [emacs.d]: https://github.com/sergeyklay/.emacs.d
 [github]: https://github.com/sergeyklay
