@@ -1,4 +1,6 @@
 # This file contains the definition of aliases.
+#
+# For $OSSHORT, $ZSHDDIR and other variables see .zshenv.
 
 # Things the shell shouldn't correct on:
 alias cp='nocorrect cp'
@@ -41,6 +43,11 @@ then
 else
     alias diff="diff -Nuar"
 fi
+
+# OS specific aliases.
+[ -r $ZSHDDIR/conf.d/OS/$OSSHORT/aliases ] && {
+  source $ZSHDDIR/conf.d/OS/$OSSHORT/aliases
+}
 
 # Local Variables:
 # mode: sh

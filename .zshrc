@@ -14,12 +14,16 @@
 # If not running interactively, don't do anything.
 [[ $- != *i* ]] && return
 
+# OS specific configuration.
+# This comes first as it tends to mess up things.
+if [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/zshrc ]; then
+  source $ZSHDDIR/conf.d/OS/$OSSHORT/zshrc
+fi
+
 configs=(
-  OS/$OSSHORT/zshrc          # OS specific configuration
-  history                    # Setting up history
-  aliases                    # The Common aliases
-  OS/$OSSHORT/aliases        # OS specific aliases
-  prompt                     # The definition of the prompts
+  history        # Setting up history
+  aliases        # The Common aliases
+  prompt         # The definition of the prompts
 )
 
 for c in "$configs[@]" ;  do
