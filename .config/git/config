@@ -12,7 +12,7 @@
 	precomposeunicode = true
 	quotePath = false
 	;; See: https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html
-	editor = emacsclient -t
+	editor = emacsclient --create-frame --no-wait
 
 
 [push]
