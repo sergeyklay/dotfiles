@@ -22,7 +22,7 @@ fi
 
 configs=(
   history        # Setting up history
-  aliases        # The Common aliases
+  aliases        # The definition of aliases
   prompt         # The definition of the prompts
 )
 
