@@ -15,7 +15,7 @@ alias egrep='egrep --colour=auto'
 
 # Wget will use the supplied file as the HSTS database
 [ command -v wget >/dev/null 2>&1 ] && {
-  alias wget='wget --hsts-file=$XDG_CACHE_HOME/wget-hsts'
+  alias wget="wget --hsts-file=${XDG_CACHE_HOME:-$HOME/.cache}/wget-hsts"
 }
 
 [ command -v docker >/dev/null 2>&1 ] && {
@@ -28,20 +28,13 @@ alias egrep='egrep --colour=auto'
 }
 
 [ command -v clojure >/dev/null 2>&1 ] && {
-  alias rebel="clojure -A:rebel"
+  alias rebel='clojure -A:rebel'
 }
 
-# To run GNU Emacs in server mode see:
-# https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html
-alias ec='emacsclient -t'
-alias vim='emacsclient -t'
-alias vi='emacsclient -t'
-
-if command -v colordiff >/dev/null 2>&1
-then
-    alias diff="colordiff -Nuar"
+if command -v colordiff >/dev/null 2>&1; then
+  alias diff='colordiff -Nuar'
 else
-    alias diff="diff -Nuar"
+  alias diff='diff -Nuar'
 fi
 
 # OS specific aliases.
