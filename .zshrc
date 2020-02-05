@@ -23,7 +23,7 @@ configs=(
 )
 
 for c in "$configs[@]" ;  do
-  [ -r $ZSHDDIR/conf.d/$c ] && ech source $ZSHDDIR/conf.d/$c
+  [ -r $ZSHDDIR/conf.d/$c ] && source $ZSHDDIR/conf.d/$c
 done
 
 # kubectl completion
