@@ -1,5 +1,11 @@
 # This file contains the definition of the editor.
 #
+# This file is sourced on all invokations of zsh.
+#   .zshenv -> [editor] -> .zprofile -> .zshrc -> .zlogin
+#                ^
+#   -------------
+#
+#
 # EDITOR             Terminal editor (GNU Emacs).  Should be able to
 #                    work without use of "advanced" terminal
 #                    functionality.
@@ -15,7 +21,7 @@
 
 if [ -z "$SSH_CONNECTION" ]; then
   # Editor to fallback to if the server is not running.  If this
-  # variable is the empty, start GNU Emacs in daemon mode and try
+  # variable is empty, then start GNU Emacs in daemon mode and try
   # connecting again.
   export ALTERNATE_EDITOR=''
   export EDITOR='emacsclient --create-frame --no-wait'
