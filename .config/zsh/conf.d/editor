@@ -24,7 +24,7 @@ if [ -z "$SSH_CONNECTION" ]; then
   # variable is empty, then start GNU Emacs in daemon mode and try
   # connecting again.
   export ALTERNATE_EDITOR=''
-  export EDITOR='emacsclient --create-frame --no-wait'
+  export EDITOR='emacsclient --tty --no-wait'
 else
   # I only want to use Emacs client when I am on my desktop.
   export EDITOR=emacs
