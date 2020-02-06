@@ -11,7 +11,7 @@
 	precomposeunicode = true
 	quotePath = false
 	;; See: https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html
-	editor = emacsclient --tty --no-wait
+	editor = emacsclient --tty
 
 [push]
 	default = simple
