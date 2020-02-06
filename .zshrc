@@ -21,6 +21,7 @@ if [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/zshrc ]; then
 fi
 
 configs=(
+  zle            # Zsh Line Editor
   history        # Setting up history
   aliases        # The definition of aliases
   prompt         # The definition of the prompts
