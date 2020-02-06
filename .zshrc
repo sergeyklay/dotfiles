@@ -20,11 +20,13 @@ if [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/zshrc ]; then
   source $ZSHDDIR/conf.d/OS/$OSSHORT/zshrc
 fi
 
+# Note, order is matter.
 configs=(
   zle            # Zsh Line Editor
   history        # Setting up history
   aliases        # The definition of aliases
   prompt         # The definition of the prompts
+  completion     # Setting up completion support
 )
 
 for c in "$configs[@]" ;  do
@@ -32,19 +34,6 @@ for c in "$configs[@]" ;  do
 done
 
 unset c configs
-
-# kubectl completion
-[ ! -z "$(command -v kubectl 2>/dev/null || true)" ] && {
-  source <(kubectl completion zsh | sed s/kubectl/k/g)
-}
-
-# The next line updates PATH for the Google Cloud SDK.
-[ -f "$HOME/gcp/path.zsh.inc" ] && source "$HOME/gcp/path.zsh.inc"
-
-# The next line enables shell command completion for gcloud.
-[ -f "$HOME/gcp/completion.zsh.inc" ] && {
-  source "$HOME/gcp/completion.zsh.inc"
-}
 
 # Local Variables:
 # mode: sh
