@@ -74,6 +74,10 @@ if [ -r $ZSH_ENV_CACHE ]; then
   [ x$HOST_BACK = x ]      || HOST=$HOST_BACK
   [ x$HOSTNAME_BACK = x ]  || HOSTNAME=$HOSTNAME_BACK
 
+  # Cleanup
+  unset OSLONG_BACK OSSHORT_BACK OSDISTRO_BACK OSRELEASE_BACK
+  unset ARCH_BACK HOST_BACK HOSTNAME_BACK
+
   # Stop sourcing this file and exit with a success status.
   return 0
 fi
@@ -244,6 +248,10 @@ export OSLONG OSSHORT ARCH OSRELEASE
 if [ $OSSHORT = Linux ]; then
   export OSDISTRO
 fi
+
+# Cleanup
+unset OSLONG_BACK OSSHORT_BACK OSDISTRO_BACK OSRELEASE_BACK
+unset ARCH_BACK HOST_BACK HOSTNAME_BACK
 
 # }
 
