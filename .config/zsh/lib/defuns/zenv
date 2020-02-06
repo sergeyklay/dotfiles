@@ -110,10 +110,10 @@ case $OSLONG in
       OSRELEASE=$(lsb_release -r | cut -f2-)
       OSCODENAME=$(lsb_release -c | cut -f2-)
 
-      if [[ "$OSRELSEASE" = "n/a" ]] || [[ "$OSRELEASE" = "rolling" ]]
+      if [[ $OSRELSEASE = "n/a" ]] || [[ $OSRELEASE = *rolling ]]
       then
         unset OSRELEASE
-      elif [[ "$OSCODENAME" = "n/a" ]] || [[ "$OSCODENAME" = "Final" ]]
+      elif [[ $OSCODENAME = "n/a" ]] || [[ $OSCODENAME = Final ]]
       then
         unset OSCODENAME
       else
