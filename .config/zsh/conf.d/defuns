@@ -26,14 +26,6 @@ then
   fi
 fi
 
-# Completion support.
-#
-# For more see: man zshcompsys(1)
-#
-# TODO(serghei): This is called from '.zshenv' file. It is redundant
-# and is needed only in interactive shells.
-autoload -Uz compinit && compinit
-
 # Manipulating hook functions.
 # This will provide ability to add and remove custom functions for
 # builtin zsh hooks.
