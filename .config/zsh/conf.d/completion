@@ -1,16 +1,22 @@
 # Settings for completion and correction.
 
-# kubectl completion
-[ command -v kubectl >/dev/null 2>&1 ] && {
-  source <(kubectl completion zsh | sed s/kubectl/k/g)
-}
+# Completion support.
+#
+# For more see: man zshcompsys(1)
 
-# The next line updates PATH for the Google Cloud SDK.
-[ -f $HOME/gcp/path.zsh.inc ] && source $HOME/gcp/path.zsh.inc
+# No duplicate entries are needed.
+typeset -U fpath
+
+autoload -Uz compinit && compinit
 
 # The next line enables shell command completion for gcloud.
 [ -f $HOME/gcp/completion.zsh.inc ] && {
   source $HOME/gcp/completion.zsh.inc
+}
+
+# OS specific competion.
+[ -r $ZSHDDIR/conf.d/OS/$OSSHORT/completion ] && {
+  source $ZSHDDIR/conf.d/OS/$OSSHORT/completion
 }
 
 # Local Variables:

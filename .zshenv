@@ -188,12 +188,8 @@ then
     path=("$COMPOSER_HOME/vendor/bin" $path)
 fi
 
-# Disabled.
-#
-# There are some issues, for example see:
-# https://github.com/linux-test-project/lcov/issues/37
-#
-# export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
+# The next line updates PATH for the Google Cloud SDK.
+[ -f $HOME/gcp/path.zsh.inc ] && source $HOME/gcp/path.zsh.inc
 
 export PATH
 
