@@ -30,7 +30,7 @@ else
   export EDITOR=emacs
 fi
 
-export VISUAL=emacs
+export VISUAL=$EDITOR
 alias ec=$EDITOR
 
 # More for less
