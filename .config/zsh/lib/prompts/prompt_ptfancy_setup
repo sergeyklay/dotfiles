@@ -117,7 +117,7 @@ git_info() {
 }
 
 prompt_ptfancy_help () {
-  cat <<'EOF'
+  cat <<'ENDHELP'
 This prompt is color-scheme-able.  With this prompt theme, the
 prompt contains the current username and hostname, the current
 working directory, the previous command's exit code (if non-zero),
@@ -142,20 +142,20 @@ This theme relies on `localoptions' and `promptsubst' options.  Thus
 these options should be set before.  For more see zshoptions(1).  To
 modify `precmd' and `preexec' the availability of `add-zsh-hook' is
 required.  For more see zshcontrib(1).
-EOF
+ENDHELP
 }
 
 prompt_ptfancy_setup () {
-  # Do not print a warning message when a global parameter is
-  # created in a function by an assignment or in math context.
-  # For more see: man zshoptions(1)
-  setopt no_warn_create_global
+  typeset -g prompt_ptfancy_color1 prompt_ptfancy_color2
+  typeset -g prompt_ptfancy_color3 prompt_ptfancy_color4
 
   # Colour scheme
   prompt_ptfancy_color1=${1:-'cyan'}
   prompt_ptfancy_color2=${2:-'red'}
   prompt_ptfancy_color3=${3:-'blue'}
   prompt_ptfancy_color4=${4:-'yellow'}
+
+  typeset -g post_prompt base_prompt
 
   # reset colors
   post_prompt='%b%f'
