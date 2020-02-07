@@ -27,6 +27,7 @@ configs=(
   aliases        # The definition of aliases
   prompt         # The definition of the prompts
   completion     # Setting up completion support
+  keybindings    # Definition of keybindings
 )
 
 for c in "$configs[@]" ;  do
