@@ -118,7 +118,13 @@ git_info() {
 
 prompt_ptfancy_help () {
   cat <<'EOF'
-This prompt is color-scheme-able.  You can invoke it thus:
+This prompt is color-scheme-able.  With this prompt theme, the
+prompt contains the current username and hostname, the current
+working directory, the previous command's exit code (if non-zero),
+the flag ``[SSH]'' (if there is a ssh connection), and information
+about Git repository status (when inside a Git repository).
+
+You can invoke it thus:
 
   prompt ptfancy [<color1> [<color2> [<color3> [<color4>]]]]
 
@@ -127,14 +133,15 @@ current working directory, and Git branch respectively.  The default
 colors are cyan, red, blue, and yellow.  To specify colours, use
 English words like `magenta'.
 
-This theme works with a dark and light backgrounds.  Recommended
-fonts for this theme: Roboto Mono, DejaVu Sans Mono, Fira Code,
-Source Code Pro, Hack, Consolas or similar.
+This theme is designed for dark backgrounds, but should work with
+light backgrounds too.  Recommended fonts for this theme are: Roboto
+Mono, DejaVu Sans Mono, Fira Code, Source Code Pro, Hack, Consolas
+or similar.
 
-This theme relly on `localoptions' and `promptsubst' options.  Thus
+This theme relies on `localoptions' and `promptsubst' options.  Thus
 these options should be set before.  For more see zshoptions(1).  To
 modify `precmd' and `preexec' the availability of `add-zsh-hook' is
-required.   For more see zshcontrib(1).
+required.  For more see zshcontrib(1).
 EOF
 }
 
