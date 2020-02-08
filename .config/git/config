@@ -10,8 +10,9 @@
 	pager = less -FRSX
 	precomposeunicode = true
 	quotePath = false
-	;; See: https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html
-	editor = emacsclient --tty
+	# See:
+	# https://github.com/sergeyklay/.emacs.d/blob/master/bin/emacsclient.wrapper
+	editor = emacsclient.wrapper
 
 [push]
 	default = simple

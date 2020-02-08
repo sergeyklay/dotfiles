@@ -15,22 +15,17 @@
 #
 # To see GNU Emacs configuration I use refer to:
 # https://github.com/sergeyklay/.emacs.d
-#
-# To run GNU Emacs in server mode see:
-# https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html
 
-if [ -z "$SSH_CONNECTION" ]; then
-  # Editor to fallback to if the server is not running.  If this
-  # variable is empty, then start GNU Emacs in daemon mode and try
-  # connecting again.
-  export ALTERNATE_EDITOR=''
-  export EDITOR='emacsclient --tty'
-else
-  # I only want to use Emacs client when I am on my desktop.
-  export EDITOR=emacs
-fi
+# Editor to fallback to if the server is not running.  If this
+# variable is empty, then start GNU Emacs in daemon mode and try
+# connecting again.
+export ALTERNATE_EDITOR=''
 
+# See:
+# https://github.com/sergeyklay/.emacs.d/blob/master/bin/emacsclient.wrapper
+export EDITOR=emacsclient.wrapper
 export VISUAL=$EDITOR
+
 alias ec=$EDITOR
 
 # More for less
