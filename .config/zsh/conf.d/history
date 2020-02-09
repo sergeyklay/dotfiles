@@ -87,7 +87,7 @@ fi
 # `kcuu1' capname is the Up Arrow on the keypad.  `^[[A' is the Up
 # Arrow in the common part of the keyboard.  Note, some keyboards
 # does not have keypad, for example notebooks.  Thus, we bind here
-# `^[[A' bellow as well as `kcuu1'.
+# `^[[A' as well as `kcuu1'.
 #
 # For more see: man terminfo(5) .
 
@@ -105,7 +105,7 @@ bindkey "^[[A" up-line-or-beginning-search
 # `kcud1' capname is the Down Arrow on the keypad.  `^[[B' is the
 # Down Arrow in the common part of the keyboard.  Note, some
 # keyboards does not have keypad, for example notebooks.  Thus, we
-# bind here `^[[B' bellow as well as `kcud1'.
+# bind here `^[[B' as well as `kcud1'.
 #
 # For more see: man terminfo(5) .
 
