@@ -3,21 +3,58 @@
 # Edit the current command line in $VISUAL
 autoload -U edit-command-line
 zle -N edit-command-line
-bindkey '\C-x\C-e' edit-command-line
+bindkey '\C-x\C-e' edit-command-line   # C-x C-e
 
-# M-m: File rename helper.
-bindkey "^[m" copy-prev-shell-word
+# File rename helper.
+bindkey "^[m" copy-prev-shell-word     # M-m
 
-case $TERM in
-  rxvt|xterm|xterm-*)
-    bindkey "^[[H"   beginning-of-line # Home
-    bindkey "^[[F"   end-of-line       # End
-    ;;
-  linux)
-    bindkey "^[[1~"  beginning-of-line # Home
-    bindkey "^[[4~"  end-of-line       # End
-    ;;
-esac
+# Go to beginning of line.
+if [[ "${terminfo[khome]}" != "" ]]    # Home
+then
+  bindkey "${terminfo[khome]}" beginning-of-line
+else
+  case $TERM in
+    rxvt|xterm|xterm-*)
+      bindkey "^[[H"   beginning-of-line # Home
+      ;;
+    linux)
+      bindkey "^[[1~"  beginning-of-line # Home
+      ;;
+  esac
+fi
+
+# Go to end of line.
+if [[ "${terminfo[kend]}" != "" ]]    # End
+then
+  bindkey "${terminfo[kend]}" end-of-line
+else
+  case $TERM in
+    rxvt|xterm|xterm-*)
+      bindkey "^[[F"   end-of-line    # End
+      ;;
+    linux)
+      bindkey "^[[4~"  end-of-line    # End
+      ;;
+  esac
+fi
+
+# Move forward one word.
+bindkey '^[[1;5C' forward-word        # C-RightArrow
+
+# Move backward one word.
+bindkey '^[[1;5D' backward-word       # C-LeftArrow
+
+# Delete backward.
+bindkey '^?' backward-delete-char     # Backspace
+
+# Delete forward.
+if [[ "${terminfo[kdch1]}" != "" ]]; then
+  bindkey "${terminfo[kdch1]}" delete-char # [Delete]
+else
+  bindkey "^[[3~" delete-char
+  bindkey "^[3;5~" delete-char
+  bindkey "\e[3~" delete-char
+fi
 
 # Local Variables:
 # mode: sh
