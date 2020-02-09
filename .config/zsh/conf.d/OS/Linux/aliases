@@ -17,18 +17,6 @@ if command -v xdg-open >/dev/null 2>&1; then
   }
 fi
 
-# pacman aliases.
-if command -v pacman >/dev/null 2>&1; then
-  # Upgrades system
-  alias pacupg="pacman -Syu"
-
-  # Removes package, configs and unused deps
-  alias pacrem="pacman -Rns"
-
-  # Lists orphan packages
-  alias pacorp="pacman -Qtdq"
-fi
-
 # Miscellaneous aliases
 alias remax="systemctl --user restart emacs"
 
