@@ -42,7 +42,12 @@ fi
 # detected, source them from a file instead of invoking this whole
 # thing each time the function call.
 
-ZSH_ENV_CACHE="$ZSH_CACHE_DIR/env/$(hostname -s)"
+if command -v hostname >/dev/null 2>&1; then
+  ZSH_ENV_CACHE="$ZSH_CACHE_DIR/env/$(hostname -s)"
+else
+  ZSH_ENV_CACHE=$ZSH_CACHE_DIR/env/localhost
+fi
+
 ZSH_ENV_CACHE_LOCK=$ZSH_ENV_CACHE.lock
 
 if [ -L $ZSH_ENV_CACHE_LOCK ]; then
@@ -99,8 +104,14 @@ case $OSLONG in
   *Linux)
     OSSHORT=Linux
 
-    HOST=$(hostname -s)
-    HOSTNAME=$(hostname --fqdn)
+    if command -v hostname >/dev/null 2>&1; then
+      HOST=$(hostname -s)
+      HOSTNAME=$(hostname --fqdn)
+    else
+      HOST=localhost
+      HOSTNAME="$HOST.localdomain"
+    fi
+
     ARCH=$(uname -m)
     [ $ARCH = i386 ] && ARCH=x86_32
     [ $ARCH = amd64 ] && ARCH=x86_64
@@ -135,16 +146,29 @@ case $OSLONG in
     ;;
   FreeBSD)
     OSSHORT=$OSLONG
-    HOST=$(hostname -s)
-    HOSTNAME=$(hostname -f)
+
+    if command -v hostname >/dev/null 2>&1; then
+      HOST=$(hostname -s)
+      HOSTNAME=$(hostname -f)
+    else
+      HOST=localhost
+      HOSTNAME="$HOST.localdomain"
+    fi
+
     ARCH=$(uname -m)
     OSRELEASE="$(uname -r)"
     ;;
   Darwin)
     OSLONG=macOS
     OSSHORT=OSX
-    HOST=$(hostname -s)
-    HOSTNAME=$(hostname -f)
+
+    if command -v hostname >/dev/null 2>&1; then
+      HOST=$(hostname -s)
+      HOSTNAME=$(hostname -f)
+    else
+      HOST=localhost
+      HOSTNAME="$HOST.localdomain"
+    fi
 
     ARCH=$(uname -p)
     case $ARCH in
