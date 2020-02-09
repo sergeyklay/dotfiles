@@ -5,6 +5,8 @@
 #                ^
 #   -------------
 
+# XDG Base Directory Configuration
+
 # User-specific configuration files.
 [ -z "$XDG_CONFIG_HOME" ] && export XDG_CONFIG_HOME=$HOME/.config
 
@@ -13,13 +15,11 @@
 
 # Base directories relative to which data files should be searched.
 [ -z "$XDG_DATA_DIRS" ] && {
-  [ -d /usr/share ] && export XDG_DATA_DIRS=/usr/share
+  export XDG_DATA_DIRS="/usr/local/share:/usr/share"
 }
 
 # Configuration files should be searched relative to this directory.
-[ -z "$XDG_CONFIG_DIRS" ] && {
-  [ -d /etc/xdg ] && export XDG_CONFIG_DIRS=/etc/xdg
-}
+[ -z "$XDG_CONFIG_DIRS" ] && export XDG_CONFIG_DIRS=/etc/xdg
 
 # User-specific cached data should be written relative to this
 # directory.
