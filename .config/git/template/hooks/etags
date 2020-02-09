@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -e
+
+PATH="/usr/local/bin:$PATH"
+dir="$(cd $(git rev-parse --git-dir)/..; pwd)"
+
+trap 'rm -f "$dir/$$.TAGS"' EXIT
+git ls-files | \
+  ctags -e --tag-relative -L - -f"$dir/$$.TAGS" \
+        --languages=-sql,javascript
+
+mv "$dir/$$.TAGS" "$dir/TAGS"
+
+# Local Variables:
+# mode: sh
+# sh-indentation: 2
+# indent-tabs-mode: nil
+# fill-column: 68
+# End:

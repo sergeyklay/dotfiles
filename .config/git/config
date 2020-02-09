@@ -3,6 +3,9 @@
 	email = egrep@protonmail.ch
 	signingkey = C6AF1016BBDEA800
 
+[init]
+	templatedir = ~/.config/git/template
+
 [core]
 	autocrlf = false
 	safecrlf = true
@@ -69,6 +72,7 @@
 	puhs = push
 	la = "!sh -c \"git diff $1..HEAD\" -"
 	patch = !git --no-pager diff --no-color
+	etags = !.git/hooks/etags
 
 [color]
 	status = auto
