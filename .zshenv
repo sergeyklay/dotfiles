@@ -93,12 +93,12 @@ done
 }
 
 # php-build
-export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
-[ -d "$HOME/src/php" ] && {
-  export PHP_BUILD_TMPDIR="$HOME/src/php"
-}
-
 [ -d "$HOME/.phpenv/plugins/php-build/bin" ] && {
+  export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
+  [ -d "$HOME/src/php" ] && {
+    export PHP_BUILD_TMPDIR="$HOME/src/php"
+  }
+
   path=("$HOME/.phpenv/plugins/php-build/bin" $path)
 }
 
@@ -140,8 +140,10 @@ export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
   path=(/usr/local/opt/kubernetes-cli/bin $path)
 
 # Add .NET Core SDK tools
-export DOTNET_CLI_TELEMETRY_OPTOUT=1
-[ -d "$HOME/.dotnet/tools" ] && path=("$HOME/.dotnet/tools" $path)
+[ -d "$HOME/.dotnet/tools" ] && {
+  export DOTNET_CLI_TELEMETRY_OPTOUT=1
+  path=("$HOME/.dotnet/tools" $path)
+}
 
 # Cargo binaries
 [ -d /usr/lib/cargo/bin ] && path=(/usr/lib/cargo/bin $path)
