@@ -8,6 +8,17 @@ bindkey '\C-x\C-e' edit-command-line
 # M-m: File rename helper.
 bindkey "^[m" copy-prev-shell-word
 
+case $TERM in
+  rxvt|xterm|xterm-*)
+    bindkey "^[[H"   beginning-of-line # Home
+    bindkey "^[[F"   end-of-line       # End
+    ;;
+  linux)
+    bindkey "^[[1~"  beginning-of-line # Home
+    bindkey "^[[4~"  end-of-line       # End
+    ;;
+esac
+
 # Local Variables:
 # mode: sh
 # End:
