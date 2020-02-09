@@ -16,6 +16,21 @@ alias l='ls --color=auto -CF'
     (xdg-open $@ &)
   }
 
+# pacman aliases.
+[ command -v pacman >/dev/null 2>&1 ] && {
+  # Upgrades system
+  alias pacupg="pacman -Syu"
+
+  # Removes package, configs and unused deps
+  alias pacrem="pacman -Rns"
+
+  # Lists orphan packages
+  alias pacorp="pacman -Qtdq"
+}
+
+# Miscellaneous aliases
+alias remax="systemctl --user restart emacs"
+
 # Local Variables:
 # mode: sh
 # End:
