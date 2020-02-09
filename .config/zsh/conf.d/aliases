@@ -14,22 +14,22 @@ alias grep='grep --colour=auto'
 alias egrep='egrep --colour=auto'
 
 # Wget will use the supplied file as the HSTS database
-[ command -v wget >/dev/null 2>&1 ] && {
+if command -v wget >/dev/null 2>&1; then
   alias wget="wget --hsts-file=${XDG_CACHE_HOME:-$HOME/.cache}/wget-hsts"
-}
+fi
 
-[ command -v docker >/dev/null 2>&1 ] && {
+if command -v docker >/dev/null 2>&1; then
   alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Status}}'"
-}
+fir
 
-[ command -v kubectl >/dev/null 2>&1 ] && {
+if command -v kubectl >/dev/null 2>&1; then
   alias k='kubectl'
   alias kcd='k config set-context $(k config current-context) --namespace '
-}
+fi
 
-[ command -v clojure >/dev/null 2>&1 ] && {
+if command -v clojure >/dev/null 2>&1; then
   alias rebel='clojure -A:rebel'
-}
+fi
 
 if command -v colordiff >/dev/null 2>&1; then
   alias diff='colordiff -Nuar'

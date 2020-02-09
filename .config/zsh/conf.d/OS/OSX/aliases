@@ -22,9 +22,9 @@ fi
 
 # macOS uses too outdated make.   I prefer install a frew one using
 # brew and alias it here.
-[ command -v gmake >/dev/null 2>&1 ] && {
+if command -v gmake >/dev/null 2>&1; then
   alias make='gmake'
-}
+fi
 
 # Local Variables:
 # mode: sh

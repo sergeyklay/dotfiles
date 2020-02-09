@@ -11,13 +11,14 @@ alias ll='LC_ALL="C.UTF-8" ls --color=auto -alF --group-directories-first'
 alias la='ls --color=auto -A'
 alias l='ls --color=auto -CF'
 
-[ command -v xdg-open >/dev/null 2>&1 ] &&
+if command -v xdg-open >/dev/null 2>&1; then
   open() {
     (xdg-open $@ &)
   }
+fi
 
 # pacman aliases.
-[ command -v pacman >/dev/null 2>&1 ] && {
+if command -v pacman >/dev/null 2>&1; then
   # Upgrades system
   alias pacupg="pacman -Syu"
 
@@ -26,7 +27,7 @@ alias l='ls --color=auto -CF'
 
   # Lists orphan packages
   alias pacorp="pacman -Qtdq"
-}
+fi
 
 # Miscellaneous aliases
 alias remax="systemctl --user restart emacs"
