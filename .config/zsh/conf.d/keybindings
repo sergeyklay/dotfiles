@@ -14,7 +14,7 @@ then
   bindkey "${terminfo[khome]}" beginning-of-line
 else
   case $TERM in
-    rxvt|xterm|xterm-*)
+    *rxvt*|*xterm*)
       bindkey "^[[H"   beginning-of-line # Home
       ;;
     linux)
@@ -29,7 +29,7 @@ then
   bindkey "${terminfo[kend]}" end-of-line
 else
   case $TERM in
-    rxvt|xterm|xterm-*)
+    *rxvt*|*xterm*)
       bindkey "^[[F"   end-of-line    # End
       ;;
     linux)
