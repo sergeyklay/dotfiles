@@ -19,12 +19,14 @@ if [ -d $ZDOT_DEFUNS ]; then
     ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
   }
 
-  if [[ -d "$ZSH_CACHE_DIR" ]] && [[ ! -f "$ZSH_CACHE_DIR/zwcs" ]]
-  then
-    zcompdf
-  fi
+  # Execute code that does not affect the current session in
+  # the background.
+  {
+    # Compile functions to increase startup speed.
+    [ -d "$ZSH_CACHE_DIR" ] && zcompdf
+  } &!
 
-  # Recompile functions when shell exit
+  # Recompile functions when shell exit.
   trap "zcompdf &" EXIT
 fi
 

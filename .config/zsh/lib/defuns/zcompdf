@@ -2,21 +2,24 @@
 
 # function zcompdf {
 
-err=0
-
 pushd -q $ZDOT_DEFUNS
 
 for defun in * ; do
   if [ ${defun%.zwc} = ${defun} ] ; then
-    [ -f ${defun}.zwc ] && rm -f ${defun}.zwc
-    zcompile $defun || err=1
+    # Do compilation if:
+    #
+    # - ``function'' file is exists and it is not empty
+    # - ``function.zwc`` is absent OR ``function'' is newer
+    #   than ``function.zwc''
+    if [[ -s $defun && (! -s ${defun}.zwc || $defun -nt ${defun}.zwc) ]]
+    then
+      [ -f ${defun}.zwc ] && rm -f ${defun}.zwc
+      zcompile $defun
+    fi
   fi
 done
 
 popd -q
-
-test $err = 0 && touch $ZSH_CACHE_DIR/zwcs
-unset err
 
 # }
 
