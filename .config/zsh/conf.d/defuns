@@ -2,14 +2,13 @@
 
 ZDOT_DEFUNS=$ZSHDDIR/lib/defuns
 
-if [ -d $ZDOT_DEFUNS ]
-then
+if [ -d $ZDOT_DEFUNS ]; then
   fpath=($ZDOT_DEFUNS $fpath)
 
   # Treat the '#', '~' and '^' characters as part
   # of patterns for filename generation, etc.
   setopt extended_glob
-  for df in $ZDOT_DEFUNS/^*.zwc ; do autoload ${df##*/} ; done
+  for df ($ZDOT_DEFUNS/^*.zwc); autoload ${df##*/}
   setopt no_extended_glob
 
   # Setting $ZSH_CACHE_DIR at an early stage to be able to call
@@ -24,6 +23,9 @@ then
   then
     zcompdf
   fi
+
+  # Recompile functions when shell exit
+  trap "zcompdf &" EXIT
 fi
 
 # Manipulating hook functions.
