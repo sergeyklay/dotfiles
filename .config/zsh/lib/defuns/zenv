@@ -146,8 +146,12 @@ case $OSLONG in
       OSDISTRO=Arch
     elif command -v pacman >/dev/null 2>&1; then
       OSDISTRO=Arch
-    elif [ -f /etc/issue ]; then
-      OSDISTRO=$(head -n 1 /etc/issue | cut -d' ' -f1)
+    elif grep -q Ubuntu /proc/version; then
+      OSDISTRO=Ubuntu
+    elif grep -q Debian /proc/version; then
+      OSDISTRO=Debian
+    elif grep -qi centos /proc/version; then
+      OSDISTRO=CentOS
     fi
     ;;
   FreeBSD)
