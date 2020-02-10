@@ -133,7 +133,15 @@ case $OSLONG in
     elif [ -f /etc/redhat-release ]; then
       OSDISTRO=$(head -n 1 /etc/redhat-release | cut -d' ' -f1)
     elif [ -f /etc/os-release ]; then
-      awk -F= '/^ID/{ printf "%s", $2; exit }' /etc/os-release
+      OSDISTRO=$(awk -F= '/^ID/{ printf "%s", $2; exit }' \
+                     /etc/os-release)
+      OSDISTRO=${(C)OSDISTRO}
+
+      OSRELEASE=$(awk -F= '/^BUILD_ID/{ printf "%s", $2; exit }' \
+                      /etc/os-release)
+      if [[ $OSRELEASE = *rolling ]]; then
+        unset OSRELEASE
+      fi
     elif [ -f /etc/arch-release ]; then
       OSDISTRO=Arch
     elif command -v pacman >/dev/null 2>&1; then
@@ -256,8 +264,11 @@ export HOSTNAME=$HOSTNAME
 
 export OSLONG="$OSLONG"
 export OSSHORT="$OSSHORT"
-export OSRELEASE="$OSRELEASE"
 EOF
+
+if [ ! -z "$OSRELEASE" ]; then
+  echo "export OSRELEASE=\"$OSRELEASE\"" >> $ZSH_ENV_CACHE
+fi
 
 if [ $OSSHORT = Linux ]; then
   echo "export OSDISTRO=\"$OSDISTRO\"" >> $ZSH_ENV_CACHE
