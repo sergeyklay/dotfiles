@@ -146,6 +146,7 @@ done
 }
 
 # Cargo binaries
+[ -d $HOME/.cargo/bin ] && path=($HOME/.cargo/bin $path)
 [ -d /usr/lib/cargo/bin ] && path=(/usr/lib/cargo/bin $path)
 
 # Go lang local workspace
