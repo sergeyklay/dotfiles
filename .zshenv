@@ -28,7 +28,8 @@ fi
 
 # No duplicate entries are needed.
 typeset -U path
-path=(/usr/local/bin /usr/local/sbin $path)
+path=(/usr/local/bin /usr/local/sbin $path /usr/sbin /sbin)
+echo $path
 
 # TODO(serghei): Deprecated
 ZSH_COMPDUMP="${XDG_CACHE_HOME:-$HOME/.cache}/zcompdump"
@@ -150,8 +151,7 @@ done
 [ -d /usr/lib/cargo/bin ] && path=(/usr/lib/cargo/bin $path)
 
 # Go lang local workspace
-if [ -d "$HOME/go" ]
-then
+if [ -d "$HOME/go" ]; then
   export GOPATH="$HOME/go"
 
   [ -d "$GOPATH/bin" ] && {
@@ -182,8 +182,7 @@ fi
 [ -d "$HOME/.cask/bin" ] && path=("$HOME/.cask/bin" $path)
 
 # Composer
-if [ -d "${XDG_CONFIG_HOME:-$ZDOTDIR/.config}/composer" ]
-then
+if [ -d "${XDG_CONFIG_HOME:-$ZDOTDIR/.config}/composer" ]; then
   export COMPOSER_HOME="${XDG_CONFIG_HOME:-$ZDOTDIR/.config}/composer"
   export COMPOSER_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/composer"
 
