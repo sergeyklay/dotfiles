@@ -29,7 +29,6 @@ fi
 # No duplicate entries are needed.
 typeset -U path
 path=(/usr/local/bin /usr/local/sbin $path /usr/sbin /sbin)
-echo $path
 
 # TODO(serghei): Deprecated
 ZSH_COMPDUMP="${XDG_CACHE_HOME:-$HOME/.cache}/zcompdump"
