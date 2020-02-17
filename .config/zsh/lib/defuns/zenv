@@ -135,10 +135,18 @@ case $OSLONG in
     elif [ -f /etc/os-release ]; then
       OSDISTRO=$(awk -F= '/^ID/{ printf "%s", $2; exit }' \
                      /etc/os-release)
-      OSDISTRO=${(C)OSDISTRO} # arch -> Arch
 
-      OSRELEASE=$(awk -F= '/^BUILD_ID/{ printf "%s", $2; exit }' \
-                      /etc/os-release)
+      # arch -> Arch
+      # gentoo -> Gentoo
+      OSDISTRO=${(C)OSDISTRO}
+
+      if [ -f /etc/gentoo-release ]; then
+        OSRELEASE=$(grep -oE '[^ ]+$' /etc/gentoo-release)
+      else
+        OSRELEASE=$(awk -F= '/^BUILD_ID/{ printf "%s", $2; exit }' \
+                        /etc/os-release)
+      fi
+
       if [[ $OSRELEASE = *rolling ]]; then
         unset OSRELEASE
       fi
