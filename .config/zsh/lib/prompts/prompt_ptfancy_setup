@@ -33,9 +33,9 @@ ssh_info() {
   local -a ssh_prompt
 
   if [ -n "${SSH_CONNECTION}" ]; then
-    ssh_prompt+=( '%F{$prompt_ptfancy_color3}[%f' )   # [
-    ssh_prompt+=( '%F{$prompt_ptfancy_color2}SSH%f' ) # SSH
-    ssh_prompt+=( '%F{$prompt_ptfancy_color3}]%f ' )  # ]
+    ssh_prompt+=( "%F{$2}[%f" )   # [
+    ssh_prompt+=( "%F{$1}SSH%f" ) # SSH
+    ssh_prompt+=( "%F{$2}]%f " )  # ]
   fi
 
   # Join the words of arrays together.
@@ -104,7 +104,7 @@ git_info() {
   git_prompt+=( '%F{default}±%f ' )
 
   # Git branch.
-  git_prompt+=( "%F{$prompt_ptfancy_color4}${location}%f" )
+  git_prompt+=( "%F{$1}${location}%f" )
 
   # Git divergences.
   [[ ${#divs[@]} -ne 0 ]] && git_prompt+=( " ${(j::)divs}" )
@@ -146,35 +146,25 @@ ENDHELP
 }
 
 prompt_ptfancy_setup () {
-  typeset -g prompt_ptfancy_color1 prompt_ptfancy_color2
-  typeset -g prompt_ptfancy_color3 prompt_ptfancy_color4
+  local -a pcc
 
-  # Colour scheme
-  prompt_ptfancy_color1=${1:-'cyan'}
-  prompt_ptfancy_color2=${2:-'red'}
-  prompt_ptfancy_color3=${3:-'blue'}
-  prompt_ptfancy_color4=${4:-'yellow'}
+  # Will be used to provide current VCS info.
+  # For more see: man zshcontrib(1)
+  autoload -Uz vcs_info
 
-  typeset -g post_prompt base_prompt
+  # Default colour scheme.
+  pcc[1]=${1:-'cyan'}
+  pcc[2]=${2:-'red'}
+  pcc[3]=${3:-'blue'}
+  pcc[4]=${4:-'yellow'}
+
+  local post_prompt base_prompt
 
   # reset colors
   post_prompt='%b%f'
 
   # host info
-  base_prompt='%B%F{$prompt_ptfancy_color1}%(!.%m.%n@%m)%f '
-
-  add-zsh-hook precmd prompt_ptfancy_precmd
-}
-
-prompt_ptfancy_precmd () {
-  # Do not print commands and their arguments as they are executed.
-  # For more see: man zshoptions(1)
-  setopt no_xtrace
-
-  # Do not print a warning message when a global parameter is
-  # created in a function by an assignment or in math context.
-  # For more see: man zshoptions(1)
-  setopt no_warn_create_global
+  base_prompt="%B%F{$pcc[1]}%(!.%m.%n@%m)%f "
 
   local base_prompt_expanded_no_color base_prompt_etc
   local prompt_length space_left
@@ -187,27 +177,28 @@ prompt_ptfancy_precmd () {
   prompt_length=${#base_prompt_etc}
 
   if [[ $prompt_length -lt 40 ]]; then
-    path_prompt="%B%F{$prompt_ptfancy_color3}%(4~|...|)%3~%F{default}"
+    path_prompt="%B%F{$pcc[3]}%(4~|...|)%3~%F{default}"
   else
     space_left=$(( $COLUMNS - $#base_prompt_expanded_no_color - 2 ))
-    path_prompt="%B%F{$prompt_ptfancy_color3}%${space_left}<...<%~%F{default}"
+    path_prompt="%B%F{$pcc[3]}%${space_left}<...<%~%F{default}"
   fi
 
   # exit status
-  local status_prompt='%F{$prompt_ptfancy_color2}%?%f'
-  local lsb='%F{$prompt_ptfancy_color3}[%f'
-  local rsb='%F{$prompt_ptfancy_color3}]%f'
+  local status_prompt="%F{$pcc[2]}%?%f"
+  local lsb="%F{$pcc[3]}[%f"
+  local rsb="%F{$pcc[3]}]%f"
 
   status_prompt="%(?..$lsb$status_prompt$rsb )"
 
   # ssh info
-  local ssh_prompt='$(ssh_info)'
+  local ssh_prompt="$(ssh_info $pcc[2] $pcc[3])"
 
   # git info
-  local git_prompt='$(git_info)'
+  local git_prompt="$(git_info $pcc[4])"
 
   # The primary prompt string, printed before a command is read.
-  PS1="$base_prompt$status_prompt$ssh_prompt$path_prompt $git_prompt %# $post_prompt"
+  PS1="$base_prompt$status_prompt$ssh_prompt"
+  PS1="$PS1$path_prompt $git_prompt %# $post_prompt"
 
   # The secondary prompt, printed when the shell needs more
   # information to complete a command.  It is expanded in the same
@@ -217,6 +208,17 @@ prompt_ptfancy_precmd () {
   # Selection prompt used within a select loop.  It is expanded in
   # the same way as PS1.
   PS3='?# '
+
+  # Execute `prompt_ptfancy_precmd' before each prompt.  This will
+  # add `prompt_ptfancy_precmd' to $precmd_functions global array.
+  # For more see: man zshcontrib(1)
+  add-zsh-hook precmd prompt_ptfancy_precmd
+}
+
+prompt_ptfancy_precmd () {
+  # Do not print commands and their arguments as they are executed.
+  # For more see: man zshoptions(1)
+  setopt no_xtrace
 }
 
 prompt_ptfancy_preview () {
