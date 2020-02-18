@@ -27,21 +27,6 @@
 # %#   - A '#' if the shell is running with privileges, a '%' if not
 # %~   - Current working directory
 
-# Echoes a username/host string when connected over SSH
-# (empty otherwise).
-ssh_info() {
-  local -a ssh_prompt
-
-  if [ -n "${SSH_CONNECTION}" ]; then
-    ssh_prompt+=( "%F{$2}[%f" )   # [
-    ssh_prompt+=( "%F{$1}SSH%f" ) # SSH
-    ssh_prompt+=( "%F{$2}]%f " )  # ]
-  fi
-
-  # Join the words of arrays together.
-  echo "${(j::)ssh_prompt}"
-}
-
 # Echoes information about Git repository status when inside a Git
 # repository.
 git_info() {
@@ -146,58 +131,64 @@ ENDHELP
 }
 
 prompt_ptfancy_setup () {
-  local -a pcc
-
   # Will be used to provide current VCS info.
   # For more see: man zshcontrib(1)
   autoload -Uz vcs_info
 
   # Default colour scheme.
+  local -a pcc
+
   pcc[1]=${1:-'cyan'}
   pcc[2]=${2:-'red'}
   pcc[3]=${3:-'blue'}
   pcc[4]=${4:-'yellow'}
 
-  local post_prompt base_prompt
+  # Reset colors.
+  local post_prompt='%b%f'
 
-  # reset colors
-  post_prompt='%b%f'
+  # Host info.
+  local base_prompt="%B%F{$pcc[1]}%(!.%m.%n@%m)%f "
 
-  # host info
-  base_prompt="%B%F{$pcc[1]}%(!.%m.%n@%m)%f "
+  local base_prompt_etc=$(print -P "$base_prompt%(4~|...|)%3~")
+  local prompt_length=${#base_prompt_etc}
 
-  local base_prompt_expanded_no_color base_prompt_etc
-  local prompt_length space_left
-
-  local zero='%([BSUbfksu]|[FBK]{*})'
-  local base_prompt_no_color="${base_prompt//$~zero/}"
-
-  base_prompt_expanded_no_color=$(print -P "$base_prompt_no_color")
-  base_prompt_etc=$(print -P "$base_prompt%(4~|...|)%3~")
-  prompt_length=${#base_prompt_etc}
+  # Current working path.
+  local path_prompt
 
   if [[ $prompt_length -lt 40 ]]; then
     path_prompt="%B%F{$pcc[3]}%(4~|...|)%3~%F{default}"
   else
-    space_left=$(( $COLUMNS - $#base_prompt_expanded_no_color - 2 ))
+    local base_prompt_no_color="${base_prompt//$~zero/}"
+    local zero='%([BSUbfksu]|[FBK]{*})'
+    local base_prompt_expanded_no_color=$(print -P "$base_prompt_no_color")
+    local space_left=$(( $COLUMNS - $#base_prompt_expanded_no_color - 2 ))
+
     path_prompt="%B%F{$pcc[3]}%${space_left}<...<%~%F{default}"
   fi
 
-  # exit status
+  # Exit status.
   local status_prompt="%F{$pcc[2]}%?%f"
   local lsb="%F{$pcc[3]}[%f"
   local rsb="%F{$pcc[3]}]%f"
 
   status_prompt="%(?..$lsb$status_prompt$rsb )"
 
-  # ssh info
-  local ssh_prompt="$(ssh_info $pcc[2] $pcc[3])"
+  # SSH info.
+  local -a ssh_prompt
 
-  # git info
+  # Setup colored string using $2 as a color for “SSH” word and $3
+  # as a color for ‘[’ and ‘]’ brackets.
+  if [ -n "${SSH_CONNECTION}" ]; then
+    ssh_prompt+=( "%F{$pcc[3]}[%f" )   # [
+    ssh_prompt+=( "%F{$pcc[2]}SSH%f" ) # SSH
+    ssh_prompt+=( "%F{$pcc[3]}]%f " )  # ]
+  fi
+
+  # Git info.
   local git_prompt="$(git_info $pcc[4])"
 
   # The primary prompt string, printed before a command is read.
-  PS1="$base_prompt$status_prompt$ssh_prompt"
+  PS1="$base_prompt$status_prompt${(j::)ssh_prompt}"
   PS1="$PS1$path_prompt $git_prompt %# $post_prompt"
 
   # The secondary prompt, printed when the shell needs more
