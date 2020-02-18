@@ -176,14 +176,25 @@ prompt_ptfancy_setup () {
   # SSH info.
   local p_ssh
 
-  # Setup colored string using $2 as a color for “SSH” word and $3
-  # as a color for ‘[’ and ‘]’ brackets.
+  # If there is a SSH connection setup colored string using $2 as a
+  # color for “SSH” word and $3 as a color for ‘[’ and ‘]’ brackets.
   if [ -n "${SSH_CONNECTION}" ]; then
     p_ssh="$pc['lsb']%F{$pcc[2]}SSH%f$pc['rsb'] "
   fi
 
   # Git info.
   local git_prompt="$(git_info $pcc[4])"
+
+  # Set `zle_highlight' according to theme definition.
+  typeset -ga zle_highlight
+
+  # Contexts:
+  # - `default': Any text within the command line not affected by
+  #              any other highlighting.
+  #
+  # Types of highlighting:
+  # - `none':    No highlighting is applied to the given context.
+  zle_highlight[(r)default:*]=default:none
 
   # The primary prompt string, printed before a command is read.
   PS1="$p_userhost$p_rc$p_ssh$p_userpwd $git_prompt %#$p_end "
