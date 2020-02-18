@@ -135,61 +135,58 @@ prompt_ptfancy_setup () {
   # For more see: man zshcontrib(1)
   autoload -Uz vcs_info
 
-  # Default colour scheme.
   local -a pcc
+  local -A pc
 
+  # Default colour scheme.
   pcc[1]=${1:-'cyan'}
   pcc[2]=${2:-'red'}
   pcc[3]=${3:-'blue'}
   pcc[4]=${4:-'yellow'}
 
+  pc['lsb']="%F{$pcc[3]}[%f" # [
+  pc['rsb']="%F{$pcc[3]}]%f" # ]
+
   # Reset colors.
-  local post_prompt='%b%f'
+  local p_end='%f%b'
 
   # Host info.
-  local base_prompt="%B%F{$pcc[1]}%(!.%m.%n@%m)%f "
+  local p_userhost="%B%F{$pcc[1]}%(!.%m.%n@%m)%f "
 
-  local base_prompt_etc=$(print -P "$base_prompt%(4~|...|)%3~")
-  local prompt_length=${#base_prompt_etc}
+  local p_userhost_etc=$(print -P "$p_userhost%(4~|...|)%3~")
+  local p_len=${#p_userhost_etc}
 
   # Current working path.
-  local path_prompt
+  local p_userpwd
 
-  if [[ $prompt_length -lt 40 ]]; then
-    path_prompt="%B%F{$pcc[3]}%(4~|...|)%3~%F{default}"
+  if [[ $p_len -lt 40 ]]; then
+    p_userpwd="%F{$pcc[3]}%(4~|...|)%3~%F{default}"
   else
-    local base_prompt_no_color="${base_prompt//$~zero/}"
     local zero='%([BSUbfksu]|[FBK]{*})'
-    local base_prompt_expanded_no_color=$(print -P "$base_prompt_no_color")
-    local space_left=$(( $COLUMNS - $#base_prompt_expanded_no_color - 2 ))
+    local p_userhost_nc="${p_userhost//$~zero/}"
+    local p_userhost_enc=$(print -P "$p_userhost_nc")
+    local space_left=$(( $COLUMNS - $#p_userhost_enc - 2 ))
 
-    path_prompt="%B%F{$pcc[3]}%${space_left}<...<%~%F{default}"
+    p_userpwd="%F{$pcc[3]}%${space_left}<...<%~%F{default}"
   fi
 
   # Exit status.
-  local status_prompt="%F{$pcc[2]}%?%f"
-  local lsb="%F{$pcc[3]}[%f"
-  local rsb="%F{$pcc[3]}]%f"
-
-  status_prompt="%(?..$lsb$status_prompt$rsb )"
+  local p_rc="%(?..$pc['lsb']%F{$pcc[2]}%?%f$pc['rsb'] )"
 
   # SSH info.
-  local -a ssh_prompt
+  local p_ssh
 
   # Setup colored string using $2 as a color for “SSH” word and $3
   # as a color for ‘[’ and ‘]’ brackets.
   if [ -n "${SSH_CONNECTION}" ]; then
-    ssh_prompt+=( "%F{$pcc[3]}[%f" )   # [
-    ssh_prompt+=( "%F{$pcc[2]}SSH%f" ) # SSH
-    ssh_prompt+=( "%F{$pcc[3]}]%f " )  # ]
+    p_ssh="$pc['lsb']%F{$pcc[2]}SSH%f$pc['rsb'] "
   fi
 
   # Git info.
   local git_prompt="$(git_info $pcc[4])"
 
   # The primary prompt string, printed before a command is read.
-  PS1="$base_prompt$status_prompt${(j::)ssh_prompt}"
-  PS1="$PS1$path_prompt $git_prompt %# $post_prompt"
+  PS1="$p_userhost$p_rc$p_ssh$p_userpwd $git_prompt %#$p_end "
 
   # The secondary prompt, printed when the shell needs more
   # information to complete a command.  It is expanded in the same
