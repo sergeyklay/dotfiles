@@ -1,9 +1,6 @@
-#!/usr/bin/env zsh
-#
 # ptfancy prompt theme
 #
 # This theme relly on the folowing options:
-#   - local_options (see: conf.d/gops)
 #   - prompt_subst (see: conf.d/prompt)
 #
 # As well as on the following functions:
@@ -131,6 +128,10 @@ ENDHELP
 }
 
 prompt_ptfancy_setup () {
+  # This will enable a separated context for options in functions.
+  # For more see: man zshoptions(1)
+  setopt localoptions
+
   # Will be used to provide current VCS info.
   # For more see: man zshcontrib(1)
   autoload -Uz vcs_info
@@ -215,6 +216,10 @@ prompt_ptfancy_setup () {
 }
 
 prompt_ptfancy_precmd () {
+  # This will enable a separated context for options in functions.
+  # For more see: man zshoptions(1)
+  setopt localoptions
+
   # Do not print commands and their arguments as they are executed.
   # For more see: man zshoptions(1)
   setopt no_xtrace
