@@ -130,11 +130,22 @@ ENDHELP
 prompt_ptfancy_setup () {
   # This will enable a separated context for options in functions.
   # For more see: man zshoptions(1)
-  setopt localoptions
+  setopt local_options
+
+  # Do not print commands and their arguments as they are executed.
+  # For more see: man zshoptions(1)
+  setopt no_xtrace
+
+  # Array elements are numbered from 1.
+  # For more see: man zshoptions(1)
+  setopt no_ksh_arrays
 
   # Will be used to provide current VCS info.
   # For more see: man zshcontrib(1)
   autoload -Uz vcs_info
+
+  # Enable VCS info.
+  zstyle ':vcs_info:*' formats '%b'
 
   local -a pcc
   local -A pc
@@ -172,7 +183,7 @@ prompt_ptfancy_setup () {
   fi
 
   # Exit status.
-  local p_rc="%(?..$pc['lsb']%F{$pcc[2]}%?%f$pc['rsb'] )"
+  local p_rc="%(?..$pc['lsb']%F{$pcc[2]}%?%1v%f$pc['rsb'] )"
 
   # SSH info.
   local p_ssh
@@ -184,7 +195,7 @@ prompt_ptfancy_setup () {
   fi
 
   # Git info.
-  local git_prompt="$(git_info $pcc[4])"
+  local git_prompt="%(2v. %2v . )"
 
   # Set `zle_highlight' according to theme definition.
   typeset -ga zle_highlight
@@ -198,15 +209,18 @@ prompt_ptfancy_setup () {
   zle_highlight[(r)default:*]=default:none
 
   # The primary prompt string, printed before a command is read.
-  PS1="$p_userhost$p_rc$p_ssh$p_userpwd $git_prompt %#$p_end "
+  # For more see: man zshparam(1)
+  PS1="$p_userhost$p_rc$p_ssh$p_userpwd$git_prompt%#$p_end "
 
   # The secondary prompt, printed when the shell needs more
   # information to complete a command.  It is expanded in the same
   # way as PS1.
+  # For more see: man zshparam(1)
   PS2='%_> '
 
   # Selection prompt used within a select loop.  It is expanded in
   # the same way as PS1.
+  # For more see: man zshparam(1)
   PS3='?# '
 
   # Execute `prompt_ptfancy_precmd' before each prompt.  This will
@@ -216,13 +230,30 @@ prompt_ptfancy_setup () {
 }
 
 prompt_ptfancy_precmd () {
+  local exitstatus=$?
+
   # This will enable a separated context for options in functions.
   # For more see: man zshoptions(1)
-  setopt localoptions
+  setopt local_options
 
   # Do not print commands and their arguments as they are executed.
   # For more see: man zshoptions(1)
   setopt no_xtrace
+
+  # Array elements are numbered from 1.
+  # For more see: man zshoptions(1)
+  setopt no_ksh_arrays
+
+  # An array (colon-separated list) whose elements can be used in
+  # PS1.  Setting psvar also sets PSVAR, and vice versa.
+  # For more see: man zshparam(1)
+  psvar=()
+
+  [[ $exitstatus -ge 128 ]] &&
+    psvar[1]=" $signals[$exitstatus-127]" || psvar[1]=""
+
+  vcs_info
+  [[ -n $vcs_info_msg_0_ ]] && psvar[2]="$vcs_info_msg_0_"
 }
 
 prompt_ptfancy_preview () {
