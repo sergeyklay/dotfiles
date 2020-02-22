@@ -7,24 +7,52 @@
 # As well as on the following functions:
 #   - add-zsh-hook (see: conf.d/defuns)
 #
-# Note: This file is autoloaded as a function in the current shell
-# context.
+# This file is autoloaded as a function in the current shell
+# context.  For more info see zshcontrib(1).
 
-# Cheat Sheet:
-#
-# %B   - Start boldface mode
-# %b   - Stop boldface mode
-#
-# %K   - Start using a different background color
-# %k   - Stop using a different background color
-#
-# %F   - Start using a different foreground color
-# %f   - Stop using a different foreground color
-#
-# %?   - Exit status
-# %#   - A '#' if the shell is running with privileges, a '%' if not
-# %~   - Current working directory
+# Configure VCS info.
 
+# Export the following messages:
+#
+# $vcs_info_msg_0_   - Branch name (and possible VCS backend)
+# $vcs_info_msg_1_   - Stage status
+# $vcs_info_msg_2_   - VCS actions
+zstyle ':vcs_info:*' max-exports 3
+
+zstyle ':vcs_info:*' enable svn git
+
+# Used VCS formats are:
+#
+# %b   - Information about the current branch.
+# %c   - The string for the staged changes in the repository.
+# %u   - The string for the unstaged changes in the repository.
+# %m   - A “misc” replacement.
+# %a   - An identifier that describes the action.
+
+# Defaut VCS format.
+zstyle ':vcs_info:*'     formats '%s:%b'
+zstyle ':vcs_info:*'     actionformats '%s:%b' '%m' '<!%a>'
+
+# Git format.
+zstyle ':vcs_info:git:*' formats '%b' '%c%u%m'
+zstyle ':vcs_info:git:*' actionformats '%b' '%c%u%m' '<!%a>'
+
+zstyle ':vcs_info:git:*' check-for-changes true # check for changes
+zstyle ':vcs_info:git:*' stagedstr '+'          # staged changes
+zstyle ':vcs_info:git:*' unstagedstr '-'        # unstaged changes
+
+# Uncomment to enable debug.
+# zstyle ':vcs_info:*' debug true
+
+# Register Git hooks.
+#
+# These hook function should be set before setting message to be
+# able modify message.   When we register hooks in this way we
+# expect our functions be called up to 3 times: 2 times for `format'
+# and 3 times for `actionformats'.
+zstyle ':vcs_info:git+set-message:*' hooks \
+       git_hook_begin \
+       git_untracked
 
 prompt_ptfancy_help () {
   cat <<'ENDHELP'
@@ -55,17 +83,57 @@ required.  For more see zshcontrib(1).
 ENDHELP
 }
 
+# Are we inside a Git repository?
+#
+# If this hook function returns anything other than 0, subsequent
+# hook functions will not be called.
++vi-git_hook_begin () {
+  if command git rev-parse --is-inside-work-tree > /dev/null 2>&1
+  then
+    return 0
+  else
+    return 1
+  fi
+}
+
+# Do we have Git untracked files in the working tree?
++vi-git_untracked () {
+  # According to our `format' and  `actionformat' call this for the
+  # second message
+  [[ "$1" != "1" ]] && return 0
+
+  if command git status --porcelain 2> /dev/null \
+             | awk '{print $1}' \
+             | command grep -F '??' > /dev/null 2>&1 ; then
+    hook_com[unstaged]+='?'
+  fi
+}
+
+# Used format specifiers are:
+#
+# %B   - Start boldface mode
+# %b   - Stop boldface mode
+#
+# %K   - Start using a different background color
+# %k   - Stop using a different background color
+#
+# %F   - Start using a different foreground color
+# %f   - Stop using a different foreground color
+#
+# %?   - Exit status
+# %#   - A ‘#’ if the shell is running with privileges, a ‘%’ if not
+# %~   - Current working directory
 prompt_ptfancy_setup () {
   # Do not print commands and their arguments as they are executed.
-  # For more see: man zshoptions(1)
+  # For more see zshoptions(1).
   setopt no_xtrace
 
   # Array elements are numbered from 1.
-  # For more see: man zshoptions(1)
+  # For more see zshoptions(1).
   setopt no_ksh_arrays
 
   # Will be used to provide current VCS info.
-  # For more see: man zshcontrib(1)
+  # For more see zshcontrib(1).
   autoload -Uz vcs_info
 
   local -a pcc
@@ -115,8 +183,6 @@ prompt_ptfancy_setup () {
     p_ssh="$pc['lsb']%F{$pcc[2]}SSH%f$pc['rsb'] "
   fi
 
-  # VCS info.
-  #
   # This contains information about VCS repository status when
   # inside a VCS repository.
   #
@@ -140,23 +206,23 @@ prompt_ptfancy_setup () {
   zle_highlight[(r)default:*]=default:none
 
   # The primary prompt string, printed before a command is read.
-  # For more see: man zshparam(1)
+  # For more see zshparam(1).
   PS1="$p_userhost$p_rc$p_ssh$p_userpwd$vcs_prompt%#$p_end "
 
   # The secondary prompt, printed when the shell needs more
   # information to complete a command.  It is expanded in the same
   # way as PS1.
-  # For more see: man zshparam(1)
+  # For more see zshparam(1).
   PS2='%_> '
 
   # Selection prompt used within a select loop.  It is expanded in
   # the same way as PS1.
-  # For more see: man zshparam(1)
+  # For more see zshparam(1).
   PS3='?# '
 
   # Execute `prompt_ptfancy_precmd' before each prompt.  This will
   # add `prompt_ptfancy_precmd' to $precmd_functions global array.
-  # For more see: man zshcontrib(1)
+  # For more see zshcontrib(1).
   add-zsh-hook precmd prompt_ptfancy_precmd
 }
 
@@ -164,57 +230,22 @@ prompt_ptfancy_precmd () {
   local exitstatus=$?
 
   # Do not print commands and their arguments as they are executed.
-  # For more see: man zshoptions(1)
+  # For more see zshoptions(1).
   setopt no_xtrace
 
   # Array elements are numbered from 1.
-  # For more see: man zshoptions(1)
+  # For more see zshoptions(1).
   setopt no_ksh_arrays
 
   # An array (colon-separated list) whose elements can be used in
   # PS1.  Setting psvar also sets PSVAR, and vice versa.
-  # For more see: man zshparam(1)
+  # For more see zshparam(1).
   psvar=()
 
   [[ $exitstatus -ge 128 ]] &&
     psvar[1]=" $signals[$exitstatus-127]" || psvar[1]=""
 
-  # Configure VCS info.
-
-  # Export the following messages:
-  #
-  # $vcs_info_msg_0_   - Regular messages
-  # $vcs_info_msg_1_   - Warnings
-  # $vcs_info_msg_2_   - Improtant messages
-  zstyle ':vcs_info:*' max-exports 3
-
-  zstyle ':vcs_info:*' enable svn git
-
-  # Used VCS formats are:
-  #
-  # %b   - Information about the current branch.
-  # %c   - The string for the staged changes in the repository.
-  # %u   - The string for the unstaged changes in the repository.
-  # %m   - A “misc” replacement.
-  # %a   - An identifier that describes the action.
-
-  # Defaut VCS format.
-  zstyle ':vcs_info:*'     formats '%s:%b'
-  zstyle ':vcs_info:*'     actionformats '%s:%b' '%m' '<!%a>'
-
-  # Git format.
-  zstyle ':vcs_info:git:*' formats '%b' '%m%c%u'
-  zstyle ':vcs_info:git:*' actionformats '%b' '%m%c%u' '<!%a>'
-
-  zstyle ':vcs_info:git:*' check-for-changes true # check for changes
-  zstyle ':vcs_info:git:*' stagedstr '+'          # staged changes
-  zstyle ':vcs_info:git:*' unstagedstr '*'        # unstaged changes
-
-  # Uncomment to enable debug.
-  # zstyle ':vcs_info:*' debug true
-
   vcs_info
-
   [[ -n $vcs_info_msg_0_ ]] && psvar[2]="$vcs_info_msg_0_"
   [[ -n $vcs_info_msg_1_ ]] && psvar[3]="$vcs_info_msg_1_"
   [[ -n $vcs_info_msg_2_ ]] && psvar[4]="$vcs_info_msg_2_"
