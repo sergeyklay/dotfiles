@@ -1,7 +1,8 @@
 # ptfancy prompt theme
 #
-# This theme relly on the folowing options:
+# This theme relies on the folowing Zsh options:
 #   - prompt_subst (see: conf.d/prompt)
+#   - local_options (see: conf.d/gopts)
 #
 # As well as on the following functions:
 #   - add-zsh-hook (see: conf.d/defuns)
@@ -24,96 +25,23 @@
 # %#   - A '#' if the shell is running with privileges, a '%' if not
 # %~   - Current working directory
 
-# Echoes information about Git repository status when inside a Git
-# repository.
-git_info() {
-  # Exit if not inside a Git repository.
-  ! git rev-parse --is-inside-work-tree > /dev/null 2>&1 && return
-
-  # Git branch/tag, or name-rev if on detached head.
-  local location
-  location="$(git symbolic-ref -q HEAD || \
-            git name-rev --name-only --no-undefined --always HEAD)"
-  location="${location#(refs/heads/|tags/)}"
-
-  [ "${#location}" -ge 24 ] && location="${location:0:21}..."
-
-  location="${location:-no branch}"
-
-  local ahead="%{$fg[red]%}⇡num%{$reset_color%}"
-  local behind="%{$fg[cyan]%}⇣num%{$reset_color%}"
-  local merging="%{$fg[magenta]%}⚡︎%{$reset_color%}"
-  local untracked="%{$fg[red]%}●%{$reset_color%}"
-  local modified="%{$fg[yellow]%}●%{$reset_color%}"
-  local staged="%{$fg[green]%}●%{$reset_color%}"
-
-  local -a divs
-  local -a flags
-
-  local num_ahead="$(git log --oneline @{u}.. 2> /dev/null | \
-                   wc -l | tr -d ' ')"
-  if [ "$num_ahead" -gt 0 ]; then
-    divs+=( "${ahead//num/$num_ahead}" )
-  fi
-
-  local num_behind="$(git log --oneline ..@{u} 2> /dev/null | \
-                    wc -l | tr -d ' ')"
-  if [ "$num_behind" -gt 0 ]; then
-    divs+=( "${behind//num/$num_behind}" )
-  fi
-
-  local git_dir="$(git rev-parse --git-dir 2> /dev/null)"
-  if [ -n $git_dir ] && test -r $git_dir/MERGE_HEAD; then
-    flags+=( "$merging" )
-  fi
-
-  if [[ -n $(git ls-files --other --exclude-standard 2> /dev/null) ]]
-  then
-    flags+=( "$untracked" )
-  fi
-
-  if ! git diff --quiet 2> /dev/null; then
-    flags+=( "$modified" )
-  fi
-
-  if ! git diff --cached --quiet 2> /dev/null; then
-    flags+=( "$staged" )
-  fi
-
-  local -a git_prompt
-
-  # ±
-  git_prompt+=( '%F{default}±%f ' )
-
-  # Git branch.
-  git_prompt+=( "%F{$1}${location}%f" )
-
-  # Git divergences.
-  [[ ${#divs[@]} -ne 0 ]] && git_prompt+=( " ${(j::)divs}" )
-
-  # Exist status.
-  [[ ${#flags[@]} -ne 0 ]] && git_prompt+=( " ${(j::)flags}" )
-
-  # Join the words of arrays together.
-  echo "${(j::)git_prompt}"
-}
 
 prompt_ptfancy_help () {
   cat <<'ENDHELP'
 This prompt is color-scheme-able.  With this prompt theme, the
 prompt contains the current username and hostname, the current
 working directory, the previous command's exit code (if non-zero),
-the flag ``[SSH]'' (if there is a ssh connection), and information
-about Git repository status (when inside a Git repository).
+the flag “[SSH]” (if there is a SSH connection), and information
+about Git/SVN repository status (when inside a VCS repository).
 
 You can invoke it thus:
 
   prompt ptfancy [<color1> [<color2> [<color3> [<color4>]]]]
 
-where the colors are for the user@host foreground, exist status,
-current working directory, and Git branch respectively.  The default
+where the colors are for the user@host foreground, exit status,
+current working directory, and VCS branch respectively.  The default
 colors are cyan, red, blue, and yellow.  To specify colours, use
-English words like `magenta'.
+English words like “magenta”.
 
 This theme is designed for dark backgrounds, but should work with
 light backgrounds too.  Recommended fonts for this theme are: Roboto
@@ -128,10 +56,6 @@ ENDHELP
 }
 
 prompt_ptfancy_setup () {
-  # This will enable a separated context for options in functions.
-  # For more see: man zshoptions(1)
-  setopt local_options
-
   # Do not print commands and their arguments as they are executed.
   # For more see: man zshoptions(1)
   setopt no_xtrace
@@ -143,9 +67,6 @@ prompt_ptfancy_setup () {
   # Will be used to provide current VCS info.
   # For more see: man zshcontrib(1)
   autoload -Uz vcs_info
-
-  # Enable VCS info.
-  zstyle ':vcs_info:*' formats '%b'
 
   local -a pcc
   local -A pc
@@ -194,8 +115,18 @@ prompt_ptfancy_setup () {
     p_ssh="$pc['lsb']%F{$pcc[2]}SSH%f$pc['rsb'] "
   fi
 
-  # Git info.
-  local git_prompt="%(2v. %2v . )"
+  # VCS info.
+  #
+  # This contains information about VCS repository status when
+  # inside a VCS repository.
+  #
+  # For the details see `prompt_ptfancy_precmd' function.
+  local vcs_prompt='%(2v. '             # is there a branch name?
+        vcs_prompt+='%F{default}±%f '   # ‘±’
+        vcs_prompt+="%F{$pcc[4]}%2v%f " # branch name
+        vcs_prompt+='%(3v.%3v.)'
+        vcs_prompt+='%(4v. %4v.)'
+        vcs_prompt+=' . )'              # end condition
 
   # Set `zle_highlight' according to theme definition.
   typeset -ga zle_highlight
@@ -210,7 +141,7 @@ prompt_ptfancy_setup () {
 
   # The primary prompt string, printed before a command is read.
   # For more see: man zshparam(1)
-  PS1="$p_userhost$p_rc$p_ssh$p_userpwd$git_prompt%#$p_end "
+  PS1="$p_userhost$p_rc$p_ssh$p_userpwd$vcs_prompt%#$p_end "
 
   # The secondary prompt, printed when the shell needs more
   # information to complete a command.  It is expanded in the same
@@ -232,10 +163,6 @@ prompt_ptfancy_setup () {
 prompt_ptfancy_precmd () {
   local exitstatus=$?
 
-  # This will enable a separated context for options in functions.
-  # For more see: man zshoptions(1)
-  setopt local_options
-
   # Do not print commands and their arguments as they are executed.
   # For more see: man zshoptions(1)
   setopt no_xtrace
@@ -252,8 +179,45 @@ prompt_ptfancy_precmd () {
   [[ $exitstatus -ge 128 ]] &&
     psvar[1]=" $signals[$exitstatus-127]" || psvar[1]=""
 
+  # Configure VCS info.
+
+  # Export the following messages:
+  #
+  # $vcs_info_msg_0_   - Regular messages
+  # $vcs_info_msg_1_   - Warnings
+  # $vcs_info_msg_2_   - Improtant messages
+  zstyle ':vcs_info:*' max-exports 3
+
+  zstyle ':vcs_info:*' enable svn git
+
+  # Used VCS formats are:
+  #
+  # %b   - Information about the current branch.
+  # %c   - The string for the staged changes in the repository.
+  # %u   - The string for the unstaged changes in the repository.
+  # %m   - A “misc” replacement.
+  # %a   - An identifier that describes the action.
+
+  # Defaut VCS format.
+  zstyle ':vcs_info:*'     formats '%s:%b'
+  zstyle ':vcs_info:*'     actionformats '%s:%b' '%m' '<!%a>'
+
+  # Git format.
+  zstyle ':vcs_info:git:*' formats '%b' '%m%c%u'
+  zstyle ':vcs_info:git:*' actionformats '%b' '%m%c%u' '<!%a>'
+
+  zstyle ':vcs_info:git:*' check-for-changes true # check for changes
+  zstyle ':vcs_info:git:*' stagedstr '+'          # staged changes
+  zstyle ':vcs_info:git:*' unstagedstr '*'        # unstaged changes
+
+  # Uncomment to enable debug.
+  # zstyle ':vcs_info:*' debug true
+
   vcs_info
+
   [[ -n $vcs_info_msg_0_ ]] && psvar[2]="$vcs_info_msg_0_"
+  [[ -n $vcs_info_msg_1_ ]] && psvar[3]="$vcs_info_msg_1_"
+  [[ -n $vcs_info_msg_2_ ]] && psvar[4]="$vcs_info_msg_2_"
 }
 
 prompt_ptfancy_preview () {
