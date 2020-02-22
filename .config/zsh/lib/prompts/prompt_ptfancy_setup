@@ -38,8 +38,10 @@ zstyle ':vcs_info:git:*' formats '%b' '%c%u%m'
 zstyle ':vcs_info:git:*' actionformats '%b' '%c%u%m' '<!%a>'
 
 zstyle ':vcs_info:git:*' check-for-changes true # check for changes
-zstyle ':vcs_info:git:*' stagedstr '+'          # staged changes
-zstyle ':vcs_info:git:*' unstagedstr '-'        # unstaged changes
+zstyle ':vcs_info:git:*' stagedstr \
+       '%{$fg[green]%}●%{$reset_color%}'        # staged changes
+zstyle ':vcs_info:git:*' unstagedstr \
+       '%{$fg[yellow]%}●%{$reset_color%}'       # unstaged changes
 
 # Uncomment to enable debug.
 # zstyle ':vcs_info:*' debug true
@@ -105,7 +107,7 @@ ENDHELP
   if command git status --porcelain 2> /dev/null \
              | awk '{print $1}' \
              | command grep -F '??' > /dev/null 2>&1 ; then
-    hook_com[unstaged]+='?'
+    hook_com[unstaged]+='%{$fg[red]%}●%{$reset_color%}'
   fi
 }
 
@@ -136,18 +138,45 @@ prompt_ptfancy_setup () {
   # For more see zshcontrib(1).
   autoload -Uz vcs_info
 
+  typeset -ga prompt_ptfancy_colors
+  prompt_ptfancy_colors=(
+    ${1:-'cyan'}
+    ${2:-'red'}
+    ${3:-'blue'}
+    ${4:-'yellow'}
+  )
+
+  # Set `zle_highlight' according to theme definition.
+  typeset -ga zle_highlight
+
+  # Contexts:
+  # - `default': Any text within the command line not affected by
+  #              any other highlighting.
+  #
+  # Types of highlighting:
+  # - `none':    No highlighting is applied to the given context.
+  zle_highlight[(r)default:*]=default:none
+
+  # Execute `prompt_ptfancy_precmd' before each prompt.  This will
+  # add `prompt_ptfancy_precmd' to $precmd_functions global array.
+  # For more see zshcontrib(1).
+  add-zsh-hook precmd prompt_ptfancy_precmd
+}
+
+prompt_ptfancy_render () {
   local -a pcc
   local -A pc
 
   # Default colour scheme.
-  pcc[1]=${1:-'cyan'}
-  pcc[2]=${2:-'red'}
-  pcc[3]=${3:-'blue'}
-  pcc[4]=${4:-'yellow'}
+  pcc[1]=$prompt_ptfancy_colors[1]
+  pcc[2]=$prompt_ptfancy_colors[2]
+  pcc[3]=$prompt_ptfancy_colors[3]
+  pcc[4]=$prompt_ptfancy_colors[4]
 
   pc['lsb']="%F{$pcc[3]}[%f" # [
   pc['rsb']="%F{$pcc[3]}]%f" # ]
 
+  local prompt=''
   # Reset colors.
   local p_end='%f%b'
 
@@ -172,7 +201,7 @@ prompt_ptfancy_setup () {
   fi
 
   # Exit status.
-  local p_rc="%(?..$pc['lsb']%F{$pcc[2]}%?%1v%f$pc['rsb'] )"
+  local p_rc="%(?..$pc['lsb']%F{$pcc[2]}%?%f$pc['rsb'] )"
 
   # SSH info.
   local p_ssh
@@ -185,29 +214,39 @@ prompt_ptfancy_setup () {
 
   # This contains information about VCS repository status when
   # inside a VCS repository.
-  #
-  # For the details see `prompt_ptfancy_precmd' function.
-  local vcs_prompt='%(2v. '             # is there a branch name?
-        vcs_prompt+='%F{default}±%f '   # ‘±’
-        vcs_prompt+="%F{$pcc[4]}%2v%f " # branch name
-        vcs_prompt+='%(3v.%3v.)'
-        vcs_prompt+='%(4v. %4v.)'
-        vcs_prompt+=' . )'              # end condition
+  local -a messages
 
-  # Set `zle_highlight' according to theme definition.
-  typeset -ga zle_highlight
+  vcs_info
+  if [[ -n ${vcs_info_msg_0_} ]]; then
+    messages+=(' %F{default}±%f ')
 
-  # Contexts:
-  # - `default': Any text within the command line not affected by
-  #              any other highlighting.
-  #
-  # Types of highlighting:
-  # - `none':    No highlighting is applied to the given context.
-  zle_highlight[(r)default:*]=default:none
+    [[ -n "$vcs_info_msg_0_" ]] &&
+      messages+=("%F{$pcc[4]}${vcs_info_msg_0_}%f ")
+
+    [[ -n "$vcs_info_msg_1_" ]] &&
+      messages+=("${vcs_info_msg_1_}")
+
+    [[ -n "$vcs_info_msg_2_" ]] &&
+      messages+=("${vcs_info_msg_2_}")
+  fi
+
+  prompt="$p_userhost$p_rc$p_ssh$p_userpwd${(j::)messages}"
+
+  print -P $prompt
+}
+
+prompt_ptfancy_precmd () {
+  # Do not print commands and their arguments as they are executed.
+  # For more see zshoptions(1).
+  setopt no_xtrace
+
+  # Array elements are numbered from 1.
+  # For more see zshoptions(1).
+  setopt no_ksh_arrays
 
   # The primary prompt string, printed before a command is read.
   # For more see zshparam(1).
-  PS1="$p_userhost$p_rc$p_ssh$p_userpwd$vcs_prompt%#$p_end "
+  PS1='$(prompt_ptfancy_render) %#%f%b '
 
   # The secondary prompt, printed when the shell needs more
   # information to complete a command.  It is expanded in the same
@@ -219,36 +258,6 @@ prompt_ptfancy_setup () {
   # the same way as PS1.
   # For more see zshparam(1).
   PS3='?# '
-
-  # Execute `prompt_ptfancy_precmd' before each prompt.  This will
-  # add `prompt_ptfancy_precmd' to $precmd_functions global array.
-  # For more see zshcontrib(1).
-  add-zsh-hook precmd prompt_ptfancy_precmd
-}
-
-prompt_ptfancy_precmd () {
-  local exitstatus=$?
-
-  # Do not print commands and their arguments as they are executed.
-  # For more see zshoptions(1).
-  setopt no_xtrace
-
-  # Array elements are numbered from 1.
-  # For more see zshoptions(1).
-  setopt no_ksh_arrays
-
-  # An array (colon-separated list) whose elements can be used in
-  # PS1.  Setting psvar also sets PSVAR, and vice versa.
-  # For more see zshparam(1).
-  psvar=()
-
-  [[ $exitstatus -ge 128 ]] &&
-    psvar[1]=" $signals[$exitstatus-127]" || psvar[1]=""
-
-  vcs_info
-  [[ -n $vcs_info_msg_0_ ]] && psvar[2]="$vcs_info_msg_0_"
-  [[ -n $vcs_info_msg_1_ ]] && psvar[3]="$vcs_info_msg_1_"
-  [[ -n $vcs_info_msg_2_ ]] && psvar[4]="$vcs_info_msg_2_"
 }
 
 prompt_ptfancy_preview () {
