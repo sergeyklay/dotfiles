@@ -1,0 +1,17 @@
+# ptfancy prompt theme
+#
+# Copyright (c) 2020, Serghei Iakovlev
+
+prompt_ptfancy_help () {}
+
+prompt_ptfancy_setup () {}
+
+prompt_ptfancy_precmd () {}
+
+prompt_ptfancy_preview () {}
+
+prompt_ptfancy_setup "$@"
+
+# Local Variables:
+# mode: sh
+# End:
