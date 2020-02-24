@@ -18,16 +18,7 @@ autoload -Uz promptinit; promptinit
 # For more see: man zshoptions(1)
 setopt prompt_subst
 
-# change the path color
-zstyle :prompt:pure:path color blue
-zstyle :prompt:pure:git:branch color yellow
-
-# Safer symbols.
-PURE_PROMPT_SYMBOL='»'
-PURE_GIT_DOWN_ARROW='↓'
-PURE_GIT_UP_ARROW='↑'
-
-prompt pure
+prompt ptfancy
 
 # Local Variables:
 # mode: sh
