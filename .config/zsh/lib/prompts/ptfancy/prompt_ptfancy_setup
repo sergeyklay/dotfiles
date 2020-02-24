@@ -1,14 +1,80 @@
 # ptfancy prompt theme
 #
 # Copyright (c) 2020, Serghei Iakovlev
+#
+# This theme relies on the folowing Zsh options:
+#   - prompt_subst (see: conf.d/prompt)
+#   - local_options (see: conf.d/gopts)
+#
+# As well as on the following functions:
+#   - add-zsh-hook (see: conf.d/defuns)
+#
+# This file is autoloaded as a function in the current shell
+# context.  For more info see zshcontrib(1).
 
-prompt_ptfancy_help () {}
+prompt_ptfancy_help () {
+  cat <<'ENDHELP'
+This prompt is color-scheme-able.  With this prompt theme, the
+prompt contains the current username and hostname, the current
+working directory, the previous command's exit code (if non-zero),
+the flag “[SSH]” (if there is a SSH connection), and information
+about Git/SVN repository status (when inside a VCS repository).
 
-prompt_ptfancy_setup () {}
+You can invoke it thus:
 
-prompt_ptfancy_precmd () {}
+  prompt ptfancy [<color1> [<color2> [<color3> [<color4>]]]]
 
-prompt_ptfancy_preview () {}
+where the colors are for the user@host foreground, exit status,
+current working directory, and VCS branch respectively.  The default
+colors are cyan, red, blue, and yellow.  To specify colours, use
+English words like “magenta”.
+
+This theme is designed for dark backgrounds, but should work with
+light backgrounds too.  Recommended fonts for this theme are: Roboto
+Mono, DejaVu Sans Mono, Fira Code, Source Code Pro, Hack, Consolas
+or similar.
+
+This theme relies on `localoptions' and `promptsubst' options.  Thus
+these options should be set before.  For more see zshoptions(1).  To
+modify `precmd' and `preexec' the availability of `add-zsh-hook' is
+required.  For more see zshcontrib(1).
+ENDHELP
+}
+
+prompt_ptfancy_setup () {
+  # Execute `prompt_ptfancy_precmd' before each prompt.  This will
+  # add `prompt_ptfancy_precmd' to $precmd_functions global array.
+  # For more see zshcontrib(1).
+  add-zsh-hook precmd prompt_ptfancy_precmd
+}
+
+prompt_ptfancy_precmd () {
+  # Used format specifiers are:
+  #
+  # - A ‘#’ if the shell is running with privileges, a ‘%’ if not
+  PS1='%# '
+
+  # The secondary prompt, printed when the shell needs more
+  # information to complete a command.  It is expanded in the same
+  # way as PS1.  For more see zshparam(1).
+  PS2='%_> '
+
+  # Selection prompt used within a select loop.  It is expanded in
+  # the same way as PS1.  For more see zshparam(1).
+  PS3='?# '
+}
+
+prompt_ptfancy_preview () {
+  local -a colors
+  colors=(red green blue magenta)
+
+  if (( ! $#* )); then
+    prompt_preview_theme \
+      ptfancy $colors[1] $colors[2] $colors[3] $colors[4]
+  else
+    prompt_preview_theme ptfancy "$@"
+  fi
+}
 
 prompt_ptfancy_setup "$@"
 
