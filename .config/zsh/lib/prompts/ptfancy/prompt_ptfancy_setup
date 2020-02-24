@@ -48,11 +48,37 @@ prompt_ptfancy_setup () {
   add-zsh-hook precmd prompt_ptfancy_precmd
 }
 
+# Used prompt escapes are:
+#
+# %?   - Exit status
+# %B   - Start boldface mode
+# %m   - The hostname up to first ‘.’
+# %n   - The username
+prompt_ptfancy_render () {
+  # Exit status.
+  # This is a workaround because after first `local' decalration
+  # it will reset to zero.
+  local p_rc=$(print -P '%(?..%? )')
+
+  local prompt
+
+  # Host info.
+  local p_userhost='%B%(!.%m.%n@%m) '
+
+  prompt='$p_userhost$p_rc'
+
+  print -P $prompt
+}
+
+# Used prompt escapes are:
+#
+# %f   - Stop using a different foreground color
+# %b   - Stop boldface mode
+# %#   - A ‘#’ if the shell is running with privileges, a ‘%’ if not
 prompt_ptfancy_precmd () {
-  # Used format specifiers are:
-  #
-  # - A ‘#’ if the shell is running with privileges, a ‘%’ if not
-  PS1='%# '
+
+  PS1='$(prompt_ptfancy_render)
+%f%b%# '
 
   # The secondary prompt, printed when the shell needs more
   # information to complete a command.  It is expanded in the same
