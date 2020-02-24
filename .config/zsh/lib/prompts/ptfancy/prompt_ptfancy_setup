@@ -42,6 +42,15 @@ ENDHELP
 }
 
 prompt_ptfancy_setup () {
+  # Default color scheme.
+  typeset -ga prompt_ptfancy_colors
+  prompt_ptfancy_colors=(
+    ${1:-'cyan'}
+    ${2:-'red'}
+    ${3:-'blue'}
+    ${4:-'yellow'}
+  )
+
   # Execute `prompt_ptfancy_precmd' before each prompt.  This will
   # add `prompt_ptfancy_precmd' to $precmd_functions global array.
   # For more see zshcontrib(1).
@@ -52,20 +61,57 @@ prompt_ptfancy_setup () {
 #
 # %?   - Exit status
 # %B   - Start boldface mode
+# %F   - Start using a different foreground color
+# %f   - Stop using a different foreground color
 # %m   - The hostname up to first ‘.’
 # %n   - The username
+# %~   - Current working directory
 prompt_ptfancy_render () {
-  # Exit status.
   # This is a workaround because after first `local' decalration
-  # it will reset to zero.
-  local p_rc=$(print -P '%(?..%? )')
+  # exit status will reset to zero.
+  local p_rc=$(print -P '%(?..%F{$prompt_ptfancy_colors[3]}[%F{$prompt_ptfancy_colors[2]}%?%F{$prompt_ptfancy_colors[3]}]%f )')
+
+  local -a pcc
+  local -A pc
+
+  # Default colour scheme.
+  pcc[1]=$prompt_ptfancy_colors[1]
+  pcc[2]=$prompt_ptfancy_colors[2]
+  pcc[3]=$prompt_ptfancy_colors[3]
+  pcc[4]=$prompt_ptfancy_colors[4]
+
+  pc['lsb']="%F{$pcc[3]}[%f" # ‘[’
+  pc['rsb']="%F{$pcc[3]}]%f" # ‘]’
 
   local prompt
+  local p_ssh
 
-  # Host info.
-  local p_userhost='%B%(!.%m.%n@%m) '
+  local p_userhost='%B%F{$pcc[1]}%(!.%m.%n@%m)%f '
 
-  prompt='$p_userhost$p_rc'
+  local p_userhost_etc=$(print -P '$p_userhost%(4~|...|)%3~')
+  local p_len=${#p_userhost_etc}
+
+  # Current working path.
+  local p_userpwd
+
+  if [[ $p_len -lt 40 ]]; then
+    p_userpwd='%F{$pcc[3]}%(4~|...|)%3~%F{default}'
+  else
+    local zero='%([BSUbfksu]|[FBK]{*})'
+    local p_userhost_nc='${p_userhost//$~zero/}'
+    local p_userhost_enc=$(print -P '$p_userhost_nc')
+    local space_left=$(( $COLUMNS - $#p_userhost_enc - 2 ))
+
+    p_userpwd="%F{$pcc[3]}%${space_left}<...<%~%F{default}"
+  fi
+
+  # If there is a SSH connection setup colored string using $2 as a
+  # color for “SSH” word and $3 as a color for ‘[’ and ‘]’ brackets.
+  if [ -n "${SSH_CONNECTION}" ]; then
+    p_ssh='%F{$pcc[3]}[%F{$pcc[2]}SSH%F{$pcc[3]}]%f '
+  fi
+
+  prompt='$p_userhost$p_rc$p_ssh$p_userpwd'
 
   print -P $prompt
 }
@@ -76,6 +122,9 @@ prompt_ptfancy_render () {
 # %b   - Stop boldface mode
 # %#   - A ‘#’ if the shell is running with privileges, a ‘%’ if not
 prompt_ptfancy_precmd () {
+  # Do not print commands and their arguments as they are executed.
+  # For more see zshoptions(1).
+  setopt no_xtrace
 
   PS1='$(prompt_ptfancy_render)
 %f%b%# '
