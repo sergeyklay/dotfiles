@@ -108,7 +108,8 @@ prompt_ptfancy_setup () {
   zstyle ':vcs_info:git+set-message:*' hooks \
          git_hook_begin \
          git_untracked \
-         git_push_status
+         git_ahead_status \
+         git_behind_status
 
   # Uncomment to enable debug.
   # zstyle ':vcs_info:*' debug true
@@ -145,16 +146,18 @@ prompt_ptfancy_setup () {
   fi
 }
 
+# Display the number of ahead commits.
+#
 # Check if there are commits not pushed to the remote
-# indicate this using arrow up.  This function uses
+# and indicate this using arrow up.  This function uses
 # ‘%m’ placeholder from `actionformats'.
-function +vi-git_push_status () {
+function +vi-git_ahead_status () {
   # There are events for `formats' and `actionformats'.
   # This function uses only `actionformats'.
   [[ "$1" != "1" ]] && return 0
 
   # Default template.
-  local ahead="%B%{$fg[magenta]%}⇡num%{$reset_color%}%b"
+  local ahead="%B%{$fg[red]%}⇡num%{$reset_color%}%b"
   local num_ahead
 
   num_ahead=$(command git log --oneline @{u}.. 2> /dev/null \
@@ -164,8 +167,29 @@ function +vi-git_push_status () {
   if [[ "$num_ahead" -gt 0 ]]; then
     hook_com[misc]+=" ${ahead//num/$num_ahead}"
   fi
+}
 
-  return 0
+# Display the number of behind commits.
+#
+# Check if there are commits not pulled from the remote
+# and indicate this using arrow down.  This function uses
+# ‘%m’ placeholder from `actionformats'.
+function +vi-git_behind_status() {
+  # There are events for `formats' and `actionformats'.
+  # This function uses only `actionformats'.
+  [[ "$1" != "1" ]] && return 0
+
+  # Default template.
+  local behind="%{$fg[cyan]%}⇣num%{$reset_color%}"
+  local num_behind
+
+  num_behind=$(command git log --oneline ..@{u} 2> /dev/null \
+                 | wc -l \
+                 | tr -d ' ')
+
+  if [[ "$num_behind" -gt 0 ]]; then
+    hook_com[misc]+=" ${behind//num/$num_behind}"
+  fi
 }
 
 # Used prompt escapes are:
@@ -227,7 +251,7 @@ prompt_ptfancy_render () {
     messages+=(' %F{default}±%f ')
 
     [[ -n "$vcs_info_msg_0_" ]] &&
-      messages+=("%F{$pcc[4]}${vcs_info_msg_0_}%f")
+      messages+=("%F{$pcc[4]}${vcs_info_msg_0_}%f ")
 
     [[ -n "$vcs_info_msg_1_" ]] &&
       messages+=("${vcs_info_msg_1_}")
