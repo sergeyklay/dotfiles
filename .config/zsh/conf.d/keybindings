@@ -8,35 +8,24 @@ bindkey '\C-x\C-e' edit-command-line   # C-x C-e
 # File rename helper.
 bindkey "^[m" copy-prev-shell-word     # M-m
 
-# Go to beginning of line.
-if [[ "${terminfo[khome]}" != "" ]]    # Home
-then
-  bindkey "${terminfo[khome]}" beginning-of-line
-else
-  case $TERM in
-    *rxvt*|*xterm*)
-      bindkey "^[[H"   beginning-of-line # Home
-      ;;
-    linux)
-      bindkey "^[[1~"  beginning-of-line # Home
-      ;;
-  esac
-fi
-
-# Go to end of line.
-if [[ "${terminfo[kend]}" != "" ]]    # End
-then
-  bindkey "${terminfo[kend]}" end-of-line
-else
-  case $TERM in
-    *rxvt*|*xterm*)
-      bindkey "^[[F"   end-of-line    # End
-      ;;
-    linux)
-      bindkey "^[[4~"  end-of-line    # End
-      ;;
-  esac
-fi
+# Home and End
+case $TERM in
+  *rxvt*|*xterm*)
+    # Normal keypad and cursor of xterm
+    bindkey "^[[H"   beginning-of-line # Home
+    bindkey "^[[F"   end-of-line       # End
+    # Home and End of application keypad and cursor of xterm
+    bindkey "^[OH"   beginning-of-line # Home
+    bindkey "^[OF"   end-of-line       # End
+    bindkey "^[O5H"  beginning-of-line # Home
+    bindkey "^[O5F"  end-of-line       # End
+    ;;
+  linux)
+    # TERM=linux or console
+    bindkey "^[[1~"  beginning-of-line # Home
+    bindkey "^[[4~"  end-of-line       # End
+    ;;
+esac
 
 # Move forward one word.
 bindkey '^[[1;5C' forward-word        # C-RightArrow
