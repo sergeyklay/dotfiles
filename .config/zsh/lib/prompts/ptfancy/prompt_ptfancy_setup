@@ -161,13 +161,15 @@ function +vi-git_push_status () {
 
   echo "branch: ${hook_com[branch]}"
 
-  local ahead
-  ahead=$(command git rev-list origin/master..master 2>/dev/null \
+  local ahead="%{$fg[red]%}⇡num%{$reset_color%}"
+  local num_ahead
+
+  num_ahead=$(command git rev-list origin/master..master 2>/dev/null \
             | wc -l \
             | tr -d ' ')
 
-  if [[ "$ahead" -gt 0 ]]; then
-    hook_com[misc]+=" push:${ahead}"
+  if [[ "$num_ahead" -gt 0 ]]; then
+    hook_com[misc]+=" ${ahead//num/$num_ahead}"
   fi
 
   return 0
