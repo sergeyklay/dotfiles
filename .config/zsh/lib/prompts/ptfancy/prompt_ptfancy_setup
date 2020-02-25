@@ -90,8 +90,8 @@ prompt_ptfancy_setup () {
   zstyle ':vcs_info:*'     actionformats '%s:%b' '%m' '<!%a>'
 
   # Git format.
-  zstyle ':vcs_info:git:*' formats '%b' '%c%u%m'
-  zstyle ':vcs_info:git:*' actionformats '%b' '%c%u%m' '<!%a>'
+  zstyle ':vcs_info:git:*' formats '%b' '%c%u %m'
+  zstyle ':vcs_info:git:*' actionformats '%b' '%c%u %m' '<!%a>'
 
   zstyle ':vcs_info:git:*' check-for-changes true # check for changes
   zstyle ':vcs_info:git:*' stagedstr \
@@ -109,7 +109,8 @@ prompt_ptfancy_setup () {
          git_hook_begin \
          git_untracked \
          git_ahead_status \
-         git_behind_status
+         git_behind_status \
+         git_merging_status
 
   # Uncomment to enable debug.
   # zstyle ':vcs_info:*' debug true
@@ -151,7 +152,7 @@ prompt_ptfancy_setup () {
 # Check if there are commits not pushed to the remote
 # and indicate this using arrow up.  This function uses
 # ‘%m’ placeholder from `actionformats'.
-function +vi-git_ahead_status () {
++vi-git_ahead_status () {
   # There are events for `formats' and `actionformats'.
   # This function uses only `actionformats'.
   [[ "$1" != "1" ]] && return 0
@@ -165,7 +166,7 @@ function +vi-git_ahead_status () {
             | tr -d ' ')
 
   if [[ "$num_ahead" -gt 0 ]]; then
-    hook_com[misc]+=" ${ahead//num/$num_ahead}"
+    hook_com[misc]+="${ahead//num/$num_ahead}"
   fi
 }
 
@@ -174,7 +175,7 @@ function +vi-git_ahead_status () {
 # Check if there are commits not pulled from the remote
 # and indicate this using arrow down.  This function uses
 # ‘%m’ placeholder from `actionformats'.
-function +vi-git_behind_status() {
++vi-git_behind_status () {
   # There are events for `formats' and `actionformats'.
   # This function uses only `actionformats'.
   [[ "$1" != "1" ]] && return 0
@@ -188,7 +189,25 @@ function +vi-git_behind_status() {
                  | tr -d ' ')
 
   if [[ "$num_behind" -gt 0 ]]; then
-    hook_com[misc]+=" ${behind//num/$num_behind}"
+    hook_com[misc]+="${behind//num/$num_behind}"
+  fi
+}
+
+# Indicates merging statuses eg. rabasing, merging, etc.
+#
+# Check if there is a merging process and indicate this using
+# lightning down.  This function uses ‘%m’ placeholder from
+# `actionformats'.
++vi-git_merging_status () {
+  # There are events for `formats' and `actionformats'.
+  # This function uses only `actionformats'.
+  [[ "$1" != "1" ]] && return 0
+
+  # Default template.
+  local merging="%{$fg[magenta]%}⚡%{$reset_color%}"
+  local git_dir=$(git rev-parse --git-dir 2> /dev/null)
+  if [ -n $git_dir ] && test -r $git_dir/MERGE_HEAD; then
+    hook_com[misc]+="${merging}"
   fi
 }
 
