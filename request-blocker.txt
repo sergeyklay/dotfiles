@@ -1,5 +1,6 @@
 # Request Blocker configuration file.
 #
+# For more info see:
 # https://addons.mozilla.org/en-US/firefox/addon/request-blocker-we
 #
 # For the syntax rules see:
