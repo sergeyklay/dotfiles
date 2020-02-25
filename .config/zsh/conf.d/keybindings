@@ -1,4 +1,12 @@
 # Definition of keybindings.
+#
+# For the reference see terminfo(5).  Alo see:
+# -   $terminfo associative array
+# -   “showkey -a”
+# -   “xmodmap”
+# -   “infocmp -cL”
+# -   “bindkey -L”
+# -   zshmodules(1) for `zsh/termcap' and `zsh/terminfo' modules
 
 # Edit the current command line in $VISUAL
 autoload -U edit-command-line
@@ -28,21 +36,21 @@ case $TERM in
 esac
 
 # Move forward one word.
-bindkey '^[[1;5C' forward-word        # C-RightArrow
+bindkey '^[[1;5C' forward-word         # C-right
 
 # Move backward one word.
-bindkey '^[[1;5D' backward-word       # C-LeftArrow
+bindkey '^[[1;5D' backward-word        # C-left
 
 # Delete backward.
-bindkey '^?' backward-delete-char     # Backspace
+bindkey '^?' backward-delete-char      # Backspace
 
 # Delete forward.
 if [[ "${terminfo[kdch1]}" != "" ]]; then
-  bindkey "${terminfo[kdch1]}" delete-char # [Delete]
+  bindkey "${terminfo[kdch1]}" delete-char # Delete
 else
-  bindkey "^[[3~" delete-char
-  bindkey "^[3;5~" delete-char
-  bindkey "\e[3~" delete-char
+  bindkey "^[[3~" delete-char          # Delete
+  bindkey "^[3;5~" delete-char         # Delete
+  bindkey "\e[3~" delete-char          # Delete
 fi
 
 # Local Variables:
