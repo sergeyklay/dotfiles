@@ -107,10 +107,11 @@ prompt_ptfancy_setup () {
   # `format' and 3 times for `actionformats'.
   zstyle ':vcs_info:git+set-message:*' hooks \
          git_hook_begin \
-         git_untracked
+         git_untracked \
+         git_push_status
 
   # Uncomment to enable debug.
-  # zstyle ':vcs_info:*' debug true
+  zstyle ':vcs_info:*' debug true
 
   # Execute `prompt_ptfancy_precmd' before each prompt.  This will
   # add `prompt_ptfancy_precmd' to $precmd_functions global array.
@@ -133,8 +134,8 @@ prompt_ptfancy_setup () {
 
 # Do we have Git untracked files in the working tree?
 +vi-git_untracked () {
-  # According to our `format' and  `actionformat' call this for the
-  # second message
+  # There are events for `formats' and `actionformats'.
+  # This function uses only `actionformats'.
   [[ "$1" != "1" ]] && return 0
 
   if command git status --porcelain 2> /dev/null \
@@ -142,6 +143,34 @@ prompt_ptfancy_setup () {
              | command grep -F '??' > /dev/null 2>&1 ; then
     hook_com[unstaged]+="%{$fg[red]%}●%{$reset_color%}"
   fi
+}
+
+# Check if there are commits not pushed to the remote
+# indicate this using arrow up.  This function uses
+# ‘%m’ placeholder from `actionformats'.
+function +vi-git_push_status () {
+  echo "1: $1"
+  # There are events for `formats' and `actionformats'.
+  # This function uses only `actionformats'.
+  [[ "$1" != "1" ]] && return 0
+
+  # Do nothing if not a master branch.
+  if [[ "${hook_com[branch]}" != "master" ]]; then
+    return 0
+  fi
+
+  echo "branch: ${hook_com[branch]}"
+
+  local ahead
+  ahead=$(command git rev-list origin/master..master 2>/dev/null \
+            | wc -l \
+            | tr -d ' ')
+
+  if [[ "$ahead" -gt 0 ]]; then
+    hook_com[misc]+=" push:${ahead}"
+  fi
+
+  return 0
 }
 
 # Used prompt escapes are:
