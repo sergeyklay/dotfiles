@@ -51,6 +51,17 @@ prompt_ptfancy_setup () {
     ${4:-'yellow'}
   )
 
+  # Set `zle_highlight' according to theme definition.
+  typeset -ga zle_highlight
+
+  # Contexts:
+  # - `default': Any text within the command line not affected by
+  #              any other highlighting.
+  #
+  # Types of highlighting:
+  # - `none':    No highlighting is applied to the given context.
+  zle_highlight[(r)default:*]=default:none
+
   # Execute `prompt_ptfancy_precmd' before each prompt.  This will
   # add `prompt_ptfancy_precmd' to $precmd_functions global array.
   # For more see zshcontrib(1).
