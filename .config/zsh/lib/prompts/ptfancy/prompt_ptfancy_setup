@@ -62,10 +62,86 @@ prompt_ptfancy_setup () {
   # - `none':    No highlighting is applied to the given context.
   zle_highlight[(r)default:*]=default:none
 
+  # Configure VCS info.
+
+  # Will be used to provide current VCS info.
+  # For more see zshcontrib(1).
+  autoload -Uz vcs_info
+
+  # Export the following messages:
+  #
+  # $vcs_info_msg_0_   - Branch name (and possible VCS backend)
+  # $vcs_info_msg_1_   - Stage status
+  # $vcs_info_msg_2_   - VCS actions
+  zstyle ':vcs_info:*' max-exports 3
+
+  zstyle ':vcs_info:*' enable svn git
+
+  # Used VCS formats are:
+  #
+  # %b   - Information about the current branch.
+  # %c   - The string for the staged changes in the repository.
+  # %u   - The string for the unstaged changes in the repository.
+  # %m   - A “misc” replacement.
+  # %a   - An identifier that describes the action.
+
+  # Defaut VCS format.
+  zstyle ':vcs_info:*'     formats '%s:%b'
+  zstyle ':vcs_info:*'     actionformats '%s:%b' '%m' '<!%a>'
+
+  # Git format.
+  zstyle ':vcs_info:git:*' formats '%b' '%c%u%m'
+  zstyle ':vcs_info:git:*' actionformats '%b' '%c%u%m' '<!%a>'
+
+  zstyle ':vcs_info:git:*' check-for-changes true # check for changes
+  zstyle ':vcs_info:git:*' stagedstr \
+         "%{$fg[green]%}●%{$reset_color%}"        # staged changes
+  zstyle ':vcs_info:git:*' unstagedstr \
+         "%{$fg[yellow]%}●%{$reset_color%}"       # unstaged changes
+
+  # Register Git hooks.
+  #
+  # These hook function should be set before setting message to be
+  # able modify message.   When we register hooks in this way we
+  # expect our functions be called up to 3 times: 2 times for
+  # `format' and 3 times for `actionformats'.
+  zstyle ':vcs_info:git+set-message:*' hooks \
+         git_hook_begin \
+         git_untracked
+
+  # Uncomment to enable debug.
+  # zstyle ':vcs_info:*' debug true
+
   # Execute `prompt_ptfancy_precmd' before each prompt.  This will
   # add `prompt_ptfancy_precmd' to $precmd_functions global array.
   # For more see zshcontrib(1).
   add-zsh-hook precmd prompt_ptfancy_precmd
+}
+
+# Are we inside a Git repository?
+#
+# If this hook function returns anything other than 0, subsequent
+# hook functions will not be called.
++vi-git_hook_begin () {
+  if command git rev-parse --is-inside-work-tree > /dev/null 2>&1
+  then
+    return 0
+  else
+    return 1
+  fi
+}
+
+# Do we have Git untracked files in the working tree?
++vi-git_untracked () {
+  # According to our `format' and  `actionformat' call this for the
+  # second message
+  [[ "$1" != "1" ]] && return 0
+
+  if command git status --porcelain 2> /dev/null \
+             | awk '{print $1}' \
+             | command grep -F '??' > /dev/null 2>&1 ; then
+    hook_com[unstaged]+="%{$fg[red]%}●%{$reset_color%}"
+  fi
 }
 
 # Used prompt escapes are:
@@ -122,7 +198,21 @@ prompt_ptfancy_render () {
     p_ssh='%F{$pcc[3]}[%F{$pcc[2]}SSH%F{$pcc[3]}]%f '
   fi
 
-  prompt='$p_userhost$p_rc$p_ssh$p_userpwd'
+  vcs_info
+  if [[ -n ${vcs_info_msg_0_} ]]; then
+    messages+=(' %F{default}±%f ')
+
+    [[ -n "$vcs_info_msg_0_" ]] &&
+      messages+=("%F{$pcc[4]}${vcs_info_msg_0_}%f ")
+
+    [[ -n "$vcs_info_msg_1_" ]] &&
+      messages+=("${vcs_info_msg_1_}")
+
+    [[ -n "$vcs_info_msg_2_" ]] &&
+      messages+=("${vcs_info_msg_2_}")
+  fi
+
+  prompt='$p_userhost$p_rc$p_ssh$p_userpwd${(j::)messages}'
 
   print -P $prompt
 }
