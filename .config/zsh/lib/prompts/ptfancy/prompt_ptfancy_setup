@@ -110,7 +110,8 @@ prompt_ptfancy_setup () {
          git_untracked \
          git_ahead_status \
          git_behind_status \
-         git_merging_status
+         git_merging_status \
+         git_stash_count
 
   # Uncomment to enable debug.
   # zstyle ':vcs_info:*' debug true
@@ -208,6 +209,22 @@ prompt_ptfancy_setup () {
   local git_dir=$(git rev-parse --git-dir 2> /dev/null)
   if [ -n $git_dir ] && test -r $git_dir/MERGE_HEAD; then
     hook_com[misc]+="${merging}"
+  fi
+}
+
+# Indicates stash status if there are stashed changes.
+#
+# Check if there are stashed changes and indicate this using braces.
+# This function uses ‘%m’ placeholder from `actionformats'.
++vi-git_stash_count () {
+  # There are events for `formats' and `actionformats'.
+  # This function uses only `actionformats'.
+  [[ "$1" != "1" ]] && return 0
+
+  local stash
+  stash=$(command git stash list 2>/dev/null | wc -l | tr -d ' ')
+  if [[ "${stash}" -gt 0 ]]; then
+    hook_com[misc]+=" {$stash}"
   fi
 }
 
