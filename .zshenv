@@ -33,38 +33,6 @@ path=(/usr/local/bin /usr/local/sbin $path /usr/sbin /sbin)
 # TODO(serghei): Deprecated
 ZSH_COMPDUMP="${XDG_CACHE_HOME:-$HOME/.cache}/zcompdump"
 
-# MANPATH: path for the man command to search.
-# Look at the manpath command's output and prepend
-# my own manual paths manually.
-if [ -z "$MANPATH" ]
-then
-  # Only do this if the MANPATH variable isn't already set.
-  if whence manpath >/dev/null 2>&1
-  then
-    # Get the original manpath, then modify it.
-    MANPATH="`manpath`"
-    manpath=("$HOME/man"
-             /opt/man
-             /usr/local/share/man
-             /usr/local/man
-             /usr/share/man
-             /usr/man
-             "$manpath[@]")
-  else
-    # This list is out of date, but it will suffice.
-    manpath=("$HOME/man"
-             /opt/man
-             /usr/local/share/man
-             /usr/local/man
-             /usr/share/man
-             /usr/man)
-  fi
-
-  # No duplicate entries are needed.
-  typeset -U manpath
-  export MANPATH
-fi
-
 # Include local bin
 [ -e "$HOME/bin" ] && {
   [ -L "$HOME/bin" ] || [ -f "$HOME/bin" ] && {
@@ -193,6 +161,8 @@ fi
 [ -f $HOME/gcp/path.zsh.inc ] && source $HOME/gcp/path.zsh.inc
 
 export PATH
+
+[ -r $ZSHDDIR/conf.d/mans ] && source $ZSHDDIR/conf.d/mans
 
 # Local Variables:
 # mode: sh
