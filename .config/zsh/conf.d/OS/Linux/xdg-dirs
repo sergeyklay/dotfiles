@@ -35,6 +35,13 @@
 # Base directories relative to which data files should be searched.
 typeset -U xdg_data_dirs
 if [[ -n "$XDG_DATA_DIRS" ]]; then
+  # Trim leading slashes to avoid array like
+  #     (/foo/bar /foo/bar/)
+  sub="/:"
+  XDG_DATA_DIRS="${XDG_DATA_DIRS//$sub/:}"
+  XDG_DATA_DIRS=${XDG_DATA_DIRS%/}
+  unset sub
+
   xdg_data_dirs=("${(s.:.)XDG_DATA_DIRS}")
   xdg_data_dirs=(/usr/local/share /usr/share "$xdg_data_dirs[@]")
 else
