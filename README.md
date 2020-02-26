@@ -4,8 +4,8 @@ All my dotfiles that I port around from system to system with me.
 
 ## Shell support
 
-These dotfiles are meant to be used with zsh.  Also, your shell should support
-colors so everything works well.
+These dotfiles are meant to be used with Z Shell.  Also, your shell should
+support colors so everything works well.
 
 ## Links
 
