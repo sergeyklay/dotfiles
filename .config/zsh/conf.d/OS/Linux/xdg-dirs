@@ -10,11 +10,6 @@
 # User-specific configuration files.
 [ -z "$XDG_CONFIG_HOME" ] && export XDG_CONFIG_HOME="$HOME/.config"
 
-# Base directories relative to which data files should be searched.
-[ -z "$XDG_DATA_DIRS" ] && {
-  export XDG_DATA_DIRS="/usr/local/share:/usr/share"
-}
-
 # Configuration files should be searched relative to this directory.
 [ -z "$XDG_CONFIG_DIRS" ] && export XDG_CONFIG_DIRS=/etc/xdg
 
@@ -36,6 +31,28 @@
   export XDG_STATE_HOME="$HOME/.local/state"
 }
 [ ! -d "$XDG_STATE_HOME" ] && mkdir -p "$XDG_STATE_HOME"
+
+# Base directories relative to which data files should be searched.
+typeset -U xdg_data_dirs
+if [[ -n "$XDG_DATA_DIRS" ]]; then
+  xdg_data_dirs=("${(s.:.)XDG_DATA_DIRS}")
+  xdg_data_dirs=(/usr/local/share /usr/share "$xdg_data_dirs[@]")
+else
+  xdg_data_dirs=(/usr/local/share /usr/share)
+fi
+
+if whence flatpak >/dev/null 2>&1; then
+  [ -d /var/lib/flatpak/exports/share ] && {
+    xdg_data_dirs+=/var/lib/flatpak/exports/share
+  }
+
+  [ -d $XDG_DATA_HOME/flatpak/exports/share ] && {
+    xdg_data_dirs+=$XDG_DATA_HOME/flatpak/exports/share
+  }
+fi
+
+export XDG_DATA_DIRS=${(j|:|)xdg_data_dirs}
+unset xdg_data_dirs
 
 if test -r "$XDG_CONFIG_HOME/user-dirs.dirs"
 then
