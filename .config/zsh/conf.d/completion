@@ -94,7 +94,6 @@ setopt autolist        # automatically show lists in case of ambiguities
 setopt listtypes       # show @,/ and so on for completion candidates
 LISTMAX=50             # ask for seeing all completion candidates if the
                        # list would take more than 50 entries
-setopt nonomatch       # avoid 'zsh: no matches found...'
 setopt hash_list_all   # hash command path before completion
 setopt completeinword  # complete not just at word end
 setopt noglobdots      # never match dotfiles with *
