@@ -42,6 +42,17 @@ fi
   source $ZSHDDIR/conf.d/OS/$OSSHORT/aliases
 }
 
+# PATH completion support for sudo
+if [[ $UID != 0 ]] && (($+commands[sudo])); then
+  typeset -xT SUDO_PATH sudo_path
+
+  # No duplicate entries are needed.
+  typeset -U sudo_path
+
+  sudo_path=({,/usr/local,/usr}/sbin(N-/))
+  alias sudo="sudo env PATH=\"SUDO_PATH:$PATH\""
+fi
+
 # Local Variables:
 # mode: sh
 # End:

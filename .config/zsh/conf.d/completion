@@ -9,6 +9,9 @@ typeset -U fpath
 
 autoload -Uz compinit && compinit
 
+# PATH completion support for sudo
+zstyle ':completion:*:sudo:*' environ PATH="$SUDO_PATH:$PATH"
+
 # The next line enables shell command completion for gcloud.
 [ -f $HOME/gcp/completion.zsh.inc ] && {
   source $HOME/gcp/completion.zsh.inc
