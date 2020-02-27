@@ -26,9 +26,6 @@ if [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/zshenv ]; then
   source $ZSHDDIR/conf.d/OS/$OSSHORT/zshenv
 fi
 
-# TODO(serghei): Deprecated
-ZSH_COMPDUMP="${XDG_CACHE_HOME:-$HOME/.cache}/zcompdump"
-
 [ -r $ZSHDDIR/conf.d/path ] && source $ZSHDDIR/conf.d/path
 [ -r $ZSHDDIR/conf.d/mans ] && source $ZSHDDIR/conf.d/mans
 
