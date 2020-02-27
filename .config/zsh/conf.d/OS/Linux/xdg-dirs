@@ -58,7 +58,7 @@ if whence flatpak >/dev/null 2>&1; then
   }
 fi
 
-export XDG_DATA_DIRS=${(j|:|)xdg_data_dirs}
+export XDG_DATA_DIRS=${(j.:.)xdg_data_dirs}
 unset xdg_data_dirs
 
 if test -r "$XDG_CONFIG_HOME/user-dirs.dirs"
