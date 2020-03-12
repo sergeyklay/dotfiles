@@ -50,7 +50,7 @@ if [[ $UID != 0 ]] && (($+commands[sudo])); then
   typeset -U sudo_path
 
   sudo_path=({,/usr/local,/usr}/sbin(N-/))
-  alias sudo="sudo env PATH=\"SUDO_PATH:$PATH\""
+  alias sudo="sudo env PATH=\"$SUDO_PATH:$PATH\""
 fi
 
 # Local Variables:
