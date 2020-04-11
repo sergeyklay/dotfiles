@@ -1,0 +1,21 @@
+* =~/.*=
+
+All my dotfiles that I port around from system to system with me.
+
+** Shell support
+
+These dotfiles are meant to be used with Bash >= 5.x, but some scripts may
+work as Zsh accepts Bash interpreter.  Also, your shell should support colors
+so everything works well.  Wherever possible, compatibility with Linux as well
+as macOS is maintained.
+
+** Links
+
+Other projects I also support from time to time are:
+
+- [[https://github.com/sergeyklay/.emacs.d][GNU Emacs configuration]]: My personal configuration for GNU Emacs
+
+** License
+
+This project is open source software licensed under the GNU General
+Public Licence version 3 .  © 2014-2020 [[https://github.com/sergeyklay/.emacs.d][Serghei Iakovlev]]
