@@ -16,26 +16,6 @@ export VISUAL=$EDITOR
 
 alias ec=$EDITOR
 
-# More for less
-export PAGER=less
-
-# -X will leave the text in your Terminal, so it doesn't disappear
-#    when you exit less
-# -F will exit less if the output fits on one screen (so you don't
-#    have to press "q").
-#
-# See: https://unix.stackexchange.com/q/38634/50400
-export LESS="-X -F"
-export LESSCHARSET=UTF-8
-
-export LESSHISTFILE="${XDG_CACHE_HOME:-~/.cache}/lesshst"
-
-if command -v lesspipe >/dev/null 2>&1 ; then
-  eval "$(lesspipe)"
-elif command -v lesspipe.sh >/dev/null 2>&1 ; then
-  export LESSOPEN="| lesspipe.sh %s";
-fi
-
 # A workaround to get OS name on Linux and macOS systems
 export OS="$(uname -o 2>/dev/null || uname -s)"
 
