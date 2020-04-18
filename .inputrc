@@ -58,6 +58,24 @@ $if Bash
 
   # Edit variable on current line.
   "\M-\C-v": "\C-a\C-k$\C-y\M-\C-e\C-a\C-y="
+
+  # Completed dir names have a slash appended
+  set mark-directories on
+
+  # Completed names which are symlinks to dirs have a slash appended
+  set mark-symlinked-directories on
+
+  # List ls -F for completion
+  set visible-stats on
+
+  # Cycle through ambiguous completions instead of list
+  "\C-i": menu-complete
+
+  # Use a visible bell if one is available
+  set bell-style visible
+
+  # List possible completions instead of ringing bell
+  set show-all-if-ambiguous on
 $endif
 
 # Local Variables:
