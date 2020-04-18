@@ -12,31 +12,23 @@
 # Append to the history file, don't overwrite it
 shopt -s histappend
 
-# Check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS
-shopt -s checkwinsize
-
 # Save all strings of multiline commands in the same history entry
-shopt -s cmdhist
-
-# Bash can automatically prepend cd when entering just a path in
-# the shell
-shopt -s autocd
+shopt -q -s cmdhist
 
 # See man -P 'less -rp HISTCONTROL' bash
-HISTCONTROL="ignoreboth:erasedups"
+HISTCONTROL="erasedups:ignoreboth"
 
-# Every command being saved on the history list
-HISTSIZE=-1
+# The number of commands in history stack in memory
+HISTSIZE=5000
 
 # Maximum number of history lines
-HISTFILESIZE=100000
+HISTFILESIZE=5000
 
 # For the protection and ability for future analyzing
 HISTTIMEFORMAT="%h %d %H:%M:%S "
 
-# Stroe all commands in the history
-HISTIGNORE=
+# Omit dups & lines starting with spaces
+HISTIGNORE='&:[ ]*'
 
 # Save commands immediately after use
 PROMPT_COMMAND='history -a'
@@ -60,6 +52,23 @@ if command -v lesspipe >/dev/null 2>&1 ; then
 elif command -v lesspipe.sh >/dev/null 2>&1 ; then
   export LESSOPEN="| lesspipe.sh %s";
 fi
+
+# Auto-fix minor typos in interactive use of 'cd'
+shopt -q -s cdspell
+
+# Bash can automatically prepend cd when entering just a path in
+# the shell
+shopt -q -s autocd
+
+# Check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS
+shopt -q -s checkwinsize
+
+# Immediate notification of background job termination
+set -o notify
+
+# Don't let Ctrl-D exit the shell
+set -o ignoreeof
 
 # Local Variables:
 # mode: sh
