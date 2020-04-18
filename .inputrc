@@ -1,0 +1,70 @@
+# This file controls the behaviour of line input editing for
+# programs that use the GNU Readline library.  Existing
+# programs include FTP, Bash, and GDB.
+#
+# You can re-read the inputrc file with C-x C-r.
+# Lines beginning with '#' are comments.
+#
+# For the reference see terminfo(5).  Alo see:
+# -   showkey -a
+# -   xmodmap
+# -   infocmp -cL
+
+# First, include any system-wide bindings and variable
+# assignments from /etc/inputrc
+# (fails silently if file doesn't exist)
+$include /etc/inputrc
+
+set editing-mode emacs
+
+# Two escapes clear command line.
+"\e\e": "\C-a\C-k"
+
+# Arrow keys in ANSI mode
+"\M-[D": backward-char
+"\M-[C": forward-char
+"\M-[A": previous-history
+"\M-[B": next-history
+
+# History search
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+C-q: quoted-insert
+
+# An old-style binding.  This happens to be the default.
+TAB: complete
+
+# Macros that are convenient for shell interaction
+$if Bash
+  # From the readline documentation (info "rluserman")
+  # Macros that are convenient for shell interaction edit the path
+  "\C-xp": "PATH=${PATH}\e\C-e\C-a\ef\C-f"
+
+  # prepare to type a quoted word --
+  # insert open and close double quotes
+  # and move to just after the open quote
+  "\C-x\"": "\"\"\C-b"
+
+  # insert a backslash (testing backslash escapes
+  # in sequences and macros)
+  "\C-x\\": "\\"
+
+  # Quote the current or previous word
+  "\C-xq": "\eb\"\ef\""
+
+  # Add a binding to refresh the line, which is unbound
+  "\C-xr": redraw-current-line
+
+  # Edit variable on current line.
+  "\M-\C-v": "\C-a\C-k$\C-y\M-\C-e\C-a\C-y="
+$endif
+
+# Local Variables:
+# mode: prog
+# comment-start: "#"
+# comment-end: ""
+# comment-start-skip: "\\(#\\)\\s-*"
+# indent-tabs-mode: nil
+# tab-width: 2
+# End:
