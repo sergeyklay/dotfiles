@@ -33,27 +33,27 @@ case $OS in
     # brew install coreutils
     if command -v gls >/dev/null 2>&1; then
       # GNU's ls uses --color to enable colorized output.
-      # For LC_ALL see URL https://superuser.com/a/448294/280737 .
+      # For LC_ALL see URL https://superuser.com/a/448294/280737
       alias ll='LC_ALL="C.UTF-8" gls --color=auto -alF --group-directories-first'
       alias la='gls --color=auto -A'
       alias l='gls --color=auto -CF'
     else
       # BSD's ls uses -G to enable colorized output.
-      # For LC_ALL see URL https://superuser.com/a/448294/280737 .
+      # For LC_ALL see URL https://superuser.com/a/448294/280737
       alias ll='LC_ALL="C.UTF-8" ls -G -alF'
       alias la='ls -G -A'
       alias l='ls -G -CF'
     fi
 
-    # macOS uses too outdated make.   I prefer install a frew one using
-    # brew and alias it here.
+    # macOS uses too outdated make.  I prefer install a fresh one
+    # using brew and alias it here.
     if command -v gmake >/dev/null 2>&1; then
       alias make='gmake'
     fi
     ;;
   *Linux)
     # GNU's ls uses --color to enable colorized output.
-    # For LC_ALL see URL https://superuser.com/a/448294/280737 .
+    # For LC_ALL see URL https://superuser.com/a/448294/280737
     alias ll='LC_ALL="C.UTF-8" ls --color=auto -alF --group-directories-first'
     alias la='ls --color=auto -A'
     alias l='ls --color=auto -CF'
