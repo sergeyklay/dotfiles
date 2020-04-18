@@ -62,11 +62,7 @@ HISTIGNORE='&:[ ]*'
 PROMPT_COMMAND='history -a ; history -n'
 
 # More for less
-if command -v most >/dev/null 2>&1 ; then
-  export PAGER=most
-else
-  export PAGER=less
-fi
+export PAGER=less
 
 # -X will leave the text in your Terminal, so it doesn't disappear
 #    when you exit less
