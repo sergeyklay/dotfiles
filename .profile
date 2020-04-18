@@ -59,10 +59,9 @@ done
 # Include local bin
 [ -e ~/bin ] && {
   [ -L ~/bin ] || [ -d ~/bin ] && {
-    pathmunge "$HOME/bin"
+    pathmunge ~/bin
   }
 }
-
 
 # LLVM
 #
@@ -87,7 +86,7 @@ done
 # Add .NET Core SDK tools
 [ -d ~/.dotnet/tools ] && {
   export DOTNET_CLI_TELEMETRY_OPTOUT=1
-  pathmunge "$HOME/.dotnet/tools"
+  pathmunge ~/.dotnet/tools
 }
 
 # rbenv
@@ -106,35 +105,32 @@ done
 # Only set PATH here to prevent performance degradation.
 # For explanation see bellow (LLVM).
 [ -d ~/.phpenv/bin ] && {
-  pathmunge "$HOME/.phpenv/bin"
+  pathmunge ~/.phpenv/bin
 }
 
 # php-build
 [ -d ~/.phpenv/plugins/php-build/bin ] && {
   export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
-  [ -d "$HOME/src/php" ] && {
-    export PHP_BUILD_TMPDIR="$HOME/src/php"
+  [ -d ~/src/php ] && {
+    export PHP_BUILD_TMPDIR=~/src/php
   }
 
-  pathmunge "$HOME/.phpenv/plugins/php-build/bin"
+  pathmunge ~/.phpenv/plugins/php-build/bin
 }
 
 # Local binaries
-[ -d ~/.local/bin ] && pathmunge "$HOME/.local/bin"
-
-# Google Cloud SDK
-[ -d ~/gcp/bin ] && pathmunge "$HOME/gcp/bin"
+[ -d ~/.local/bin ] && pathmunge ~/.local/bin
 
 # Go lang local workspace
 [ -d /usr/local/go/bin ] && pathmunge /usr/local/go/bin
 
 # Cargo binaries
-[ -d ~/.cargo/bin ] && pathmunge "$HOME/.cargo/bin"
+[ -d ~/.cargo/bin ] && pathmunge ~/.cargo/bin
 [ -d /usr/lib/cargo/bin ] && pathmunge /usr/lib/cargo/bin
 
 # Go lang local workspace
 if [ -d ~/go ]; then
-  export GOPATH="$HOME/go"
+  export GOPATH=~/go
 
   [ -d "$GOPATH/bin" ] && {
     # Put binary files created using "go install" command
@@ -154,13 +150,13 @@ fi
 # hlint
 #
 # See: https://github.com/ndmitchell/hlint
-[ -d ~/.hlint ] && pathmunge "$HOME/.hlint"
+[ -d ~/.hlint ] && pathmunge ~/.hlint
 
 # Cabal
-[ -d ~/.cabal/bin ] && pathmunge "$HOME/.cabal/bin"
+[ -d ~/.cabal/bin ] && pathmunge ~/.cabal/bin
 
 # Cask
-[ -d ~/.cask/bin ] && pathmunge "$HOME/.cask/bin"
+[ -d ~/.cask/bin ] && pathmunge ~/.cask/bin
 
 # Composer
 if [ -d "${XDG_CONFIG_HOME:-~/.config}/composer" ]; then
@@ -172,7 +168,37 @@ if [ -d "${XDG_CONFIG_HOME:-~/.config}/composer" ]; then
 fi
 
 # The next line updates PATH for the Google Cloud SDK.
-[ -f ~/gcp/path.zsh.inc ] && . ~/gcp/path.zsh.inc
+[ -d ~/gcp/bin ] && pathmunge ~/gcp/bin
+[ -f ~/gcp/path.bash.inc ] && . ~/gcp/path.bash.inc
+
+# MANPATH: path for the man command to search.
+# Look at the manpath command's output and prepend my own manual
+# paths manually.
+if [ -z "$MANPATH" ] || [ "$MANPATH" = ":" ] ; then
+  # Only do this if the MANPATH variable isn't already set.
+  if command -v manpath >/dev/null 2>&1; then
+    # Get the original manpath, then modify it.
+    MANPATH="`manpath 2>/dev/null`"
+  else
+    MANPATH=""
+  fi
+
+  IFS=':' read -r -a MANPATH <<< "$MANPATH"
+
+  MANPATH+=(~/man)
+  MANPATH+=(/opt/man)
+  MANPATH+=(/usr/local/share/man)
+  MANPATH+=(/usr/local/man)
+  MANPATH+=(/usr/share/man)
+  MANPATH+=(/usr/man)
+
+  MANPATH=$( IFS=$':'; echo -n "${MANPATH[*]}" )
+
+  MANPATH="${MANPATH//\/:/:}"
+  MANPATH="${MANPATH%/}"
+
+  export MANPATH
+fi
 
 # This file is accessible not only by Bash, thus we need make
 # sure we're in Bash
