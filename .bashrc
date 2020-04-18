@@ -62,7 +62,11 @@ HISTIGNORE='&:[ ]*'
 PROMPT_COMMAND='history -a ; history -n'
 
 # More for less
-export PAGER=less
+if command -v most >/dev/null 2>&1 ; then
+  export PAGER=most
+else
+  export PAGER=less
+fi
 
 # -X will leave the text in your Terminal, so it doesn't disappear
 #    when you exit less
@@ -86,7 +90,7 @@ fi
 # Main prompt
 PS1='$ \w '
 # Continuation prompt
-PS2="| "
+PS2="> "
 
 # All the colorizing may or may not work depending on your terminal
 # emulation and settings, especially. ANSI color.   But it shouldn't
@@ -101,6 +105,35 @@ if command -v dircolors >/dev/null 2>&1 ; then
   # This will used for aliases and prompt.
   COLLOR_SUPPORT=true
 fi
+
+# Set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+  xterm-color|*-256color)
+    COLOR_SUPPORT=true
+    ;;
+esac
+
+# Colorize output
+if [ "$COLOR_SUPPORT" = true ]; then
+  # colorize prompt
+  PS1="\[\033[1;32m\]$\[\033[00m\] \w "
+  PS2="\[\033[1;37m\]>\[\033[00m\] "
+
+  # colorize gcc output
+  GCC_COLORS='error=01;31:'
+  GCC_COLORS+='warning=01;35:'
+  GCC_COLORS+='note=01;36:'
+  GCC_COLORS+='caret=01;32:'
+  GCC_COLORS+='locus=01:'
+  GCC_COLORS+='quote=01'
+  export GCC_COLORS
+
+  [[ -z "$COLORTERM" ]] || COLORTERM=1
+fi
+
+# Include aliases
+[ -f ~/.bash_aliases ] && . ~/.bash_aliases
+
 
 # Local Variables:
 # mode: sh

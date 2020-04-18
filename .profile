@@ -200,10 +200,6 @@ if [ -z "$MANPATH" ] || [ "$MANPATH" = ":" ] ; then
   export MANPATH
 fi
 
-# This will used for aliases and prompt.
-# We'll overwrite this later if needs arise.
-COLLOR_SUPPORT=false
-
 # This file is accessible not only by Bash, thus we need make
 # sure we're in Bash
 if [ -n "$BASH_VERSION" ]; then
