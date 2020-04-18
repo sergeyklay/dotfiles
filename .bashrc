@@ -75,10 +75,31 @@ export LESSCHARSET=UTF-8
 
 export LESSHISTFILE="${XDG_CACHE_HOME:-~/.cache}/lesshst"
 
-if command -v lesspipe >/dev/null 2>&1 ; then
-  eval "$(lesspipe)"
-elif command -v lesspipe.sh >/dev/null 2>&1 ; then
+# Use a lesspipe filter, if we can find it.
+# This sets the $LESSOPEN variable.
+if command -v lesspipe.sh >/dev/null 2>&1 ; then
   export LESSOPEN="| lesspipe.sh %s";
+elif command -v lesspipe >/dev/null 2>&1 ; then
+  eval "$(lesspipe)"
+fi
+
+# Main prompt
+PS1='$ \w '
+# Continuation prompt
+PS2="| "
+
+# All the colorizing may or may not work depending on your terminal
+# emulation and settings, especially. ANSI color.   But it shouldn't
+# hurt to have.
+if command -v dircolors >/dev/null 2>&1 ; then
+  if [ -r ~/.dircolors ]; then
+    eval "$(dircolors -b ~/.dircolors)"
+  else
+    eval "$(dircolors -b)"
+  fi
+
+  # This will used for aliases and prompt.
+  COLLOR_SUPPORT=true
 fi
 
 # Local Variables:
