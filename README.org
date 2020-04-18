@@ -18,4 +18,4 @@ Other projects I also support from time to time are:
 ** License
 
 This project is open source software licensed under the GNU General
-Public Licence version 3 .  © 2014-2020 [[https://github.com/sergeyklay/.emacs.d][Serghei Iakovlev]]
+Public Licence version 3 .  © 2014-2020 [[https://github.com/sergeyklay][Serghei Iakovlev]]
