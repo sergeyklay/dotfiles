@@ -22,7 +22,7 @@ HISTCONTROL="erasedups:ignoreboth"
 HISTSIZE=5000
 
 # Maximum number of history lines
-HISTFILESIZE=5000
+HISTFILESIZE=10000
 
 # For the protection and ability for future analyzing
 HISTTIMEFORMAT="%h %d %H:%M:%S "
