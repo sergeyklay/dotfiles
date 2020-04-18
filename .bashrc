@@ -9,6 +9,30 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+  . /etc/bashrc
+elif [ -f /etc/bash.bashrc ]; then
+  . /etc/bash.bashrc
+fi
+
+# Auto-fix minor typos in interactive use of 'cd'
+shopt -q -s cdspell
+
+# Bash can automatically prepend cd when entering just a path in
+# the shell
+shopt -q -s autocd
+
+# Check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS
+shopt -q -s checkwinsize
+
+# Immediate notification of background job termination
+set -o notify
+
+# Don't let Ctrl-D exit the shell
+set -o ignoreeof
+
 # Append to the history file, don't overwrite it
 shopt -s histappend
 
@@ -30,8 +54,12 @@ HISTTIMEFORMAT="%h %d %H:%M:%S "
 # Omit dups & lines starting with spaces
 HISTIGNORE='&:[ ]*'
 
-# Save commands immediately after use
-PROMPT_COMMAND='history -a'
+# Save commands immediately after use to have shared history
+# between Bash sessions.
+#  'history -a'  append the current history to the history file
+#  'history -n'  rereading anything new in history file into the
+#                current shell’s history
+PROMPT_COMMAND='history -a ; history -n'
 
 # More for less
 export PAGER=less
@@ -52,23 +80,6 @@ if command -v lesspipe >/dev/null 2>&1 ; then
 elif command -v lesspipe.sh >/dev/null 2>&1 ; then
   export LESSOPEN="| lesspipe.sh %s";
 fi
-
-# Auto-fix minor typos in interactive use of 'cd'
-shopt -q -s cdspell
-
-# Bash can automatically prepend cd when entering just a path in
-# the shell
-shopt -q -s autocd
-
-# Check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS
-shopt -q -s checkwinsize
-
-# Immediate notification of background job termination
-set -o notify
-
-# Don't let Ctrl-D exit the shell
-set -o ignoreeof
 
 # Local Variables:
 # mode: sh
