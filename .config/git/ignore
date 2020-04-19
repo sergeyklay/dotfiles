@@ -55,16 +55,19 @@ nbproject
 *.code-workspace
 cmake-build-debug
 .gdb_history
-.vscode/
+.vscode
 .ac-php-conf.json
 .project
 .cproject
-.settings/
+.settings
+.ecfg
 
+# GNU GLOBAL, Ctags and ID Utils
 GPATH
 GRTAGS
 GTAGS
 TAGS
+ID
 
 .php-version
 .ruby-version
