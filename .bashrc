@@ -144,6 +144,42 @@ if [ -z "$RBENV_SHELL" ]; then
   fi
 fi
 
+# Enable bash completion for git
+if [ -f /usr/share/bash-completion/completions/git ]; then
+  . /usr/share/bash-completion/completions/git
+fi
+
+# Enable bash completion for docker-compose
+if [ -f /etc/bash_completion.d/docker-compose ]; then
+  . /etc/bash_completion.d/docker-compose
+fi
+
+# Enable bash completion for zephir
+if [ -f /etc/bash_completion.d/zephir-autocomplete ]; then
+  . /etc/bash_completion.d/zephir-autocomplete
+fi
+
+# Enable bash completion for composer
+# See: https://github.com/bramus/composer-autocomplete
+if [ -f /etc/bash_completion.d/composer ]; then
+  . /etc/bash_completion.d/composer
+fi
+
+# Enable bash completion for pass
+if [ -f /usr/share/bash-completion/completions/pass ]; then
+  . /usr/share/bash-completion/completions/pass
+fi
+
+# Enable bash completion for kubectl
+# See: https://kubernetes.io/docs/tasks/tools/install-kubectl
+test -n "$(command -v kubectl 2>/dev/null)" && \
+  source <(kubectl completion bash | sed s/kubectl/k/g)
+test -n "$(command -v minikube 2>/dev/null)" && \
+  source <(minikube completion bash)
+
+# The next line enables shell command completion for gcloud.
+[ -f ~/gcp/completion.bash.inc ] && . ~/gcp/completion.bash.inc
+
 # Local Variables:
 # mode: sh
 # End:
