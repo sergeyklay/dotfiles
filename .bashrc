@@ -1,0 +1,136 @@
+# ~/.bashrc
+#
+# User wide interactive shell configuration and executing commands.
+#
+# This file is sourced by the second for login shells
+# (after '.profile').  Or by the first for interactive non-login
+# shells.
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+  . /etc/bashrc
+elif [ -f /etc/bash.bashrc ]; then
+  . /etc/bash.bashrc
+fi
+
+# Auto-fix minor typos in interactive use of 'cd'
+shopt -q -s cdspell
+
+# Bash can automatically prepend cd when entering just a path in
+# the shell
+shopt -q -s autocd
+
+# Check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS
+shopt -q -s checkwinsize
+
+# Immediate notification of background job termination
+set -o notify
+
+# Don't let Ctrl-D exit the shell
+set -o ignoreeof
+
+# Append to the history file, don't overwrite it
+shopt -s histappend
+
+# Save all strings of multiline commands in the same history entry
+shopt -q -s cmdhist
+
+# See man -P 'less -rp HISTCONTROL' bash
+HISTCONTROL="erasedups:ignoreboth"
+
+# The number of commands in history stack in memory
+HISTSIZE=5000
+
+# Maximum number of history lines
+HISTFILESIZE=10000
+
+# For the protection and ability for future analyzing
+HISTTIMEFORMAT="%h %d %H:%M:%S "
+
+# Omit dups & lines starting with spaces
+HISTIGNORE='&:[ ]*'
+
+# Save commands immediately after use to have shared history
+# between Bash sessions.
+#  'history -a'  append the current history to the history file
+#  'history -n'  rereading anything new in history file into the
+#                current shell’s history
+PROMPT_COMMAND='history -a ; history -n'
+
+# More for less
+export PAGER=less
+
+# -X will leave the text in your Terminal, so it doesn't disappear
+#    when you exit less
+# -F will exit less if the output fits on one screen (so you don't
+#    have to press "q").
+#
+# See: https://unix.stackexchange.com/q/38634/50400
+export LESS="-X -F"
+export LESSCHARSET=UTF-8
+
+export LESSHISTFILE="${XDG_CACHE_HOME:-~/.cache}/lesshst"
+
+# Use a lesspipe filter, if we can find it.
+# This sets the $LESSOPEN variable.
+if command -v lesspipe.sh >/dev/null 2>&1 ; then
+  export LESSOPEN="| lesspipe.sh %s";
+elif command -v lesspipe >/dev/null 2>&1 ; then
+  eval "$(lesspipe)"
+fi
+
+# Main prompt
+PS1='$ \w '
+# Continuation prompt
+PS2="> "
+
+# All the colorizing may or may not work depending on your terminal
+# emulation and settings, especially. ANSI color.   But it shouldn't
+# hurt to have.
+if command -v dircolors >/dev/null 2>&1 ; then
+  if [ -r ~/.dircolors ]; then
+    eval "$(dircolors -b ~/.dircolors)"
+  else
+    eval "$(dircolors -b)"
+  fi
+
+  # This will used for aliases and prompt.
+  COLLOR_SUPPORT=true
+fi
+
+# Set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+  xterm-color|*-256color)
+    COLOR_SUPPORT=true
+    ;;
+esac
+
+# Colorize output
+if [ "$COLOR_SUPPORT" = true ]; then
+  # colorize prompt
+  PS1="\[\033[1;32m\]$\[\033[00m\] \w "
+  PS2="\[\033[1;37m\]>\[\033[00m\] "
+
+  # colorize gcc output
+  GCC_COLORS='error=01;31:'
+  GCC_COLORS+='warning=01;35:'
+  GCC_COLORS+='note=01;36:'
+  GCC_COLORS+='caret=01;32:'
+  GCC_COLORS+='locus=01:'
+  GCC_COLORS+='quote=01'
+  export GCC_COLORS
+
+  [[ -z "$COLORTERM" ]] || COLORTERM=1
+fi
+
+# Include aliases
+[ -f ~/.bash_aliases ] && . ~/.bash_aliases
+
+
+# Local Variables:
+# mode: sh
+# End:
