@@ -149,6 +149,8 @@ fi
 [ -d ~/gcp/bin ] && pathmunge ~/gcp/bin
 [ -f ~/gcp/path.bash.inc ] && . ~/gcp/path.bash.inc
 
+export PATH
+
 # MANPATH: path for the man command to search.
 # Look at the manpath command's output and prepend my own manual
 # paths manually.
