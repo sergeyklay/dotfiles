@@ -1,4 +1,4 @@
-# ~/.profile
+# ~/.bash_profile
 #
 # User wide environment and startup programs, for login setup.
 #
