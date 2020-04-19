@@ -1,3 +1,5 @@
+# ~/.bash_aliases
+#
 # This file contains the definition of aliases.
 
 ca=""
