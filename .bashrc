@@ -132,6 +132,18 @@ fi
 
 unset colors_support
 
+# phpenv
+if command -v phpenv >/dev/null 2>&1 ; then
+  eval "$(phpenv init -)"
+fi
+
+# rbenv
+if [ -z "$RBENV_SHELL" ]; then
+  if command -v rbenv >/dev/null 2>&1; then
+    eval "$(rbenv init -)"
+  fi
+fi
+
 # Local Variables:
 # mode: sh
 # End:
