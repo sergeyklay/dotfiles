@@ -99,18 +99,18 @@ if command -v dircolors >/dev/null 2>&1 ; then
   fi
 
   # This will used for aliases and prompt.
-  COLLOR_SUPPORT=true
+  colors_support=true
 fi
 
 # Set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
   xterm-color|*-256color)
-    COLOR_SUPPORT=true
+    colors_support=true
     ;;
 esac
 
 # Colorize output
-if [ "$COLOR_SUPPORT" = true ]; then
+if [ "$color_support" = true ]; then
   # colorize prompt
   PS1="\[\033[1;32m\]$\[\033[00m\] \w "
   PS2="\[\033[1;37m\]>\[\033[00m\] "
@@ -130,6 +130,7 @@ fi
 # Include aliases
 [ -f ~/.bash_aliases ] && . ~/.bash_aliases
 
+unset colors_support
 
 # Local Variables:
 # mode: sh
