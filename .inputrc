@@ -32,6 +32,9 @@ set editing-mode emacs
 
 C-q: quoted-insert
 
+# See: https://unix.stackexchange.com/a/11943/50400
+"\ew": copy-region-as-kill
+
 # Macros that are convenient for shell interaction
 $if Bash
   # From the readline documentation (info "rluserman")
