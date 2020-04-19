@@ -78,9 +78,8 @@ set input-meta on
 # Cycle through ambiguous completions instead of list
 "\C-i": menu-complete
 
-# Use a visible bell if one is available
-set bell-style visible
-set prefer-visible-bell on
+# Do not use bell at all
+set bell-style none
 
 # List possible completions instead of ringing bell
 set show-all-if-ambiguous on
