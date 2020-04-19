@@ -54,22 +54,12 @@ done
 [ -d ~/.local/bin ] && pathmunge ~/.local/bin
 
 # LLVM
-#
-# Previously I used here 'brew --prefix llvm'
-# however, profiling showed a catastrophic performanse regression,
-# especially slow start at first time.  This rate is critical for me
-# because current file is taken into account by various integrations,
-# for example, by Emacs.
 [ -d /usr/local/opt/llvm/bin ] && pathmunge /usr/local/opt/llvm/bin
 
 # QT
-#
-# For explanation of this design, see above (LLVM).
 [ -d /usr/local/opt/qt/bin ] && pathmunge /usr/local/opt/qt/bin
 
 # kubectl
-#
-# For explanation of this design, see above (LLVM).
 [ -d /usr/local/opt/kubernetes-cli/bin ] &&
   pathmunge /usr/local/opt/kubernetes-cli/bin
 
@@ -80,9 +70,7 @@ done
 }
 
 # rbenv
-#
 # Only set PATH here to prevent performance degradation.
-# For explanation see bellow (LLVM).
 for dir in ~/.rbenv "/usr/local/opt/rbenv"; do
   if [[ -d "$dir/bin" ]]; then
     pathmunge "$dir/bin"
@@ -91,9 +79,7 @@ for dir in ~/.rbenv "/usr/local/opt/rbenv"; do
 done
 
 # phpenv
-#
 # Only set PATH here to prevent performance degradation.
-# For explanation see bellow (LLVM).
 [ -d ~/.phpenv/bin ] && {
   pathmunge ~/.phpenv/bin
 }
@@ -133,12 +119,10 @@ if [ -d ~/go ]; then
 fi
 
 # TinyGo
-#
 # See: https://github.com/tinygo-org/tinygo
 [ -d /usr/local/tinygo/bin ] && pathmunge /usr/local/tinygo/bin
 
 # hlint
-#
 # See: https://github.com/ndmitchell/hlint
 [ -d ~/.hlint ] && pathmunge ~/.hlint
 
