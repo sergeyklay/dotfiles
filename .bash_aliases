@@ -5,6 +5,9 @@ if [ "$colors_support" = true ]; then
   ca="--color=auto"
 fi
 
+# emacsclient
+alias ec=$EDITOR
+
 # Color support for grep
 alias grep="grep $ca"
 alias egrep="egrep $ca"
