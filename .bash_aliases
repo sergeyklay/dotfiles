@@ -1,13 +1,13 @@
 # This file contains the definition of aliases.
 
-auto_c=""
+ca=""
 if [ "$colors_support" = true ]; then
-  auto_c="--color=auto"
+  ca="--color=auto"
 fi
 
 # Color support for grep
-alias grep="grep $auto_c"
-alias egrep="egrep $auto_c"
+alias grep="grep $ca"
+alias egrep="egrep $ca"
 
 # Wget will use the supplied file as the HSTS database
 if command -v wget >/dev/null 2>&1; then
@@ -39,9 +39,9 @@ case $OS in
     if command -v gls >/dev/null 2>&1; then
       # GNU's ls uses --color to enable colorized output.
       # For LC_ALL see URL https://superuser.com/a/448294/280737
-      alias ll="LC_ALL='C.UTF-8' gls $auto_c -alF --group-directories-first"
-      alias la="gls $auto_c -A"
-      alias l="gls $auto_c -CF"
+      alias ll="LC_ALL='C.UTF-8' gls $ca -alF --group-directories-first"
+      alias la="gls $ca -A"
+      alias l="gls $ca -CF"
     else
       # BSD's ls uses -G to enable colorized output.
       # For LC_ALL see URL https://superuser.com/a/448294/280737
@@ -59,9 +59,9 @@ case $OS in
   *Linux)
     # GNU's ls uses --color to enable colorized output.
     # For LC_ALL see URL https://superuser.com/a/448294/280737
-    alias ll="LC_ALL='C.UTF-8' ls $auto_c -alF --group-directories-first"
-    alias la="ls $auto_c -A"
-    alias l="ls $auto_c -CF"
+    alias ll="LC_ALL='C.UTF-8' ls $ca -alF --group-directories-first"
+    alias la="ls $ca -A"
+    alias l="ls $ca -CF"
 
     if command -v xdg-open >/dev/null 2>&1; then
       open() {
@@ -74,7 +74,7 @@ case $OS in
     ;;
 esac
 
-unset auto_c
+unset ca
 
 # Local Variables:
 # mode: sh
