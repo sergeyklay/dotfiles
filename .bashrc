@@ -3,8 +3,8 @@
 # User wide interactive shell configuration and executing commands.
 #
 # This file is sourced by the second for login shells
-# (after '.profile').  Or by the first for interactive non-login
-# shells.
+# (after '~/.bash_profile').  Or by the first for interactive
+# non-login shells.
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
