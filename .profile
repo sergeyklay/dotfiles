@@ -11,7 +11,7 @@ export OS="$(uname -o 2>/dev/null || uname -s)"
 # that run locally
 if [ x$HOSTNAME = x ]; then
   if command -v hostname >/dev/null 2>&1; then
-    export HOSTNAME=$(hostname -s)
+    export HOSTNAME="$(hostname -s)"
   else
     export HOSTHAME=localhost
   fi
@@ -20,24 +20,11 @@ fi
 # HOST contains long host name (FQDN)
 if [ x$HOST = x ]; then
   if command -v hostname >/dev/null 2>&1; then
-    export HOST=$(hostname -f)
+    export HOST="$(hostname -f)"
   else
     export HOST="${HOSTNAME}.localdomain"
   fi
 fi
-
-case $OS in
-  Darwin)
-    # See: https://stackoverflow.com/q/7165108/1661465
-    export LC_ALL=en_US.UTF-8
-    export LANG=en_US.UTF-8
-    ;;
-  *Linux)
-    [ -r ${XDG_CONFIG_HOME:-~/.config}/xdg-dirs ] && {
-      . ${XDG_CONFIG_HOME:-~/.config}/xdg-dirs
-    }
-    ;;
-esac
 
 # Custom Bash functions
 for file in ~/profile.d/*.sh; do
@@ -53,15 +40,32 @@ done
 
 [ -d ~/.local/bin ] && pathmunge ~/.local/bin
 
-# LLVM
-[ -d /usr/local/opt/llvm/bin ] && pathmunge /usr/local/opt/llvm/bin
+case $OS in
+  Darwin)
+    # See: https://stackoverflow.com/q/7165108/1661465
+    export LC_ALL=en_US.UTF-8
+    export LANG=en_US.UTF-8
 
-# QT
-[ -d /usr/local/opt/qt/bin ] && pathmunge /usr/local/opt/qt/bin
+    # LLVM
+    [ -d /usr/local/opt/llvm/bin ] && {
+      pathmunge /usr/local/opt/llvm/bin
+    }
 
-# kubectl
-[ -d /usr/local/opt/kubernetes-cli/bin ] &&
-  pathmunge /usr/local/opt/kubernetes-cli/bin
+    # QT
+    [ -d /usr/local/opt/qt/bin ] && {
+      pathmunge /usr/local/opt/qt/bin
+    }
+
+    # kubectl
+    [ -d /usr/local/opt/kubernetes-cli/bin ] &&
+      pathmunge /usr/local/opt/kubernetes-cli/bin
+    ;;
+  *Linux)
+    [ -r ${XDG_CONFIG_HOME:-~/.config}/xdg-dirs ] && {
+      . ${XDG_CONFIG_HOME:-~/.config}/xdg-dirs
+    }
+    ;;
+esac
 
 # Add .NET Core SDK tools
 [ -d ~/.dotnet/tools ] && {
