@@ -4,23 +4,6 @@
 #
 # This file is sourced by the first for login shells.
 
-# Editor to fallback to if the server is not running.  If this
-# variable is empty, then start GNU Emacs in daemon mode and try
-# connecting again.
-export ALTERNATE_EDITOR=''
-
-# See:
-# https://github.com/sergeyklay/.emacs.d/blob/master/bin/emacsclient.wrapper
-if command -v emacsclient.wrapper >/dev/null 2>&1 ; then
-  export EDITOR=emacsclient.wrapper
-else
-  export EDITOR='emacs -nw'
-fi
-
-export VISUAL=$EDITOR
-
-alias ec=$EDITOR
-
 # A workaround to get OS name on Linux and macOS systems
 export OS="$(uname -o 2>/dev/null || uname -s)"
 
@@ -67,6 +50,8 @@ done
     pathmunge ~/bin
   }
 }
+
+[ -d ~/.local/bin ] && pathmunge ~/.local/bin
 
 # LLVM
 #
@@ -204,6 +189,21 @@ if [ -z "$MANPATH" ] || [ "$MANPATH" = ":" ] ; then
 
   export MANPATH
 fi
+
+# Editor to fallback to if the server is not running.  If this
+# variable is empty, then start GNU Emacs in daemon mode and try
+# connecting again.
+export ALTERNATE_EDITOR=''
+
+# See:
+# https://github.com/sergeyklay/.emacs.d/blob/master/bin/emacsclient.wrapper
+if command -v emacsclient.wrapper >/dev/null 2>&1 ; then
+  export EDITOR=emacsclient.wrapper
+else
+  export EDITOR='emacs -nw'
+fi
+
+export VISUAL=$EDITOR
 
 # This file is accessible not only by Bash, thus we need make
 # sure we're in Bash
