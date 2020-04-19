@@ -193,12 +193,8 @@ fi
 
 export VISUAL=$EDITOR
 
-# This file is accessible not only by Bash, thus we need make
-# sure we're in Bash
-if [ -n "$BASH_VERSION" ]; then
-  # Include '.bashrc' if it exists
-  [ -r ~/.bashrc ] && . ~/.bashrc
-fi
+# Include '.bashrc' if it exists
+[ -r ~/.bashrc ] && . ~/.bashrc
 
 # Local Variables:
 # mode: sh
