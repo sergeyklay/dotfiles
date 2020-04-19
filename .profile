@@ -11,7 +11,12 @@ export ALTERNATE_EDITOR=''
 
 # See:
 # https://github.com/sergeyklay/.emacs.d/blob/master/bin/emacsclient.wrapper
-export EDITOR=emacsclient.wrapper
+if command -v emacsclient.wrapper >/dev/null 2>&1 ; then
+  export EDITOR=emacsclient.wrapper
+else
+  export EDITOR='emacs -nw'
+fi
+
 export VISUAL=$EDITOR
 
 alias ec=$EDITOR
