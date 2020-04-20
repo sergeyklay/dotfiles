@@ -5,29 +5,35 @@
 # This file is sourced by the first for login shells.
 
 # A workaround to get OS name on Linux and macOS systems
-export OS="$(uname -o 2>/dev/null || uname -s)"
+OS="$(uname -o 2>/dev/null || uname -s)"
+export OS
 
 # HOSTNAME contains name of the machine, as known to applications
 # that run locally
 if [ -z ${HOSTNAME+x} ]; then
   if command -v hostname >/dev/null 2>&1; then
-    export HOSTNAME="$(hostname -s)"
+    HOSTNAME="$(hostname -s)"
   else
-    export HOSTHAME=localhost
+    HOSTNAME=localhost
   fi
+
+  export HOSTNAME
 fi
 
 # HOST contains long host name (FQDN)
 if [ -z ${HOST+x} ]; then
   if command -v hostname >/dev/null 2>&1; then
-    export HOST="$(hostname -f)"
+    HOST="$(hostname -f)"
   else
-    export HOST="${HOSTNAME}.localdomain"
+    HOST="${HOSTNAME}.localdomain"
   fi
+
+  export HOST
 fi
 
 # Custom Bash functions
 for file in ~/profile.d/*.sh; do
+  # shellcheck source=/dev/null
   . "${file}" || true;
 done
 
@@ -61,8 +67,9 @@ case "$OS" in
       pathmunge /usr/local/opt/kubernetes-cli/bin
     ;;
   *Linux)
-    [ -r ${XDG_CONFIG_HOME:-~/.config}/xdg-dirs ] && {
-      . ${XDG_CONFIG_HOME:-~/.config}/xdg-dirs
+    [ -r "${XDG_CONFIG_HOME:-~/.config}"/xdg-dirs ] && {
+      # shellcheck source=/dev/null
+      . "${XDG_CONFIG_HOME:-~/.config}"/xdg-dirs
     }
     ;;
 esac
@@ -90,7 +97,8 @@ done
 
 # php-build
 [ -d ~/.phpenv/plugins/php-build/bin ] && {
-  export PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
+  PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
+  export PHP_BUILD_EXTRA_MAKE_ARGUMENTS
   [ -d ~/src/php ] && {
     export PHP_BUILD_TMPDIR=~/src/php
   }
@@ -147,7 +155,8 @@ fi
 
 # The next line updates PATH for the Google Cloud SDK.
 [ -d ~/gcp/bin ] && pathmunge ~/gcp/bin
-[ -f ~/gcp/path.bash.inc ] && . ~/gcp/path.bash.inc
+# shellcheck source=/dev/null
+[ -r ~/gcp/path.bash.inc ] && . ~/gcp/path.bash.inc
 
 export PATH
 
@@ -163,16 +172,17 @@ if [ -z ${MANPATH+x} ] || [ "$MANPATH" = ":" ] ; then
     MANPATH=""
   fi
 
-  IFS=':' read -r -a MANPATH <<< "$MANPATH"
+  IFS=':' read -r -a mans <<< "$MANPATH"
 
-  MANPATH+=(~/man)
-  MANPATH+=(/opt/man)
-  MANPATH+=(/usr/local/share/man)
-  MANPATH+=(/usr/local/man)
-  MANPATH+=(/usr/share/man)
-  MANPATH+=(/usr/man)
+  mans+=(~/man)
+  mans+=(/opt/man)
+  mans+=(/usr/local/share/man)
+  mans+=(/usr/local/man)
+  mans+=(/usr/share/man)
+  mans+=(/usr/man)
 
-  MANPATH=$( IFS=$':'; echo -n "${MANPATH[*]}" )
+  MANPATH="$( IFS=$':'; echo -n "${mans[*]}" )"
+  unset mans
 
   MANPATH="${MANPATH//\/:/:}"
   MANPATH="${MANPATH%/}"
@@ -197,8 +207,9 @@ export VISUAL="$EDITOR"
 
 # Source SSH settings, if applicable
 if [ -f "${SSH_ENV}" ]; then
+  # shellcheck source=/dev/null
   . "${SSH_ENV}" > /dev/null
-  ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+  ps -p "${SSH_AGENT_PID}" > /dev/null || {
     ssh/start-agent
   }
 else
@@ -210,9 +221,11 @@ fi
   esetenv SSH_AUTH_SOCK SSH_AGENT_PID
 
 # Update GPG_TTY
-export GPG_TTY=$(/usr/bin/tty)
+GPG_TTY=$(/usr/bin/tty)
+export GPG_TTY
 
 # Include '.bashrc' if it exists
+# shellcheck source=/dev/null
 [ -r ~/.bashrc ] && . ~/.bashrc
 
 # Local Variables:
