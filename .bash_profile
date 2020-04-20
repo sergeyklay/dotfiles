@@ -9,7 +9,7 @@ export OS="$(uname -o 2>/dev/null || uname -s)"
 
 # HOSTNAME contains name of the machine, as known to applications
 # that run locally
-if [ x$HOSTNAME = x ]; then
+if [ -z ${HOSTNAME+x} ]; then
   if command -v hostname >/dev/null 2>&1; then
     export HOSTNAME="$(hostname -s)"
   else
@@ -18,7 +18,7 @@ if [ x$HOSTNAME = x ]; then
 fi
 
 # HOST contains long host name (FQDN)
-if [ x$HOST = x ]; then
+if [ -z ${HOST+x} ]; then
   if command -v hostname >/dev/null 2>&1; then
     export HOST="$(hostname -f)"
   else
@@ -28,7 +28,7 @@ fi
 
 # Custom Bash functions
 for file in ~/profile.d/*.sh; do
-  source ${file} || true;
+  . "${file}" || true;
 done
 
 # Include local bin
@@ -40,7 +40,7 @@ done
 
 [ -d ~/.local/bin ] && pathmunge ~/.local/bin
 
-case $OS in
+case "$OS" in
   Darwin)
     # See: https://stackoverflow.com/q/7165108/1661465
     export LC_ALL=en_US.UTF-8
@@ -154,11 +154,11 @@ export PATH
 # MANPATH: path for the man command to search.
 # Look at the manpath command's output and prepend my own manual
 # paths manually.
-if [ -z "$MANPATH" ] || [ "$MANPATH" = ":" ] ; then
+if [ -z ${MANPATH+x} ] || [ "$MANPATH" = ":" ] ; then
   # Only do this if the MANPATH variable isn't already set.
   if command -v manpath >/dev/null 2>&1; then
     # Get the original manpath, then modify it.
-    MANPATH="`manpath 2>/dev/null`"
+    MANPATH="$(manpath 2>/dev/null)"
   else
     MANPATH=""
   fi
@@ -193,7 +193,7 @@ else
   export EDITOR='emacs -nw'
 fi
 
-export VISUAL=$EDITOR
+export VISUAL="$EDITOR"
 
 # Include '.bashrc' if it exists
 [ -r ~/.bashrc ] && . ~/.bashrc
