@@ -195,6 +195,23 @@ fi
 
 export VISUAL="$EDITOR"
 
+# Source SSH settings, if applicable
+if [ -f "${SSH_ENV}" ]; then
+  . "${SSH_ENV}" > /dev/null
+  ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+    ssh/start-agent
+  }
+else
+  ssh/start-agent
+fi
+
+[[ -n "$INSIDE_EMACS" && -n "$SSH_AUTH_SOCK" && -n "$SSH_AGENT_PID" ]] && \
+  type -t esetenv > /dev/null 2>&1 && \
+  esetenv SSH_AUTH_SOCK SSH_AGENT_PID
+
+# Update GPG_TTY
+export GPG_TTY=$(/usr/bin/tty)
+
 # Include '.bashrc' if it exists
 [ -r ~/.bashrc ] && . ~/.bashrc
 
