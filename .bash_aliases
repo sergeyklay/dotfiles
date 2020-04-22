@@ -97,8 +97,17 @@ function pushd() {
     dir="${HOME}"
   else
     dir="$1"
+
+    # This reverts the +/- operators
+    if [[ "$dir" =~ -([[:digit:]]*)$ ]]; then
+      dir="+${BASH_REMATCH[1]}"
+    elif [[ "$dir" =~ +([[:digit:]]*)$ ]]; then
+      dir="-${BASH_REMATCH[1]}"
+    fi
+
   fi
 
+  # Do not print the directory stack after pushd
   builtin pushd "${dir}" 1>/dev/null || return
 }
 
@@ -107,6 +116,7 @@ function pushd() {
 #
 # Meant for 'back' (see bellow).
 function popd() {
+  # Do not print the directory stack after popd
   builtin popd 1> /dev/null || return
 }
 
@@ -117,13 +127,14 @@ function popd() {
 #   $ cd /tmp  # We're at /tmp now
 #   $ flip     # We're at /usr now
 function flip() {
+  # Do not print the directory stack after pushd
   builtin pushd 1> /dev/null || return
 }
 
 # Keep track of visited directories.
 #
 #   $ dirs -v # See the directores stack
-#   $ cd +N   # Go back to a visited folder N
+#   $ cd -N   # Go back to a visited folder N
 alias cd='pushd'
 
 # Goes to the previous directory that you 'cd'-ed from.
