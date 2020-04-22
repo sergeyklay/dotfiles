@@ -99,9 +99,9 @@ function pushd() {
     dir="$1"
 
     # This reverts the +/- operators
-    if [[ "$dir" =~ -([[:digit:]]+)$ ]]; then
+    if [[ "$dir" =~ ^-([[:digit:]]+)$ ]]; then
       dir="+${BASH_REMATCH[1]}"
-    elif [[ "$dir" =~ \+([[:digit:]]+)$ ]]; then
+    elif [[ "$dir" =~ ^\+([[:digit:]]+)$ ]]; then
       dir="-${BASH_REMATCH[1]}"
     fi
 
