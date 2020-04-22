@@ -8,7 +8,7 @@ if [ "$colors_support" = true ]; then
 fi
 
 # emacsclient
-alias ec=$EDITOR
+alias ec="$EDITOR"
 
 # Color support for grep
 alias grep="grep $ca"
@@ -16,7 +16,7 @@ alias egrep="egrep $ca"
 
 # Wget will use the supplied file as the HSTS database
 if command -v wget >/dev/null 2>&1; then
-  alias wget="wget --hsts-file=${XDG_CACHE_HOME:-~/.cache}/wget-hsts"
+  alias wget="wget --hsts-file="${XDG_CACHE_HOME:-~/.cache}"/wget-hsts"
 fi
 
 if command -v docker >/dev/null 2>&1; then
@@ -70,7 +70,7 @@ case $OS in
 
     if command -v xdg-open >/dev/null 2>&1; then
       open() {
-        (xdg-open $@ &)
+        (xdg-open "$@" &)
       }
     fi
 
@@ -80,6 +80,57 @@ case $OS in
 esac
 
 unset ca
+
+# The Directory Stack Functions \ Aliases.
+
+# Save the current directory on the top of the directory stack
+# and then cd to dir.
+# Implementation the Z Shell 'autopushd' functionality in Bash.
+#
+# Meant for 'cd' (see bellow).
+function pushd() {
+  local dir
+
+  # if $1 is not supplied, the value of the $HOME
+  # shell variable is the default
+  if [ $# -eq 0 ]; then
+    dir="${HOME}"
+  else
+    dir="$1"
+  fi
+
+  builtin pushd "${dir}" 1>/dev/null || return
+}
+
+# Silently removes the top directory from the stack
+# and performs a cd to the new top directory.
+#
+# Meant for 'back' (see bellow).
+function popd() {
+  builtin popd 1> /dev/null || return
+}
+
+# Move between the current and previous directories
+# without popping them from the directory stack.
+#
+#   $ cd /usr  # We're at /usr now
+#   $ cd /tmp  # We're at /tmp now
+#   $ flip     # We're at /usr now
+function flip() {
+  builtin pushd 1> /dev/null || return
+}
+
+# Keep track of visited directories.
+#
+#   $ dirs -v # See the directores stack
+#   $ cd +N   # Go back to a visited folder N
+alias cd='pushd'
+
+# Goes to the previous directory that you 'cd'-ed from.
+#
+#   $ cd ~/ ; cd /tmp # We're at /tmp now
+#   $ back            # We're at $HOME now
+alias back='popd'
 
 # Local Variables:
 # mode: sh
