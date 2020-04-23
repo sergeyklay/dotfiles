@@ -118,7 +118,7 @@ case "$TERM" in
 esac
 
 # Colorize output
-if [ "$color_support" = true ]; then
+if [ "$colors_support" = true ]; then
   # colorize prompt
   PS1="\[\033[1;32m\]$\[\033[00m\] \w "
   PS2="\[\033[1;37m\]>\[\033[00m\] "
@@ -134,6 +134,10 @@ if [ "$color_support" = true ]; then
 
   [[ -z "$COLORTERM" ]] || COLORTERM=1
 fi
+
+# The Directory Stack Functions \ Aliases.
+# shellcheck source=/dev/null
+. ~/profile.d/dirstack.sh
 
 # Include aliases
 [ -f ~/.bash_aliases ] && . ~/.bash_aliases

@@ -31,11 +31,9 @@ if [ -z ${HOST+x} ]; then
   export HOST
 fi
 
-# Custom Bash functions
-for file in ~/profile.d/*.sh; do
-  # shellcheck source=/dev/null
-  . "${file}" || true;
-done
+# pathmunge function
+# shellcheck source=/dev/null
+. ~/profile.d/pathmunge.sh
 
 # Include local bin
 [ -e ~/bin ] && {
@@ -204,6 +202,10 @@ else
 fi
 
 export VISUAL="$EDITOR"
+
+# ssh/start-agent function
+# shellcheck source=/dev/null
+. ~/profile.d/ssh.sh
 
 # Source SSH settings, if applicable
 if [ -f "${SSH_ENV}" ]; then
