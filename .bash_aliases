@@ -2,17 +2,13 @@
 #
 # This file contains the definition of aliases.
 
-ca=""
-if [ "$colors_support" = true ]; then
-  ca="--color=auto"
-fi
-
-# emacsclient
+# Setting alias for emacsclient.
+# See '.bash_profile' for more.
 alias ec="$EDITOR"
 
 # Color support for grep
-alias grep="grep $ca"
-alias egrep="egrep $ca"
+alias grep='--color=auto'
+alias egrep='egrep --color=auto'
 
 # Wget will use the supplied file as the HSTS database
 if command -v wget >/dev/null 2>&1; then
@@ -44,9 +40,9 @@ case $OS in
     if command -v gls >/dev/null 2>&1; then
       # GNU's ls uses --color to enable colorized output.
       # For LC_ALL see URL https://superuser.com/a/448294/280737
-      alias ll="LC_ALL='C.UTF-8' gls $ca -alF --group-directories-first"
-      alias la="gls $ca -A"
-      alias l="gls $ca -CF"
+      alias ll='LC_ALL="C.UTF-8" gls --color=auto -alF --group-directories-first'
+      alias la='gls --color=auto -A'
+      alias l='gls --color=auto -CF'
     else
       # BSD's ls uses -G to enable colorized output.
       # For LC_ALL see URL https://superuser.com/a/448294/280737
@@ -64,9 +60,9 @@ case $OS in
   *Linux)
     # GNU's ls uses --color to enable colorized output.
     # For LC_ALL see URL https://superuser.com/a/448294/280737
-    alias ll="LC_ALL='C.UTF-8' ls $ca -alF --group-directories-first"
-    alias la="ls $ca -A"
-    alias l="ls $ca -CF"
+    alias ll='LC_ALL="C.UTF-8" ls --color=auto -alF --group-directories-first'
+    alias la='ls --color=auto -A'
+    alias l='ls --color=auto -CF'
 
     if command -v xdg-open >/dev/null 2>&1; then
       open() {
@@ -79,13 +75,10 @@ case $OS in
     ;;
 esac
 
-unset ca
-
 # The Directory Stack Functions \ Aliases.
 
 # Save the current directory on the top of the directory stack
 # and then cd to dir.
-# Implementation the Z Shell 'autopushd' functionality in Bash.
 #
 # Meant for 'cd' (see bellow).
 function pushd() {
