@@ -65,6 +65,10 @@ HISTIGNORE='&:[ \t]*:history *:cd -*[0-9]*:cd +*[0-9]*'
 #                current shell’s history
 PROMPT_COMMAND='history -a ; history -n'
 
+# Set $DIRSTACK size limit to 20
+# shellcheck disable=SC2034
+DIRSTACKSIZE=20
+
 # More for less
 export PAGER=less
 
