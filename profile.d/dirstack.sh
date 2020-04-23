@@ -2,13 +2,13 @@
 
 # Reverts the +/- operators for an integer argument.
 #
-#   $ revert-pm -1  # +1
-#   $ revert-pm +12 # -12
-#   $ revert-pm 2-2 # 2-2
-#   $ revert-pm - 1 # - 1
+#   $ polarize -1  # +1
+#   $ polarize +12 # -12
+#   $ polarize 2-2 # 2-2
+#   $ polarize - 1 # - 1
 #
 # Meant for 'pushd' (see  bellow).
-function revert-pm() {
+function polarize() {
   [ $# -eq 0 ] && return
 
   if [[ "$@" =~ ^-([[:digit:]]+)$ ]]; then
@@ -20,6 +20,38 @@ function revert-pm() {
   fi
 }
 
+# Removes duplicate values from the $DIRSTACK.
+#
+# Note: Two elements are considered equal iff
+# 'realpath $elem1 == realpath $elem2' i.e. when the reloved
+# representation is the same, the first element will be used.
+# Thus, this will work for symlinks too.
+#
+# Meant for 'pushd' (see bellow).
+function dirstack-unique() {
+  local dups
+  local dir
+  local cwd
+
+  dups=0
+  cwd="$(pwd -P)"
+
+  for i in $(seq 0 $((${#DIRSTACK[@]}-1))); do
+    dir="${DIRSTACK[$i]/%\//}"
+    if [ -z "$dir" ]; then
+      continue
+    fi
+
+    if [ "$(realpath "$dir")" = "$cwd" ]; then
+      ((dups++))
+      if [ "$dups" -gt 1 ]; then
+        builtin popd -n "+$i" 1>/dev/null || true
+        dups=1
+      fi
+    fi
+  done
+}
+
 # Save the current directory on the top of the directory stack
 # and then cd to dir.
 #
@@ -27,7 +59,6 @@ function revert-pm() {
 function pushd() {
   local dir
   local ssize
-  local dups
 
   ssize="$(printf '%d' "${DIRSTACKSIZE:-20}")"
 
@@ -36,30 +67,21 @@ function pushd() {
   if [ $# -eq 0 ]; then
     dir="${HOME}"
   else
-    dir="$(revert-pm "$1")"
+    dir="$(polarize "$1")"
   fi
 
   # Do not print the directory stack after pushd
   builtin pushd "${dir}" 1>/dev/null || return
 
   # Don't store multiple copies of the same directory onto the
-  # directory stack.  This will not work with symlinks:
+  # directory stack.
   #
   #   $ ln -s /tmp /tmp2         # Create symlink
   #   $ pushd /tmp ; pushd /tmp2 # Add two directories to the stack
+  #   $ dirs -v | wc -l          # Will return 1
+  #   $ pushd ~                  # Change directory
   #   $ dirs -v | wc -l          # Will return 2
-  #   $ pushd /tmp               # Change directory
-  #   $ dirs -v | wc -l          # Will return 2
-  dups=0
-  for i in $(seq 0 $((${#DIRSTACK[@]}-1))); do
-    if [ "${DIRSTACK[$i]/%\//}" = "$(pwd -L)" ]; then
-      ((dups++))
-      if [ "$dups" -gt 1 ]; then
-        builtin popd -n "+$i" 1>/dev/null || true
-        dups=1
-      fi
-    fi
-  done
+  dirstack-unique
 
   # Limit $DIRSTACK size up to $DIRSTACKSIZE
   if [ "$ssize" -gt 0 ]; then
