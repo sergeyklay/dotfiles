@@ -90,6 +90,9 @@ unset ca
 # Meant for 'cd' (see bellow).
 function pushd() {
   local dir
+  local ssize
+
+  ssize="$(printf '%d' "${DIRSTACKSIZE:-20}")"
 
   # if $1 is not supplied, the value of the $HOME
   # shell variable is the default
@@ -109,6 +112,14 @@ function pushd() {
 
   # Do not print the directory stack after pushd
   builtin pushd "${dir}" 1>/dev/null || return
+
+  # Limit $DIRSTACK size up to $DIRSTACKSIZE
+  if [ "$ssize" -gt 0 ]; then
+    while [ ${#DIRSTACK[*]} -gt "$ssize" ]; do
+      # Remove last element
+      builtin popd -n -0 1>/dev/null || true
+    done
+  fi
 }
 
 # Silently removes the top directory from the stack
