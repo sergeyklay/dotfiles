@@ -7,7 +7,7 @@
 alias ec="$EDITOR"
 
 # Color support for grep
-alias grep='--color=auto'
+alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 
 # Wget will use the supplied file as the HSTS database
