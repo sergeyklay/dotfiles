@@ -11,10 +11,8 @@
 function polarize() {
   [ $# -eq 0 ] && return
 
-  if [[ "$@" =~ ^-([[:digit:]]+)$ ]]; then
-    echo -n "+${BASH_REMATCH[1]}"
-  elif [[ "$@" =~ ^\+([[:digit:]]+)$ ]]; then
-    echo -n "-${BASH_REMATCH[1]}"
+  if [[ "$@" =~ ^[-+][[:digit:]]+$ ]]; then
+    printf "%+d" $(($@ * -1))
   else
     echo -n "$@"
   fi
