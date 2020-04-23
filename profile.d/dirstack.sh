@@ -1,5 +1,25 @@
 # The Directory Stack Functions \ Aliases.
 
+# Reverts the +/- operators for an integer argument.
+#
+#   $ revert-pm -1  # +1
+#   $ revert-pm +12 # -12
+#   $ revert-pm 2-2 # 2-2
+#   $ revert-pm - 1 # - 1
+#
+# Meant for 'pushd' (see  bellow).
+function revert-pm() {
+  [ $# -eq 0 ] && return
+
+  if [[ "$@" =~ ^-([[:digit:]]+)$ ]]; then
+    echo -n "+${BASH_REMATCH[1]}"
+  elif [[ "$@" =~ ^\+([[:digit:]]+)$ ]]; then
+    echo -n "-${BASH_REMATCH[1]}"
+  else
+    echo -n "$@"
+  fi
+}
+
 # Save the current directory on the top of the directory stack
 # and then cd to dir.
 #
@@ -16,15 +36,7 @@ function pushd() {
   if [ $# -eq 0 ]; then
     dir="${HOME}"
   else
-    dir="$1"
-
-    # This reverts the +/- operators
-    if [[ "$dir" =~ ^-([[:digit:]]+)$ ]]; then
-      dir="+${BASH_REMATCH[1]}"
-    elif [[ "$dir" =~ ^\+([[:digit:]]+)$ ]]; then
-      dir="-${BASH_REMATCH[1]}"
-    fi
-
+    dir="$(revert-pm "$1")"
   fi
 
   # Do not print the directory stack after pushd
