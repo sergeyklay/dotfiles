@@ -132,7 +132,7 @@ if [ "$colors_support" = true ]; then
 fi
 
 # The Directory Stack Functions \ Aliases
-. ~/profile.d/dirstack.sh
+. ~/bash.d/dirstack.sh
 
 # Include aliases
 [ -f ~/.bash_aliases ] && . ~/.bash_aliases

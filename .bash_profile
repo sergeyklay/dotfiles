@@ -32,7 +32,7 @@ if [ -z ${HOST+x} ]; then
 fi
 
 # pathmunge function
-. ~/profile.d/pathmunge.sh
+. ~/bash.d/pathmunge.sh
 
 # Include local bin
 [ -e ~/bin ] && {
@@ -46,8 +46,9 @@ fi
 case "$OS" in
   Darwin)
     # See: https://stackoverflow.com/q/7165108/1661465
-    export LC_ALL=en_US.UTF-8
-    export LANG=en_US.UTF-8
+    LC_ALL=en_US.UTF-8
+    LANG=en_US.UTF-8
+    export LC_ALL LANG
 
     # LLVM
     [ -d /usr/local/opt/llvm/bin ] && {
@@ -97,7 +98,8 @@ done
   PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
   export PHP_BUILD_EXTRA_MAKE_ARGUMENTS
   [ -d ~/src/php ] && {
-    export PHP_BUILD_TMPDIR=~/src/php
+    PHP_BUILD_TMPDIR=~/src/php
+    export PHP_BUILD_TMPDIR
   }
 
   pathmunge ~/.phpenv/plugins/php-build/bin
@@ -115,16 +117,19 @@ done
 
 # Go lang local workspace
 if [ -d ~/go ]; then
-  export GOPATH=~/go
+  GOPATH=~/go
+  export GOPATH
 
   [ -d "$GOPATH/bin" ] && {
     # Put binary files created using "go install" command
     # in "$GOPATH/bin"
-    export GOBIN="$GOPATH/bin"
+    GOBIN="$GOPATH/bin"
+    export GOBIN
     pathmunge "$GOBIN"
   }
 
-  export GO111MODULE=on
+  GO111MODULE=on
+  export GO111MODULE
 fi
 
 # TinyGo
@@ -143,8 +148,9 @@ fi
 
 # Composer
 if [ -d "${XDG_CONFIG_HOME:-~/.config}/composer" ]; then
-  export COMPOSER_HOME="${XDG_CONFIG_HOME:-~/.config}/composer"
-  export COMPOSER_CACHE_DIR="${XDG_CACHE_HOME:-~/.cache}/composer"
+  COMPOSER_HOME="${XDG_CONFIG_HOME:-~/.config}/composer"
+  COMPOSER_CACHE_DIR="${XDG_CACHE_HOME:-~/.cache}/composer"
+  export COMPOSER_HOME COMPOSER_CACHE_DIR
 
   [ -d "$COMPOSER_HOME/vendor/bin" ] &&
     pathmunge "$COMPOSER_HOME/vendor/bin"
@@ -189,20 +195,23 @@ fi
 # Editor to fallback to if the server is not running.  If this
 # variable is empty, then start GNU Emacs in daemon mode and try
 # connecting again.
-export ALTERNATE_EDITOR=''
+ALTERNATE_EDITOR=''
+export ALTERNATE_EDITOR
 
 # See:
 # https://github.com/sergeyklay/.emacs.d/blob/master/bin/emacsclient.wrapper
 if command -v emacsclient.wrapper >/dev/null 2>&1 ; then
-  export EDITOR=emacsclient.wrapper
+  EDITOR=emacsclient.wrapper
 else
-  export EDITOR='emacs -nw'
+  EDITOR='emacs -nw'
 fi
+export EDITOR
 
-export VISUAL="$EDITOR"
+VISUAL="$EDITOR"
+export VISUAL
 
 # ssh/start-agent function
-. ~/profile.d/ssh.sh
+. ~/bash.d/ssh.sh
 
 # Update GPG_TTY
 GPG_TTY=$(/usr/bin/tty)
@@ -213,6 +222,6 @@ export GPG_TTY
 
 # Local Variables:
 # mode: sh
-# flycheck-shellcheck-excluded-warnings: ("SC1090"
+# flycheck-shellcheck-excluded-warnings: ("SC1090")
 # flycheck-disabled-checkers: (sh-posix-dash sh-shellcheck)
 # End:
