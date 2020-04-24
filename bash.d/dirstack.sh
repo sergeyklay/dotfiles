@@ -44,12 +44,9 @@ function polarize() {
 #
 # Meant for 'pushd' (see bellow).
 function uniqd() {
-  local dups
+  declare -i dups=0
+  declare -r cwd="$(pwd -P)"
   local dir
-  local cwd
-
-  dups=0
-  cwd="$(pwd -P)"
 
   for i in $(seq 0 $((${#DIRSTACK[@]}-1))); do
     dir="${DIRSTACK[$i]/%\//}"
@@ -71,11 +68,8 @@ function uniqd() {
 #
 # Meant for 'pushd' (see below).
 function persistd() {
-  local dbfile
-  local dbpath
-
-  dbfile="${DIRSTACKFILE:-/dev/null}"
-  dbpath="$(dirname "$dbfile")"
+  declare -r dbfile="${DIRSTACKFILE:-/dev/null}"
+  declare -r dbpath="$(dirname "$dbfile")"
 
   ([ -d "$dbpath" ] || mkdir -p "$dbpath" 2>/dev/null) || return
   ([ -f "$dbfile" ] || touch "$dbfile" 2>/dev/null) || return
@@ -87,9 +81,7 @@ function persistd() {
 #
 # Meant for 'pushd' (see bellow).
 function limitd() {
-  local ssize
-
-  ssize="$(printf '%d' "${DIRSTACKSIZE:-20}")"
+  declare -i ssize="$(printf '%d' "${DIRSTACKSIZE:-20}")"
 
   if [ "$ssize" -gt 0 ]; then
     while [ ${#DIRSTACK[*]} -gt "$ssize" ]; do
