@@ -9,12 +9,10 @@
 #
 # Meant for 'pushd' (see  bellow).
 function polarize() {
-  if [ $# -ne 1 ]; then
-    echo -n "$@"
-  elif [[ "$1" =~ ^[-+][[:digit:]]$ ]]; then
+  if [[ "$@" =~ ^[-+][[:digit:]]$ ]]; then
     printf "%+d" $(($1 * -1))
   else
-    echo -n "$1"
+    echo -n "$@"
   fi
 }
 
