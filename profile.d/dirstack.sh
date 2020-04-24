@@ -38,7 +38,7 @@ function polarize() {
 #   $ dirs -v | wc -l          # Will return 2
 #
 # Note: Two elements are considered equal iff
-# 'realpath $elem1 == realpath $elem2' i.e. when the reloved
+# 'realpath $elem1 == realpath $elem2' i.e. when the resolved
 # representation is the same, the first element will be used.
 # Thus, this will work for symlinks too.
 #
@@ -150,7 +150,7 @@ function flipd() {
 
 # Keep track of visited directories.
 #
-#   $ dirs -v # See the directores stack
+#   $ dirs -v # See the directories stack
 #   $ cd -N   # Go back to a visited folder N
 alias cd='pushd'
 
