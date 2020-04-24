@@ -134,8 +134,8 @@ popd() {
 #
 #   $ cd /usr  # We're at /usr now
 #   $ cd /tmp  # We're at /tmp now
-#   $ flip     # We're at /usr now
-flip() {
+#   $ flipd    # We're at /usr now
+flipd() {
   # Do not print the directory stack after pushd
   builtin pushd 1> /dev/null || return
 }
