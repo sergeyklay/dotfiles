@@ -1,5 +1,5 @@
 # Check whether the string given is already in the PATH.
-function pathmunge () {
+pathmunge () {
   if ! echo "$PATH" | grep -Eq "(^|:)$1($|:)" ; then
     if [ "$2" = "after" ] ; then
       export PATH="$PATH:$1"

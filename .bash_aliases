@@ -2,8 +2,8 @@
 #
 # This file contains the definition of aliases.
 
-# Setting alias for emacsclient.
-# See '.bash_profile' for more.
+# Setting alias for emacsclient.  See '.bash_profile' for more.
+# shellcheck disable=SC2139
 alias ec="$EDITOR"
 
 # Color support for grep
@@ -12,11 +12,12 @@ alias egrep='egrep --color=auto'
 
 # Wget will use the supplied file as the HSTS database
 if command -v wget >/dev/null 2>&1; then
-  alias wget="wget --hsts-file="${XDG_CACHE_HOME:-~/.cache}"/wget-hsts"
+  # shellcheck disable=SC2139
+  alias wget="wget --hsts-file='${XDG_CACHE_HOME:-~/.cache}/wget-hsts'"
 fi
 
 if command -v docker >/dev/null 2>&1; then
-  alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Status}}'"
+  alias dps="docker ps --format 'table {{.ID}}\\t{{.Names}}\\t{{.Status}}'"
 fi
 
 if command -v kubectl >/dev/null 2>&1; then
