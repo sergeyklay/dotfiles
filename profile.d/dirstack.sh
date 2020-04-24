@@ -11,7 +11,7 @@
 function polarize() {
   [ $# -ne 1 ] && echo -n "$@" && return
 
-  if [[ "$1" =~ ^[-+]{1}[[:digit:]]$ ]]; then
+  if [[ "$1" =~ ^[-+][[:digit:]]$ ]]; then
     printf "%+d" $(($1 * -1))
   else
     echo -n "$1"
