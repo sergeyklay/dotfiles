@@ -70,11 +70,28 @@ function uniqd() {
 function persistd() {
   declare -r dbfile="${DIRSTACKFILE:-/dev/null}"
   declare -r dbpath="$(dirname "$dbfile")"
+  declare -i ssize=${#DIRSTACK[*]}
+  local dir
+
+  [ "$dbfile" = "/dev/null" ] && return
 
   ([ -d "$dbpath" ] || mkdir -p "$dbpath" 2>/dev/null) || return
   ([ -f "$dbfile" ] || touch "$dbfile" 2>/dev/null) || return
 
-  echo -n "${DIRSTACK[*]}" | tr ' \t' '\n' > "$dbfile"
+  # Empty the directory stack file
+  for i in $(seq 0 $((${#DIRSTACK[@]}-1))); do
+
+    # Store the paths to recreate the stack in the
+    # reverse order so they come out correctly later.
+    dir="${DIRSTACK[$(( $ssize - $i - 1 ))]}"
+
+    # Do not insert final newline
+    if [[ $ssize = $(( $i + 1 )) ]]; then
+      printf "%s" "$dir" >> "$dbfile"
+    else
+      printf "%s\\n" "$dir" >> "$dbfile"
+    fi
+  done
 }
 
 # Limit DIRSTACK size up to DIRSTACKSIZE.
