@@ -1,6 +1,6 @@
 # The Directory Stack Functions \ Aliases.
 #
-# Configure Bash o remember the DIRSTACKSIZE last visited folders.
+# Configure Bash to remember the DIRSTACKSIZE last visited folders.
 # This can then be used to cd them very quickly.
 #
 # This file is intended to be sourced from interactive shells,

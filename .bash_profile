@@ -72,7 +72,8 @@ esac
 
 # Add .NET Core SDK tools
 [ -d ~/.dotnet/tools ] && {
-  export DOTNET_CLI_TELEMETRY_OPTOUT=1
+  DOTNET_CLI_TELEMETRY_OPTOUT=1
+  export DOTNET_CLI_TELEMETRY_OPTOUT
   pathmunge ~/.dotnet/tools
 }
 
