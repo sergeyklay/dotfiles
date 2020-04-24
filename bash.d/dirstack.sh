@@ -79,14 +79,15 @@ function persistd() {
   ([ -f "$dbfile" ] || touch "$dbfile" 2>/dev/null) || return
 
   # Empty the directory stack file
-  for i in $(seq 0 $((${#DIRSTACK[@]}-1))); do
+  echo -n "" >|"$dbfile" 2>/dev/null || return
 
+  for i in $(seq 0 $((${#DIRSTACK[@]}-1))); do
     # Store the paths to recreate the stack in the
     # reverse order so they come out correctly later.
     dir="${DIRSTACK[$(( $ssize - $i - 1 ))]}"
 
     # Do not insert final newline
-    if [[ $ssize = $(( $i + 1 )) ]]; then
+    if [[ "$ssize" -eq $(( $i + 1 )) ]]; then
       printf "%s" "$dir" >> "$dbfile"
     else
       printf "%s\\n" "$dir" >> "$dbfile"
