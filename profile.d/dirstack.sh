@@ -1,4 +1,17 @@
 # The Directory Stack Functions \ Aliases.
+#
+# Configure Bash o remember the DIRSTACKSIZE last visited folders.
+# This can then be used to cd them very quickly.
+#
+# This file is intended to be sourced from interactive shells,
+# i.e. in '~/.bashrc' file.
+
+# Set the directory stack size limit to 20.
+DIRSTACKSIZE=20
+
+# Set the path to persist a directory path.
+# Do not use '~' here.
+DIRSTACKFILE="${XDG_CACHE_HOME:-$HOME/.cache}/dirs"
 
 # Reverts the +/- operators for an integer argument.
 #
@@ -16,7 +29,13 @@ function polarize() {
   fi
 }
 
-# Removes duplicate values from the $DIRSTACK.
+# Removes duplicate values from the directory stack.
+#
+#   $ ln -s /tmp /tmp2         # Create symlink
+#   $ pushd /tmp ; pushd /tmp2 # Add two directories to the stack
+#   $ dirs -v | wc -l          # Will return 1
+#   $ pushd ~                  # Change directory
+#   $ dirs -v | wc -l          # Will return 2
 #
 # Note: Two elements are considered equal iff
 # 'realpath $elem1 == realpath $elem2' i.e. when the reloved
@@ -24,7 +43,7 @@ function polarize() {
 # Thus, this will work for symlinks too.
 #
 # Meant for 'pushd' (see bellow).
-function dirstack-unique() {
+function uniqd() {
   local dups
   local dir
   local cwd
@@ -46,6 +65,22 @@ function dirstack-unique() {
       fi
     fi
   done
+}
+
+# Persist current directory stack to DIRSTACKFILE file.
+#
+# Meant for 'pushd' (see below).
+function persistd() {
+  local dbfile
+  local dbpath
+
+  dbfile="${DIRSTACKFILE:-/dev/null}"
+  dbpath="$(dirname "$dbfile")"
+
+  ([ -d "$dbpath" ] || mkdir -p "$dbpath" 2>/dev/null) || return
+  ([ -f "$dbfile" ] || touch "$dbfile" 2>/dev/null) || return
+
+  echo -n "${DIRSTACK[*]}" | tr ' \t' '\n' > "$dbfile"
 }
 
 # Save the current directory on the top of the directory stack
@@ -71,13 +106,7 @@ function pushd() {
 
   # Don't store multiple copies of the same directory onto the
   # directory stack.
-  #
-  #   $ ln -s /tmp /tmp2         # Create symlink
-  #   $ pushd /tmp ; pushd /tmp2 # Add two directories to the stack
-  #   $ dirs -v | wc -l          # Will return 1
-  #   $ pushd ~                  # Change directory
-  #   $ dirs -v | wc -l          # Will return 2
-  dirstack-unique
+  uniqd
 
   # Limit $DIRSTACK size up to $DIRSTACKSIZE
   if [ "$ssize" -gt 0 ]; then
@@ -86,6 +115,9 @@ function pushd() {
       builtin popd -n -0 1>/dev/null || true
     done
   fi
+
+  # Persist current directory stack.
+  persistd
 }
 
 # Silently removes the top directory from the stack
@@ -119,6 +151,26 @@ alias cd='pushd'
 #   $ cd ~/ ; cd /tmp # We're at /tmp now
 #   $ back            # We're at $HOME now
 alias back='popd'
+
+# Restore previous directory history from the cache and cd to
+# first directory in the directory stack.
+if [[ -f "$DIRSTACKFILE" ]] && (( ${#DIRSTACK[*]} <=  1)); then
+  readarray -t newstack < "$DIRSTACKFILE"
+
+  # Reverse a for loop
+  for ((i=${#newstack[@]}-1; i>=0; --i)); do
+    builtin pushd -n "${newstack[$i]}" 1>/dev/null
+  done
+  unset newstack
+
+  # In case when we're started from a fresh session
+  # we need remove first element.
+  if (( ${#DIRSTACK[*]} > 1)) && [[ -d "${DIRSTACK[1]}" ]]; then
+    builtin popd +0 1>/dev/null || true
+  elif [[ -d "${DIRSTACK[0]}" ]]; then
+    builtin cd -- "${DIRSTACK[0]}" || return
+  fi
+fi
 
 # Local Variables:
 # mode: sh
