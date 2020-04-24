@@ -11,4 +11,5 @@ pathmunge () {
 
 # Local Variables:
 # mode: sh
+# flycheck-disabled-checkers: (sh-posix-dash sh-shellcheck)
 # End:

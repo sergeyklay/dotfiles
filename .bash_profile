@@ -213,5 +213,6 @@ export GPG_TTY
 
 # Local Variables:
 # mode: sh
-# flycheck-shellcheck-excluded-warnings: ("SC1090")
+# flycheck-shellcheck-excluded-warnings: ("SC1090"
+# flycheck-disabled-checkers: (sh-posix-dash sh-shellcheck)
 # End:
