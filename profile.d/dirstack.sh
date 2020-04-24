@@ -21,7 +21,7 @@ DIRSTACKFILE="${XDG_CACHE_HOME:-$HOME/.cache}/dirs"
 #   $ polarize - 1 # - 1
 #
 # Meant for 'pushd' (see  bellow).
-polarize() {
+function polarize() {
   if [[ "$@" =~ ^[-+][1-9][[:digit:]]*$ ]]; then
     printf '%+d' "$(( -$@ ))"
   else
@@ -43,7 +43,7 @@ polarize() {
 # Thus, this will work for symlinks too.
 #
 # Meant for 'pushd' (see bellow).
-uniqd() {
+function uniqd() {
   local dups
   local dir
   local cwd
@@ -70,7 +70,7 @@ uniqd() {
 # Persist current directory stack to DIRSTACKFILE file.
 #
 # Meant for 'pushd' (see below).
-persistd() {
+function persistd() {
   local dbfile
   local dbpath
 
@@ -87,7 +87,7 @@ persistd() {
 # and then cd to dir.
 #
 # Meant for 'cd' (see bellow).
-pushd() {
+function pushd() {
   local dir
   local ssize
 
@@ -124,7 +124,7 @@ pushd() {
 # and performs a cd to the new top directory.
 #
 # Meant for 'back' (see bellow).
-popd() {
+function popd() {
   # Do not print the directory stack after popd
   builtin popd 1> /dev/null || return
 }
@@ -135,7 +135,7 @@ popd() {
 #   $ cd /usr  # We're at /usr now
 #   $ cd /tmp  # We're at /tmp now
 #   $ flipd    # We're at /usr now
-flipd() {
+function flipd() {
   # Do not print the directory stack after pushd
   builtin pushd 1> /dev/null || return
 }
@@ -174,4 +174,5 @@ fi
 
 # Local Variables:
 # mode: sh
+# flycheck-disabled-checkers: (sh-posix-dash sh-shellcheck)
 # End:
