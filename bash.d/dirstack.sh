@@ -70,8 +70,6 @@ function uniqd() {
 function persistd() {
   declare -r dbfile="${DIRSTACKFILE:-/dev/null}"
   declare -r dbpath="$(dirname "$dbfile")"
-  declare -i ssize=${#DIRSTACK[*]}
-  local dir
 
   [ "$dbfile" = "/dev/null" ] && return
 
@@ -82,15 +80,11 @@ function persistd() {
   echo -n "" >|"$dbfile" 2>/dev/null || return
 
   for i in $(seq 0 $((${#DIRSTACK[@]}-1))); do
-    # Store the paths to recreate the stack in the
-    # reverse order so they come out correctly later.
-    dir="${DIRSTACK[$(( $ssize - $i - 1 ))]}"
-
     # Do not insert final newline
-    if [[ "$ssize" -eq $(( $i + 1 )) ]]; then
-      printf "%s" "$dir" >> "$dbfile"
+    if [[ "$i" -eq $((${#DIRSTACK[@]}-1)) ]]; then
+      printf "%s" "${DIRSTACK[$i]}" >> "$dbfile"
     else
-      printf "%s\\n" "$dir" >> "$dbfile"
+      printf "%s\\n" "${DIRSTACK[$i]}" >> "$dbfile"
     fi
   done
 }
