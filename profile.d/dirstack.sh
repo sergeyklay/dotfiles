@@ -83,15 +83,28 @@ function persistd() {
   echo -n "${DIRSTACK[*]}" | tr ' \t' '\n' > "$dbfile"
 }
 
+# Limit DIRSTACK size up to DIRSTACKSIZE.
+#
+# Meant for 'pushd' (see bellow).
+function limitd() {
+  local ssize
+
+  ssize="$(printf '%d' "${DIRSTACKSIZE:-20}")"
+
+  if [ "$ssize" -gt 0 ]; then
+    while [ ${#DIRSTACK[*]} -gt "$ssize" ]; do
+      # Remove last element
+      builtin popd -n -0 1>/dev/null || true
+    done
+  fi
+}
+
 # Save the current directory on the top of the directory stack
 # and then cd to dir.
 #
 # Meant for 'cd' (see bellow).
 function pushd() {
   local dir
-  local ssize
-
-  ssize="$(printf '%d' "${DIRSTACKSIZE:-20}")"
 
   # Have pushd with no arguments act like `pushd $HOME'.
   # This is similar with how 'cd' it does.
@@ -108,13 +121,8 @@ function pushd() {
   # directory stack.
   uniqd
 
-  # Limit $DIRSTACK size up to $DIRSTACKSIZE
-  if [ "$ssize" -gt 0 ]; then
-    while [ ${#DIRSTACK[*]} -gt "$ssize" ]; do
-      # Remove last element
-      builtin popd -n -0 1>/dev/null || true
-    done
-  fi
+  # Limit $DIRSTACK size up to $DIRSTACKSIZE.
+  limitd
 
   # Persist current directory stack.
   persistd
