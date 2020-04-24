@@ -21,7 +21,7 @@ DIRSTACKFILE="${XDG_CACHE_HOME:-$HOME/.cache}/dirs"
 #   $ polarize - 1 # - 1
 #
 # Meant for 'pushd' (see  bellow).
-function polarize() {
+polarize() {
   if [[ "$@" =~ ^[-+][1-9][[:digit:]]*$ ]]; then
     printf '%+d' "$(( -$@ ))"
   else
@@ -43,7 +43,7 @@ function polarize() {
 # Thus, this will work for symlinks too.
 #
 # Meant for 'pushd' (see bellow).
-function uniqd() {
+uniqd() {
   local dups
   local dir
   local cwd
@@ -70,7 +70,7 @@ function uniqd() {
 # Persist current directory stack to DIRSTACKFILE file.
 #
 # Meant for 'pushd' (see below).
-function persistd() {
+persistd() {
   local dbfile
   local dbpath
 
@@ -87,7 +87,7 @@ function persistd() {
 # and then cd to dir.
 #
 # Meant for 'cd' (see bellow).
-function pushd() {
+pushd() {
   local dir
   local ssize
 
@@ -124,7 +124,7 @@ function pushd() {
 # and performs a cd to the new top directory.
 #
 # Meant for 'back' (see bellow).
-function popd() {
+popd() {
   # Do not print the directory stack after popd
   builtin popd 1> /dev/null || return
 }
@@ -135,7 +135,7 @@ function popd() {
 #   $ cd /usr  # We're at /usr now
 #   $ cd /tmp  # We're at /tmp now
 #   $ flip     # We're at /usr now
-function flip() {
+flip() {
   # Do not print the directory stack after pushd
   builtin pushd 1> /dev/null || return
 }

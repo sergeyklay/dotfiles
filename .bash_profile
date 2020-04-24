@@ -32,7 +32,6 @@ if [ -z ${HOST+x} ]; then
 fi
 
 # pathmunge function
-# shellcheck source=/dev/null
 . ~/profile.d/pathmunge.sh
 
 # Include local bin
@@ -66,7 +65,6 @@ case "$OS" in
     ;;
   *Linux)
     [ -r "${XDG_CONFIG_HOME:-~/.config}"/xdg-dirs ] && {
-      # shellcheck source=/dev/null
       . "${XDG_CONFIG_HOME:-~/.config}"/xdg-dirs
     }
     ;;
@@ -153,7 +151,6 @@ fi
 
 # The next line updates PATH for the Google Cloud SDK.
 [ -d ~/gcp/bin ] && pathmunge ~/gcp/bin
-# shellcheck source=/dev/null
 [ -r ~/gcp/path.bash.inc ] && . ~/gcp/path.bash.inc
 
 export PATH
@@ -204,32 +201,16 @@ fi
 export VISUAL="$EDITOR"
 
 # ssh/start-agent function
-# shellcheck source=/dev/null
 . ~/profile.d/ssh.sh
-
-# Source SSH settings, if applicable
-if [ -f "${SSH_ENV}" ]; then
-  # shellcheck source=/dev/null
-  . "${SSH_ENV}" > /dev/null
-  ps -p "${SSH_AGENT_PID}" > /dev/null || {
-    ssh/start-agent
-  }
-else
-  ssh/start-agent
-fi
-
-[[ -n "$INSIDE_EMACS" && -n "$SSH_AUTH_SOCK" && -n "$SSH_AGENT_PID" ]] && \
-  type -t esetenv > /dev/null 2>&1 && \
-  esetenv SSH_AUTH_SOCK SSH_AGENT_PID
 
 # Update GPG_TTY
 GPG_TTY=$(/usr/bin/tty)
 export GPG_TTY
 
 # Include '.bashrc' if it exists
-# shellcheck source=/dev/null
 [ -r ~/.bashrc ] && . ~/.bashrc
 
 # Local Variables:
 # mode: sh
+# flycheck-shellcheck-excluded-warnings: ("SC1090")
 # End:

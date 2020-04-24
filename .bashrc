@@ -131,8 +131,7 @@ if [ "$colors_support" = true ]; then
   [[ -z "$COLORTERM" ]] || COLORTERM=1
 fi
 
-# The Directory Stack Functions \ Aliases.
-# shellcheck source=/dev/null
+# The Directory Stack Functions \ Aliases
 . ~/profile.d/dirstack.sh
 
 # Include aliases
@@ -175,4 +174,5 @@ fi
 
 # Local Variables:
 # mode: sh
+# flycheck-shellcheck-excluded-warnings: ("SC1090")
 # End:
