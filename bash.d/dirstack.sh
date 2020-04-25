@@ -103,6 +103,38 @@ function limitd() {
   fi
 }
 
+# Restore previous directory history from the cache and cd to
+# first directory in the directory stack.
+function restored() {
+  declare -r dbfile="${DIRSTACKFILE:-/dev/null}"
+  declare -a stack
+
+  [ "$dbfile" = "/dev/null" ] && return
+  if [ ! -f "$dbfile" ] || [ ${#DIRSTACK[*]} -gt 1 ]; then
+    return
+  fi
+
+  readarray -t stack < "$DIRSTACKFILE"
+
+  # Reverse a for loop
+  for ((i=${#stack[@]}-1; i>=0; --i)); do
+    # Skip empty or new lines
+    if [ "x`printf '%s' "${stack[$i]}" | tr -d "$IFS"`" = x ]; then
+      continue
+    fi
+
+    builtin pushd -n "${stack[$i]}" 1>/dev/null
+  done
+
+  # In case when we're started from a fresh session
+  # we need to remove the first element.
+  if (( ${#DIRSTACK[*]} > 1)) && [[ -d "${DIRSTACK[1]}" ]]; then
+    builtin popd +0 1>/dev/null || true
+  elif [[ -d "${DIRSTACK[0]}" ]]; then
+    builtin cd -- "${DIRSTACK[0]}" || return
+  fi
+}
+
 # Save the current directory on the top of the directory stack
 # and then cd to dir.
 #
@@ -164,25 +196,8 @@ alias cd='pushd'
 #   $ back            # We're at $HOME now
 alias back='popd'
 
-# Restore previous directory history from the cache and cd to
-# first directory in the directory stack.
-if [[ -f "$DIRSTACKFILE" ]] && (( ${#DIRSTACK[*]} <=  1)); then
-  readarray -t newstack < "$DIRSTACKFILE"
-
-  # Reverse a for loop
-  for ((i=${#newstack[@]}-1; i>=0; --i)); do
-    builtin pushd -n "${newstack[$i]}" 1>/dev/null
-  done
-  unset newstack
-
-  # In case when we're started from a fresh session
-  # we need remove first element.
-  if (( ${#DIRSTACK[*]} > 1)) && [[ -d "${DIRSTACK[1]}" ]]; then
-    builtin popd +0 1>/dev/null || true
-  elif [[ -d "${DIRSTACK[0]}" ]]; then
-    builtin cd -- "${DIRSTACK[0]}" || return
-  fi
-fi
+# Restore the directory stack
+restored
 
 # Local Variables:
 # mode: sh
