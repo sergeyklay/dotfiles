@@ -186,6 +186,9 @@ function flipd() {
 
 # Keep track of visited directories.
 #
+# Performs normal 'cd', but writes dirstack to a rotating file
+# which is shared between terminals/sessions.
+#
 #   $ dirs -v # See the directories stack
 #   $ cd -N   # Go back to a visited folder N
 alias cd='pushd'
