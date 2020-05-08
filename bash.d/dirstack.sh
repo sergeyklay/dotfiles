@@ -50,7 +50,7 @@ function uniqd() {
 
   for i in $(seq 0 $((${#DIRSTACK[@]}-1))); do
     dir="${DIRSTACK[$i]/%\//}"
-    if [ -z "$dir" ]; then
+    if [ -z "$dir" -o ! -d "$dir" ]; then
       continue
     fi
 
