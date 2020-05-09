@@ -50,11 +50,27 @@ function uniqd() {
 
   for i in $(seq 0 $((${#DIRSTACK[@]}-1))); do
     dir="${DIRSTACK[$i]/%\//}"
-    if [ -z "$dir" -o ! -d "$dir" ]; then
+    if [ -z "$dir" ]; then
       continue
     fi
 
-    if [ "$(realpath "$dir")" = "$cwd" ]; then
+    dir="$(realpath "$dir" 2>/dev/null || true)"
+
+    # realpath for a non existent nested directory will return empty
+    # string.  Remove them from the directory stack
+    if [ -z "$dir" ]; then
+      builtin popd -n "+$i" 1>/dev/null || true
+      continue
+    fi
+
+    # Remove no longer existent paths from the directory stack
+    if [ ! -d "$dir" ]; then
+      builtin popd -n "+$i" 1>/dev/null || true
+      continue
+    fi
+
+    # Remove duplicates
+    if [ "$dir" = "$cwd" ]; then
       ((dups++))
       if [ "$dups" -gt 1 ]; then
         builtin popd -n "+$i" 1>/dev/null || true
