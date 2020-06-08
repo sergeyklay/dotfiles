@@ -151,6 +151,18 @@ if [ -z "$RBENV_SHELL" ]; then
   fi
 fi
 
+# sdkman
+if [ -z "$SDKMAN_DIR" ]; then
+  if [ -d "$HOME/.sdkman" ]; then
+    SDKMAN_DIR="$HOME/.sdkman"
+    export SDKMAN_DIR
+
+    [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && {
+      . "$SDKMAN_DIR/bin/sdkman-init.sh"
+    }
+  fi
+fi
+
 # Enable bash completion for git
 if [ -f /usr/share/bash-completion/completions/git ]; then
   . /usr/share/bash-completion/completions/git
