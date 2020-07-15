@@ -88,7 +88,7 @@ elif command -v lesspipe >/dev/null 2>&1 ; then
 fi
 
 # Main prompt
-PS1='$ \w '
+PS1='\u@\h \w \$'
 # Continuation prompt
 PS2="> "
 
