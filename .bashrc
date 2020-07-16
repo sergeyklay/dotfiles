@@ -88,7 +88,8 @@ elif command -v lesspipe >/dev/null 2>&1 ; then
 fi
 
 # Main prompt
-PS1='\u@\h \w \$'
+PS1='<\t> \u@\h \w [$(echo $?)]
+\$ '
 # Continuation prompt
 PS2="> "
 
@@ -116,7 +117,8 @@ esac
 # Colorize output
 if [ "$colors_support" = true ]; then
   # colorize prompt
-  PS1="\[\033[1;32m\]$\[\033[00m\] \w "
+  PS1='\e[0;33m\]<\t>\e[0m\] \e[0;32m\]\u@\h\e[0m\] \e[0;36m\]\w\e[0m\] [$(echo $?)]
+\$ '
   PS2="\[\033[1;37m\]>\[\033[00m\] "
 
   # colorize gcc output
