@@ -29,6 +29,10 @@ then
   esetenv SSH_AUTH_SOCK SSH_AGENT_PID
 fi
 
+if [[ -n "$SSH_CONNECTION" ]] ; then
+  export PINENTRY_USER_DATA="USE_CURSES=1"
+fi
+
 # Local Variables:
 # mode: sh
 # flycheck-shellcheck-excluded-warnings: ("SC1090")
