@@ -165,6 +165,9 @@ if [ -z "$SDKMAN_DIR" ]; then
   fi
 fi
 
+# Enable bash completion with sudo
+complete -cf sudo
+
 # Use bash-completion, if available.
 # See https://github.com/scop/bash-completion
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
