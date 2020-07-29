@@ -17,6 +17,9 @@
 	# https://github.com/sergeyklay/.emacs.d/blob/master/bin/emacsclient.wrapper
 	editor = emacsclient.wrapper
 
+[pull]
+	rebase = true
+
 [push]
 	default = simple
 
