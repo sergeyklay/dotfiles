@@ -165,26 +165,10 @@ if [ -z "$SDKMAN_DIR" ]; then
   fi
 fi
 
-# Enable bash completion for git
-if [ -f /usr/share/bash-completion/completions/git ]; then
-  . /usr/share/bash-completion/completions/git
-fi
-
-# Enable bash completion for zephir
-if [ -f /etc/bash_completion.d/zephir-autocomplete ]; then
-  . /etc/bash_completion.d/zephir-autocomplete
-fi
-
-# Enable bash completion for composer
-# See: https://github.com/bramus/composer-autocomplete
-if [ -f /etc/bash_completion.d/composer ]; then
-  . /etc/bash_completion.d/composer
-fi
-
-# Enable bash completion for pass
-if [ -f /usr/share/bash-completion/completions/pass ]; then
-  . /usr/share/bash-completion/completions/pass
-fi
+# Use bash-completion, if available.
+# See https://github.com/scop/bash-completion
+[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
+  . /usr/share/bash-completion/bash_completion
 
 # Local Variables:
 # mode: sh
