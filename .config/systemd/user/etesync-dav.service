@@ -1,0 +1,11 @@
+[Unit]
+Description=Cal/CardDAV frontend for Etesync
+Documentation=https://github.com/etesync/etesync-dav
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/etesync-dav
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
