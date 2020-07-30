@@ -10,6 +10,11 @@ alias ec="$EDITOR"
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 
+# Color support for ripgrep
+if command -v rg >/dev/null 2>&1; then
+  alias rg='rg --color=auto'
+fi
+
 # Wget will use the supplied file as the HSTS database
 if command -v wget >/dev/null 2>&1; then
   # shellcheck disable=SC2139
