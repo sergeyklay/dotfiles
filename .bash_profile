@@ -128,7 +128,7 @@ if [ -d ~/go ]; then
     pathmunge "$GOBIN"
   }
 
-  GO111MODULE=on
+  GO111MODULE=auto
   export GO111MODULE
 fi
 
