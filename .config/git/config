@@ -5,7 +5,7 @@
 
 [core]
 	autocrlf = input
-	safecrlf = true
+	safecrlf = warn
 	whitespace = trailing-space,space-before-tab,indent-with-non-tab
 	pager = less -FRSX
 	precomposeunicode = true
