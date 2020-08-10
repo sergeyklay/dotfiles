@@ -3,9 +3,6 @@
 	email = egrep@protonmail.ch
 	signingkey = C6AF1016BBDEA800
 
-[init]
-	templatedir = ~/.config/git/template
-
 [core]
 	autocrlf = input
 	safecrlf = true
@@ -71,11 +68,8 @@
 	ign = ls-files -o -i --exclude-standard
 	last = log -1 HEAD
 	mf = merge --no-ff
-	count = !~/bin/git-count
 	puhs = push
-	la = "!sh -c \"git diff $1..HEAD\" -"
 	patch = !git --no-pager diff --no-color
-	etags = !.git/hooks/etags
 
 [color]
 	status = auto
@@ -111,12 +105,6 @@
 	oldHighlight = red bold 52
 	newNormal = green bold
 	newHighlight = green bold 22
-
-[url "git://github.com/"]
-	insteadOf = github:
-
-[url "git@github.com:sergeyklay/"]
-	insteadOf = klay:
 
 [filter "lfs"]
 	required = true
