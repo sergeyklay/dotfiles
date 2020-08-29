@@ -83,28 +83,10 @@
 	pager = true
 
 [color "branch"]
-	current = yellow reverse
-	local = yellow
-	remote = green
-
-[color "diff"]
-	meta = 227
-	frag = magenta bold
-	old = red bold
-	new = green bold
-	whitespace = red reverse
-	commit = 227 bold
+	current = cyan
 
 [color "status"]
-	added = yellow
-	changed = green
 	untracked = cyan
-
-[color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
 
 [filter "lfs"]
 	required = true
