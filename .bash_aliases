@@ -40,32 +40,6 @@ else
   alias diff='diff -Nuar'
 fi
 
-if command -v transmission-daemon >/dev/null 2>&1 ; then
-  alias t-start='sudo service transmission-daemon start'
-  alias t-stop='sudo service transmission-daemon stop'
-  alias t-reload='sudo service transmission-daemon reload'
-  alias t-list='transmission-remote -n 'transmission:transmission' -l'
-  alias t-basicstats='transmission-remote -n 'transmission:transmission' -st'
-  alias t-fullstats='transmission-remote -n 'transmission:transmission' -si'
-fi
-
-if command -v equery >/dev/null 2>&1 ; then
-  alias eqf='equery f'
-  alias equ='equery u'
-  alias eqh='equery h'
-  alias eqa='equery a'
-  alias eqb='equery b'
-  alias eql='equery l'
-  alias eqd='equery d'
-  alias eqg='equery g'
-  alias eqc='equery c'
-  alias eqk='equery k'
-  alias eqm='equery m'
-  alias eqy='equery y'
-  alias eqs='equery s'
-  alias eqw='equery w'
-fi
-
 case $OS in
   Darwin)
     # brew install coreutils
