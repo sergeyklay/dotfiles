@@ -65,8 +65,10 @@ case "$OS" in
       pathmunge /usr/local/opt/kubernetes-cli/bin
     ;;
   *Linux)
-    [ -r "${XDG_CONFIG_HOME:-~/.config}"/xdg-dirs ] && {
-      . "${XDG_CONFIG_HOME:-~/.config}"/xdg-dirs
+    # Note: ~ is only expanded by the shell if it's unquoted.
+    # When it's quoted it's a literal tilde symbol.
+    [ -r "${XDG_CONFIG_HOME:-$HOME/.config}"/xdg-dirs ] && {
+      . "${XDG_CONFIG_HOME:-$HOME/.config}"/xdg-dirs
     }
     ;;
 esac
@@ -147,9 +149,11 @@ fi
 [ -d ~/.cask/bin ] && pathmunge ~/.cask/bin
 
 # Composer
-if [ -d "${XDG_CONFIG_HOME:-~/.config}/composer" ]; then
-  COMPOSER_HOME="${XDG_CONFIG_HOME:-~/.config}/composer"
-  COMPOSER_CACHE_DIR="${XDG_CACHE_HOME:-~/.cache}/composer"
+# Note: ~ is only expanded by the shell if it's unquoted.
+# When it's quoted it's a literal tilde symbol.
+if [ -d "${XDG_CONFIG_HOME:-$HOME/.config}/composer" ]; then
+  COMPOSER_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/composer"
+  COMPOSER_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/composer"
   export COMPOSER_HOME COMPOSER_CACHE_DIR
 
   [ -d "$COMPOSER_HOME/vendor/bin" ] &&
