@@ -1,0 +1,12 @@
+[Unit]
+Description=Calibre content server
+Documentation=https://manual.calibre-ebook.com
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/calibre-server /mnt/Documents/Library
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
