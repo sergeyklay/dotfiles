@@ -18,7 +18,7 @@ fi
 # Wget will use the supplied file as the HSTS database
 if command -v wget >/dev/null 2>&1; then
   # shellcheck disable=SC2139
-  alias wget="wget --hsts-file='${XDG_CACHE_HOME:-~/.cache}/wget-hsts'"
+  alias wget="wget --hsts-file=${XDG_CACHE_HOME:-~/.cache}/wget-hsts"
 fi
 
 if command -v docker >/dev/null 2>&1; then
