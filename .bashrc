@@ -78,7 +78,7 @@ export PAGER=less
 export LESS="-X -F -R"
 export LESSCHARSET=UTF-8
 
-export LESSHISTFILE="${XDG_CACHE_HOME:-~/.cache}/lesshst"
+export LESSHISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/lesshst"
 
 # Use a lesspipe filter, if we can find it.
 # This sets the $LESSOPEN variable.
