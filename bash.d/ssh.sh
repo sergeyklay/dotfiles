@@ -14,7 +14,7 @@ function ssh/start-agent () {
 }
 
 # Source SSH settings, if applicable
-if [ -n "$SSH_ENV" ] && [ -f "$SSH_ENV" ]; then
+if [ -r "$SSH_ENV" ]; then
   . "${SSH_ENV}" > /dev/null
   ps -p "${SSH_AGENT_PID}" > /dev/null || {
     ssh/start-agent
