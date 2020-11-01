@@ -214,12 +214,7 @@ export EDITOR
 VISUAL="$EDITOR"
 export VISUAL
 
-
-# Configure ssh
-[ -r ~/bash.d/ssh.sh ] && . ~/bash.d/ssh.sh
-
-# Configure gpg.
-# This one should be after ssh config to override SSH_AUTH_SOCK.
+# Configure gpg & ssh
 [ -r ~/bash.d/gpg.sh ] && . ~/bash.d/gpg.sh
 
 # Include '.bashrc' if it exists
