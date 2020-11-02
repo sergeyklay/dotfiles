@@ -170,9 +170,14 @@ fi
 complete -cf sudo
 
 # Use bash-completion, if available.
-# See https://github.com/scop/bash-completion
+# For more see: https://github.com/scop/bash-completion
+#
+# Linux
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
   . /usr/share/bash-completion/bash_completion
+# macOs
+[[ $PS1 && -r /usr/local/etc/profile.d/bash_completion.sh ]] && \
+  . /usr/local/etc/profile.d/bash_completion.sh
 
 # Local Variables:
 # mode: sh
