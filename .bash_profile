@@ -34,6 +34,9 @@ fi
 # pathmunge function
 . ~/bash.d/pathmunge.sh
 
+# Include alternate sbin
+[ -d /usr/local/sbin ] && pathmunge /usr/local/sbin
+
 # Include local bin
 [ -e ~/bin ] && {
   [ -L ~/bin ] || [ -d ~/bin ] && {
