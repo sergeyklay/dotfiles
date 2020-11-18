@@ -138,7 +138,9 @@ fi
 . ~/bash.d/dirstack.sh
 
 # Include aliases
-[ -f ~/.bash_aliases ] && . ~/.bash_aliases
+if [ -f ~/.bash_aliases ]; then
+  . ~/.bash_aliases
+fi
 
 unset colors_support
 
@@ -160,9 +162,9 @@ if [ -z "$SDKMAN_DIR" ]; then
     SDKMAN_DIR="$HOME/.sdkman"
     export SDKMAN_DIR
 
-    [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && {
+    if [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]]; then
       . "$SDKMAN_DIR/bin/sdkman-init.sh"
-    }
+    fi
   fi
 fi
 
@@ -173,11 +175,14 @@ complete -cf sudo
 # For more see: https://github.com/scop/bash-completion
 #
 # Linux
-[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
+if [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]]; then
   . /usr/share/bash-completion/bash_completion
+fi
+
 # macOs
-[[ $PS1 && -r /usr/local/etc/profile.d/bash_completion.sh ]] && \
+if [[ $PS1 && -r /usr/local/etc/profile.d/bash_completion.sh ]]; then
   . /usr/local/etc/profile.d/bash_completion.sh
+fi
 
 # Local Variables:
 # mode: sh

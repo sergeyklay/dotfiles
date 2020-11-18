@@ -35,16 +35,20 @@ fi
 . ~/bash.d/pathmunge.sh
 
 # Include alternate sbin
-[ -d /usr/local/sbin ] && pathmunge /usr/local/sbin
+if [ -d /usr/local/sbin ]; then
+  pathmunge /usr/local/sbin
+fi
 
 # Include local bin
-[ -e ~/bin ] && {
-  [ -L ~/bin ] || [ -d ~/bin ] && {
+if [ -e ~/bin ]; then
+  if [ -L ~/bin ] || [ -d ~/bin ]; then
     pathmunge ~/bin
-  }
-}
+  fi
+fi
 
-[ -d ~/.local/bin ] && pathmunge ~/.local/bin
+if [ -d ~/.local/bin ]; then
+  pathmunge ~/.local/bin
+fi
 
 case "$OS" in
   Darwin)
@@ -54,34 +58,35 @@ case "$OS" in
     export LC_ALL LANG
 
     # LLVM
-    [ -d /usr/local/opt/llvm/bin ] && {
+    if [ -d /usr/local/opt/llvm/bin ]; then
       pathmunge /usr/local/opt/llvm/bin
-    }
+    fi
 
     # QT
-    [ -d /usr/local/opt/qt/bin ] && {
+    if [ -d /usr/local/opt/qt/bin ]; then
       pathmunge /usr/local/opt/qt/bin
-    }
+    fi
 
     # kubectl
-    [ -d /usr/local/opt/kubernetes-cli/bin ] &&
+    if [ -d /usr/local/opt/kubernetes-cli/bin ]; then
       pathmunge /usr/local/opt/kubernetes-cli/bin
+    fi
     ;;
   *Linux)
     # Note: ~ is only expanded by the shell if it's unquoted.
     # When it's quoted it's a literal tilde symbol.
-    [ -r "${XDG_CONFIG_HOME:-$HOME/.config}"/xdg-dirs ] && {
+    if [ -r "${XDG_CONFIG_HOME:-$HOME/.config}"/xdg-dirs ]; then
       . "${XDG_CONFIG_HOME:-$HOME/.config}"/xdg-dirs
-    }
+    fi
     ;;
 esac
 
 # Add .NET Core SDK tools
-[ -d ~/.dotnet/tools ] && {
+if [ -d ~/.dotnet/tools ]; then
   DOTNET_CLI_TELEMETRY_OPTOUT=1
   export DOTNET_CLI_TELEMETRY_OPTOUT
   pathmunge ~/.dotnet/tools
-}
+fi
 
 # rbenv
 # Only set PATH here to prevent performance degradation.
@@ -122,44 +127,53 @@ fi
 
 # phpenv
 # Only set PATH here to prevent performance degradation.
-[ -d ~/.phpenv/bin ] && {
+if [ -d ~/.phpenv/bin ]; then
   pathmunge ~/.phpenv/bin
-}
+fi
 
 # php-build
-[ -d ~/.phpenv/plugins/php-build/bin ] && {
+if [ -d ~/.phpenv/plugins/php-build/bin ]; then
   PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
   export PHP_BUILD_EXTRA_MAKE_ARGUMENTS
-  [ -d ~/src/php ] && {
+  if [ -d ~/src/php ]; then
     PHP_BUILD_TMPDIR=~/src/php
     export PHP_BUILD_TMPDIR
-  }
+  fi
 
   pathmunge ~/.phpenv/plugins/php-build/bin
-}
+fi
 
 # Local binaries
-[ -d ~/.local/bin ] && pathmunge ~/.local/bin
+if [ -d ~/.local/bin ]; then
+  pathmunge ~/.local/bin
+fi
 
 # Go lang local workspace
-[ -d /usr/local/go/bin ] && pathmunge /usr/local/go/bin
+if [ -d /usr/local/go/bin ]; then
+  pathmunge /usr/local/go/bin
+fi
 
 # Cargo binaries
-[ -d ~/.cargo/bin ] && pathmunge ~/.cargo/bin
-[ -d /usr/lib/cargo/bin ] && pathmunge /usr/lib/cargo/bin
+if [ -d ~/.cargo/bin ]; then
+  pathmunge ~/.cargo/bin
+fi
+
+if [ -d /usr/lib/cargo/bin ]; then
+  pathmunge /usr/lib/cargo/bin
+fi
 
 # Go lang local workspace
 if [ -d ~/go ]; then
   GOPATH=~/go
   export GOPATH
 
-  [ -d "$GOPATH/bin" ] && {
+  if [ -d "$GOPATH/bin" ]; then
     # Put binary files created using "go install" command
     # in "$GOPATH/bin"
     GOBIN="$GOPATH/bin"
     export GOBIN
     pathmunge "$GOBIN"
-  }
+  fi
 
   GO111MODULE=auto
   export GO111MODULE
@@ -167,17 +181,25 @@ fi
 
 # TinyGo
 # See: https://github.com/tinygo-org/tinygo
-[ -d /usr/local/tinygo/bin ] && pathmunge /usr/local/tinygo/bin
+if [ -d /usr/local/tinygo/bin ]; then
+  pathmunge /usr/local/tinygo/bin
+fi
 
 # hlint
 # See: https://github.com/ndmitchell/hlint
-[ -d ~/.hlint ] && pathmunge ~/.hlint
+if [ -d ~/.hlint ]; then
+  pathmunge ~/.hlint
+fi
 
 # Cabal
-[ -d ~/.cabal/bin ] && pathmunge ~/.cabal/bin
+if [ -d ~/.cabal/bin ]; then
+  pathmunge ~/.cabal/bin
+fi
 
 # Cask
-[ -d ~/.cask/bin ] && pathmunge ~/.cask/bin
+if [ -d ~/.cask/bin ]; then
+  pathmunge ~/.cask/bin
+fi
 
 # Composer
 # Note: ~ is only expanded by the shell if it's unquoted.
@@ -187,13 +209,19 @@ if [ -d "${XDG_CONFIG_HOME:-$HOME/.config}/composer" ]; then
   COMPOSER_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/composer"
   export COMPOSER_HOME COMPOSER_CACHE_DIR
 
-  [ -d "$COMPOSER_HOME/vendor/bin" ] &&
+  if [ -d "$COMPOSER_HOME/vendor/bin" ]; then
     pathmunge "$COMPOSER_HOME/vendor/bin"
+  fi
 fi
 
 # The next line updates PATH for the Google Cloud SDK.
-[ -d ~/gcp/bin ] && pathmunge ~/gcp/bin
-[ -r ~/gcp/path.bash.inc ] && . ~/gcp/path.bash.inc
+if [ -d ~/gcp/bin ]; then
+  pathmunge ~/gcp/bin
+fi
+
+if [ -r ~/gcp/path.bash.inc ]; then
+  . ~/gcp/path.bash.inc
+fi
 
 export PATH
 
@@ -246,10 +274,14 @@ VISUAL="$EDITOR"
 export VISUAL
 
 # Configure gpg & ssh
-[ -r ~/bash.d/gpg.sh ] && . ~/bash.d/gpg.sh
+if [ -r ~/bash.d/gpg.sh ]; then
+  . ~/bash.d/gpg.sh
+fi
 
 # Include '.bashrc' if it exists
-[ -r ~/.bashrc ] && . ~/.bashrc
+if [ -r ~/.bashrc ]; then
+  . ~/.bashrc
+fi
 
 # Local Variables:
 # mode: sh
