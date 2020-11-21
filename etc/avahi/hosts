@@ -1,8 +1,0 @@
-# This file contains static ip address <-> host name mappings.  These
-# can be useful to publish services on behalf of a non-avahi enabled
-# device. Please bear in mind that host names are expected to be
-# fully qualified domain names, i.e. ending in .local!
-
-# See avahi.hosts(5) for more information on this configuration file!
-
-192.168.1.1 router.local
