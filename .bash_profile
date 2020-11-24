@@ -97,6 +97,19 @@ for dir in ~/.rbenv "/usr/local/opt/rbenv"; do
   fi
 done
 
+# skdman
+# Only set PATH here to prevent performance degradation.
+if [ -z ${SDKMAN_DIR+x} ]; then
+  if [ -d "$HOME/.sdkman" ]; then
+    SDKMAN_DIR="$HOME/.sdkman"
+    export SDKMAN_DIR
+  fi
+else
+  if [ ! -d "$SDKMAN_DIR" ]; then
+    unset SDKMAN_DIR
+  fi
+fi
+
 # virtualenvwrapper
 
 # The variable WORKON_HOME tells virtualenvwrapper where to place

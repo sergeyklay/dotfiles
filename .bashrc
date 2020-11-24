@@ -157,15 +157,10 @@ if [ -z "$RBENV_SHELL" ]; then
 fi
 
 # sdkman
-if [ -z "$SDKMAN_DIR" ]; then
-  if [ -d "$HOME/.sdkman" ]; then
-    SDKMAN_DIR="$HOME/.sdkman"
-    export SDKMAN_DIR
-
+if [ ! -z ${SDKMAN_DIR+x} ]; then
     if [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]]; then
       . "$SDKMAN_DIR/bin/sdkman-init.sh"
     fi
-  fi
 fi
 
 # Enable bash completion with sudo
