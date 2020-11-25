@@ -143,12 +143,9 @@ elif command -v python >/dev/null 2>&1; then
   export VIRTUALENVWRAPPER_PYTHON
 fi
 
-if [ ! -z ${WORKON_HOME+x} ]; then
-  _venv="$(command -v virtualenvwrapper_lazy.sh 2>/dev/null)"
-  if [ ! -z ${venv+x} ]; then
-     source "$_venv"
-  fi
-  unset _venv
+if [ ! -z ${WORKON_HOME+x} ] && \
+     command -v virtualenvwrapper_lazy.sh >/dev/null 2>&1 ; then
+  source "$(command -v virtualenvwrapper_lazy.sh 2>/dev/null)"
 fi
 
 # phpenv
