@@ -3,7 +3,6 @@
 # This file contains the definition of aliases.
 
 # Setting alias for emacsclient.  See '.bash_profile' for more.
-# shellcheck disable=SC2139
 alias ec="$EDITOR"
 
 # Color support for grep
@@ -17,7 +16,6 @@ fi
 
 # Wget will use the supplied file as the HSTS database
 if command -v wget >/dev/null 2>&1; then
-  # shellcheck disable=SC2139
   alias wget="wget --hsts-file=${XDG_CACHE_HOME:-$HOME/.cache}/wget-hsts"
 fi
 
@@ -83,5 +81,4 @@ esac
 
 # Local Variables:
 # mode: sh
-# flycheck-disabled-checkers: (sh-posix-dash sh-shellcheck)
 # End:
