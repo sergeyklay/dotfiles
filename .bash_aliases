@@ -79,6 +79,12 @@ case $OS in
     ;;
 esac
 
+if command -v todoman >/dev/null 2>&1; then
+  alias t="todoman"
+elif command -v todo >/dev/null 2>&1; then
+  alias t="todo"
+fi
+
 # Local Variables:
 # mode: sh
 # End:
