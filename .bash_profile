@@ -52,6 +52,11 @@ fi
 
 case "$OS" in
   Darwin)
+    # TODO(serghei): Make this better to avoid maintain python version
+    if [ -d ~/Library/Python/3.9/bin ]; then
+      pathmunge ~/Library/Python/3.9/bin
+    fi
+
     # See: https://stackoverflow.com/q/7165108/1661465
     LC_ALL=en_US.UTF-8
     LANG=en_US.UTF-8
