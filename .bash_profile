@@ -1,8 +1,23 @@
-# ~/.bash_profile
+# Copyright (C) 2014-2020 Serghei Iakovlev <egrep@protonmail.ch>
 #
+# This file is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 3
+# of the License, or (at your option) any later version.
+#
+# This file is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <https://www.gnu.org/licenses/>.
+
 # User wide environment and startup programs, for login setup.
 #
 # This file is sourced by the first for login shells.
+
+# shellcheck shell=bash
 
 # A workaround to get OS name on Linux and macOS systems
 OS="$(uname -o 2>/dev/null || uname -s)"
@@ -32,6 +47,7 @@ if [ -z ${HOST+x} ]; then
 fi
 
 # pathmunge function
+# shellcheck source=./bash.d/pathmunge.sh
 . ~/bash.d/pathmunge.sh
 
 # Include alternate sbin
@@ -82,6 +98,7 @@ case "$OS" in
     # Note: ~ is only expanded by the shell if it's unquoted.
     # When it's quoted it's a literal tilde symbol.
     if [ -r "${XDG_CONFIG_HOME:-$HOME/.config}"/xdg-dirs ]; then
+      # shellcheck source=./.config/xdg-dirs
       . "${XDG_CONFIG_HOME:-$HOME/.config}"/xdg-dirs
     fi
     ;;
@@ -151,7 +168,8 @@ fi
 
 if [ -n "${WORKON_HOME+x}" ] && \
      command -v virtualenvwrapper_lazy.sh >/dev/null 2>&1 ; then
-  source "$(command -v virtualenvwrapper_lazy.sh 2>/dev/null)"
+  # shellcheck disable=SC1090
+  . "$(command -v virtualenvwrapper_lazy.sh 2>/dev/null)"
 fi
 
 # phpenv
@@ -249,6 +267,7 @@ if [ -d ~/gcp/bin ]; then
 fi
 
 if [ -r ~/gcp/path.bash.inc ]; then
+  # shellcheck disable=SC1090
   . ~/gcp/path.bash.inc
 fi
 
@@ -304,16 +323,16 @@ export VISUAL
 
 # Configure gpg & ssh
 if [ -r ~/bash.d/gpg.sh ]; then
+  # shellcheck source=./bash.d/gpg.sh
   . ~/bash.d/gpg.sh
 fi
 
 # Include '.bashrc' if it exists
 if [ -r ~/.bashrc ]; then
+  # shellcheck source=./.bashrc
   . ~/.bashrc
 fi
 
 # Local Variables:
 # mode: sh
-# flycheck-shellcheck-excluded-warnings: ("SC1090")
-# flycheck-disabled-checkers: (sh-posix-dash sh-shellcheck)
 # End:
