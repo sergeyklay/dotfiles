@@ -1,10 +1,25 @@
-# ~/.bashrc
+# Copyright (C) 2014-2020 Serghei Iakovlev <egrep@protonmail.ch>
 #
+# This file is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 3
+# of the License, or (at your option) any later version.
+#
+# This file is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <https://www.gnu.org/licenses/>.
+
 # User wide interactive shell configuration and executing commands.
 #
 # This file is sourced by the second for login shells
 # (after '~/.bash_profile').  Or by the first for interactive
 # non-login shells.
+
+# shellcheck shell=bash
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -13,6 +28,7 @@
 if [ -f /etc/bashrc ]; then
   . /etc/bashrc
 elif [ -f /etc/bash.bashrc ]; then
+  # shellcheck disable=SC1091
   . /etc/bash.bashrc
 fi
 
@@ -118,7 +134,7 @@ esac
 # Colorize output
 if [ "$colors_support" = true ]; then
   # colorize prompt
-  PS1='\e[0;33m\]<\t>\e[0m\] \e[0;32m\]\u@\h\e[0m\] \e[0;36m\]\w\e[0m\] [$(echo $?)]
+  PS1='\[\e[0;33m\]<\t>\e[0m\] \e[0;32m\]\u@\h\e[0m\] \e[0;36m\]\w\e[0m\] [$(echo $?)]\]
 \$ '
   PS2="\[\033[1;37m\]>\[\033[00m\] "
 
@@ -135,10 +151,12 @@ if [ "$colors_support" = true ]; then
 fi
 
 # The Directory Stack Functions \ Aliases
+# shellcheck source=./bash.d/dirstack.sh
 . ~/bash.d/dirstack.sh
 
 # Include aliases
 if [ -f ~/.bash_aliases ]; then
+  # shellcheck source=./.bash_aliases
   . ~/.bash_aliases
 fi
 
@@ -157,8 +175,9 @@ if [ -z "$RBENV_SHELL" ]; then
 fi
 
 # sdkman
-if [ ! -z ${SDKMAN_DIR+x} ]; then
+if [ -n "${SDKMAN_DIR+x}" ]; then
     if [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]]; then
+      # shellcheck disable=SC1090
       . "$SDKMAN_DIR/bin/sdkman-init.sh"
     fi
 fi
@@ -171,11 +190,13 @@ complete -cf sudo
 #
 # Linux
 if [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]]; then
+  # shellcheck disable=SC1091
   . /usr/share/bash-completion/bash_completion
 fi
 
 # macOs
 if [[ $PS1 && -r /usr/local/etc/profile.d/bash_completion.sh ]]; then
+  # shellcheck disable=SC1091
   . /usr/local/etc/profile.d/bash_completion.sh
 fi
 
