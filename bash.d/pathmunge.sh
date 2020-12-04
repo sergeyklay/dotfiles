@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
+# shellcheck shell=bash
+
 # Check whether the string given is already in the PATH.
 pathmunge () {
   if ! echo "$PATH" | grep -Eq "(^|:)$1($|:)" ; then
