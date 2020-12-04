@@ -15,6 +15,8 @@
 
 # Setup GnuPG
 
+# shellcheck shell=bash
+
 GPG_AGENT_SOCK=/dev/null
 GNUPGHOME="$HOME/.gnupg"
 
