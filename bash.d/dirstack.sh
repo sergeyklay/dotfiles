@@ -21,6 +21,8 @@
 # This file is intended to be sourced from interactive shells,
 # i.e. in '~/.bashrc' file.
 
+# shellcheck shell=bash
+
 # Set the directory stack size limit to 20.
 DIRSTACKSIZE=20
 
@@ -37,7 +39,7 @@ DIRSTACKFILE="${XDG_CACHE_HOME:-$HOME/.cache}/dirs"
 #
 # Meant for 'pushd' (see  bellow).
 function polarize() {
-  if [[ "$@" =~ ^[-+][1-9][[:digit:]]*$ ]]; then
+  if [[ "$*" =~ ^[-+][1-9][[:digit:]]*$ ]]; then
     printf '%+d' "$(( -$@ ))"
   else
     echo -n "$@"
@@ -59,9 +61,11 @@ function polarize() {
 #
 # Meant for 'pushd' (see bellow).
 function uniqd() {
-  declare -i dups=0
-  declare -r cwd="$(pwd -P)"
-  local dir
+  local -i dups
+  dups=0
+
+  cwd="$(pwd -P)"
+  readonly cwd
 
   for i in $(seq 0 $((${#DIRSTACK[@]}-1))); do
     dir="${DIRSTACK[$i]/%\//}"
@@ -99,8 +103,11 @@ function uniqd() {
 #
 # Meant for 'pushd' (see below).
 function persistd() {
-  declare -r dbfile="${DIRSTACKFILE:-/dev/null}"
-  declare -r dbpath="$(dirname "$dbfile")"
+  dbfile="${DIRSTACKFILE:-/dev/null}"
+  readonly dbfile
+
+  dbpath="$(dirname "$dbfile")"
+  readonly dbpath
 
   [ "$dbfile" = "/dev/null" ] && return
 
@@ -124,7 +131,8 @@ function persistd() {
 #
 # Meant for 'pushd' (see bellow).
 function limitd() {
-  declare -i ssize="$(printf '%d' "${DIRSTACKSIZE:-20}")"
+  local -i ssize
+  ssize="$(printf '%d' "${DIRSTACKSIZE:-20}")"
 
   if [ "$ssize" -gt 0 ]; then
     while [ ${#DIRSTACK[*]} -gt "$ssize" ]; do
@@ -150,7 +158,7 @@ function restored() {
   # Reverse a for loop
   for ((i=${#stack[@]}-1; i>=0; --i)); do
     # Skip empty or new lines
-    if [ "x`printf '%s' "${stack[$i]}" | tr -d "$IFS"`" = x ]; then
+    if [ "x$(printf '%s' "${stack[$i]}" | tr -d "$IFS")" = x ]; then
       continue
     fi
 
