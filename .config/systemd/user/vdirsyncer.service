@@ -1,0 +1,8 @@
+[Unit]
+Description=Synchronize calendars and contacts
+Documentation=https://vdirsyncer.readthedocs.org/
+
+[Service]
+ExecStart=/home/egrep/.local/bin/vdirsyncer sync
+RuntimeMaxSec=3m
+Restart=on-failure
