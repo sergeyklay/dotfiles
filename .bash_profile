@@ -140,43 +140,10 @@ else
   fi
 fi
 
-# virtualenvwrapper
-
-# The variable WORKON_HOME tells virtualenvwrapper where to place
-# your virtual environments. If the directory does not exist when
-# virtualenvwrapper is loaded, it will be created automatically.
-if [ -z ${WORKON_HOME+x} ]; then
-  if [ -d "$HOME/.virtualenvs" ]; then
-    WORKON_HOME=~/.virtualenvs
-    export WORKON_HOME
-  fi
-fi
-
-# The variable PROJECT_HOME tells virtualenvwrapper where to place
-# your project working directories. The variable PROJECT_HOME tells
-# virtualenvwrapper where to place your project working directories.
-if [ -z ${PROJECT_HOME+x} ]; then
-  if [ -d "$HOME/work" ]; then
-    PROJECT_HOME=~/work
-    export PROJECT_HOME
-  fi
-fi
-
-# The variable VIRTUALENVWRAPPER_PYTHON tells virtualenvwrapper the
-# full path of the interpreter to use.
-if command -v python3 >/dev/null 2>&1 && [ -n "${WORKON_HOME+x}" ]
-then
-  VIRTUALENVWRAPPER_PYTHON="$(command -v python3 2>/dev/null)"
-  export VIRTUALENVWRAPPER_PYTHON
-elif command -v python >/dev/null 2>&1; then
-  VIRTUALENVWRAPPER_PYTHON="$(command -v python 2>/dev/null)"
-  export VIRTUALENVWRAPPER_PYTHON
-fi
-
-if [ -n "${WORKON_HOME+x}" ] && \
-     command -v virtualenvwrapper_lazy.sh >/dev/null 2>&1 ; then
-  # shellcheck disable=SC1090
-  . "$(command -v virtualenvwrapper_lazy.sh 2>/dev/null)"
+# Configure virtualenv
+if [ -r ~/bash.d/venv.sh ]; then
+  # shellcheck source=./bash.d/venv.sh
+  . ~/bash.d/venv.sh
 fi
 
 # phpenv
