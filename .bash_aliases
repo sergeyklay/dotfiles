@@ -17,12 +17,6 @@
 
 # shellcheck shell=bash
 
-# Setting alias for emacsclient.  See '.bash_profile' for more.
-if [ -n "$EDITOR" ]; then
-  # shellcheck disable=SC2139
-  alias ec="$EDITOR"
-fi
-
 # Color support for grep
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'

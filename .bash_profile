@@ -310,23 +310,11 @@ if [ -z ${MANPATH+x} ] || [ "$MANPATH" = ":" ] ; then
   export MANPATH
 fi
 
-# Editor to fallback to if the server is not running.  If this
-# variable is empty, then start GNU Emacs in daemon mode and try
-# connecting again.
-ALTERNATE_EDITOR=''
-export ALTERNATE_EDITOR
-
-# See:
-# https://github.com/sergeyklay/.emacs.d/blob/master/bin/emacsclient.wrapper
-if command -v emacsclient.wrapper >/dev/null 2>&1 ; then
-  EDITOR=emacsclient.wrapper
-else
-  EDITOR='emacs -nw'
+# The definition of the editor
+if [ -r ~/bash.d/editor.sh ]; then
+  # shellcheck source=./bash.d/editor.sh
+  . ~/bash.d/editor.sh
 fi
-export EDITOR
-
-VISUAL="$EDITOR"
-export VISUAL
 
 # Configure gpg & ssh
 if [ -r ~/bash.d/gpg.sh ]; then
