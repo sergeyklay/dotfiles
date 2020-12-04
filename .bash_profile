@@ -74,6 +74,13 @@ case "$OS" in
       fi
     done
 
+    # Disable homebrew auto update in macOs
+    # whenever I run a brew command.
+    if command -v brew >/dev/null 2>&1 ; then
+      HOMEBREW_NO_AUTO_UPDATE=1
+      ecport HOMEBREW_NO_AUTO_UPDATE
+    fi
+
     # See: https://stackoverflow.com/q/7165108/1661465
     LC_ALL=en_US.UTF-8
     LANG=en_US.UTF-8
