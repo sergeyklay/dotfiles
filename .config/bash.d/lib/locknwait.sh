@@ -97,8 +97,15 @@ function locknwait() {
   to_sleep="$(echo "scale=4; $RANDOM / 80000" | bc -l)"
   sleep "$to_sleep"
 
+  local tmpdir
+  if [ -n "$TMPDIR" ] && [ -w "$TMPDIR" ]; then
+    tmpdir="$TMPDIR"
+  else
+    tmpdir="/tmp"
+  fi
+
   local tmpfile
-  tmpfile="$(mktemp "/tmp/$$-${lockfile##*/}.XXXXXX" 2>/dev/null)"
+  tmpfile="$(mktemp -q "${tmpdir}/$$-${lockfile##*/}.XXXXXX")"
   ret=$?
 
   if [ $ret -ne 0 ]; then
