@@ -80,6 +80,7 @@ set input-meta on
 
 # Cycle through ambiguous completions instead of list
 "\C-i": menu-complete
+"\C-j": menu-complete-backward
 
 # Do not use bell at all
 set bell-style none
