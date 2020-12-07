@@ -48,6 +48,7 @@ configs=(
   hist     # Setting up history
   aliases  # The definition of aliases
   prompt   # The definition of the prompts
+  comp     # Configure completion
 )
 
 for c in "$configs[@]" ;  do
@@ -55,16 +56,7 @@ for c in "$configs[@]" ;  do
   [ -r "$BASHD_ROOT/conf.d/$c.sh" ] && . "$BASHD_ROOT/conf.d/$c.sh"
 done
 
-# All the colorizing may or may not work depending on your terminal
-# emulation and settings, especially. ANSI color.   But it shouldn't
-# hurt to have.
-if command -v dircolors >/dev/null 2>&1 ; then
-  if [ -r ~/.dircolors ]; then
-    eval "$(dircolors -b ~/.dircolors)"
-  else
-    eval "$(dircolors -b)"
-  fi
-fi
+unset c configs
 
 # phpenv
 if command -v phpenv >/dev/null 2>&1 ; then
@@ -84,24 +76,6 @@ if [ -n "${SDKMAN_DIR+x}" ]; then
       # shellcheck disable=SC1090
       . "$SDKMAN_DIR/bin/sdkman-init.sh"
     fi
-fi
-
-# Enable bash completion with sudo
-complete -cf sudo
-
-# Use bash-completion, if available.
-# For more see: https://github.com/scop/bash-completion
-#
-# Linux
-if [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]]; then
-  # shellcheck disable=SC1091
-  . /usr/share/bash-completion/bash_completion
-fi
-
-# macOs
-if [[ $PS1 && -r /usr/local/etc/profile.d/bash_completion.sh ]]; then
-  # shellcheck disable=SC1091
-  . /usr/local/etc/profile.d/bash_completion.sh
 fi
 
 # Local Variables:
