@@ -79,7 +79,7 @@ set colored-stats on
 set input-meta on
 
 # Cycle through ambiguous completions instead of list
-#"\C-i": menu-complete
+"\C-i": menu-complete
 
 # Do not use bell at all
 set bell-style none
