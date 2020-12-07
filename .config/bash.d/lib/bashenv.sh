@@ -91,7 +91,7 @@ function bashenv() {
 
   # Load required functions
   for f in locknwait upcase; do
-    if [ -z "$(LC_ALL=C type -t $f)" ] && \
+    if [ -z "$(LC_ALL=C type -t $f)" ] || \
          [ "$(LC_ALL=C type -t $f)" != function ]; then
       # shellcheck disable=SC1090
       . "$BASHD_ROOT/lib/${f}.sh"
