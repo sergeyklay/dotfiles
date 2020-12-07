@@ -50,7 +50,7 @@ function bashenv() {
   if [ -L "$cache_lock" ]; then
     # Someone is writing to the cache, let's just wait a little.
     echo -n "bashenv: Found lockfile: \"$cache_lock\", "
-    echo -n "sleeping for 1 second..."
+    echo "sleeping for 1 second..."
     sleep 1
 
     if [ -L "$cache_lock" ]; then
