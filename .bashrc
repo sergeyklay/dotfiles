@@ -28,6 +28,7 @@
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
+  # shellcheck disable=SC1091
   . /etc/bashrc
 elif [ -f /etc/bash.bashrc ]; then
   # shellcheck disable=SC1091
@@ -37,57 +38,19 @@ fi
 # OS specific configuration.
 # This comes first as it tends to mess up things.
 if [ -r "$BASHD_ROOT/conf.d/OS/$OSSHORT/bashrc.sh" ]; then
+  # shellcheck disable=SC1091
   . "$BASHD_ROOT/conf.d/OS/$OSSHORT/bashrc.sh"
 fi
 
-# Auto-fix minor typos in interactive use of 'cd'
-shopt -q -s cdspell
+# Order is matter
+configs=(
+  ble  # Bash Line Editor
+  hist # Setting up history
+)
 
-# Bash can automatically prepend cd when entering just a path in
-# the shell
-shopt -q -s autocd
-
-# Check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS
-shopt -q -s checkwinsize
-
-# Immediate notification of background job termination
-set -o notify
-
-# Don't let Ctrl-D exit the shell
-set -o ignoreeof
-
-# Append to the history file, don't overwrite it
-shopt -s histappend
-
-# Save all strings of multiline commands in the same history entry
-shopt -q -s cmdhist
-
-# See man -P 'less -rp HISTCONTROL' bash
-HISTCONTROL="erasedups:ignoreboth"
-
-# The number of commands in history stack in memory
-HISTSIZE=5000
-
-# Maximum number of history lines
-HISTFILESIZE=10000
-
-# For the protection and ability for future analyzing
-HISTTIMEFORMAT="%h %d %H:%M:%S "
-
-# Omit:
-#  &            duplicates
-#  [ \t]        lines starting with spaces
-#  history *    history command
-#  cd -*/cd +*  navigation on directory stack
-HISTIGNORE='&:[ \t]*:history *:cd -*[0-9]*:cd +*[0-9]*'
-
-# Save commands immediately after use to have shared history
-# between Bash sessions.
-#  'history -a'  append the current history to the history file
-#  'history -n'  rereading anything new in history file into the
-#                current shell’s history
-PROMPT_COMMAND='history -a ; history -n'
+for c in "$configs[@]" ;  do
+  [ -r "$BASHD_ROOT/conf.d/$c.sh" ] && . "$BASHD_ROOT/conf.d/$c.sh"
+done
 
 # Main prompt
 PS1='<\t> \u@\h \w [$(echo $?)]

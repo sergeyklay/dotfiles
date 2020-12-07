@@ -13,36 +13,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
-# This file containing user wide settings for functions.
+# Bash Line Editor, includes bindkey and vared builtins
 
 # shellcheck shell=bash
 
-# Load required function.
-# TODO(serghei): Refactor to provide ability source custom file
-function autoload() {
-  if [  $# -eq 0 ]; then
-    # TODO(serghei): Add error message
-    return 1
-  fi
+# Auto-fix minor typos in interactive use of 'cd'
+shopt -q -s cdspell
 
-  local library
-  library="${BASHD_ROOT}/lib"
+# Bash can automatically prepend cd when entering just a path in
+# the shell
+shopt -q -s autocd
 
-  if [ ! -d "$library" ]; then
-    # TODO(serghei): Add error message
-    return 1
-  fi
+# Check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS
+shopt -q -s checkwinsize
 
-  if [ "$(LC_ALL=C type -t "$1")" != function ]; then
-    if [ -r "$library/${1}.sh" ]; then
-      # shellcheck disable=SC1090
-      . "$library/${1}.sh"
-    else
-      # TODO(serghei): Add error message
-      return 1
-    fi
-  fi
-}
+# Don't let Ctrl-D exit the shell
+set -o ignoreeof
+
+# TODO(serghei): Move outside
+# Immediate notification of background job termination
+set -o notify
 
 # Local Variables:
 # mode: sh

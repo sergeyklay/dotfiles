@@ -90,13 +90,8 @@ function bashenv() {
   fi
 
   # Load required functions
-  for f in locknwait upcase; do
-    if [ -z "$(LC_ALL=C type -t $f)" ] || \
-         [ "$(LC_ALL=C type -t $f)" != function ]; then
-      # shellcheck disable=SC1090
-      . "$BASHD_ROOT/lib/${f}.sh"
-    fi
-  done
+  autoload locknwait
+  autoload upcase
 
   # If we can't load from cache, then set all the required variables
   # by hand.
