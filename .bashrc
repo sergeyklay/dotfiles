@@ -44,8 +44,9 @@ fi
 
 # Order is matter
 configs=(
-  ble  # Bash Line Editor
-  hist # Setting up history
+  ble      # Bash Line Editor
+  hist     # Setting up history
+  aliases  # The definition of aliases
 )
 
 for c in "$configs[@]" ;  do
@@ -97,14 +98,6 @@ if [ "$colors_support" = true ]; then
 
   [[ -z "$COLORTERM" ]] || COLORTERM=1
 fi
-
-# Include aliases
-if [ -f ~/.bash_aliases ]; then
-  # shellcheck source=./.bash_aliases
-  . ~/.bash_aliases
-fi
-
-unset colors_support
 
 # phpenv
 if command -v phpenv >/dev/null 2>&1 ; then
