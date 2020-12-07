@@ -38,7 +38,7 @@ fi
 # OS specific configuration.
 # This comes first as it tends to mess up things.
 if [ -r "$BASHD_ROOT/conf.d/OS/$OSSHORT/bashrc.sh" ]; then
-  # shellcheck disable=SC1091
+  # shellcheck disable=SC1090
   . "$BASHD_ROOT/conf.d/OS/$OSSHORT/bashrc.sh"
 fi
 
@@ -47,17 +47,13 @@ configs=(
   ble      # Bash Line Editor
   hist     # Setting up history
   aliases  # The definition of aliases
+  prompt   # The definition of the prompts
 )
 
 for c in "$configs[@]" ;  do
+  # shellcheck disable=SC1090
   [ -r "$BASHD_ROOT/conf.d/$c.sh" ] && . "$BASHD_ROOT/conf.d/$c.sh"
 done
-
-# Main prompt
-PS1='<\t> \u@\h \w [$(echo $?)]
-\$ '
-# Continuation prompt
-PS2="> "
 
 # All the colorizing may or may not work depending on your terminal
 # emulation and settings, especially. ANSI color.   But it shouldn't
@@ -68,35 +64,6 @@ if command -v dircolors >/dev/null 2>&1 ; then
   else
     eval "$(dircolors -b)"
   fi
-
-  # This will used for aliases and prompt.
-  colors_support=true
-fi
-
-# Set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-  xterm-color|*-256color)
-    colors_support=true
-    ;;
-esac
-
-# Colorize output
-if [ "$colors_support" = true ]; then
-  # colorize prompt
-  PS1='\[\e[0;33m\]<\t>\e[0m\] \e[0;32m\]\u@\h\e[0m\] \e[0;36m\]\w\e[0m\] [$(echo $?)]\]
-\$ '
-  PS2="\[\033[1;37m\]>\[\033[00m\] "
-
-  # colorize gcc output
-  GCC_COLORS='error=01;31:'
-  GCC_COLORS+='warning=01;35:'
-  GCC_COLORS+='note=01;36:'
-  GCC_COLORS+='caret=01;32:'
-  GCC_COLORS+='locus=01:'
-  GCC_COLORS+='quote=01'
-  export GCC_COLORS
-
-  [[ -z "$COLORTERM" ]] || COLORTERM=1
 fi
 
 # phpenv
