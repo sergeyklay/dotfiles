@@ -28,6 +28,7 @@ BASHD_ROOT="${XDG_CONFIG_HOME:-${BASHD_HOME}/.config}/bash.d"
 
 # Setup platform independed environment variables.  This function
 # WILL NOT change previously set veriables (if any).
+autoload bashenv
 bashenv
 
 # OS specific environment
