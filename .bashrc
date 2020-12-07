@@ -150,10 +150,6 @@ if [ "$colors_support" = true ]; then
   [[ -z "$COLORTERM" ]] || COLORTERM=1
 fi
 
-# The Directory Stack Functions \ Aliases
-# shellcheck source=./bash.d/dirstack.sh
-. ~/bash.d/dirstack.sh
-
 # Include aliases
 if [ -f ~/.bash_aliases ]; then
   # shellcheck source=./.bash_aliases
