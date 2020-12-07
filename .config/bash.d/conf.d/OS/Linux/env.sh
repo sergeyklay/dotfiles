@@ -17,9 +17,9 @@
 
 # shellcheck shell=bash
 
-if [ -r "$BASHD_ROOT/conf.d/OS/$OSSHORT/xdg-dirs" ]; then
-  # shellcheck source=./xdg-dirs
-  . "$BASHD_ROOT/conf.d/OS/$OSSHORT/xdg-dirs"
+if [ -r "$BASHD_ROOT/conf.d/OS/$OSSHORT/xdg-dirs.sh" ]; then
+  # shellcheck disable=SC1090
+  . "$BASHD_ROOT/conf.d/OS/$OSSHORT/xdg-dirs.sh"
 fi
 
 # Local Variables:

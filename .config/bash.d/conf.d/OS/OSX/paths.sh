@@ -15,6 +15,8 @@
 
 # Definition of the macOs-wide paths
 
+# shellcheck shell=bash
+
 for dir in "$HOME/Library/Python/"* ; do
   if [ -d "$dir/bin" ]; then
     pathmunge "$dir/bin"

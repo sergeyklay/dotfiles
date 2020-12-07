@@ -20,6 +20,7 @@
 # Load pathmunge function
 if [ -z "$(LC_ALL=C type -t pathmunge)" ] || \
      [ "$(LC_ALL=C type -t pathmunge)" != function ]; then
+  # shellcheck disable=SC1090
   . "$BASHD_ROOT/lib/pathmunge.sh"
 fi
 
@@ -165,6 +166,7 @@ fi
 
 # OS specific aliases.
 [ -r "$BASHD_ROOT/conf.d/OS/$OSSHORT/paths.sh" ] && {
+  # shellcheck disable=SC1090
   . "$BASHD_ROOT/conf.d/OS/$OSSHORT/paths.sh"
 }
 
