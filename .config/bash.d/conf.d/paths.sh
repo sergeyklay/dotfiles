@@ -18,11 +18,7 @@
 # shellcheck shell=bash
 
 # Load pathmunge function
-if [ -z "$(LC_ALL=C type -t pathmunge)" ] || \
-     [ "$(LC_ALL=C type -t pathmunge)" != function ]; then
-  # shellcheck disable=SC1090
-  . "$BASHD_ROOT/lib/pathmunge.sh"
-fi
+autoload pathmunge
 
 # Include alternate sbin
 if [ -d /usr/local/sbin ]; then

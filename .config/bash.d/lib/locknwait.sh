@@ -76,7 +76,7 @@ function locknwait() {
 
   local -i timeout
 
-  if [[ -n "$3" ]] && [[ "$3" != "infinite" ]]; then
+  if [[ -n "$3" ]] && [[ "$3" != infinite ]]; then
     if [[ "$3" =~ ^[[:digit:]]*$ ]]; then
       timeout="$(printf '%d' "$3")"
     else
