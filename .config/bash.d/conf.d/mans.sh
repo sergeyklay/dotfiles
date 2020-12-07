@@ -20,6 +20,7 @@
 # MANPATH: path for the man command to search.
 # Look at the manpath command's output and prepend my own manual
 # paths manually.
+# TODO(serghei): Do not add dups
 if [ -z ${MANPATH+x} ] || [ "$MANPATH" = ":" ] ; then
   # Only do this if the MANPATH variable isn't already set.
   if command -v manpath >/dev/null 2>&1; then
