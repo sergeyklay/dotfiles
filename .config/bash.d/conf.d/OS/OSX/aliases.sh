@@ -15,6 +15,8 @@
 
 # Definition of the macOs-wide Bash aliases
 
+# shellcheck shell=bash
+
 # Local Variables:
 # mode: sh
 # End:
