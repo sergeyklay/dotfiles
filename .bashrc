@@ -51,7 +51,7 @@ configs=(
   comp     # Configure completion
 )
 
-for c in "$configs[@]" ;  do
+for c in "${configs[@]}" ;  do
   # shellcheck disable=SC1090
   [ -r "$BASHD_ROOT/conf.d/$c.sh" ] && . "$BASHD_ROOT/conf.d/$c.sh"
 done
