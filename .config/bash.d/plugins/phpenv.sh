@@ -17,7 +17,7 @@
 
 autoload pathmunge
 
-function _init_phpenv {
+function _plugin_phpenv {
   if [ -d ~/.phpenv/bin ]; then
     pathmunge ~/.phpenv/bin
   fi
