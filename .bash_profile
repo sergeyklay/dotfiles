@@ -23,7 +23,10 @@
 BASHD_HOME="${BASHD_HOME:-${HOME}}"
 BASHD_ROOT="${XDG_CONFIG_HOME:-${BASHD_HOME}/.config}/bash.d"
 
+# shellcheck source=./.config/bash.d/conf.d/fun.sh
 [ -r "$BASHD_ROOT/conf.d/fun.sh" ] && . "$BASHD_ROOT/conf.d/fun.sh"
+
+# shellcheck source=./.config/bash.d/conf.d/editor.sh
 [ -r "$BASHD_ROOT/conf.d/editor.sh" ] && . "$BASHD_ROOT/conf.d/editor.sh"
 
 # Setup platform independed environment variables.  This function
@@ -32,34 +35,28 @@ autoload bashenv
 bashenv
 
 # OS specific environment
-if [ -r "$BASHD_ROOT/conf.d/OS/$OSSHORT/env.sh" ]; then
-  . "$BASHD_ROOT/conf.d/OS/$OSSHORT/env.sh"
-fi
-
-# Configure virtualenv
-if [ -r "$BASHD_ROOT/conf.d/venv.sh" ]; then
-  # shellcheck source=./.config/bash.d/conf.d/venv.sh
-  . "$BASHD_ROOT/conf.d/venv.sh"
-fi
+# shellcheck disable=SC1090
+[ -r "$BASHD_ROOT/conf.d/OS/$OSSHORT/env.sh" ] && . "$BASHD_ROOT/conf.d/OS/$OSSHORT/env.sh"
 
 # Setting up PATHs
-if [ -r "$BASHD_ROOT/conf.d/paths.sh" ]; then
-  . "$BASHD_ROOT/conf.d/paths.sh"
-fi
+# shellcheck source=./.config/bash.d/conf.d/paths.sh
+[ -r "$BASHD_ROOT/conf.d/paths.sh" ] && . "$BASHD_ROOT/conf.d/paths.sh"
+
+# Configure virtualenv.  Should go after PATHs configuration
+# shellcheck source=./.config/bash.d/conf.d/venv.sh
+[ -r "$BASHD_ROOT/conf.d/venv.sh" ] && . "$BASHD_ROOT/conf.d/venv.sh"
 
 # Setting up MAN's paths
-if [ -r "$BASHD_ROOT/conf.d/mans.sh" ]; then
-  . "$BASHD_ROOT/conf.d/mans.sh"
-fi
+# shellcheck source=./.config/bash.d/conf.d/mans.sh
+[ -r "$BASHD_ROOT/conf.d/mans.sh" ] && . "$BASHD_ROOT/conf.d/mans.sh"
 
 # GnuPG configuration
+# shellcheck source=./.config/bash.d/conf.d/gpg.sh
 [ -r "$BASHD_ROOT/conf.d/gpg.sh" ] && . "$BASHD_ROOT/conf.d/gpg.sh"
 
 # Include '.bashrc' if it exists
-if [ -r ~/.bashrc ]; then
-  # shellcheck source=./.bashrc
-  . ~/.bashrc
-fi
+# shellcheck source=./.bashrc
+[ -r ~/.bashrc ] && . ~/.bashrc
 
 # Local Variables:
 # mode: sh
