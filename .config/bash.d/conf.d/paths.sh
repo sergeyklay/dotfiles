@@ -44,18 +44,6 @@ if [ -d ~/.dotnet/tools ]; then
   pathmunge ~/.dotnet/tools
 fi
 
-# php-build
-if [ -d ~/.phpenv/plugins/php-build/bin ]; then
-  PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
-  export PHP_BUILD_EXTRA_MAKE_ARGUMENTS
-  if [ -d ~/src/php ]; then
-    PHP_BUILD_TMPDIR=~/src/php
-    export PHP_BUILD_TMPDIR
-  fi
-
-  pathmunge ~/.phpenv/plugins/php-build/bin
-fi
-
 # Go lang local workspace
 if [ -d /usr/local/go/bin ]; then
   pathmunge /usr/local/go/bin
@@ -132,17 +120,13 @@ if [ -r ~/gcp/path.bash.inc ]; then
   . ~/gcp/path.bash.inc
 fi
 
-# OS specific aliases.
+# OS specific PATHs
 [ -r "$BASHD_ROOT/conf.d/OS/$OSSHORT/paths.sh" ] && {
   # shellcheck disable=SC1090
   . "$BASHD_ROOT/conf.d/OS/$OSSHORT/paths.sh"
 }
 
 export PATH
-
-if command -v systemctl >/dev/null 2>&1 ; then
-  systemctl --user import-environment PATH >/dev/null
-fi
 
 # Local Variables:
 # mode: sh
