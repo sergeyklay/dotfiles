@@ -18,7 +18,6 @@
 # shellcheck shell=bash
 
 # Sane defaults
-GPG_AGENT_SOCK=/dev/null
 GNUPGHOME="$HOME/.gnupg"
 
 if command -v gpgconf >/dev/null 2>&1 ; then
@@ -27,7 +26,7 @@ if command -v gpgconf >/dev/null 2>&1 ; then
 fi
 
 # Update GPG_TTY
-GPG_TTY=$(tty)
+GPG_TTY="${TTY:-$(tty)}"
 export GPG_TTY
 
 # Enable gpg-agent if it is not running
