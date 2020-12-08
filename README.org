@@ -46,8 +46,7 @@
 │       │   ├── hist.sh
 │       │   ├── mans.sh
 │       │   ├── paths.sh
-│       │   ├── prompt.sh
-│       │   └── venv.sh
+│       │   └── prompt.sh
 │       ├── lib
 │       │   ├── bashenv.sh
 │       │   ├── dirstack.sh
@@ -55,9 +54,11 @@
 │       │   ├── pathmunge.sh
 │       │   └── upcase.sh
 │       └── plugins
+│           ├── phpbuild.sh
 │           ├── phpenv.sh
 │           ├── rbenv.sh
-│           └── sdkman.sh
+│           ├── sdkman.sh
+│           └── venv.sh
 └── .inputrc
    #+end_src
 
