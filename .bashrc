@@ -60,6 +60,7 @@ plugins=(
 #  phpenv
 #  rbenv
   sdkman
+  venv
 )
 
 for p in "${plugins[@]}" ;  do
