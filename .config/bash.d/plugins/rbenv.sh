@@ -17,7 +17,7 @@
 
 autoload pathmunge
 
-function _init_rbenv {
+function _plugin_rbenv {
   for dir in ~/.rbenv "/usr/local/opt/rbenv"; do
     if [[ -d "$dir/bin" ]]; then
       pathmunge "$dir/bin"

@@ -51,7 +51,7 @@ function autoload {
 
   local name
   if [[ $2 = plugin ]]; then
-    name="${1}_init"
+    name="_plugin_${1}"
   else
     name="$1"
   fi
@@ -80,7 +80,7 @@ function plugin {
   func="$1"
   autoload "$func" plugin
 
-  func="_init_$func"
+  func="_plugin_$func"
   $func
 
 }
