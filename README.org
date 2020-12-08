@@ -16,6 +16,7 @@
    configuration only.
 
    #+begin_src
+.
 ├── .bash_logout
 ├── .bash_profile
 ├── .bashrc
@@ -47,12 +48,16 @@
 │       │   ├── paths.sh
 │       │   ├── prompt.sh
 │       │   └── venv.sh
-│       └── lib
-│           ├── bashenv.sh
-│           ├── dirstack.sh
-│           ├── locknwait.sh
-│           ├── pathmunge.sh
-│           └── upcase.sh
+│       ├── lib
+│       │   ├── bashenv.sh
+│       │   ├── dirstack.sh
+│       │   ├── locknwait.sh
+│       │   ├── pathmunge.sh
+│       │   └── upcase.sh
+│       └── plugins
+│           ├── phpenv.sh
+│           ├── rbenv.sh
+│           └── sdkman.sh
 └── .inputrc
    #+end_src
 
