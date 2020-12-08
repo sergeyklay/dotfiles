@@ -97,19 +97,6 @@ if [ -d ~/.cask/bin ]; then
   pathmunge ~/.cask/bin
 fi
 
-# Composer
-# Note: ~ is only expanded by the shell if it's unquoted.
-# When it's quoted it's a literal tilde symbol.
-if [ -d "${XDG_CONFIG_HOME:-$HOME/.config}/composer" ]; then
-  COMPOSER_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/composer"
-  COMPOSER_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/composer"
-  export COMPOSER_HOME COMPOSER_CACHE_DIR
-
-  if [ -d "$COMPOSER_HOME/vendor/bin" ]; then
-    pathmunge "$COMPOSER_HOME/vendor/bin"
-  fi
-fi
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -d ~/gcp/bin ]; then
   pathmunge ~/gcp/bin
