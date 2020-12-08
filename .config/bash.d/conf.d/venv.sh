@@ -39,7 +39,7 @@ fi
 
 # The variable VIRTUALENVWRAPPER_PYTHON tells virtualenvwrapper the
 # full path of the interpreter to use.
-if command -v python3 >/dev/null 2>&1 && [ -n "${WORKON_HOME+x}" ]
+if command -v python3 >/dev/null 2>&1 && [ -n "$WORKON_HOME" ]
 then
   VIRTUALENVWRAPPER_PYTHON="$(command -v python3 2>/dev/null)"
   export VIRTUALENVWRAPPER_PYTHON
@@ -48,7 +48,7 @@ elif command -v python >/dev/null 2>&1; then
   export VIRTUALENVWRAPPER_PYTHON
 fi
 
-if [ -n "${WORKON_HOME+x}" ] && \
+if [ -n "$WORKON_HOME" ] && \
      command -v virtualenvwrapper_lazy.sh >/dev/null 2>&1 ; then
   # shellcheck disable=SC1090
   . "$(command -v virtualenvwrapper_lazy.sh 2>/dev/null)"
