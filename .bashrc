@@ -56,13 +56,13 @@ for c in "${configs[@]}" ;  do
   [[ -f $BASHD_ROOT/conf.d/$c.sh ]] && . "$BASHD_ROOT/conf.d/$c.sh"
 done
 
-inits=(phpenv rebenv sdkman)
+plugins=(phpenv rbenv sdkman)
 
-for f in "${inits[@]}" ;  do
-  autoload "${f}_init"
+for p in "${plugins[@]}" ;  do
+  plugin "$p"
 done
 
-unset c f configs inits
+unset c p configs plugins
 
 # Local Variables:
 # mode: sh
