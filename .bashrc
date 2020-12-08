@@ -37,7 +37,7 @@ fi
 
 # OS specific configuration.
 # This comes first as it tends to mess up things.
-if [ -r "$BASHD_ROOT/conf.d/OS/$OSSHORT/bashrc.sh" ]; then
+if [[ -f $BASHD_ROOT/conf.d/OS/$OSSHORT/bashrc.sh ]]; then
   # shellcheck disable=SC1090
   . "$BASHD_ROOT/conf.d/OS/$OSSHORT/bashrc.sh"
 fi
@@ -53,30 +53,16 @@ configs=(
 
 for c in "${configs[@]}" ;  do
   # shellcheck disable=SC1090
-  [ -r "$BASHD_ROOT/conf.d/$c.sh" ] && . "$BASHD_ROOT/conf.d/$c.sh"
+  [[ -f $BASHD_ROOT/conf.d/$c.sh ]] && . "$BASHD_ROOT/conf.d/$c.sh"
 done
 
-unset c configs
+inits=(phpenv rebenv sdkman)
 
-# phpenv
-if command -v phpenv >/dev/null 2>&1 ; then
-  eval "$(phpenv init -)"
-fi
+for f in "${inits[@]}" ;  do
+  autoload "${f}_init"
+done
 
-# rbenv
-if [ -z "$RBENV_SHELL" ]; then
-  if command -v rbenv >/dev/null 2>&1; then
-    eval "$(rbenv init -)"
-  fi
-fi
-
-# sdkman
-if [ -n "${SDKMAN_DIR+x}" ]; then
-    if [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]]; then
-      # shellcheck disable=SC1090
-      . "$SDKMAN_DIR/bin/sdkman-init.sh"
-    fi
-fi
+unset c f configs inits
 
 # Local Variables:
 # mode: sh
