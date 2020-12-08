@@ -1,22 +1,70 @@
 * =~/.*=
 
-All my dotfiles that I port around from system to system with me.
+  All my dotfiles that I port around from system to system with me.
 
 ** Shell support
 
-These dotfiles are meant to be used with Bash >= 5.x, but some scripts may
-work as Zsh accepts Bash interpreter.  Also, your shell should support colors
-so everything works well.  Wherever possible, compatibility with Linux as well
-as macOS is maintained.
+   These dotfiles are meant to be used with Bash >= 5.x, but some scripts may
+   work as Zsh accepts Bash interpreter.  Also, your shell should support
+   colors so everything works well.  Wherever possible, compatibility with
+   Linux as well as macOS is maintained.
+
+** Project Structure
+
+   Below is the structure of the project and the location of the main
+   files. The diagram below is not exhaustive and describes my Bash / readline
+   configuration only.
+
+   #+begin_src
+├── .bash_logout
+├── .bash_profile
+├── .bashrc
+├── .config
+│   └── bash.d
+│       ├── conf.d
+│       │   ├── OS
+│       │   │   ├── Linux
+│       │   │   │   ├── aliases.sh
+│       │   │   │   ├── bashrc.sh
+│       │   │   │   ├── comp.sh
+│       │   │   │   ├── editor.sh
+│       │   │   │   ├── env.sh
+│       │   │   │   └── xdg-dirs.sh
+│       │   │   └── OSX
+│       │   │       ├── aliases.sh
+│       │   │       ├── comp.sh
+│       │   │       ├── editor.sh
+│       │   │       ├── env.sh
+│       │   │       └── paths.sh
+│       │   ├── aliases.sh
+│       │   ├── ble.sh
+│       │   ├── comp.sh
+│       │   ├── editor.sh
+│       │   ├── fun.sh
+│       │   ├── gpg.sh
+│       │   ├── hist.sh
+│       │   ├── mans.sh
+│       │   ├── paths.sh
+│       │   ├── prompt.sh
+│       │   └── venv.sh
+│       └── lib
+│           ├── bashenv.sh
+│           ├── dirstack.sh
+│           ├── locknwait.sh
+│           ├── pathmunge.sh
+│           └── upcase.sh
+└── .inputrc
+   #+end_src
 
 ** Links
 
-Other projects I also support from time to time are:
+   Other projects I also support from time to time are:
 
 - [[https://github.com/sergeyklay/.emacs.d][GNU Emacs configuration]]: My personal configuration for GNU Emacs
-- [[https://github.com/sergeyklay/lenovo-legion-y520-15ikbn][Lenovo Y520 (Legion) Setup]]: My personal configuration for the laptop I use on the daily as a secondary workstation
+- [[https://github.com/sergeyklay/lenovo-legion-y520-15ikbn][Lenovo Y520 (Legion) Setup]]: My personal configuration for the Linux laptop I
+  use on the daily as a secondary workstation
 
 ** License
 
-This project is open source software licensed under the GNU General
-Public Licence version 3 .  © 2014-2020 [[https://github.com/sergeyklay][Serghei Iakovlev]]
+   This project is open source software licensed under the GNU General Public
+   Licence version 3.  © 2014-2020 [[https://github.com/sergeyklay][Serghei Iakovlev]]
