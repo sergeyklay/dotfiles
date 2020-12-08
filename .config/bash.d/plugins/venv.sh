@@ -17,7 +17,7 @@
 
 # shellcheck shell=bash
 
-function _plugin_venv {
+_plugin_venv() {
   # The variable WORKON_HOME tells virtualenvwrapper where to place
   # your virtual environments. If the directory does not exist when
   # virtualenvwrapper is loaded, it will be created automatically.

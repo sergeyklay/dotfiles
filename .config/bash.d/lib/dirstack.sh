@@ -38,7 +38,7 @@ DIRSTACKFILE="${XDG_CACHE_HOME:-$HOME/.cache}/dirs"
 #   $ polarize - 1 # - 1
 #
 # Meant for 'pushd' (see  bellow).
-function polarize() {
+polarize() {
   if [[ "$*" =~ ^[-+][1-9][[:digit:]]*$ ]]; then
     printf '%+d' "$(( -$@ ))"
   else
@@ -60,7 +60,7 @@ function polarize() {
 # Thus, this will work for symlinks too.
 #
 # Meant for 'pushd' (see bellow).
-function uniqd() {
+uniqd() {
   local -i dups
   dups=0
 
@@ -102,7 +102,7 @@ function uniqd() {
 # Persist current directory stack to DIRSTACKFILE file.
 #
 # Meant for 'pushd' (see below).
-function persistd() {
+persistd() {
   dbfile="${DIRSTACKFILE:-/dev/null}"
   local -r dbfile
 
@@ -130,7 +130,7 @@ function persistd() {
 # Limit DIRSTACK size up to DIRSTACKSIZE.
 #
 # Meant for 'pushd' (see bellow).
-function limitd() {
+limitd() {
   local -i ssize
   ssize="$(printf '%d' "${DIRSTACKSIZE:-20}")"
 
@@ -144,7 +144,7 @@ function limitd() {
 
 # Restore previous directory history from the cache and cd to
 # first directory in the directory stack.
-function restored() {
+restored() {
   declare -r dbfile="${DIRSTACKFILE:-/dev/null}"
   declare -a stack
 
@@ -178,7 +178,7 @@ function restored() {
 # and then cd to dir.
 #
 # Meant for 'cd' (see bellow).
-function pushd() {
+pushd() {
   local dir
 
   # Have pushd with no arguments act like `pushd $HOME'.
@@ -207,7 +207,7 @@ function pushd() {
 # and performs a cd to the new top directory.
 #
 # Meant for 'back' (see bellow).
-function popd() {
+popd() {
   # Do not print the directory stack after popd
   builtin popd 1> /dev/null || return
 }
@@ -218,7 +218,7 @@ function popd() {
 #   $ cd /usr  # We're at /usr now
 #   $ cd /tmp  # We're at /tmp now
 #   $ flipd    # We're at /usr now
-function flipd() {
+flipd() {
   # Do not print the directory stack after pushd
   builtin pushd 1> /dev/null || return
 }

@@ -16,7 +16,7 @@
 
 # shellcheck shell=bash
 
-function lw_usage() {
+lw_usage() {
   cat <<'EOF'
 locknwait v0.0.2
 
@@ -46,7 +46,7 @@ EOF
 #
 # This locking process is inspired by comp.unix.shell FAQ:
 # https://web.archive.org/web/20181117143655/http://dan.hersam.com/docs/cus-faq.html#8
-function locknwait() {
+locknwait() {
   if [  $# -eq 0 ]; then
     lw_usage
     return 1
