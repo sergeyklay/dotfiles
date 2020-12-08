@@ -19,7 +19,7 @@
 
 # Load required function.
 # TODO(serghei): Refactor to provide ability source custom file
-function autoload() {
+function autoload {
   if [  $# -eq 0 ]; then
     >&2 echo "autoload: Missing required argument #1"
     return 1
@@ -69,13 +69,20 @@ function autoload() {
 
 # Meand for autoloading plugins.
 # For more see 'autoload' function.
-function plugin() {
+function plugin {
   if [  $# -eq 0 ]; then
     >&2 echo "plugin: Missing required argument #1"
     return 1
   fi
 
-  autoload "$1" plugin
+  local func
+
+  func="$1"
+  autoload "$func" plugin
+
+  func="_init_$func"
+  $func
+
 }
 
 # Local Variables:
