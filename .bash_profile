@@ -42,10 +42,6 @@ bashenv
 # shellcheck source=./.config/bash.d/conf.d/paths.sh
 [[ -f $BASHD_ROOT/conf.d/paths.sh ]] && . "$BASHD_ROOT/conf.d/paths.sh"
 
-# Configure virtualenv.  Should go after PATHs configuration
-# shellcheck source=./.config/bash.d/conf.d/venv.sh
-[[ -f $BASHD_ROOT/conf.d/venv.sh ]] && . "$BASHD_ROOT/conf.d/venv.sh"
-
 # Setting up MAN's paths
 # shellcheck source=./.config/bash.d/conf.d/mans.sh
 [[ -f $BASHD_ROOT/conf.d/mans.sh ]] && . "$BASHD_ROOT/conf.d/mans.sh"
