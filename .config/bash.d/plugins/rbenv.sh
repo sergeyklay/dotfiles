@@ -15,7 +15,16 @@
 
 # shellcheck shell=bash
 
-function rbenv_init {
+autoload pathmunge
+
+function _init_rbenv {
+  for dir in ~/.rbenv "/usr/local/opt/rbenv"; do
+    if [[ -d "$dir/bin" ]]; then
+      pathmunge "$dir/bin"
+      break
+    fi
+  done
+
   if [ -z ${RBENV_SHELL+x} ]; then
     if command -v rbenv >/dev/null 2>&1; then
       eval "$(rbenv init -)"

@@ -15,7 +15,20 @@
 
 # shellcheck shell=bash
 
-function sdkman_init {
+autoload pathmunge
+
+function _init_sdkman {
+  if [ -z ${SDKMAN_DIR+x} ]; then
+    if [ -d ~/.sdkman ]; then
+      SDKMAN_DIR="$HOME/.sdkman"
+      export SDKMAN_DIR
+    fi
+  else
+    if [[ ! -d $SDKMAN_DIR ]]; then
+      unset SDKMAN_DIR
+    fi
+  fi
+
   if [ -n "$SDKMAN_DIR" ]; then
     if [[ -f $SDKMAN_DIR/bin/sdkman-init.sh ]]; then
       # shellcheck disable=SC1090

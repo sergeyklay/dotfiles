@@ -44,34 +44,6 @@ if [ -d ~/.dotnet/tools ]; then
   pathmunge ~/.dotnet/tools
 fi
 
-# rbenv
-# Only set PATH here to prevent performance degradation.
-for dir in ~/.rbenv "/usr/local/opt/rbenv"; do
-  if [[ -d "$dir/bin" ]]; then
-    pathmunge "$dir/bin"
-    break
-  fi
-done
-
-# skdman
-# Only set PATH here to prevent performance degradation.
-if [ -z ${SDKMAN_DIR+x} ]; then
-  if [ -d "$HOME/.sdkman" ]; then
-    SDKMAN_DIR="$HOME/.sdkman"
-    export SDKMAN_DIR
-  fi
-else
-  if [ ! -d "$SDKMAN_DIR" ]; then
-    unset SDKMAN_DIR
-  fi
-fi
-
-# phpenv
-# Only set PATH here to prevent performance degradation.
-if [ -d ~/.phpenv/bin ]; then
-  pathmunge ~/.phpenv/bin
-fi
-
 # php-build
 if [ -d ~/.phpenv/plugins/php-build/bin ]; then
   PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"

@@ -15,7 +15,13 @@
 
 # shellcheck shell=bash
 
-function phpenv_init {
+autoload pathmunge
+
+function _init_phpenv {
+  if [ -d ~/.phpenv/bin ]; then
+    pathmunge ~/.phpenv/bin
+  fi
+
   if command -v phpenv >/dev/null 2>&1 ; then
     eval "$(phpenv init -)"
   else
