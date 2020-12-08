@@ -15,7 +15,7 @@
 
 # shellcheck shell=bash
 
-function upcase() {
+upcase() {
   local p
 
   # shellcheck disable=SC2016

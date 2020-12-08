@@ -18,8 +18,7 @@
 # shellcheck shell=bash
 
 # Load required function.
-# TODO(serghei): Refactor to provide ability source custom file
-function autoload {
+autoload() {
   if [  $# -eq 0 ]; then
     >&2 echo "autoload: Missing required argument #1"
     return 1
@@ -29,10 +28,10 @@ function autoload {
 
   if [  $# -gt 1 ]; then
     case "$2" in
-      function)
+      "function")
         library="${BASHD_ROOT}/lib"
         ;;
-      plugin)
+      "plugin")
         library="${BASHD_ROOT}/plugins"
         ;;
       *)
@@ -50,13 +49,13 @@ function autoload {
   fi
 
   local name
-  if [[ $2 = plugin ]]; then
+  if [[ $2 = "plugin" ]]; then
     name="_plugin_${1}"
   else
     name="$1"
   fi
 
-  if [ "$(LC_ALL=C type -t "$name")" != function ]; then
+  if [ "$(LC_ALL=C type -t "$name")" != "function" ]; then
     if [[ -f $library/$1.sh ]]; then
       # shellcheck disable=SC1090
       . "$library/${1}.sh"
@@ -69,7 +68,7 @@ function autoload {
 
 # Meand for autoloading plugins.
 # For more see 'autoload' function.
-function plugin {
+plugin() {
   if [  $# -eq 0 ]; then
     >&2 echo "plugin: Missing required argument #1"
     return 1

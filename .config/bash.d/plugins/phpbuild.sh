@@ -17,7 +17,7 @@
 
 autoload pathmunge
 
-function _plugin_phpbuild {
+_plugin_phpbuild() {
   if [ -d ~/.phpenv/plugins/php-build/bin ]; then
     PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
     export PHP_BUILD_EXTRA_MAKE_ARGUMENTS

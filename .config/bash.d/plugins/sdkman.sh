@@ -17,7 +17,7 @@
 
 autoload pathmunge
 
-function _plugin_sdkman {
+_plugin_sdkman() {
   if [ -z ${SDKMAN_DIR+x} ]; then
     if [ -d ~/.sdkman ]; then
       SDKMAN_DIR="$HOME/.sdkman"

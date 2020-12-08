@@ -17,7 +17,7 @@
 
 # Setup platform independed environment variables.  This script
 # WILL NOT change previously set veriables (if any).
-function bashenv() {
+bashenv() {
   # If one of these is already set we won't override it.
   # Thus we need a copy before we load the cache.
   [ -z "$OSLONG" ]    || OSLONG_BACK="$OSLONG"
