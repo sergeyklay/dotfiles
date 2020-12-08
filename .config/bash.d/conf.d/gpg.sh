@@ -31,7 +31,7 @@ export GPG_TTY
 
 # Enable gpg-agent if it is not running
 if command -v gpg-agent >/dev/null 2>&1 ; then
-  if [[ ! -S "$GPG_AGENT_SOCK" ]]; then
+  if [[ ! -S $GPG_AGENT_SOCK ]]; then
     gpg-agent --daemon --use-standard-socket &>/dev/null
   fi
 fi
