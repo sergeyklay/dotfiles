@@ -17,6 +17,7 @@
 
 # shellcheck shell=bash
 
+# Sane defaults
 GPG_AGENT_SOCK=/dev/null
 GNUPGHOME="$HOME/.gnupg"
 
@@ -53,7 +54,7 @@ fi
 # Note: This feature requires a key with the Authentication
 # capability.  To check key copability see:
 #
-#    $ grep '\[A\]' <(gpg -K your@id.here)
+#    $ grep '\[A]' <(gpg -K your@id.here)
 #
 GPG_AGENT_CONFIG="$GNUPGHOME/gpg-agent.conf"
 if [ -r "$GPG_AGENT_CONFIG" ] && \
