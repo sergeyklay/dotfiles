@@ -21,27 +21,61 @@
 # TODO(serghei): Refactor to provide ability source custom file
 function autoload() {
   if [  $# -eq 0 ]; then
-    # TODO(serghei): Add error message
+    >&2 echo "autoload: Missing required argument #1"
     return 1
   fi
 
   local library
-  library="${BASHD_ROOT}/lib"
 
-  if [ ! -d "$library" ]; then
-    # TODO(serghei): Add error message
+  if [  $# -gt 1 ]; then
+    case "$2" in
+      function)
+        library="${BASHD_ROOT}/lib"
+        ;;
+      plugin)
+        library="${BASHD_ROOT}/plugins"
+        ;;
+      *)
+        >&2 echo "autoload: unexpected type of autoloading"
+        return 1
+        ;;
+    esac
+  else
+    library="${BASHD_ROOT}/lib"
+  fi
+
+  if [[ ! -d $library ]]; then
+    >&2 echo "autoload: $library Direcory not found"
     return 1
   fi
 
-  if [ "$(LC_ALL=C type -t "$1")" != function ]; then
-    if [ -r "$library/${1}.sh" ]; then
+  local name
+  if [[ $2 = plugin ]]; then
+    name="${1}_init"
+  else
+    name="$1"
+  fi
+
+  if [ "$(LC_ALL=C type -t "$name")" != function ]; then
+    if [[ -f $library/$1.sh ]]; then
       # shellcheck disable=SC1090
       . "$library/${1}.sh"
     else
-      # TODO(serghei): Add error message
+      echo "autoload: file $library/${1}.sh not found"
       return 1
     fi
   fi
+}
+
+# Meand for autoloading plugins.
+# For more see 'autoload' function.
+function plugin() {
+  if [  $# -eq 0 ]; then
+    >&2 echo "plugin: Missing required argument #1"
+    return 1
+  fi
+
+  autoload "$1" plugin
 }
 
 # Local Variables:
