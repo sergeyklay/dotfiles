@@ -17,32 +17,17 @@
 
 autoload pathmunge
 
-function _plugin_sdkman {
-  if [ -z ${SDKMAN_DIR+x} ]; then
-    if [ -d ~/.sdkman ]; then
-      SDKMAN_DIR="$HOME/.sdkman"
-      export SDKMAN_DIR
-    fi
-  else
-    if [[ ! -d $SDKMAN_DIR ]]; then
-      unset SDKMAN_DIR
-    fi
-  fi
+function _plugin_phpbuild {
+  if [ -d ~/.phpenv/plugins/php-build/bin ]; then
+    PHP_BUILD_EXTRA_MAKE_ARGUMENTS=-j"$(getconf _NPROCESSORS_ONLN)"
+    export PHP_BUILD_EXTRA_MAKE_ARGUMENTS
 
-  if [ -n "$SDKMAN_DIR" ]; then
-    if [[ -f $SDKMAN_DIR/bin/sdkman-init.sh ]]; then
-      # shellcheck disable=SC1090
-      . "$SDKMAN_DIR/bin/sdkman-init.sh"
-    else
-      >&2 echo -n "The file $SDKMAN_DIR/bin/sdkman-init.sh does "
-      >&2 echo "not exist. Did you install sdkman?"
-      return 1
+    if [ -d ~/src/php ]; then
+      PHP_BUILD_TMPDIR="$HOME/src/php"
+      export PHP_BUILD_TMPDIR
     fi
-  else
-    >&2 echo -n "The directory ~/.sdkman does not exist. "
-    >&2 echo -n "Try to (re) install sdkman and (or) create "
-    >&2 echo "$HOME/.sdkman directory."
-    return 1
+
+    pathmunge "$HOME/.phpenv/plugins/php-build/bin"
   fi
 }
 
