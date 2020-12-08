@@ -56,7 +56,11 @@ for c in "${configs[@]}" ;  do
   [[ -f $BASHD_ROOT/conf.d/$c.sh ]] && . "$BASHD_ROOT/conf.d/$c.sh"
 done
 
-plugins=(phpenv rbenv sdkman)
+plugins=(
+#  phpenv
+#  rbenv
+  sdkman
+)
 
 for p in "${plugins[@]}" ;  do
   plugin "$p"
