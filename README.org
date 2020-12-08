@@ -54,6 +54,7 @@
 │       │   ├── pathmunge.sh
 │       │   └── upcase.sh
 │       └── plugins
+│           ├── composer.s
 │           ├── phpbuild.sh
 │           ├── phpenv.sh
 │           ├── rbenv.sh
