@@ -60,7 +60,7 @@ fi
 [ ! -d "$XDG_STATE_HOME" ] && mkdir -p "$XDG_STATE_HOME"
 
 # Base directories relative to which data files should be searched
-if [[ -n "$XDG_DATA_DIRS" ]]; then
+if [ -n "$XDG_DATA_DIRS" ]; then
   # Trim leading slashes to avoid array like
   #     (/foo/bar /foo/bar/)
   XDG_DATA_DIRS="${XDG_DATA_DIRS//\/:/:}"
