@@ -17,6 +17,8 @@
 
 # shellcheck shell=bash
 
+autoload pathmunge
+
 for dir in "$HOME/Library/Python/"* ; do
   if [ -d "$dir/bin" ]; then
     pathmunge "$dir/bin"
@@ -36,6 +38,11 @@ fi
 # kubectl
 if [ -d /usr/local/opt/kubernetes-cli/bin ]; then
   pathmunge /usr/local/opt/kubernetes-cli/bin
+fi
+
+# brew install texinfo
+if [ -d /usr/local/opt/texinfo/bin ]; then
+  pathmunge /usr/local/opt/texinfo/bin
 fi
 
 # Local Variables:
