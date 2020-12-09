@@ -43,14 +43,7 @@ if [[ -f $BASHD_ROOT/conf.d/OS/$OSSHORT/bashrc.sh ]]; then
 fi
 
 # Order is matter
-configs=(
-  ble      # Bash Line Editor
-  hist     # Setting up history
-  aliases  # The definition of aliases
-  prompt   # The definition of the prompts
-  comp     # Configure completion
-)
-
+configs=(ble hist aliases prompt comp)
 for c in "${configs[@]}" ;  do
   # shellcheck disable=SC1090
   [[ -f $BASHD_ROOT/conf.d/$c.sh ]] && . "$BASHD_ROOT/conf.d/$c.sh"
