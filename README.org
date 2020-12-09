@@ -30,6 +30,7 @@
 │       │   │   │   ├── comp.sh
 │       │   │   │   ├── editor.sh
 │       │   │   │   ├── env.sh
+│       │   │   │   ├── paths.sh
 │       │   │   │   └── xdg-dirs.sh
 │       │   │   └── OSX
 │       │   │       ├── aliases.sh
