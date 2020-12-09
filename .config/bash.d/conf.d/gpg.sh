@@ -14,27 +14,20 @@
 # along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 # Setup GnuPG
+#
+# This script assumes you have installed GnuPG >= 2.0 and gpgconf,
+# gpg-agent and gpg-connect-agent are present in your PATH.
 
 # shellcheck shell=bash
 
-# Sane defaults
-GNUPGHOME="$HOME/.gnupg"
-
-if command -v gpgconf >/dev/null 2>&1 ; then
-  GPG_AGENT_SOCK="$(gpgconf --list-dirs agent-socket)"
-  GNUPGHOME="$(gpgconf --list-dirs homedir)"
+# Enable gpg-agent if it is not running
+if [ ! -S "$(gpgconf --list-dirs agent-socket)" ]; then
+  gpg-agent --daemon --use-standard-socket &>/dev/null
 fi
 
-# Update GPG_TTY
+# Update GPG_TTY.  See 'man 1 gpg-agen'.
 GPG_TTY="${TTY:-$(tty)}"
 export GPG_TTY
-
-# Enable gpg-agent if it is not running
-if command -v gpg-agent >/dev/null 2>&1 ; then
-  if [[ ! -S $GPG_AGENT_SOCK ]]; then
-    gpg-agent --daemon --use-standard-socket &>/dev/null
-  fi
-fi
 
 # Using a PGP key for SSH authentication if it's enabled.
 #
@@ -55,18 +48,15 @@ fi
 #
 #    $ grep '\[A]' <(gpg -K your@id.here)
 #
-GPG_AGENT_CONFIG="$GNUPGHOME/gpg-agent.conf"
-if [ -r "$GPG_AGENT_CONFIG" ] && \
-   [ -S "$GPG_AGENT_SOCK" ] && \
-   command grep -q enable-ssh-support "$GPG_AGENT_CONFIG"
-then
-  SSH_AUTH_SOCK="$GPG_AGENT_SOCK.ssh"
-  export SSH_AUTH_SOCK
-
+if [ -n "$(gpgconf --list-options gpg-agent | \
+   awk -F: '/^enable-ssh-support:/{ print $10 }')" ]; then
+  gpg-connect-agent updatestartuptty /bye > /dev/null
   unset SSH_AGENT_PID
+
+  SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+  export SSH_AUTH_SOCK
 fi
 
 # Local Variables:
 # mode: sh
-# flycheck-disabled-checkers: (sh-posix-dash sh-shellcheck)
 # End:
