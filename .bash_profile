@@ -26,9 +26,6 @@ BASHD_ROOT="${XDG_CONFIG_HOME:-${BASHD_HOME}/.config}/bash.d"
 # shellcheck source=./.config/bash.d/conf.d/fun.sh
 [[ -f $BASHD_ROOT/conf.d/fun.sh ]] && . "$BASHD_ROOT/conf.d/fun.sh"
 
-# shellcheck source=./.config/bash.d/conf.d/editor.sh
-[[ -f $BASHD_ROOT/conf.d/editor.sh ]] && . "$BASHD_ROOT/conf.d/editor.sh"
-
 # Setup platform independed environment variables.  This function
 # WILL NOT change previously set veriables (if any).
 autoload bashenv
@@ -45,6 +42,9 @@ bashenv
 # Setting up MAN's paths
 # shellcheck source=./.config/bash.d/conf.d/mans.sh
 [[ -f $BASHD_ROOT/conf.d/mans.sh ]] && . "$BASHD_ROOT/conf.d/mans.sh"
+
+# shellcheck source=./.config/bash.d/conf.d/editor.sh
+[[ -f $BASHD_ROOT/conf.d/editor.sh ]] && . "$BASHD_ROOT/conf.d/editor.sh"
 
 # GnuPG configuration
 # shellcheck source=./.config/bash.d/conf.d/gpg.sh
