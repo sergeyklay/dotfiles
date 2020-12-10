@@ -1,6 +1,10 @@
 * =~/.*=
 
-  All my dotfiles that I port around from system to system with me.
+  All my dotfiles that I port around from system to system with me.  The
+  purpose of this project is to organize my shell scripts and configs and sync
+  them between machines.  This started out fairly simple, but now can also
+  handle my =.bash_profile= and keep things synchronized between machines like
+  =.inputrc=, etc.
 
 ** Shell support
 
