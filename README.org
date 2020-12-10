@@ -55,12 +55,12 @@
 │       │   ├── pathmunge.sh
 │       │   └── upcase.sh
 │       └── plugins
-│           ├── composer.sh
-│           ├── phpbuild.sh
-│           ├── phpenv.sh
-│           ├── rbenv.sh
-│           ├── sdkman.sh
-│           └── venv.sh
+│           ├── plugin.composer.sh
+│           ├── plugin.phpbuild.sh
+│           ├── plugin.phpenv.sh
+│           ├── plugin.rbenv.sh
+│           ├── plugin.sdkman.sh
+│           └── plugin.venv.sh
 └── .inputrc
    #+end_src
 
