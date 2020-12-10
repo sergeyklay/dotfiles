@@ -30,7 +30,8 @@ set editing-mode emacs
 "\e[A": history-search-backward
 "\e[B": history-search-forward
 
-C-q: quoted-insert
+# File rename helper
+"\em": "\C-w\C-y\C-y"
 
 # See: https://unix.stackexchange.com/a/11943/50400
 "\ew": copy-region-as-kill
