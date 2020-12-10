@@ -25,14 +25,17 @@ autoload() {
   fi
 
   local library
+  local sfile
 
   if [  $# -gt 1 ]; then
     case "$2" in
       "function")
         library="${BASHD_ROOT}/lib"
+        sfile="$1.sh"
         ;;
       "plugin")
         library="${BASHD_ROOT}/plugins"
+        sfile="plugin.$1.sh"
         ;;
       *)
         >&2 echo "autoload: unexpected type of autoloading"
@@ -41,10 +44,11 @@ autoload() {
     esac
   else
     library="${BASHD_ROOT}/lib"
+    sfile="$1.sh"
   fi
 
   if [[ ! -d $library ]]; then
-    >&2 echo "autoload: $library Direcory not found"
+    >&2 echo "autoload: direcory $library not found"
     return 1
   fi
 
@@ -56,11 +60,11 @@ autoload() {
   fi
 
   if [ "$(LC_ALL=C type -t "$name")" != "function" ]; then
-    if [[ -f $library/$1.sh ]]; then
+    if [[ -f $library/$sfile ]]; then
       # shellcheck disable=SC1090
-      . "$library/${1}.sh"
+      . "$library/$sfile"
     else
-      echo "autoload: file $library/${1}.sh not found"
+      echo "autoload: file $library/$sfile not found"
       return 1
     fi
   fi

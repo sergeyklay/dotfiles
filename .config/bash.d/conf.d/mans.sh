@@ -32,6 +32,7 @@ if [ -z ${MANPATH+x} ] || [ "$MANPATH" = ":" ] ; then
 
   IFS=':' read -r -a mans <<< "$MANPATH"
 
+  # TODO(serghei): Add at the start
   mans+=(~/man)
   mans+=(/opt/man)
   mans+=(/usr/local/share/man)
