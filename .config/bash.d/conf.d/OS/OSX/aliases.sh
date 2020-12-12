@@ -21,12 +21,14 @@
 if command -v gls >/dev/null 2>&1; then
   # GNU's ls uses --color to enable colorized output.
   # For LC_ALL see URL https://superuser.com/a/448294/280737
+  alias ls="gls --color=auto"
   alias ll='LC_ALL="C.UTF-8" gls --color=auto -alF --group-directories-first'
   alias la='gls --color=auto -A'
   alias l='gls --color=auto -CF'
 else
   # BSD's ls uses -G to enable colorized output.
   # For LC_ALL see URL https://superuser.com/a/448294/280737
+  alias ls="ls -G"
   alias ll='LC_ALL="C.UTF-8" ls -G -alF'
   alias la='ls -G -A'
   alias l='ls -G -CF'

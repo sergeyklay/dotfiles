@@ -23,6 +23,9 @@
 alias grep='grep --colour=auto'
 alias egrep='egrep --colour=auto'
 
+# Misc
+alias whence='type -a'
+
 # Color support for ripgrep
 if command -v rg >/dev/null 2>&1; then
   alias rg='rg --color=auto'

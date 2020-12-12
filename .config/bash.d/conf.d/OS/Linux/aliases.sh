@@ -19,6 +19,7 @@
 
 # GNU's ls uses --color to enable colorized output.
 # For LC_ALL see URL https://superuser.com/a/448294/280737
+alias ls='ls --color=auto'
 alias ll='LC_ALL="C.UTF-8" ls --color=auto -alF --group-directories-first'
 alias la='ls --color=auto -A'
 alias l='ls --color=auto -CF'
