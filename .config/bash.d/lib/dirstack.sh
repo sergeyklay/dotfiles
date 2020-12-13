@@ -65,7 +65,7 @@ uniqd() {
   dups=0
 
   cwd="$(pwd -P)"
-  local -r cwd
+  readonly cwd
 
   for i in $(seq 0 $((${#DIRSTACK[@]}-1))); do
     dir="${DIRSTACK[$i]/%\//}"
@@ -104,10 +104,10 @@ uniqd() {
 # Meant for 'pushd' (see below).
 persistd() {
   dbfile="${DIRSTACKFILE:-/dev/null}"
-  local -r dbfile
+  readonly dbfile
 
   dbpath="$(dirname "$dbfile")"
-  local -r dbpath
+  readonly dbpath
 
   [ "$dbfile" = "/dev/null" ] && return
 
