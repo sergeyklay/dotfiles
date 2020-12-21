@@ -32,23 +32,26 @@ autoload bashenv
 bashenv
 
 # OS specific environment
-# shellcheck disable=SC1090
-[[ -f $BASHD_ROOT/conf.d/OS/$OSSHORT/env.sh ]] && . "$BASHD_ROOT/conf.d/OS/$OSSHORT/env.sh"
+if [[ -f $BASHD_ROOT/conf.d/OS/$OSSHORT/env.sh ]]; then
+  # shellcheck disable=SC1090
+  . "$BASHD_ROOT/conf.d/OS/$OSSHORT/env.sh"
+fi
 
-# Setting up PATHs
-# shellcheck source=./.config/bash.d/conf.d/paths.sh
-[[ -f $BASHD_ROOT/conf.d/paths.sh ]] && . "$BASHD_ROOT/conf.d/paths.sh"
+# Order is matter
+configs=(
+  paths   # Setting up PATHs
+  mans    # Setting up MAN's paths
+  info    # Setting up INFOPATHs
+  editor  # GNU Emacs configuration
+  gpg     # GnuPG configuration
+)
 
-# Setting up MAN's paths
-# shellcheck source=./.config/bash.d/conf.d/mans.sh
-[[ -f $BASHD_ROOT/conf.d/mans.sh ]] && . "$BASHD_ROOT/conf.d/mans.sh"
+for c in "${configs[@]}" ; do
+  # shellcheck disable=SC1090
+  [[ -f $BASHD_ROOT/conf.d/$c.sh ]] && . "$BASHD_ROOT/conf.d/$c.sh"
+done
 
-# shellcheck source=./.config/bash.d/conf.d/editor.sh
-[[ -f $BASHD_ROOT/conf.d/editor.sh ]] && . "$BASHD_ROOT/conf.d/editor.sh"
-
-# GnuPG configuration
-# shellcheck source=./.config/bash.d/conf.d/gpg.sh
-[[ -f $BASHD_ROOT/conf.d/gpg.sh ]] && . "$BASHD_ROOT/conf.d/gpg.sh"
+unset configs c
 
 # Include '.bashrc' if it exists
 # shellcheck source=./.bashrc
