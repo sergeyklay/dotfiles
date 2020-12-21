@@ -87,7 +87,7 @@ bashenv() {
 
   # Load required functions
   autoload locknwait
-  autoload upcase
+  autoload utils
 
   # If we can't load from cache, then set all the required variables
   # by hand.
@@ -138,7 +138,7 @@ bashenv() {
 
         # arch -> Arch
         # gentoo -> Gentoo
-        OSDISTRO="$(upcase "$OSDISTRO")"
+        OSDISTRO="$(ucfirst "$OSDISTRO")"
 
         if [ -f /etc/gentoo-release ]; then
           OSRELEASE=$(grep -oE '[^ ]+$' /etc/gentoo-release)

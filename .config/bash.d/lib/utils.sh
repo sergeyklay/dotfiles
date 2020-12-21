@@ -32,3 +32,12 @@ in_array() {
 
   return 1
 }
+
+ucfirst() {
+  local p
+
+  # shellcheck disable=SC2016
+  p='{for(i=1;i<=NF;i++){ $i=toupper(substr($i,1,1)) substr($i,2) }}1'
+
+  echo -n "$1" | awk "$p"
+}
