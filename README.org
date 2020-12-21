@@ -49,6 +49,7 @@
 │       │   ├── fun.sh
 │       │   ├── gpg.sh
 │       │   ├── hist.sh
+│       │   ├── info.sh
 │       │   ├── mans.sh
 │       │   ├── paths.sh
 │       │   └── prompt.sh
@@ -57,7 +58,7 @@
 │       │   ├── dirstack.sh
 │       │   ├── locknwait.sh
 │       │   ├── pathmunge.sh
-│       │   └── upcase.sh
+│       │   └── utils.sh
 │       └── plugins
 │           ├── plugin.composer.sh
 │           ├── plugin.phpbuild.sh
