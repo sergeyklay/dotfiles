@@ -13,42 +13,45 @@
 # You should have received a copy of the GNU General Public License
 # along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
-# # This file contains the configuration of manpages.
+# Setting the tist of directories to search for manpages.
 
 # shellcheck shell=bash
 
-# MANPATH: path for the man command to search.
-# Look at the manpath command's output and prepend my own manual
-# paths manually.
-# TODO(serghei): Do not add dups
+autoload utils
+
+# Only do this if the MANPATH variable isn't already set.
 if [ -z ${MANPATH+x} ] || [ "$MANPATH" = ":" ] ; then
-  # Only do this if the MANPATH variable isn't already set.
   if command -v manpath >/dev/null 2>&1; then
     # Get the original manpath, then modify it.
     MANPATH="$(manpath 2>/dev/null)"
   else
     MANPATH=""
   fi
-
-  IFS=':' read -r -a mans <<< "$MANPATH"
-
-  # TODO(serghei): Add at the start
-  mans+=(~/man)
-  mans+=(/opt/man)
-  mans+=(/usr/local/share/man)
-  mans+=(/usr/local/man)
-  mans+=(/usr/share/man)
-  mans+=(/usr/man)
-
-  MANPATH="$( IFS=$':'; echo -n "${mans[*]}" )"
-  unset mans
-
-  MANPATH="${MANPATH//\/:/:}"
-  MANPATH="${MANPATH%/}"
-
-  export MANPATH
 fi
 
-# Local Variables:
-# mode: sh
-# End:
+IFS=':' read -ra mans <<< "$MANPATH"
+
+places=(
+  /usr/man
+  /usr/share/man
+  /usr/local/man
+  /usr/local/share/man
+  /opt/man
+  "$HOME/man"
+  "$HOME/.local/share/man"
+)
+
+for p in "${places[@]}"; do
+  if [[ -d $p ]] && ! in_array "$p" "${mans[@]}"; then
+    mans=("$p" "${mans[@]}")
+  fi
+done
+unset places
+
+MANPATH="$( IFS=$':'; echo -n "${mans[*]}" )"
+unset mans
+
+MANPATH="${MANPATH//\/:/:}"
+MANPATH="${MANPATH%/}"
+
+export MANPATH
