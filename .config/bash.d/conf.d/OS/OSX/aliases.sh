@@ -45,6 +45,11 @@ if command -v gcp >/dev/null 2>&1; then
   alias cp='gcp'
 fi
 
+# brew install gnu-tar
+if command -v gtar >/dev/null 2>&1; then
+  alias tar='gtar'
+fi
+
 # Local Variables:
 # mode: sh
 # End:
