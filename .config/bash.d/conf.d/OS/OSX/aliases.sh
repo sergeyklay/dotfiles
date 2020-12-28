@@ -50,6 +50,11 @@ if command -v gtar >/dev/null 2>&1; then
   alias tar='gtar'
 fi
 
+# brew install gnu-time
+if command -v gtime >/dev/null 2>&1; then
+  alias time='gtime'
+fi
+
 # Local Variables:
 # mode: sh
 # End:
