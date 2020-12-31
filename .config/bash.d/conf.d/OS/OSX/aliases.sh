@@ -55,6 +55,8 @@ if command -v gtime >/dev/null 2>&1; then
   alias time='gtime'
 fi
 
+alias remax="launchctl kickstart -k gui/$(id -u)/homebrew.mxcl.emacs-head@27"
+
 # Local Variables:
 # mode: sh
 # End:
