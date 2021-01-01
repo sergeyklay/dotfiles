@@ -23,7 +23,7 @@ autoload pathmunge
 # I need only the latest one
 test -d $HOME/Library/Python && {
   _d="$HOME/Library/Python"
-  _latest="$(find "$_d" -type d -depth 1 | sort -r | head -n 1)"
+  _latest="$(find "$_d" -type d -depth 1 | sort -nr | head -n 1)"
 
   if [[ -n "$_latest" ]] && [[ -d $_latest/bin ]]; then
     pathmunge "$_latest/bin"
