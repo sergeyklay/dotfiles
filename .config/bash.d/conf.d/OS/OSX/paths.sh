@@ -19,11 +19,18 @@
 
 autoload pathmunge
 
-for dir in "$HOME/Library/Python/"* ; do
-  if [ -d "$dir/bin" ]; then
-    pathmunge "$dir/bin"
+# At some point here there may be several Python versions here.
+# I need only the latest one
+test -d $HOME/Library/Python && {
+  _d="$HOME/Library/Python"
+  _latest="$(find "$_d" -type d -depth 1 | sort -r | head -n 1)"
+
+  if [[ -n "$_latest" ]] && [[ -d $_latest/bin ]]; then
+    pathmunge "$_latest/bin"
   fi
-done
+
+  unset _d _latest
+}
 
 # LLVM
 if [ -d /usr/local/opt/llvm/bin ]; then
