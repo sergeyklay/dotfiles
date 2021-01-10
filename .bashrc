@@ -53,7 +53,7 @@ plugins=(
 #  phpenv
 #  phpbuild
 #  composer
-#  rbenv
+  rbenv
   sdkman
   venv
 )
