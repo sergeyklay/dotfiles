@@ -1,0 +1,46 @@
+# Copyright (C) 2014-2020 Serghei Iakovlev <egrep@protonmail.ch>
+#
+# This file is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 3
+# of the License, or (at your option) any later version.
+#
+# This file is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <https://www.gnu.org/licenses/>.
+
+# shellcheck shell=bash
+
+autoload pathmunge
+
+_plugin_pyenv() {
+  if [[ -d ~/.pyenv ]]; then
+    PYENV_ROOT="$HOME/.pyenv"
+    export PYENV_ROOT
+
+    if [[ -d $PYENV_ROOT/bin ]]; then
+      pathmunge "$PYENV_ROOT/bin"
+    fi
+
+    if [[ -d $PYENV_ROOT/shims ]]; then
+      pathmunge "$PYENV_ROOT/shims"
+    fi
+  fi
+
+  if [ -z ${PYENV_SHELL+x} ]; then
+    if command -v pyenv >/dev/null 2>&1; then
+      eval "$(pyenv init -)"
+    else
+      >&2 echo "command pyenv not found"
+      return 1
+    fi
+  fi
+}
+
+# Local Variables:
+# mode: sh
+# End:
