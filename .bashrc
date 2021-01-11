@@ -54,6 +54,7 @@ plugins=(
 #  phpbuild
 #  composer
   rbenv
+  pyenv
   sdkman
   venv
 )
