@@ -18,7 +18,8 @@
 autoload pathmunge
 
 _plugin_rbenv() {
-  for dir in ~/.rbenv "/usr/local/opt/rbenv"; do
+  for dir in ~/.rbenv /usr/local/opt/rbenv /opt/homebrew/opt/rbenv
+  do
     if [[ -d "$dir/bin" ]]; then
       pathmunge "$dir/bin"
       break
