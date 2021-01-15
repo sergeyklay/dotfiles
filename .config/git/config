@@ -3,6 +3,9 @@
 	email = egrep@protonmail.ch
 	signingkey = C6AF1016BBDEA800
 
+[init]
+	defaultBranch = master
+
 [core]
 	autocrlf = input
 	safecrlf = warn
