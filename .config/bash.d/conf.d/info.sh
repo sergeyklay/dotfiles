@@ -29,6 +29,7 @@ IFS=':' read -ra paths <<< "$INFOPATH"
 places=(
   /usr/share/info
   /usr/local/share/info
+  /opt/homebrew/share/info
   /opt/info
   "$HOME/info"
   "$HOME/.local/share/info"

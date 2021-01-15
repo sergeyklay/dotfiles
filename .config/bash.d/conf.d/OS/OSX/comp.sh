@@ -24,6 +24,9 @@
 if [ -r /usr/local/etc/profile.d/bash_completion.sh ]; then
   # shellcheck disable=SC1091
   . /usr/local/etc/profile.d/bash_completion.sh
+elif [ -r /opt/homebrew/etc/profile.d/bash_completion.sh ]; then
+  # shellcheck disable=SC1091
+  . /opt/homebrew/etc/profile.d/bash_completion.sh
 fi
 
 # Local Variables:

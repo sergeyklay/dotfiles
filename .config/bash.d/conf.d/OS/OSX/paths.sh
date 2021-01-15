@@ -19,11 +19,6 @@
 
 autoload pathmunge
 
-# Homebrew
-if [ -d /opt/homebrew/bin ]; then
-  pathmunge /opt/homebrew/bin
-fi
-
 # At some point here there may be several Python versions here.
 # I need only the latest one
 test -d $HOME/Library/Python && {
@@ -40,21 +35,29 @@ test -d $HOME/Library/Python && {
 # LLVM
 if [ -d /usr/local/opt/llvm/bin ]; then
   pathmunge /usr/local/opt/llvm/bin
+elif [ -d /opt/homebrew/opt/llvm/bin ]; then
+  pathmunge /opt/homebrew/opt/llvm/bin
 fi
 
 # QT
 if [ -d /usr/local/opt/qt/bin ]; then
   pathmunge /usr/local/opt/qt/bin
+elif [ -d /opt/homebrew/opt/qt/bin ]; then
+  pathmunge /opt/homebrew/opt/qt/bin
 fi
 
 # kubectl
 if [ -d /usr/local/opt/kubernetes-cli/bin ]; then
   pathmunge /usr/local/opt/kubernetes-cli/bin
+elif [ -d /opt/homebrew/opt/kubernetes-cli/bin ]; then
+  pathmunge /opt/homebrew/opt/kubernetes-cli/bin
 fi
 
 # brew install texinfo
 if [ -d /usr/local/opt/texinfo/bin ]; then
   pathmunge /usr/local/opt/texinfo/bin
+elif [ -d /opt/homebrew/opt/texinfo/bin ]; then
+  pathmunge /opt/homebrew/opt/texinfo/bin
 fi
 
 # Local Variables:

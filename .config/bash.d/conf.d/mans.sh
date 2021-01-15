@@ -35,7 +35,9 @@ places=(
   /usr/man
   /usr/share/man
   /usr/local/man
+  /opt/homebrew/man
   /usr/local/share/man
+  /opt/homebrew/share/man
   /opt/man
   "$HOME/man"
   "$HOME/.local/share/man"

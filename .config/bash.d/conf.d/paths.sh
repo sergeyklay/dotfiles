@@ -20,9 +20,16 @@
 # Load pathmunge function
 autoload pathmunge
 
+# Homebrew on Apple Silicon
+if [ -d /opt/homebrew/bin ]; then
+  pathmunge /opt/homebrew/bin
+fi
+
 # Include alternate sbin
 if [ -d /usr/local/sbin ]; then
   pathmunge /usr/local/sbin
+elif [ -d /opt/homebrew/sbin ]; then
+  pathmunge /opt/homebrew/sbin
 fi
 
 # Home binaries
