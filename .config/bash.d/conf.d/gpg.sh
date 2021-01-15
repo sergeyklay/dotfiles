@@ -24,8 +24,12 @@ GNUPGHOME="$HOME/.gnupg"
 export GNUPGHOME
 
 # Enable gpg-agent if it is not running
-if [ ! -S "$(gpgconf --list-dirs agent-socket)" ]; then
-  gpg-agent --homedir "$GNUPGHOME" --daemon --use-standard-socket &>/dev/null
+if [[ -z "$(ps -ef | grep [g]pg-agent)" ]] || \
+     [[ ! -S "$(gpgconf --list-dirs agent-socket)" ]]; then
+  gpg-agent \
+    --homedir "$GNUPGHOME" \
+    --daemon \
+    --use-standard-socket &>/dev/null
 fi
 
 # Update GPG_TTY.  See 'man 1 gpg-agen'.
