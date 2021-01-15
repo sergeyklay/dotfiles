@@ -19,6 +19,11 @@
 
 autoload pathmunge
 
+# Homebrew
+if [ -d /opt/homebrew/bin ]; then
+  pathmunge /opt/homebrew/bin
+fi
+
 # At some point here there may be several Python versions here.
 # I need only the latest one
 test -d $HOME/Library/Python && {
