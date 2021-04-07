@@ -57,6 +57,7 @@ plugins=(
   pyenv
   sdkman
   venv
+  nvm
 )
 
 for p in "${plugins[@]}" ;  do
