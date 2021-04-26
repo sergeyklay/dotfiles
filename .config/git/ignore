@@ -69,5 +69,6 @@ GTAGS
 TAGS
 ID
 
+.python-version
 .php-version
 .ruby-version
