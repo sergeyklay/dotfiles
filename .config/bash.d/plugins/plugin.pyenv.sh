@@ -17,7 +17,9 @@
 
 autoload pathmunge
 
+# See: https://github.com/pyenv/pyenv-installer
 _plugin_pyenv() {
+
   if [[ -d ~/.pyenv ]]; then
     PYENV_ROOT="$HOME/.pyenv"
     export PYENV_ROOT
@@ -34,6 +36,7 @@ _plugin_pyenv() {
   if [ -z ${PYENV_SHELL+x} ]; then
     if command -v pyenv >/dev/null 2>&1; then
       eval "$(pyenv init -)"
+      eval "$(pyenv virtualenv-init -)"
     else
       >&2 echo "command pyenv not found"
       return 1
