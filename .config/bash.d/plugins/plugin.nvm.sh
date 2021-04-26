@@ -17,6 +17,7 @@
 
 autoload pathmunge
 
+# See: https://github.com/nvm-sh/nvm
 _plugin_nvm() {
   if [[ -d ~/.nvm ]]; then
     NVM_DIR="$HOME/.nvm"
