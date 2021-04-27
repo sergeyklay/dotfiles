@@ -86,12 +86,6 @@ else
   alias diff='diff -Nuar'
 fi
 
-if command -v todoman >/dev/null 2>&1; then
-  alias t="todoman"
-elif command -v todo >/dev/null 2>&1; then
-  alias t="todo"
-fi
-
 # OS specific aliases
 if [ -r "$BASHD_ROOT/conf.d/OS/$OSSHORT/aliases.sh" ]; then
   # shellcheck disable=SC1090
