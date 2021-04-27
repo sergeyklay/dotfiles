@@ -24,10 +24,6 @@ _plugin_pyenv() {
     PYENV_ROOT="$HOME/.pyenv"
     export PYENV_ROOT
 
-    if [[ -d $PYENV_ROOT/bin ]]; then
-      pathmunge "$PYENV_ROOT/bin"
-    fi
-
     if [[ -d $PYENV_ROOT/shims ]]; then
       pathmunge "$PYENV_ROOT/shims"
     fi
