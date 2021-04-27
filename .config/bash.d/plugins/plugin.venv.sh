@@ -74,15 +74,18 @@ _plugin_venv() {
     fi
   fi
 
-  # The variable VIRTUALENVWRAPPER_PYTHON tells virtualenvwrapper the
-  # full path of the interpreter to use.
-  if command -v python3 >/dev/null 2>&1 && [ -n "$WORKON_HOME" ]
-  then
-    VIRTUALENVWRAPPER_PYTHON="$(_find_python python3)"
-    export VIRTUALENVWRAPPER_PYTHON
-  elif command -v python >/dev/null 2>&1; then
-    VIRTUALENVWRAPPER_PYTHON="$(_find_python python)"
-    export VIRTUALENVWRAPPER_PYTHON
+  # Provide a way to override VIRTUALENVWRAPPER_PYTHON variable
+  if [ -z ${VIRTUALENVWRAPPER_PYTHON+x} ]; then
+    # The variable VIRTUALENVWRAPPER_PYTHON tells virtualenvwrapper
+    # the full path of the interpreter to use.
+    if command -v python3 >/dev/null 2>&1 && [ -n "$WORKON_HOME" ]
+    then
+      VIRTUALENVWRAPPER_PYTHON="$(_find_python python3)"
+      export VIRTUALENVWRAPPER_PYTHON
+    elif command -v python >/dev/null 2>&1; then
+      VIRTUALENVWRAPPER_PYTHON="$(_find_python python)"
+      export VIRTUALENVWRAPPER_PYTHON
+    fi
   fi
 
   if [ -n "$WORKON_HOME" ] && \
