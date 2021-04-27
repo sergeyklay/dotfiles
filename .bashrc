@@ -26,6 +26,12 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# This means ~/.bash_profile was not sourced
+if [ -z ${BASHD_ROOT+x} ] && [ -f ~/.bash_profile ]; then
+  # shellcheck disable=SC1090
+  . ~/.bash_profile
+fi
+
 # Source global definitions
 if [ -f /etc/bashrc ]; then
   # shellcheck disable=SC1091
