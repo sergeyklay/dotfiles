@@ -21,12 +21,12 @@ autoload pathmunge
 _plugin_pyenv() {
 
 
-  if [[ -z ${PYENV_ROOT+x} ]] && [[ -d "$HOME/.pyenv" ]]; then
+  if [ -z ${PYENV_ROOT+x} ] && [ -d "$HOME/.pyenv" ]; then
     PYENV_ROOT="$HOME/.pyenv"
     export PYENV_ROOT
   fi
 
-  if [[ -n "$PYENV_ROOT" ]] && [[ -d $PYENV_ROOT/bin ]]; then
+  if [ -n "$PYENV_ROOT" ] && [ -d "$PYENV_ROOT/bin" ]; then
     pathmunge "$PYENV_ROOT/bin"
   fi
 
