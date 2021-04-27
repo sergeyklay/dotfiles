@@ -24,15 +24,18 @@ _plugin_pyenv() {
     PYENV_ROOT="$HOME/.pyenv"
     export PYENV_ROOT
 
-    if [[ -d $PYENV_ROOT/shims ]]; then
-      pathmunge "$PYENV_ROOT/shims"
+    if [[ -d $PYENV_ROOT/bin ]]; then
+      pathmunge "$PYENV_ROOT/bin"
     fi
   fi
 
   if [ -z ${PYENV_SHELL+x} ]; then
     if command -v pyenv >/dev/null 2>&1; then
       eval "$(pyenv init -)"
-      eval "$(pyenv virtualenv-init -)"
+
+      if pyenv commands | grep -q virtualenv-init ; then
+        eval "$(pyenv virtualenv-init -)"
+      fi
     else
       >&2 echo "command pyenv not found"
       return 1
