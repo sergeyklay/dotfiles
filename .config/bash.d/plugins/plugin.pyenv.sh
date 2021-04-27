@@ -20,13 +20,14 @@ autoload pathmunge
 # See: https://github.com/pyenv/pyenv-installer
 _plugin_pyenv() {
 
-  if [[ -d ~/.pyenv ]]; then
+
+  if [[ -z ${PYENV_ROOT+x} ]] && [[ -d "$HOME/.pyenv" ]]; then
     PYENV_ROOT="$HOME/.pyenv"
     export PYENV_ROOT
+  fi
 
-    if [[ -d $PYENV_ROOT/bin ]]; then
-      pathmunge "$PYENV_ROOT/bin"
-    fi
+  if [[ -n "$PYENV_ROOT" ]] && [[ -d $PYENV_ROOT/bin ]]; then
+    pathmunge "$PYENV_ROOT/bin"
   fi
 
   if [ -z ${PYENV_SHELL+x} ]; then
