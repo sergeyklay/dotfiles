@@ -19,8 +19,6 @@ autoload pathmunge
 
 # See: https://github.com/pyenv/pyenv-installer
 _plugin_pyenv() {
-
-
   if [ -z ${PYENV_ROOT+x} ] && [ -d "$HOME/.pyenv" ]; then
     PYENV_ROOT="$HOME/.pyenv"
     export PYENV_ROOT
