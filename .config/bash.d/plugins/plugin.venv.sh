@@ -33,7 +33,6 @@ _find_python() {
     return 0
   fi
 
-
   # The `type's arguments are used for:
   #
   #   -f    suppress shell function lookup
