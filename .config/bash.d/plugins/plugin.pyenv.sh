@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2020 Serghei Iakovlev <egrep@protonmail.ch>
+# Copyright (C) 2014-2021 Serghei Iakovlev <egrep@protonmail.ch>
 #
 # This file is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
