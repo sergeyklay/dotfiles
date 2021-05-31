@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
-# Python's Virtualenv configuration
+# Python's Virtualenv configuration.
 
 # shellcheck shell=bash
 
@@ -59,7 +59,7 @@ _find_python() {
   done | sort -n | tail -n 1 | awk -F'|' '{print $2}'
 }
 
-_plugin_venv() {
+_plugin_venv_login() {
   # The variable WORKON_HOME tells virtualenvwrapper where to place
   # your virtual environments. If the directory does not exist when
   # virtualenvwrapper is loaded, it will be created automatically.
@@ -94,7 +94,7 @@ _plugin_venv() {
     fi
   fi
 
-  if [ -n "$WORKON_HOME" ] && \
+  if [ -n "$WORKON_HOME" ] && [ -z "$PYENV_VIRTUALENV_INIT" ] && \
        command -v virtualenvwrapper_lazy.sh >/dev/null 2>&1 ; then
     # shellcheck disable=SC1090
     . "$(command -v virtualenvwrapper_lazy.sh 2>/dev/null)"
@@ -102,5 +102,5 @@ _plugin_venv() {
 }
 
 # Local Variables:
-# mode: sh
+# mode: shell-script
 # End:
