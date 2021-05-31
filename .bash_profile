@@ -50,23 +50,22 @@ for c in "${configs[@]}" ; do
   # shellcheck disable=SC1090
   [[ -f $BASHD_ROOT/conf.d/$c.sh ]] && . "$BASHD_ROOT/conf.d/$c.sh"
 done
-
 unset configs c
-
-# Include '.bashrc' if it exists
-# shellcheck source=./.bashrc
-[ -f ~/.bashrc ] && . ~/.bashrc
 
 # These plugins stands for login shells only.
 plugins=(
   pyenv
+  venv
 )
 
 for p in "${plugins[@]}" ;  do
   plugin "$p" l
 done
-
 unset p plugins
+
+# Include '.bashrc' if it exists
+# shellcheck source=./.bashrc
+[ -f ~/.bashrc ] && . ~/.bashrc
 
 # Local Variables:
 # mode: shell-script

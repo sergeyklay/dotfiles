@@ -60,9 +60,9 @@ plugins=(
 #  phpbuild
 #  composer
   rbenv
-#  pyenv
+  pyenv
   sdkman
-  venv
+  # venv
   nvm
 )
 
