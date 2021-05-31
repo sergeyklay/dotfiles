@@ -64,18 +64,19 @@ autoload() {
       # shellcheck disable=SC1090
       . "$library/$sfile"
     else
-      echo "autoload: file $library/$sfile not found"
+      >&2 echo "autoload: file $library/$sfile not found"
       return 1
     fi
   fi
 }
 
-# Meand for autoloading plugins.
+autoload utils
+
+# Meant for autoloading plugins.
 # For more see 'autoload' function.
 plugin() {
   if [  $# -eq 0 ]; then
-    >&2 echo "plugin: Missing required argument #1"
-    return 1
+    abort "Missing required argument #1"
   fi
 
   local func
@@ -84,10 +85,32 @@ plugin() {
   autoload "$func" plugin
 
   func="_plugin_$func"
-  $func
 
+  # Second argument stands for load mode
+  if [ $# -eq 2 ]; then
+    local mode
+    mode="$2"
+
+    case $mode in
+      l)
+        func="${func}_login"
+        ;;
+      *)
+        warn "Invalid mode '$mode' for plugin '$func'"
+        return 1
+        ;;
+    esac
+  fi
+
+  if [ -z "$(LC_ALL=C type -t "$func")" ] || \
+    [ "$(LC_ALL=C type -t "$func")" != function ]; then
+    warn "'$func' is not a function"
+    return 1
+  fi
+
+  $func
 }
 
 # Local Variables:
-# mode: sh
+# mode: shell-script
 # End:

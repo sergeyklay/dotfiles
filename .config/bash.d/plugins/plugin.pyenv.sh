@@ -15,12 +15,15 @@
 
 # shellcheck shell=bash
 
+# Pyenv configuration plugin.
+#
+# Links:
+# * https://github.com/pyenv/pyenv
+# * https://github.com/pyenv/pyenv-installer
+
 autoload pathmunge
 
-# See:
-# https://github.com/pyenv/pyenv
-# https://github.com/pyenv/pyenv-installer
-_plugin_pyenv() {
+_plugin_pyenv_login() {
   if [ -z ${PYENV_ROOT+x} ] && [ -d "$HOME/.pyenv" ]; then
     PYENV_ROOT="$HOME/.pyenv"
     export PYENV_ROOT
@@ -45,5 +48,5 @@ _plugin_pyenv() {
 }
 
 # Local Variables:
-# mode: sh
+# mode: shell-script
 # End:

@@ -41,3 +41,18 @@ ucfirst() {
 
   echo -n "$1" | awk "$p"
 }
+
+warn() {
+  { if [ "$#" -eq 0 ]; then cat -
+    else echo "bash.d: $*"
+    fi
+  } >&2
+}
+
+abort() {
+  { if [ "$#" -eq 0 ]; then cat -
+    else echo "bash.d: $*"
+    fi
+  } >&2
+  exit 1
+}
