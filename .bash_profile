@@ -40,10 +40,10 @@ fi
 # Order is matter
 configs=(
   paths   # Setting up PATHs
-  mans    # Setting up MAN's paths
+  mans    # Setting up MAN pages paths
   info    # Setting up INFOPATHs
-  editor  # GNU Emacs configuration
-  gpg     # GnuPG configuration
+  editor  # Setting up the editor
+  gpg     # Setting up GnuPG
 )
 
 for c in "${configs[@]}" ; do
@@ -57,6 +57,17 @@ unset configs c
 # shellcheck source=./.bashrc
 [ -f ~/.bashrc ] && . ~/.bashrc
 
+# These plugins stands for login shells only.
+plugins=(
+  pyenv
+)
+
+for p in "${plugins[@]}" ;  do
+  plugin "$p" l
+done
+
+unset p plugins
+
 # Local Variables:
-# mode: sh
+# mode: shell-script
 # End:

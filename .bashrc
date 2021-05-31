@@ -60,7 +60,7 @@ plugins=(
 #  phpbuild
 #  composer
   rbenv
-  pyenv
+#  pyenv
   sdkman
   venv
   nvm
@@ -73,5 +73,5 @@ done
 unset c p configs plugins
 
 # Local Variables:
-# mode: sh
+# mode: shell-script
 # End:
