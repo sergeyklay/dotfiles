@@ -24,6 +24,7 @@
 autoload pathmunge
 autoload warn
 
+# Meant for non-interactive login shells.
 _plugin_pyenv_login() {
   if [ -z ${PYENV_ROOT+x} ] && [ -d "$HOME/.pyenv" ]; then
     PYENV_ROOT="$HOME/.pyenv"
@@ -48,6 +49,7 @@ _plugin_pyenv_login() {
   fi
 }
 
+# Meant for interactive shells.
 _plugin_pyenv() {
   if [ -z ${PYENV_ROOT+x} ] || ! command -v pyenv >/dev/null 2>&1
   then

@@ -59,6 +59,7 @@ _find_python() {
   done | sort -n | tail -n 1 | awk -F'|' '{print $2}'
 }
 
+# Meant for non-interactive login shells.
 _plugin_venv_login() {
   # The variable WORKON_HOME tells virtualenvwrapper where to place
   # your virtual environments. If the directory does not exist when
