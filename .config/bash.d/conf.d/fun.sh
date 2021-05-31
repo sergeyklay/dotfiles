@@ -103,7 +103,7 @@ plugin() {
   fi
 
   if [ -z "$(LC_ALL=C type -t "$func")" ] || \
-    [ "$(LC_ALL=C type -t "$func")" != function ]; then
+      [ "$(LC_ALL=C type -t "$func")" != function ]; then
     warn "'$func' is not a function"
     return 1
   fi
