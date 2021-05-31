@@ -22,6 +22,7 @@
 # * https://github.com/pyenv/pyenv-installer
 
 autoload pathmunge
+autoload warn
 
 _plugin_pyenv_login() {
   if [ -z ${PYENV_ROOT+x} ] && [ -d "$HOME/.pyenv" ]; then
@@ -41,10 +42,21 @@ _plugin_pyenv_login() {
         eval "$(pyenv virtualenv-init -)"
       fi
     else
-      >&2 echo "command pyenv not found"
+      warn "command pyenv not found"
       return 1
     fi
   fi
+}
+
+_plugin_pyenv() {
+  if [ -z ${PYENV_ROOT+x} ] || ! command -v pyenv >/dev/null 2>&1
+  then
+    echo "$PYENV_ROOT"
+    warn "pyenv plugin is not configured"
+    return 1
+  fi
+
+  eval "$(pyenv init -)"
 }
 
 # Local Variables:
