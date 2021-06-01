@@ -66,8 +66,7 @@
 │           ├── plugin.phpenv.sh
 │           ├── plugin.pyenv.sh
 │           ├── plugin.rbenv.sh
-│           ├── plugin.sdkman.sh
-│           └── plugin.venv.sh
+│           └── plugin.sdkman.sh
 └── .inputrc
    #+end_src
 
