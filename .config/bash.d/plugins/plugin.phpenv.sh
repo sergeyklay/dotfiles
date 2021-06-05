@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2020 Serghei Iakovlev <egrep@protonmail.ch>
+# Copyright (C) 2014-2021 Serghei Iakovlev <egrep@protonmail.ch>
 #
 # This file is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,6 +16,7 @@
 # shellcheck shell=bash
 
 autoload pathmunge
+autoload warn
 
 _plugin_phpenv() {
   if [ -d ~/.phpenv/bin ]; then
@@ -25,11 +26,11 @@ _plugin_phpenv() {
   if command -v phpenv >/dev/null 2>&1 ; then
     eval "$(phpenv init -)"
   else
-    >&2 echo "command phpenv not found"
+    warn "command phpenv not found"
     return 1
   fi
 }
 
 # Local Variables:
-# mode: sh
+# mode: shell-script
 # End:

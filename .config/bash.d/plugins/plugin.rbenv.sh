@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2020 Serghei Iakovlev <egrep@protonmail.ch>
+# Copyright (C) 2014-2021 Serghei Iakovlev <egrep@protonmail.ch>
 #
 # This file is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -16,9 +16,10 @@
 # shellcheck shell=bash
 
 autoload pathmunge
+autoload warn
 
 _plugin_rbenv() {
-  for dir in ~/.rbenv /usr/local/opt/rbenv /opt/homebrew/opt/rbenv
+  for dir in ~/.rbenv /opt/homebrew/opt/rbenv /usr/local/opt/rbenv
   do
     if [[ -d "$dir/bin" ]]; then
       pathmunge "$dir/bin"
@@ -30,12 +31,12 @@ _plugin_rbenv() {
     if command -v rbenv >/dev/null 2>&1; then
       eval "$(rbenv init -)"
     else
-      >&2 echo "command rbenv not found"
+      warn "command rbenv not found"
       return 1
     fi
   fi
 }
 
 # Local Variables:
-# mode: sh
+# mode: shell-script
 # End:
