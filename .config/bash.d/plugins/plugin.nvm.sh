@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2020 Serghei Iakovlev <egrep@protonmail.ch>
+# Copyright (C) 2014-2021 Serghei Iakovlev <egrep@protonmail.ch>
 #
 # This file is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -15,24 +15,41 @@
 
 # shellcheck shell=bash
 
-autoload pathmunge
+# Node Version Manager configuration plugin.
+#
+# Links:
+# * https://github.com/nvm-sh/nvm
 
-# See: https://github.com/nvm-sh/nvm
-_plugin_nvm() {
+autoload pathmunge
+autoload warn
+
+# Meant for non-interactive login shells.
+_plugin_nvm_login() {
   if [[ -d ~/.nvm ]]; then
     NVM_DIR="$HOME/.nvm"
     export NVM_DIR
 
     if [[ -s $NVM_DIR/nvm.sh ]]; then
-        # This loads nvm
-        . "$NVM_DIR/nvm.sh"
-
-        # This loads nvm bash_completion
-        . "$NVM_DIR/bash_completion"
+      # This loads nvm
+      . "$NVM_DIR/nvm.sh"
     fi
   fi
 }
 
+# Meant for interactive shells.
+_plugin_nvm() {
+  if [ -z ${NVM_DIR+x} ] || ! command -v nvm >/dev/null 2>&1
+  then
+    warn "nvm plugin is not configured"
+    return 1
+  fi
+
+  if [[ -s $NVM_DIR/bash_completion ]]; then
+      # This loads nvm bash_completion
+      . "$NVM_DIR/bash_completion"
+  fi
+}
+
 # Local Variables:
-# mode: sh
+# mode: shell-script
 # End:
