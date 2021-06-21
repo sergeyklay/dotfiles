@@ -44,6 +44,9 @@ _plugin_pyenv_login() {
     if command -v pyenv >/dev/null 2>&1; then
       eval "$(pyenv init --path)"
 
+      PYENV_VIRTUALENV_DISABLE_PROMPT=1
+      export PYENV_VIRTUALENV_DISABLE_PROMPT
+
       # Automatically activate a Python virtualenv environment
       # based on current pyenv version.
       if pyenv commands | grep -q virtualenv-init ; then
