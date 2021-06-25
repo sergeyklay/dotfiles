@@ -44,6 +44,9 @@ fi
 if command -v gcp >/dev/null 2>&1; then
   alias cp='gcp'
 fi
+if command -v gdd >/dev/null 2>&1; then
+  alias dd='gdd'
+fi
 
 # brew install gnu-tar
 if command -v gtar >/dev/null 2>&1; then
