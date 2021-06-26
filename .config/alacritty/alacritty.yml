@@ -1,3 +1,14 @@
+# Configuration for Alacritty, the GPU enchanced terminal emulator.
+
+env:
+  # Bugs related to TERM=alacritty handling:
+  # 1. terminfo database does not recognize 'Ctrl-Up' / 'Ctrl-Down'.
+  #    We inject those manually bellow in keysbindings section.
+  # 2. mc's detection of xterm vs. gpm mouse breaks and fills up
+  #    /dev/gpmctl socket due to a bug in gpm daemon if /dev/tty0
+  #    is inactive.
+  TERM: 'xterm-256color'
+
 # Shell
 #
 # You can set `shell.program` to the path of your favorite shell, e.g. `/bin/fish`.
