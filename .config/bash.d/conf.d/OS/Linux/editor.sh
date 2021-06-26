@@ -20,7 +20,9 @@
 # Use a lesspipe filter, if we can find it.
 # This sets the $LESSOPEN variable.
 if command -v lesspipe >/dev/null 2>&1 ; then
-  eval "$(lesspipe)"
+  # eval "$(lesspipe)"
+  LESSOPEN="|lesspipe %s"
+  export LESSOPEN
 fi
 
 # Local Variables:
