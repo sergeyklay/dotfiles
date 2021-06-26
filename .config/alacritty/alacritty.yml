@@ -9,6 +9,18 @@ env:
   #    is inactive.
   TERM: 'xterm-256color'
 
+window:
+  # Window decarations
+  #
+  # Values for `decorations`:
+  #     - full: border and title bar
+  #     - none: Neither borders not title bar
+  #
+  # Values for `decorations`  (macOS only):
+  #     - transparent: Title bar, transparent background and title bar buttons
+  #     - buttonless: Title bar, transparent background, but no title bar buttons
+  decorations: none
+
 # Shell
 #
 # You can set `shell.program` to the path of your favorite shell, e.g. `/bin/fish`.
