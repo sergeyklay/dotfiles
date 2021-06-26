@@ -61,7 +61,7 @@ plugins=(
 #  composer
   rbenv
   pyenv
-  sdkman
+#  sdkman
   nvm
 )
 
