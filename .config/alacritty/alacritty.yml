@@ -34,3 +34,16 @@ shell:
   program: /bin/bash
   args:
     - --login
+
+# Mouse bindings
+#
+# Available fields:
+#   - Middle
+#   - Left
+#   - Right
+#   Numeric identifier such as `5`
+#
+# All avaliable `mods` and `action` values are documented in the key bindings
+# section.
+mouse_bindings:
+  - { mouse: Middle,              action: PasteSelection }
