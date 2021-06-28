@@ -27,6 +27,11 @@ if [[ -f $SWAY_CONFIG_HOME/env ]]; then
   set +a
 fi
 
+# Update X resources db.
+if [[ -f $HOME/.Xresources ]]; then
+  xrdb -merge -I$HOME "$HOME/.Xresources"
+fi
+
 exec systemd-cat --identifier sway dbus-run-session -- /usr/bin/sway "$@"
 
 # Local Variables:
