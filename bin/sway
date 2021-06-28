@@ -18,19 +18,16 @@
 # shellcheck shell=bash
 
 SWAY_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/sway"
-SWAY_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/sate}/sway"
 
 # sway specific environment
 if [[ -f $SWAY_CONFIG_HOME/env ]]; then
+  set -a
   # shellcheck disable=SC1090
   . "$SWAY_CONFIG_HOME/env"
+  set +a
 fi
 
-if [[ ! -d $SWAY_STATE_HOME ]]; then
-  mkdir -p "$SWAY_STATE_HOME"
-fi
-
-exec dbus-run-session /usr/bin/sway $@ > "${SWAY_STATE_HOME}/sway.log" 2>&1
+exec systemd-cat --identifier sway dbus-run-session -- /usr/bin/sway "$@"
 
 # Local Variables:
 # mode: shell-script
