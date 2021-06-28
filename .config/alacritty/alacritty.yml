@@ -1,5 +1,9 @@
 # Configuration for Alacritty, the GPU enchanced terminal emulator.
 
+# Theme
+import:
+  - ~/.config/alacritty/dracula.yml
+
 env:
   # Bugs related to TERM=alacritty handling:
   # 1. terminfo database does not recognize 'Ctrl-Up' / 'Ctrl-Down'.
