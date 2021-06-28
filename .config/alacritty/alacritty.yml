@@ -89,3 +89,9 @@ shell:
 # section.
 mouse_bindings:
   - { mouse: Middle,              action: PasteSelection }
+
+# Key bindings
+#
+key_bindings:
+  - { key: Insert,         mods: Control,                         action: CopySelection   }
+  - { key: Insert,         mods: Shift,                           action: PasteSelection   }
