@@ -1,0 +1,32 @@
+# Copyright (C) 2014-2021 Serghei Iakovlev <egrep@protonmail.ch>
+#
+# This file is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 3
+# of the License, or (at your option) any later version.
+#
+# This file is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <https://www.gnu.org/licenses/>.
+
+# Session XDG specification
+XDG_SESSION_TYPE=wayland
+XDG_SESSION_DESKTOP=sway
+XDG_CURRENT_DESKTOP=sway
+DESKTOP_SESSION=sway
+
+# XKB
+XKB_DEFAULT_LAYOUT=us
+
+LIBSEAT_BACKEND=logind
+
+# QT
+QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+#QT_WAYLAND_FORCE_DPI=102
+QT_AUTO_SCREEN_SCALE_FACTOR=0
+
+WLR_DRM_DEVICES=/dev/dri/card0
