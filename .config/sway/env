@@ -20,7 +20,8 @@ XDG_CURRENT_DESKTOP=sway
 DESKTOP_SESSION=sway
 
 # XKB
-XKB_DEFAULT_LAYOUT=us
+XKB_DEFAULT_LAYOUT="us,ru"
+XKB_DEFAULT_OPTIONS="grp:caps_toggle,grp_led:caps,compose:ralt,terminate:ctrl_alt_bksp"
 
 LIBSEAT_BACKEND=logind
 
