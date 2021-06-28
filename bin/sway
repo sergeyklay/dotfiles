@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+# Copyright (C) 2014-2021 Serghei Iakovlev <egrep@protonmail.ch>
+#
+# This file is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 3
+# of the License, or (at your option) any later version.
+#
+# This file is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <https://www.gnu.org/licenses/>.
+
+# shellcheck shell=bash
+
+SWAY_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/sway"
+SWAY_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/sate}/sway"
+
+# sway specific environment
+if [[ -f $SWAY_CONFIG_HOME/env ]]; then
+  # shellcheck disable=SC1090
+  . "$SWAY_CONFIG_HOME/env"
+fi
+
+if [[ ! -d $SWAY_STATE_HOME ]]; then
+  mkdir -p "$SWAY_STATE_HOME"
+fi
+
+exec dbus-run-session /usr/bin/sway $@ > "${SWAY_STATE_HOME}/sway.log" 2>&1
+
+# Local Variables:
+# mode: shell-script
+# End:
