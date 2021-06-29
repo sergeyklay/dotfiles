@@ -11,14 +11,6 @@ set $down j
 set $up k
 set $right l
 
-# Your preferred terminal emulator
-set $term alacritty
-
-# Your preferred application launcher
-# Note: pass the final command to swaymsg so that the resulting window can be opened
-# on the original workspace that the command was run on.
-set $menu dmenu_path | dmenu | xargs swaymsg exec --
-
 include *.conf
 
 ### Output configuration
@@ -49,14 +41,8 @@ include *.conf
 #
 # Basics:
 #
-    # Start a terminal
-    bindsym $mod+Return exec $term
-
     # Kill focused window
     bindsym $mod+Shift+q kill
-
-    # Start your launcher
-    bindsym $mod+d exec $menu
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -158,13 +144,6 @@ include *.conf
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
     bindsym $mod+minus scratchpad show
-
-#
-#
-# Fix pin entry tty for gpg.
-# See: https://stackoverflow.com/a/57116258/1661465
-#
-bindsym $mod+Control+q exec "sh -c 'gpg-connect-agent reloadagent /bye>/dev/null; systemctl suspend; swaylock; gpg-connect-agent updatestartuptty /bye > /dev/null'"
 
 #
 # Resizing containers:
