@@ -1,94 +1,110 @@
 {
     "layer": "top",
     "height": 25,
-    "modules-left": ["sway/workspaces", "sway/mode", "custom/media"],
-    "modules-center": ["sway/window"],
-    "modules-right": ["idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "sway/language", "battery", "battery#bat2", "clock", "tray"],
-    "sway/mode": {
-        "format": "<span style=\"italic\">{}</span>"
+    "modules-left": [
+        "custom/arch",
+	"sway/workspaces",
+        "sway/window",
+        "sway/mode"
+    ],
+    "modules-center": ["tray"],
+    "modules-right": [
+	"idle_inhibitor",
+        "custom/mic",
+	"pulseaudio",
+	"network",
+	"sway/language",
+	"battery",
+	"clock",
+        "custom/disturb_on",
+	"custom/disturb_off"
+    ],
+    "sway/language": {
+        "format": "{}",
+        "max-length": 50,
+        "on-click": "ksw",
+        "tooltip": false
+    },    
+    "clock": {
+        "timezone": "Europe/Kiev",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+	"format-alt": "{:%a, %d. %b  %H:%M}"
+    },
+    "tray": {
+        "icon-size": 15,
+        "spacing": 10
+    },
+    "network": {
+        "format": "{ifname}",
+        "format-wifi": " {essid}",
+	"format-ethernet": " {ifname} ",
+	"format-disconnected": "",
+	"tooltip-format": "{ifname}: {ipaddr}/{cidr}",
+	"tooltip-format-wifi": "{essid} ({signalStrength}%): {ipaddr}/{cidr}",
+	"tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
+	"tooltip-format-disconnected": "Disconnected",
+	"format-alt": "{ifname}: {ipaddr}/{cidr}",
+	"max-length": 50
     },
     "idle_inhibitor": {
         "format": "{icon}",
         "format-icons": {
-            "activated": "",
-            "deactivated": ""
-        }
-    },
-    "tray": {
-        "spacing": 10
-    },
-    "clock": {
-        "timezone": "Europe/Kiev",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%Y-%m-%d}"
-    },
-    "cpu": {
-        "format": "{usage}% ",
-        "tooltip": false
-    },
-    "memory": {
-        "format": "{}% "
-    },
-    "temperature": {
-        "critical-threshold": 80,
-        "format": "{temperatureC}°C {icon}",
-        "format-icons": ["", "", ""]
-    },
-    "backlight": {
-        "format": "{percent}% {icon}",
-        "format-icons": ["", ""]
-    },
-    "battery": {
-        "states": {
-            "good": 95,
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ",
-        "format-plugged": "{capacity}% ",
-        "format-alt": "{time} {icon}",
-        "format-icons": ["", "", "", "", ""]
-    },
-    "battery#bat2": {
-        "bat": "BAT2"
-    },
-    "network": {
-        "interface": "wlp3*",
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
-        "format-linked": "{ifname} (No IP) ",
-        "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+            "activated": "",
+            "deactivated": ""
+      }
     },
     "pulseaudio": {
-        "format": "{volume}% {icon} {format_source}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
+        "format": "{icon} {format_source} {volume}%",
+	"format-bluetooth": "{volume}% {icon} {format_source}",
+	"format-bluetooth-muted": " {icon} {format_source}",
         "format-muted": " {format_source}",
         "format-source": "{volume}% ",
-        "format-source-muted": "",
-        "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", "", ""]
+	"format-source-muted": "",
+	"format-icons": {
+	    "headphone": "",
+	    "hands-free": "",
+	    "headset": "",
+	    "phone": "",
+	    "portable": "",
+	    "car": "",
+	    "default": ["", "", ""]
         },
+        "scroll-step": 1,
         "on-click": "pavucontrol"
     },
-    "custom/media": {
-        "format": "{icon} {}",
-        "return-type": "json",
-        "max-length": 40,
-        "format-icons": {
-            "spotify": "",
-            "default": "🎜"
+    "battery": {
+        "bat": "BAT0",
+        "interval": 60,
+        "states": {
+            "good": 80,
+            "warning": 50,
+            "critical": 35
         },
-        "escape": true,
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null"
+        "format": "{icon} {capacity}%",
+        "format-charging": "{ {capacity}%",
+        "format-plugged": "{ {capacity}%",
+        "format-alt": "{icon} (time} {capacity}%",
+        "format-icons": ["", "", "", "", ""],
+        "max-length": 25
+    },
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "custom/arch": {
+        "format": ""
+    },
+    "custom/disturb_on":{
+        "format": "-",
+        "on-click":"makoctl set-mode dnd"
+    },
+    "custom/disturb_off":{
+        "format": "+",
+        "on-click":"makoctl set-mode default"
+    },
+    "custom/mic": {
+        "exec": "$HOME/bin/waybar-mic",
+        "return-type": "json",
+        "on-click": "ponymix --source toggle"
     }
 }
 
