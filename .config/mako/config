@@ -1,3 +1,14 @@
+background-color=#282a36
+text-color=#f8f8f2
+border-size=2
+border-color=#83a598
+padding=8
+
+default-timeout=10000
+ignore-timeout=1
+
+font=JetBrains Mono
+
 [mode=dnd]
 invisible=1
 
