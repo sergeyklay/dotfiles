@@ -2,7 +2,6 @@
     "layer": "top",
     "height": 25,
     "modules-left": [
-        "custom/arch",
 	"sway/workspaces",
         "sway/window",
         "sway/mode"
@@ -91,9 +90,6 @@
     },
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
-    },
-    "custom/arch": {
-        "format": ""
     },
     "custom/disturb_on":{
         "format": "-",

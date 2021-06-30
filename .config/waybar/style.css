@@ -7,16 +7,33 @@
 }
 
 window#waybar {
-    background: #1d2021;
-    color: #fbf1c7;
+    background-color: rgba(40, 42, 54, 0.6);
+    color: #f8f8f2;
     transition-property: background-color;
     transition-duration: .5s;
 }
 
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+/*
+window#waybar.empty {
+    background-color: transparent;
+}
+window#waybar.solo {
+    background-color: #FFFFFF;
+}
+*/
+
+window#waybar.alacritty {
+    background-color: #3f3f3f;
+}
+
 #workspaces button {
-    padding: 0 4px;
+    padding: 0 5px;
     background: transparent;
-    color: #fbf1c7;
+    color: #f8f8f2;
     border-bottom: 2px solid transparent;
 }
 
@@ -24,12 +41,21 @@ window#waybar {
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 #workspaces button:hover {
     background: rgba(0, 0, 0, 0.2);
+    box-shadow: inherit;
     border-bottom: 2px solid #d3869b;
 }
 
 #workspaces button.focused {
-    background: #181818;
+    background: #44475a;
     border-bottom: 2px solid #d3869b;
+}
+
+#workspaces button.urgent {
+    background-color: #ff5555;
+}
+
+label:focus {
+    background-color: #000000;
 }
 
 #window,
@@ -45,16 +71,15 @@ window#waybar {
 #mode,
 #idle_inhibitor,
 #language,
-#custom-arch,
 #custom-disturb_on,
 #custom-disturb_off,
 #custom-mic {
     padding: 0 8px;
     margin: 0;
+    color: #f8f8f2;
 }
 
 #window {
-    /* do I need this */
     border-left: 2px solid #b16286;
 }
 
@@ -75,25 +100,21 @@ window#waybar {
 }
 
 #idle_inhibitor.activated {
-    background-color: #fb4934;
-    color: white;
+    background-color: #b45bcf;
+    color: #f8f8f2;
+    border-bottom: 2px solid #b45bcf;
 }
 
 #language {
     border-bottom: 2px solid #8ec07c;
 }
 
-/* todo: install makoctl
 #custom-disturb-on,
-#custom-disturb-off,
-#custom-arch {
+#custom-disturb-off {
   color: white;
   background: #e91e63;
 }
-*/
 
-
-/* todo: add custom mic script
 #custom-mic {
   border-bottom: 2px solid transparent;
 }
@@ -108,12 +129,12 @@ window#waybar {
   color: #fbf1c7;
   background-color: #fb4934;
 }
-*/
+
 
 @keyframes blink {
   to {
-    background-color: #26a65b;
-    color: #fb4934;
+    background-color: #ff5555;
+    color: #282a36;
   }
 }
 
@@ -138,8 +159,9 @@ window#waybar {
 }
 
 #battery.warning:not(.charging) {
-  background: #cc241d;
-  color: #26a65b;
+  background: transparent;
+  border-bottom-color: #ff5555;
+  color: #ff5555;
   animation-name: blink;
   animation-duration: 0.5s;
   animation-timing-function: linear;
