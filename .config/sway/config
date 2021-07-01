@@ -11,6 +11,10 @@ set $down j
 set $up k
 set $right l
 
+# Variables
+set $term alacritty
+set $menu wofi --show drun,dmenu | xargs swaymsg exec --
+
 include conf.d/*.conf
 
 ### Idle configuration
