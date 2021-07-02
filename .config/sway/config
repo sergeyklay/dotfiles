@@ -17,6 +17,11 @@ set $menu wofi --show drun,dmenu | xargs swaymsg exec --
 
 include conf.d/*.conf
 
+### App Defaults
+
+# default floating
+for_window [app_id="telegram-desktop"] floating enable
+
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
@@ -26,4 +31,10 @@ bar {
 
 exec mako
 
-include /etc/sway/config.d/*
+set $gnome-schema org.gnome.desktop.interface
+exec_always {
+  gsettings set $gnome-schema gtk-theme 'Arc'
+  gsettings set $gnome-schema icon-theme 'Arc'
+  gsettings set $gnome-schema cursor-theme 'DMZ-White'  # DMZ-Black
+  gsettings set $gnome-schema font-name 'Ubuntu 11'
+}
