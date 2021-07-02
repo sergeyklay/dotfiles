@@ -33,3 +33,8 @@ MOZ_ENABLE_WAYLAND=1
 CLUTTER_BACKEND=wayland
 SDL_VIDEODRIVER=wayland
 WLR_DRM_DEVICES=/dev/dri/card0
+
+# If set, makes GTK+ use the named theme instead of the theme that is
+# specified by the gtk-theme-name setting. It is also possible to specify
+# a theme variant to load, by appending the variant name with a colon.
+GTK_THEME=Arc-Darker
