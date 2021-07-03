@@ -3,10 +3,9 @@
     "height": 25,
     "modules-left": [
 	"sway/workspaces",
-        "sway/window",
         "sway/mode"
     ],
-    "modules-center": ["tray"],
+    "modules-center": ["sway/window"],
     "modules-right": [
 	"idle_inhibitor",
         "custom/mic",
@@ -28,10 +27,6 @@
         "timezone": "Europe/Kiev",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
 	"format-alt": "{:%a, %d. %b  %H:%M}"
-    },
-    "tray": {
-        "icon-size": 15,
-        "spacing": 10
     },
     "network": {
         "format": "{ifname}",
