@@ -79,6 +79,11 @@ label:focus {
     color: #f8f8f2;
 }
 
+#window {
+    font-family: Ubuntu;
+    font-size: 15px;
+}
+
 #clock {
     background-color: #282828;
 }
