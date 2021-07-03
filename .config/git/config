@@ -95,8 +95,9 @@
 
 [filter "lfs"]
 	required = true
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
 
 # Local Variables:
 # mode: gitconfig
