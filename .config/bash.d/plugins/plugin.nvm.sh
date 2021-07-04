@@ -25,15 +25,17 @@ autoload warn
 
 # Meant for non-interactive login shells.
 _plugin_nvm_login() {
-  if [[ -d ~/.nvm ]]; then
-    NVM_DIR="$HOME/.nvm"
-    export NVM_DIR
-
-    if [[ -s $NVM_DIR/nvm.sh ]]; then
-      # This loads nvm
-      . "$NVM_DIR/nvm.sh"
+  for dir in "$HOME/.nvm" "${XDG_CONFIG_HOME:-$HOME/.config}/nvm"
+  do
+    if [[ -d $dir ]]; then
+      NVM_DIR="$dir"
+      export NVM_DIR
+      if [[ -s $NVM_DIR/nvm.sh ]]; then
+        # This loads nvm
+        . "$NVM_DIR/nvm.sh"
+      fi
     fi
-  fi
+  done
 }
 
 # Meant for interactive shells.
