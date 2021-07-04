@@ -38,10 +38,10 @@ HISTTIMEFORMAT="%h %d %H:%M:%S "
 
 # Omit:
 #  &            duplicates
-#  [ \t]        lines starting with spaces
+#  [ ]        lines starting with spaces
 #  history *    history command
 #  cd -*/cd +*  navigation on directory stack
-HISTIGNORE='&:[ \t]*:history *:cd -*[0-9]*:cd +*[0-9]*'
+HISTIGNORE='&:[ ]*:history *:cd -*[0-9]*:cd +*[0-9]*'
 
 # Save commands immediately after use to have shared history
 # between Bash sessions.
