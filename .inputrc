@@ -81,7 +81,10 @@ set input-meta on
 
 # Cycle through ambiguous completions instead of list
 "\C-i": menu-complete
-"\C-j": menu-complete-backward
+
+# Assigning \C-j to any functions causes a slow startup for mc.
+# See: https://midnight-commander.org/ticket/3580#comment:9
+# "\C-j": menu-complete-backward
 
 # Do not use bell at all
 set bell-style none
