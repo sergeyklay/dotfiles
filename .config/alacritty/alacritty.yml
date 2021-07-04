@@ -2,7 +2,7 @@
 
 # Theme
 import:
-  - ~/.config/alacritty/dracula.yml
+  - ~/.config/alacritty/hyper.yml
 
 env:
   # Bugs related to TERM=alacritty handling:
@@ -11,7 +11,7 @@ env:
   # 2. mc's detection of xterm vs. gpm mouse breaks and fills up
   #    /dev/gpmctl socket due to a bug in gpm daemon if /dev/tty0
   #    is inactive.
-  TERM: 'xterm-256color'
+  TERM: xterm-256color
 
 window:
   # Window decarations
