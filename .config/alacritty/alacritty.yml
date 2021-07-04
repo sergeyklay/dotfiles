@@ -2,7 +2,7 @@
 
 # Theme
 import:
-  - ~/.config/alacritty/hyper.yml
+  - ~/.config/alacritty/xterm.yml
 
 env:
   # Bugs related to TERM=alacritty handling:
