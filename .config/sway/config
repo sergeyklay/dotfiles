@@ -36,6 +36,6 @@ set $gnome-schema org.gnome.desktop.interface
 exec_always {
   gsettings set $gnome-schema gtk-theme 'Arc'
   gsettings set $gnome-schema icon-theme 'Arc'
-  gsettings set $gnome-schema cursor-theme 'DMZ-White'  # DMZ-Black
+  gsettings set $gnome-schema cursor-theme 'DMZ-Black'
   gsettings set $gnome-schema font-name 'Ubuntu 11'
 }
