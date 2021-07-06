@@ -42,3 +42,6 @@ GTK_THEME=Arc-Darker
 # Fix blank screen when opened Java applications.
 # See: https://wiki.archlinux.org/title/Sway#Java_applications
 _JAVA_AWT_WM_NONREPARENTING=1
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=755553
+BROWSER="firefox"
