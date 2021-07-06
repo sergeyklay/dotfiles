@@ -21,7 +21,7 @@
     "sway/language": {
         "format": "{}",
         "max-length": 50,
-        "on-click": "ksw",
+        "on-click": "swaymsg input 'type:keyboard' xkb_switch_layout next",
         "tooltip": false
     },
     "sway/window": {
