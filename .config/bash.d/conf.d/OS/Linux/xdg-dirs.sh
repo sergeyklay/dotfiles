@@ -17,6 +17,10 @@
 
 # shellcheck shell=bash
 
+# https://bugzilla.redhat.com/show_bug.cgi?id=755553
+BROWSER="firefox:elinks"
+export BROWSER
+
 # User-specific configuration files.
 if [ -z "$XDG_CONFIG_HOME" ]; then
   XDG_CONFIG_HOME="$HOME/.config"
