@@ -17,12 +17,21 @@
         "custom/disturb_on",
 	"custom/disturb_off"
     ],
+    
     "sway/language": {
         "format": "{}",
         "max-length": 50,
         "on-click": "ksw",
         "tooltip": false
-    },    
+    },
+    "sway/window": {
+        "max-length": 60,
+        "tooltip": false
+    },
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+
     "clock": {
         "timezone": "Europe/Kiev",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
@@ -83,9 +92,7 @@
         "format-icons": ["", "", "", "", ""],
         "max-length": 25
     },
-    "sway/mode": {
-        "format": "<span style=\"italic\">{}</span>"
-    },
+    
     "custom/disturb_on":{
         "format": "-",
         "on-click":"makoctl set-mode dnd"
