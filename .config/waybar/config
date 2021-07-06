@@ -56,7 +56,7 @@
         "format-icons": {
             "activated": "",
             "deactivated": ""
-      }
+        }
     },
     "pulseaudio": {
         "format": "{icon} {format_source} {volume}%",
