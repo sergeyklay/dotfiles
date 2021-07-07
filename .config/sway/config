@@ -22,6 +22,7 @@ include conf.d/*.conf
 # default floating
 for_window [app_id="telegram-desktop"] floating enable
 for_window [app_id="mpv"] floating enable
+for_window [app_id="xsensors"] floating enable
 for_window [title="Welcome to CLion"] floating enable, focus;
 
 # Status Bar:
