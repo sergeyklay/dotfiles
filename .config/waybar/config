@@ -16,7 +16,7 @@
 	"battery"
     ],
 
-"sway/workspaces": {
+    "sway/workspaces": {
         "disable-scroll": true,
         "disable-markup": false,
         "format": "{icon}",
@@ -43,7 +43,6 @@
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
-
 
     "clock": {
         "timezone": "Europe/Kiev",
@@ -72,17 +71,17 @@
         }
     },
     "pulseaudio": {
-        "format": "<span font='Font Awesome 5 Free 11'>{icon:2}</span> {volume:4}%",
-        "format-alt": "<span font='Font Awesome 5 Free 11'>{icon:2}</span> {volume:4}%",
+        "format": "<span font='Font Awesome 5 Free 11'>{icon}</span>  {volume}%",
+        "format-alt": "<span font='Font Awesome 5 Free 11'>{icon}</span>  {volume}%",
         "format-alt-click": "click-right",
-        "format-muted": "<span font='Font Awesome 5 Free 11'></span>",
-	"format-icons": {
-	    "phone": [" ", " ", " ", " "],
-	     "default": ["", "", "", ""]
+        "format-muted": "<span font='Font Awesome 5 Free 11'></span> 0%",
+        "format-icons": {
+            "phone": [" ", " ", " ", " "],
+            "default": ["", "", "", ""]
         },
         "scroll-step": 2,
         "on-click": "pavucontrol",
-	"tooltip": false
+        "tooltip": false
     },
     "battery": {
         "bat": "BAT0",
