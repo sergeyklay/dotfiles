@@ -139,33 +139,15 @@ label:focus {
   }
 }
 
-#battery {
-  background-color: #98971a;
-  color: #1d2021;
-}
-
-#battery.full {
-  background-color: transparent;
-  color: #b8bb26;
-}
-
-#battery.discharging {
-  color: #1d2021;
-  background-color: #d79921;
-}
-
 #battery.charging {
-  background-color: #98971a;
-  color: #1d2021;
+  color: rgba(217, 216, 216, 1);
 }
 
-#battery.warning:not(.charging) {
-  background: transparent;
-  border-bottom-color: #ff5555;
-  color: #ff5555;
-  animation-name: blink;
-  animation-duration: 0.5s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
+
+#battery.warning {
+  color: rgba(255, 210, 4, 1);
+}
+
+#battery.critical {
+  color: rgba(238, 46, 36, 1);
 }

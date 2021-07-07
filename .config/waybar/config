@@ -79,17 +79,16 @@
     },
     "battery": {
         "bat": "BAT0",
-        "interval": 60,
+        "interval": 30,
         "states": {
-            "good": 80,
-            "warning": 40,
-            "critical": 20
+            "warning": 25,
+            "critical": 10
         },
-        "format": "{icon} {capacity}%",
-        "format-charging": "{ {capacity}%",
-        "format-plugged": "{ {capacity}%",
-        "format-alt": "{icon} (time} {capacity}%",
+	"format": "{icon}  {capacity}% - {time}",
+	"format-charging": "  {icon}  {capacity}% - {time}",
+        "format-full": "  {icon}  Charged",
         "format-icons": ["", "", "", "", ""],
+	"format-time": "{H}h{M}m",
         "max-length": 25
     },
     
