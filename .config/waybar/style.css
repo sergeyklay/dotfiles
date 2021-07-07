@@ -1,64 +1,64 @@
-* {
-    border: none;
-    border-radius: 0;
-    font-family: "JetBrains Mono", "FontAwesome 5 Free Solid", monospace;
+#waybar {
+    font-family: "Fira Sans SemiBold";
     font-size: 13px;
-    min-height: 0;
+}
+
+#window {
+    padding: 0 10px;
 }
 
 window#waybar {
-    background-color: rgba(40, 42, 54, 0.6);
-    color: #f8f8f2;
-    transition-property: background-color;
-    transition-duration: .5s;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    text-shadow: none;
+    transition-duration: 0s;
+    color: rgba(217, 216, 216, 1);
+    background: rgba(0, 0, 0, 0.87);
 }
 
-window#waybar.hidden {
-    opacity: 0.2;
-}
+window#waybar.empty { }
 
-/*
-window#waybar.empty {
-    background-color: transparent;
-}
 window#waybar.solo {
-    background-color: #FFFFFF;
+    background: rgb(35, 31, 32);
 }
-*/
 
-window#waybar.alacritty {
-    background-color: #3f3f3f;
+#workspaces {
+    margin: 0 5px;
 }
 
 #workspaces button {
     padding: 0 5px;
     background: transparent;
-    color: #f8f8f2;
-    border-bottom: 2px solid transparent;
+    color: rgba(217, 216, 216, 0.4);
+    border: 3px solid rgba(217, 216, 216, 0);
+    border-radius: 10px;
 }
 
-
-/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
-#workspaces button:hover {
-    background: rgba(0, 0, 0, 0.2);
-    box-shadow: inherit;
-    border-bottom: 2px solid #d3869b;
+#workspaces button.visible {
+    color: rgba(217, 216, 216, 1);
 }
 
 #workspaces button.focused {
-    background: #44475a;
-    border-bottom: 2px solid #d3869b;
+    border-top: 3px solid rgba(217, 216, 216, 1);
+    border-bottom: 3px solid rgba(217, 216, 216, 1);
 }
 
 #workspaces button.urgent {
-    background-color: #ff5555;
+    background-color: #943432;
+    color: white;
 }
 
-label:focus {
-    background-color: #000000;
+#workspaces button:hover {
+    box-shadow: inherit;
+    border-color: #d1be8b;
+    color: #888888;
 }
 
-#window,
+#workspaces button.focused {
+    color: white;
+}
+
 #clock,
 #battery,
 #cpu,
@@ -74,69 +74,23 @@ label:focus {
 #custom-disturb_on,
 #custom-disturb_off,
 #custom-mic {
-    padding: 0 8px;
-    margin: 0;
+    margin: 0px 0px 0px 10px;
+    padding: 0 5px;
     color: #f8f8f2;
-}
-
-#window {
-    font-family: Ubuntu;
-    font-size: 15px;
-}
-
-#clock {
-    background-color: #282828;
-}
-
-#network {
-    border-bottom: 2px solid #b16286;
-}
-
-#pulseaudio {
-    border-bottom: 2px solid #83a598;
-}
-
-#idle_inhibitor {
-    border-bottom: 2px solid #cc241d;
 }
 
 #idle_inhibitor.activated {
     background-color: #b45bcf;
     color: #f8f8f2;
-    border-bottom: 2px solid #b45bcf;
 }
 
 #language {
-    border-bottom: 2px solid #8ec07c;
 }
 
 #custom-disturb-on,
 #custom-disturb-off {
   color: white;
   background: #e91e63;
-}
-
-#custom-mic {
-  border-bottom: 2px solid transparent;
-}
-
-#custom-mic.not-muted {
-  color: #b8bb26;
-  border-bottom-color: #b8bb26;
-}
-
-#custom-mic.muted {
-  border-bottom-color: #fb4934;
-  color: #fbf1c7;
-  background-color: #fb4934;
-}
-
-
-@keyframes blink {
-  to {
-    background-color: #ff5555;
-    color: #282a36;
-  }
 }
 
 #battery.charging {
@@ -150,4 +104,11 @@ label:focus {
 
 #battery.critical {
   color: rgba(238, 46, 36, 1);
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: black;
+    }
 }
