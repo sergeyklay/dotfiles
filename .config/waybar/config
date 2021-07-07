@@ -1,47 +1,60 @@
 {
     "layer": "top",
+    "position": "top",
     "height": 25,
     "modules-left": [
 	"sway/workspaces",
-        "sway/mode"
+        "sway/mode",
+	"sway/window"
     ],
-    "modules-center": ["sway/window"],
+    "modules-center": ["clock"],
     "modules-right": [
+        "sway/language",
 	"idle_inhibitor",
-        "custom/mic",
 	"pulseaudio",
 	"network",
-	"sway/language",
-	"battery",
-	"clock",
-        "custom/disturb_on",
-	"custom/disturb_off"
+	"battery"
     ],
-    
-    "sway/language": {
-        "format": "{}",
-        "max-length": 50,
-        "on-click": "swaymsg input 'type:keyboard' xkb_switch_layout next",
-        "tooltip": false
+
+"sway/workspaces": {
+        "disable-scroll": true,
+        "disable-markup": false,
+        "format": "{icon}",
+        "format-icons": {
+            "1": "1 <span font='Font Awesome 5 Free 11'> </span>",
+            "2": "2 <span font='Font Awesome 5 Free 11'> </span>",
+            "3": "3 <span font='Font Awesome 5 Free 11'> </span>",
+            "4": "4 <span font='Font Awesome 5 Free 11'> </span>",
+            "5": "5 <span font='Font Awesome 5 Free 11'> </span>",
+            "6": "6 <span font='Font Awesome 5 Free 11'> </span>"
+        }
     },
     "sway/window": {
         "max-length": 60,
+        "tooltip": false
+    },
+
+    "sway/language": {
+	"format": "<span font='Font Awesome 5 Free 9'>🏳️</span>  {}",
+        "max-length": 50,
+        "on-click": "swaymsg input 'type:keyboard' xkb_switch_layout next",
         "tooltip": false
     },
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
 
+
     "clock": {
         "timezone": "Europe/Kiev",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-	"format-alt": "{:%a, %d. %b  %H:%M}"
+        "format": "{:%a %d %b - %H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
     },
     "network": {
         "format": "{ifname}",
-        "format-wifi": " {essid}",
-	"format-ethernet": " {ifname} ",
-	"format-disconnected": "",
+        "format-wifi": "<span font='Font Awesome 5 Free 10'></span>  {essid} ({signalStrength}%)",
+	"format-ethernet": " {ifname}",
+	"format-disconnected": "⚠ Disconnected",
 	"tooltip-format": "{ifname}: {ipaddr}/{cidr}",
 	"tooltip-format-wifi": "{essid} ({signalStrength}%): {ipaddr}/{cidr}",
 	"tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
@@ -54,28 +67,22 @@
     "idle_inhibitor": {
         "format": "{icon}",
         "format-icons": {
-            "activated": "",
-            "deactivated": ""
+            "activated": "<span font='Font Awesome 5 Free 9'></span>",
+            "deactivated": "<span font='Font Awesome 5 Free 9'></span>"
         }
     },
     "pulseaudio": {
-        "format": "{icon} {format_source} {volume}%",
-	"format-bluetooth": "{volume}% {icon} {format_source}",
-	"format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " {format_source}",
-        "format-source": "{volume}% ",
-	"format-source-muted": "",
+        "format": "<span font='Font Awesome 5 Free 11'>{icon:2}</span> {volume:4}%",
+        "format-alt": "<span font='Font Awesome 5 Free 11'>{icon:2}</span> {volume:4}%",
+        "format-alt-click": "click-right",
+        "format-muted": "<span font='Font Awesome 5 Free 11'></span>",
 	"format-icons": {
-	    "headphone": "",
-	    "hands-free": "",
-	    "headset": "",
-	    "phone": "",
-	    "portable": "",
-	    "car": "",
-	    "default": ["", "", ""]
+	    "phone": [" ", " ", " ", " "],
+	     "default": ["", "", "", ""]
         },
-        "scroll-step": 1,
-        "on-click": "pavucontrol"
+        "scroll-step": 2,
+        "on-click": "pavucontrol",
+	"tooltip": false
     },
     "battery": {
         "bat": "BAT0",
@@ -84,26 +91,12 @@
             "warning": 25,
             "critical": 10
         },
-	"format": "{icon}  {capacity}% - {time}",
-	"format-charging": "  {icon}  {capacity}% - {time}",
-        "format-full": "  {icon}  Charged",
+	"format": "<span font='Font Awesome 5 Free 11'>{icon}</span>  {capacity}% - {time}",
+        "format-charging": "<span font='Font Awesome 5 Free'></span>  <span font='Font Awesome 5 Free 11'>{icon}</span>  {capacity}% - {time}",
+        "format-full": "<span font='Font Awesome 5 Free'></span>  <span font='Font Awesome 5 Free 11'>{icon}</span>  Charged",	
         "format-icons": ["", "", "", "", ""],
 	"format-time": "{H}h{M}m",
         "max-length": 25
-    },
-    
-    "custom/disturb_on":{
-        "format": "-",
-        "on-click":"makoctl set-mode dnd"
-    },
-    "custom/disturb_off":{
-        "format": "+",
-        "on-click":"makoctl set-mode default"
-    },
-    "custom/mic": {
-        "exec": "$HOME/bin/waybar-mic",
-        "return-type": "json",
-        "on-click": "ponymix --source toggle"
     }
 }
 
