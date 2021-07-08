@@ -1,106 +1,105 @@
 {
-    "layer": "top",
-    "position": "top",
-    "modules-left": [
-	"sway/workspaces",
-        "sway/mode",
-	"sway/window"
-    ],
-    "modules-center": ["clock"],
-    "modules-right": [
-        "sway/language",
-	"idle_inhibitor",
-	"pulseaudio",
-	"temperature",
-	"network",
-	"battery"
-    ],
+	"layer": "top",
+	"position": "top",
+	"modules-left": [
+		"sway/workspaces",
+		"sway/mode",
+		"sway/window"
+	],
+	"modules-center": ["clock"],
+	"modules-right": [
+		"sway/language",
+		"idle_inhibitor",
+		"pulseaudio",
+		"temperature",
+		"network",
+		"battery"
+	],
 
-    "sway/workspaces": {
-        "disable-scroll": true,
-        "disable-markup": false,
-        "format": "{icon}",
-        "format-icons": {
-            "1": "1 <span font='Font Awesome 5 Free 11'> </span>",
-            "2": "2 <span font='Font Awesome 5 Free 11'> </span>",
-            "3": "3 <span font='Font Awesome 5 Free 11'> </span>",
-            "4": "4 <span font='Font Awesome 5 Free 11'> </span>",
-            "5": "5 <span font='Font Awesome 5 Free 11'> </span>",
-            "6": "6 <span font='Font Awesome 5 Free 11'> </span>"
-        }
-    },
-    "sway/window": {
-        "max-length": 60,
-        "tooltip": false
-    },
+	"sway/workspaces": {
+		"disable-scroll": true,
+		"disable-markup": false,
+		"format": "{icon}",
+		"format-icons": {
+			"1": "1 <span font='Font Awesome 5 Free 11'> </span>",
+			"2": "2 <span font='Font Awesome 5 Free 11'> </span>",
+			"3": "3 <span font='Font Awesome 5 Free 11'> </span>",
+			"4": "4 <span font='Font Awesome 5 Free 11'> </span>",
+			"5": "5 <span font='Font Awesome 5 Free 11'> </span>",
+			"6": "6 <span font='Font Awesome 5 Free 11'> </span>"
+		}
+	},
+	"sway/window": {
+		"max-length": 60,
+		"tooltip": false
+	},
 
-    "sway/language": {
-	"format": "<span font='Font Awesome 5 Free 9'>🏳️</span>  {}",
-        "max-length": 50,
-        "on-click": "swaymsg input 'type:keyboard' xkb_switch_layout next",
-        "tooltip": false
-    },
-    "sway/mode": {
-        "format": "<span style=\"italic\">{}</span>"
-    },
+	"sway/language": {
+		"format": "<span font='Font Awesome 5 Free 9'>🏳️</span>  {}",
+		"max-length": 50,
+		"on-click": "swaymsg input 'type:keyboard' xkb_switch_layout next",
+		"tooltip": false
+	},
+	"sway/mode": {
+		"format": "<span style=\"italic\">{}</span>"
+	},
 
-    "clock": {
-        "format": "{:%a %d %b - %H:%M}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
-    },
-    "network": {
-        "format": "{ifname}",
-        "format-wifi": "<span font='Font Awesome 5 Free 10'></span>  {essid} ({signalStrength}%)",
-	"format-ethernet": " {ifname}",
-	"format-disconnected": "⚠ Disconnected",
-	"tooltip-format": "{ifname}: {ipaddr}/{cidr}",
-	"tooltip-format-wifi": "{essid} ({signalStrength}%): {ipaddr}/{cidr}",
-	"tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
-	"tooltip-format-disconnected": "Disconnected",
-	"format-alt": "{ifname}: {ipaddr}/{cidr}",
-	"format-alt-click": "click-right",
-	"on-click": "alacritty -e nmtui",
-	"max-length": 50
-    },
-    "idle_inhibitor": {
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "<span font='Font Awesome 5 Free 9'></span>",
-            "deactivated": "<span font='Font Awesome 5 Free 9'></span>"
-        }
-    },
-    "pulseaudio": {
-        "format": "<span font='Font Awesome 5 Free 11'>{icon}</span>  {volume}%",
-        "format-alt": "<span font='Font Awesome 5 Free 11'>{icon}</span>  {volume}%",
-        "format-alt-click": "click-right",
-        "format-muted": "<span font='Font Awesome 5 Free 11'></span> 0%",
-        "format-icons": {
-            "phone": [" ", " ", " ", " "],
-            "default": ["", "", "", ""]
-        },
-        "scroll-step": 2,
-        "on-click": "pavucontrol",
-        "tooltip": false
-    },
-    "temperature": {
-        "format": "<span font='Font Awesome 5 Free 9'></span> {temperatureC:3}°C",
-        "hwmon-path": "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input",
-        "on-click": "xsensors",
-	"tooltip": false
-    },
-    "battery": {
-        "bat": "BAT0",
-        "interval": 30,
-        "states": {
-            "warning": 25,
-            "critical": 10
-        },
-	"format": "<span font='Font Awesome 5 Free 11'>{icon}</span>  {capacity}% - {time}",
-        "format-charging": "<span font='Font Awesome 5 Free'></span>  <span font='Font Awesome 5 Free 11'>{icon}</span>  {capacity}% - {time}",
-        "format-full": "<span font='Font Awesome 5 Free'></span>  <span font='Font Awesome 5 Free 11'>{icon}</span>  Charged",	
-        "format-icons": ["", "", "", "", ""],
-	"format-time": "{H}h{M}m",
-        "max-length": 25
-    }
+	"clock": {
+		"format": "{:%a %d %b - %H:%M}",
+		"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+	},
+	"network": {
+		"format": "{ifname}",
+		"format-wifi": "<span font='Font Awesome 5 Free 10'></span>  {essid} ({signalStrength}%)",
+		"format-ethernet": " {ifname}",
+		"format-disconnected": "⚠ Disconnected",
+		"tooltip-format": "{ifname}: {ipaddr}/{cidr}",
+		"tooltip-format-wifi": "{essid} ({signalStrength}%): {ipaddr}/{cidr}",
+		"tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
+		"tooltip-format-disconnected": "Disconnected",
+		"format-alt": "{ifname}: {ipaddr}/{cidr}",
+		"format-alt-click": "click-right",
+		"on-click": "alacritty -e nmtui",
+		"max-length": 50
+	},
+	"idle_inhibitor": {
+		"format": "{icon}",
+		"format-icons": {
+			"activated": "<span font='Font Awesome 5 Free 9'></span>",
+			"deactivated": "<span font='Font Awesome 5 Free 9'></span>"
+		}
+	},
+	"pulseaudio": {
+		"format": "<span font='Font Awesome 5 Free 11'>{icon}</span>  {volume}%",
+		"format-alt": "<span font='Font Awesome 5 Free 11'>{icon}</span>  {volume}%",
+		"format-alt-click": "click-right",
+		"format-muted": "<span font='Font Awesome 5 Free 11'></span> 0%",
+		"format-icons": {
+			"phone": [" ", " ", " ", " "],
+			"default": ["", "", "", ""]
+		},
+		"scroll-step": 2,
+		"on-click": "pavucontrol",
+		"tooltip": false
+	},
+	"temperature": {
+		"format": "<span font='Font Awesome 5 Free 9'></span> {temperatureC:3}°C",
+		"hwmon-path": "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input",
+		"on-click": "xsensors",
+		"tooltip": false
+	},
+	"battery": {
+		"bat": "BAT0",
+		"interval": 30,
+		"states": {
+			"warning": 25,
+			"critical": 10
+		},
+		"format": "<span font='Font Awesome 5 Free 11'>{icon}</span>  {capacity}% - {time}",
+		"format-charging": "<span font='Font Awesome 5 Free'></span>  <span font='Font Awesome 5 Free 11'>{icon}</span>  {capacity}% - {time}",
+		"format-full": "<span font='Font Awesome 5 Free'></span>  <span font='Font Awesome 5 Free 11'>{icon}</span>  100%",	
+		"format-icons": ["", "", "", "", ""],
+		"format-time": "{H}h{M}m",
+		"max-length": 25
+	}
 }
-
