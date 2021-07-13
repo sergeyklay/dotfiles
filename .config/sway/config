@@ -24,6 +24,7 @@ for_window [app_id="telegram-desktop"] floating enable
 for_window [app_id="mpv"] floating enable
 for_window [app_id="xsensors"] floating enable
 for_window [title="Welcome to CLion"] floating enable, focus;
+for_window [title="About Mozilla Firefox"] floating enable, focus;
 
 # Status Bar:
 #
@@ -32,12 +33,3 @@ bar {
   swaybar_command waybar
 }
 
-exec mako
-
-set $gnome-schema org.gnome.desktop.interface
-exec_always {
-  gsettings set $gnome-schema gtk-theme 'Arc'
-  gsettings set $gnome-schema icon-theme 'Arc'
-  gsettings set $gnome-schema cursor-theme 'DMZ-Black'
-  gsettings set $gnome-schema font-name 'Ubuntu 11'
-}
