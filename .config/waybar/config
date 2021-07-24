@@ -8,12 +8,13 @@
 	],
 	"modules-center": ["clock"],
 	"modules-right": [
-		"sway/language",
 		"idle_inhibitor",
 		"pulseaudio",
 		"temperature",
 		"network",
-		"battery"
+		"sway/language",
+		"battery",
+		"custom/powermenu"
 	],
 
 	"sway/workspaces": {
@@ -35,7 +36,7 @@
 	},
 
 	"sway/language": {
-		"format": "<span font='Font Awesome 5 Free 9'>🏳️</span>  {}",
+		"format": "{}",
 		"max-length": 50,
 		"on-click": "swaymsg input 'type:keyboard' xkb_switch_layout next",
 		"tooltip": false
@@ -95,11 +96,20 @@
 			"warning": 25,
 			"critical": 10
 		},
-		"format": "<span font='Font Awesome 5 Free 11'>{icon}</span>  {capacity}% - {time}",
-		"format-charging": "<span font='Font Awesome 5 Free'></span>  <span font='Font Awesome 5 Free 11'>{icon}</span>  {capacity}% - {time}",
+		"format": "<span font='Font Awesome 5 Free 11'>{icon}</span>  {capacity}%",
+		"format-charging": "<span font='Font Awesome 5 Free'></span>  <span font='Font Awesome 5 Free 11'>{icon}</span>  {capacity}%",
 		"format-full": "<span font='Font Awesome 5 Free'></span>  <span font='Font Awesome 5 Free 11'>{icon}</span>  100%",	
 		"format-icons": ["", "", "", "", ""],
 		"format-time": "{H}h{M}m",
 		"max-length": 25
+	},
+	"custom/powermenu": {
+        	"return-type": "json",
+        	"exec": "~/.config/waybar/modules/powermenu.sh",
+        	"format": "<span font='Font Awesome 5 Free 9'>{icon}</span>  {}",
+        	"format-icons": [""],
+        	"interval": 3600,
+        	"escape": true,
+        	"on-click": "wofi-csv Power"
 	}
 }
