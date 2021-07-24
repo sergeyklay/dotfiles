@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# Uses a csv file to create a menu for wofi.
+# csf files are in $XDG_CONFIG_DIR/wofi and are
+# called with the filename with out the extension
+# (i.e. Power.csv called wofi-csv Power)
+
+WORKINGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/wofi"
+
+[ ! -f "$WORKINGDIR/$@.csv" ] && exit 1
+
+MAP="$WORKINGDIR/$@.csv"
+LINES="$(wc -l < $MAP)"
+
+if [ "$LINES" -gt 15 ]; then
+  HEIGHT="500"
+else
+  HEIGHT=$(( $LINES * 50))
+fi
+
+rm -f "${XDG_CACHE_HOME:-$HOME/.cache}"/wofi-dmenu
+
+
+cat "$MAP"                                        \
+  | cut -d ',' -f 1                               \
+  | wofi -d -p "$@ " --width 300 --height $HEIGHT \
+  | head -n 1                                     \
+  | xargs -i --no-run-if-empty grep "{}" "$MAP"   \
+  | cut -d ',' -f 2                               \
+  | head -n 1                                     \
+  | xargs -i --no-run-if-empty /bin/bash -c "{}"
+
+exit 0
