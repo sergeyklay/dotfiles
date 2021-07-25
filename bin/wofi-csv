@@ -31,7 +31,7 @@ LINES="$(wc -l < $MAP)"
 if [ "$LINES" -gt 15 ]; then
   HEIGHT="500"
 else
-  HEIGHT=$(( $LINES * 50))
+  HEIGHT=$(( $LINES * 46))
 fi
 
 rm -f "${XDG_CACHE_HOME:-$HOME/.cache}"/wofi-dmenu
