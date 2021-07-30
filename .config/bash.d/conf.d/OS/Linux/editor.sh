@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2020 Serghei Iakovlev <egrep@protonmail.ch>
+# Copyright (C) 2014-2021 Serghei Iakovlev <egrep@protonmail.ch>
 #
 # This file is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -19,8 +19,7 @@
 
 # Use a lesspipe filter, if we can find it.
 # This sets the $LESSOPEN variable.
-if command -v lesspipe >/dev/null 2>&1 ; then
-  # eval "$(lesspipe)"
+if [ -z ${LESSOPEN+x} ] && command -v lesspipe >/dev/null 2>&1 ; then
   LESSOPEN="|lesspipe %s"
   export LESSOPEN
 fi
