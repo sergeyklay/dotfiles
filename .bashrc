@@ -56,9 +56,6 @@ for c in "${configs[@]}" ;  do
 done
 
 plugins=(
-#  phpenv
-#  phpbuild
-#  composer
   rbenv
   pyenv
 #  sdkman
