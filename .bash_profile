@@ -54,7 +54,7 @@ unset configs c
 
 # These plugins stands for login shells only.
 plugins=(
-  pyenv
+  venv
   nvm
 )
 
