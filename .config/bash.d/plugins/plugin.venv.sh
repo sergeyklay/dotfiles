@@ -53,7 +53,7 @@ _find_python() {
   #   Python 3.9.4|/opt/homebrew/bin/python3
   #
   for p in $(type -f -p -a "$keyword" | grep -v shims); do
-    echo "$($p --version)|$p"
+    echo "$($p --version 2>&1)|$p"
   done | sort -n | tail -n 1 | awk -F'|' '{print $2}'
 }
 
