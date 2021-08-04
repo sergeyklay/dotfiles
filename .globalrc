@@ -76,7 +76,7 @@ gtags:\
 	:tc=common:\
 	:tc=builtin-parser:
 builtin-parser:\
-	:langmap=c\:.c.h,yacc\:.y,asm\:.s.S,java\:.java,cpp\:.c++.cc.hh.cpp.cxx.hxx.hpp.C.H,php\:.php.php3.phtml:
+	:langmap=c\:.c.h,yacc\:.y,asm\:.s.S,java\:.java,cpp\:.c++.cc.hh.cpp.cxx.hxx.hpp.C.H:
 #
 # skeleton for user's custom parser.
 #
@@ -120,7 +120,6 @@ exuberant-ctags|plugin-example|setting to use Exuberant Ctags plug-in parser:\
 	:langmap=OCaml\:.ml.mli:\
 	:langmap=Pascal\:.p.pas:\
 	:langmap=Perl\:.pl.pm.plx.perl:\
-	:langmap=PHP\:.php.php3.phtml:\
 	:langmap=Python\:.py.pyx.pxd.pxi.scons:\
 	:langmap=REXX\:.cmd.rexx.rx:\
 	:langmap=Ruby\:.rb.ruby:\
@@ -241,7 +240,6 @@ universal-ctags|setting to use Universal Ctags plug-in parser:\
 	:langmap=Pascal\:.p.pas:\
 	:langmap=Perl\:.pl.pm.ph.plx.perl:\
 	:langmap=Perl6\:.p6.pm6.pm.pl6:\
-	:langmap=PHP\:.php.php3.php4.php5.php7.phtml:\
 	:langmap=pod\:.pod:\
 	:langmap=Protobuf\:.proto:\
 	:langmap=puppetManifest\:.pp:\
@@ -482,7 +480,6 @@ pygments-parser|Pygments plug-in parser:\
 	:langmap=Ooc\:.ooc:\
 	:langmap=Opa\:.opa:\
 	:langmap=OpenEdge\:.p.cls:\
-	:langmap=PHP\:.php.php3.phtml:\
 	:langmap=Pascal\:.pas:\
 	:langmap=Perl\:.pl.pm:\
 	:langmap=PostScript\:.ps.eps:\
@@ -683,12 +680,7 @@ pygments-parser|Pygments plug-in parser:\
 	:gtags_parser=XQuery\:$pygmentslib:\
 	:gtags_parser=XSLT\:$pygmentslib:\
 	:gtags_parser=Xtend\:$pygmentslib:
-#
-# Drupal configuration.
-#
-drupal|Drupal content management platform:\
-	:tc=common:\
-	:langmap=php\:.php.module.inc.profile.install.test:
+
 #---------------------------------------------------------------------
 # Configuration for htags(1)
 #---------------------------------------------------------------------
