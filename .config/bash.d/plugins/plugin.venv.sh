@@ -31,12 +31,6 @@ _find_python() {
     keyword="$1"
   fi
 
-  # First try to search python using pyenv
-  if command -v pyenv >/dev/null 2>&1 ; then
-    pyenv which "$keyword" 2>/dev/null
-    return 0
-  fi
-
   # The `type's arguments are used for:
   #
   #   -f    suppress shell function lookup
