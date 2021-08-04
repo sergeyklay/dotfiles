@@ -107,4 +107,3 @@ _plugin_venv_login() {
 # Local Variables:
 # mode: shell-script
 # End:
-
