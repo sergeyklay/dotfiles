@@ -60,10 +60,7 @@
 │       │   ├── pathmunge.sh
 │       │   └── utils.sh
 │       └── plugins
-│           ├── plugin.composer.sh
 │           ├── plugin.nvm.sh
-│           ├── plugin.phpbuild.sh
-│           ├── plugin.phpenv.sh
 │           ├── plugin.pyenv.sh
 │           ├── plugin.rbenv.sh
 │           └── plugin.sdkman.sh
