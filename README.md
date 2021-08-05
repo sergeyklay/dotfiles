@@ -61,9 +61,9 @@ configuration only.
 │       │   └── utils.sh
 │       └── plugins
 │           ├── plugin.nvm.sh
-│           ├── plugin.pyenv.sh
 │           ├── plugin.rbenv.sh
-│           └── plugin.sdkman.sh
+│           ├── plugin.sdkman.sh
+│           └── plugin.venv.sh
 └── .inputrc
 ```
 
