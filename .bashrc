@@ -57,7 +57,6 @@ done
 
 plugins=(
   rbenv
-  pyenv
 #  sdkman
   nvm
 )
