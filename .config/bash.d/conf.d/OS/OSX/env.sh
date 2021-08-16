@@ -30,6 +30,11 @@ if command -v brew >/dev/null 2>&1 ; then
   export HOMEBREW_NO_AUTO_UPDATE
 fi
 
+if [ -d "$HOME/Library/Caches/Coursier/jvm" ]; then
+  JAVA_HOME="$HOME/Library/Caches/Coursier/jvm/adopt@"*/Contents/Home
+  export JAVA_HOME
+fi
+
 # Local Variables:
 # mode: sh
 # End:

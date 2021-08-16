@@ -60,6 +60,11 @@ elif [ -d /opt/homebrew/opt/texinfo/bin ]; then
   pathmunge /opt/homebrew/opt/texinfo/bin
 fi
 
+# Coursier binaries
+if [ -d "$HOME/Library/Application Support/Coursier/bin" ]; then
+  pathmunge "$HOME/Library/Application Support/Coursier/bin"
+fi
+
 # Local Variables:
 # mode: sh
 # End:
