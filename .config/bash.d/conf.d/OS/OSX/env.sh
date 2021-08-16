@@ -31,7 +31,7 @@ if command -v brew >/dev/null 2>&1 ; then
 fi
 
 if [ -d "$HOME/Library/Caches/Coursier/jvm" ]; then
-  JAVA_HOME=$(cd "$HOME/Library/Caches/Coursier/jvm/adopt@"*/Contents/Home; pwd)
+  JAVA_HOME=$(cd "$HOME/Library/Caches/Coursier/jvm/adopt@1.11"*/Contents/Home; pwd)
   export JAVA_HOME
 fi
 
