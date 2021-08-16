@@ -114,6 +114,12 @@ if [ -r ~/gcp/path.bash.inc ]; then
   . ~/gcp/path.bash.inc
 fi
 
+# Apache Maven
+# See: https://maven.apache.org/install.html
+if [ -d ~/opt/apache-maven/bin ]; then
+  pathmunge ~/opt/apache-maven/bin
+fi
+
 # OS specific PATHs
 [ -r "$BASHD_ROOT/conf.d/OS/$OSSHORT/paths.sh" ] && {
   # shellcheck disable=SC1090
