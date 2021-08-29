@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+
+import json
+import sys
+
+import urllib3
+from pkg_resources import parse_version
+
+
+def versions(package_name):
+    http = urllib3.PoolManager()
+    url = f"https://pypi.org/pypi/{package_name}/json"
+
+    response = http.request("GET", url)
+    data = json.loads(response.data.decode("utf-8"))
+
+    try:
+        releases = data["releases"].keys()
+    except KeyError:
+        releases = []
+
+    sorted(releases, key=parse_version, reverse=True)
+
+    return releases
+
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print(f"Usage: {sys.argv[0]} package-name", file=sys.stderr)
+        sys.exit(1)
+
+    print(*versions(sys.argv[1]), sep='\n')
