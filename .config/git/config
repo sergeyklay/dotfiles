@@ -75,6 +75,7 @@
 	mf = merge --no-ff
 	puhs = push
 	patch = !git --no-pager diff --no-color
+	count = !~/bin/git-count
 
 [color]
 	status = auto
