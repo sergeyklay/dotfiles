@@ -23,7 +23,7 @@ autoload warn
 
 _find_python() {
   local keyword
-  local -i total
+  local -a total
 
   if [ $# -eq 0 ]; then
     keyword=python3
@@ -36,10 +36,10 @@ _find_python() {
   #   -f    suppress shell function lookup
   #   -p    returns the name of the disk file that would be executed
   #   -a    display all locations containing python
-  total="$(type -f -p -a "$keyword" | grep -c -v shims)"
+  total="$(type -f -p -a "${keyword}" | grep -v shims 2>/dev/null)"
 
   # Only shims?
-  if [ "$total" -eq 0 ]; then
+  if [ "${#total[@]}" -eq 0 ]; then
     command -v "$keyword" 2>/dev/null
     return 0
   fi
@@ -50,11 +50,12 @@ _find_python() {
   # Example of the output in the 'for' loop:
   #
   #   Python 3.8.2|/usr/bin/python3
-  #   Python 3.9.4|/opt/homebrew/bin/python3
+  #   Python 3.9.4|/usr/local/bin/python3
+  #   Python 3.10.1|/opt/homebrew/bin/python3
   #
-  for p in $(type -f -p -a "$keyword" | grep -v shims); do
+  for p in $total; do
     echo "$($p --version 2>&1)|$p"
-  done | sort -n | tail -n 1 | awk -F'|' '{print $2}'
+  done | sort --version-sort --field-separator="|" | tail -n 1 | awk -F'|' '{print $2}'
 }
 
 # Meant for non-interactive login shells.
