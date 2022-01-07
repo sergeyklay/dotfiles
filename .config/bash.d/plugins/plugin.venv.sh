@@ -64,15 +64,12 @@ _plugin_venv_login() {
   # your virtual environments. If the directory does not exist when
   # virtualenvwrapper is loaded, it will be created automatically.
   if [ -z ${WORKON_HOME+x} ]; then
-    if [ -d ~/.virtualenvs ]; then
-      WORKON_HOME="$HOME/.virtualenvs"
-      export WORKON_HOME
-    fi
+    WORKON_HOME="$HOME/.virtualenvs"
+    export WORKON_HOME
   fi
 
   # The variable PROJECT_HOME tells virtualenvwrapper where to place
-  # your project working directories. The variable PROJECT_HOME tells
-  # virtualenvwrapper where to place your project working directories.
+  # your project working directories.
   if [ -z ${PROJECT_HOME+x} ]; then
     if [ -d ~/work ]; then
       PROJECT_HOME="$HOME/work"
