@@ -2,3 +2,5 @@
 * text=auto
 
 .config/fontconfig/fonts.conf linguist-language=XML
+.config/zsh/conf.d/*          linguist-language=Shell
+.config/zsh/lib/*             linguist-language=Shell
