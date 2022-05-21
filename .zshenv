@@ -14,7 +14,6 @@ ZSHDDIR="${XDG_CONFIG_HOME:-$ZDOTDIR/.config}/zsh"
 
 [ -r $ZSHDDIR/conf.d/gopts ] && source $ZSHDDIR/conf.d/gopts
 [ -r $ZSHDDIR/conf.d/defuns ] && source $ZSHDDIR/conf.d/defuns
-[ -r $ZSHDDIR/conf.d/editor ] && source $ZSHDDIR/conf.d/editor
 
 # This function tries to setup platoform independed environment
 # variables.  This function WILL NOT change previously set veriables
@@ -30,3 +29,4 @@ fi
 
 [ -r $ZSHDDIR/conf.d/path ] && source $ZSHDDIR/conf.d/path
 [ -r $ZSHDDIR/conf.d/mans ] && source $ZSHDDIR/conf.d/mans
+[ -r $ZSHDDIR/conf.d/editor ] && source $ZSHDDIR/conf.d/editor
