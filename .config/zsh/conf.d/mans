@@ -6,12 +6,11 @@ if [ -z ${MANPATH+x} ] || [ "$MANPATH" = ":" ] ; then
     # Get the original manpath, then modify it.
     MANPATH="$(manpath 2>/dev/null)"
   else
-    MANPATH=""
+    MANPATH=()
   fi
 fi
 
-mans=("$manpath[@]")
-
+typeset -a places
 places=(
   /usr/man
   /usr/share/man
@@ -24,16 +23,11 @@ places=(
   "$HOME/.local/share/man"
 )
 
-for p in "${places[@]}"; do
-  if [[ -d $p ]]; then mans=("$p" $mans); fi
+for p in $places; do
+  [ -d $p ] && manpath=($p $manpath)
 done
 unset places
 
-MANPATH="$( IFS=$':'; echo -n "${mans[*]}" )"
-unset mans
-
-MANPATH="${MANPATH//\/:/:}"
-MANPATH="${MANPATH%/}"
-
+# No duplicate entries are needed.
 typeset -U manpath
 export MANPATH
