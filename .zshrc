@@ -28,6 +28,7 @@ configs=(
   prompt         # The definition of the prompts
   completion     # Setting up completion support
   keybindings    # Definition of keybindings
+  gpg            # GPG configuration
 )
 
 for c in "$configs[@]" ;  do
