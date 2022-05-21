@@ -1,0 +1,21 @@
+# The file containing the definition of the prompts.
+
+for d in $ZSHDDIR/lib/prompts/*; do
+  [ -d $d ] && fpath+=$d
+done
+
+# Initialize several associative arrays to map color names to the
+# ANSI standard eight-color terminal codes.  These are used by the
+# prompt theme system.
+autoload -Uz colors; colors
+
+# Initialize prompt init.
+autoload -Uz promptinit; promptinit
+
+# Parameter expansion, command substitution and arithmetic expansion
+# are performed in prompts.
+#
+# For more see: man zshoptions(1)
+setopt prompt_subst
+
+prompt ptfancy

@@ -1,0 +1,121 @@
+#!/usr/bin/env zsh
+#
+# Copyright (c) 2016, Mauro Calderara
+# Copyright (c) 2020, Serghei Iakovlev
+#
+# A shell function to create a lockfile or wait for one to vanish
+#
+# It takes 3 arguemnts:
+#  $1    the lockfile to wait for or to create (required)
+#  $2    the granularity (optional, default is 1 second)
+#  $3    the timeout (optional, default is infinite)
+#
+# This locking process is inspired by comp.unix.shell FAQ:
+# https://web.archive.org/web/20181117143655/http://dan.hersam.com/docs/cus-faq.html#8
+
+if [[ -z "$1" ]] || [[ "$1" = "-h" ]] || [[ "$1" = "--help" ]]; then
+  cat <<'EOF'
+locknwait 0.0.1
+
+A shell function to create a lockfile or wait for one to vanish.
+
+Usage:
+  locknwait <lockfilename> [<granularity>] [<timeout>]
+
+Arguments:
+  <lockfilename>        The name of the lockfile
+  <granularity>         How fast the lockfile's presence is being
+                        rechecked [Default: 1]
+  <timeout>             How long to wait before giving up
+                        [Default: infinite]
+
+Note: You must remove the generated lockfile manually, locknwait
+won't do it for you.
+EOF
+  return 0
+fi
+
+LOCKFILE=$1
+
+if ! [ -z $2 ]; then
+  [ $2 -ge 0 ] || {
+    >&2 echo -n "locknwait: Invalid granularity. "
+    >&2 echo "Expected a positive number, got \"$2\"."
+    return 1
+  }
+
+  GRANULARITY=$2
+else
+  GRANULARITY=1
+fi
+
+if [[ ! -z "$3" ]] && [[ "$3" != "infinite" ]]; then
+  [ $3 -ge 0 ] || {
+    >&2 echo -n "locknwait: Invalid timeout. "
+    >&2 echo "Expected a positive number, got \"$3\"."
+    return 1
+  }
+
+  TIMEOUT=$3
+else
+  TIMEOUT=""
+fi
+
+# Introduce some randomness to avoid conflicts when doing massive
+# locking in parallel.
+
+sleep $(( $RANDOM / 80000.0 ))
+
+TMPFILE="$(mktemp /tmp/$$-${LOCKFILE##*/}.XXXXXX 2>/dev/null)"
+ret=$?
+
+if [ $ret -ne 0 ]; then
+  >&2 echo "locknwait: ERROR: /tmp is not writeable."
+  return 1
+fi
+
+if [ -z $TIMEOUT ]; then
+  while [ -L $LOCKFILE ]; do
+    sleep $GRANULARITY
+  done
+
+  ln -s $TMPFILE $LOCKFILE
+  ret=$?
+  rm $TMPFILE
+
+  if [ $ret -ne 0 ]; then
+    >&2 echo \
+        "locknwait: ERROR: unable to write lockfile: \"$LOCKFILE\"."
+    exit 1
+  fi
+else
+  SLEPT=0
+
+  while [ -L $LOCKFILE ]; do
+    sleep $GRANULARITY
+    SLEPT=$(($SLEPT + $GRANULARITY))
+
+    if [ $SLEPT -gt $TIMEOUT ]; then
+      echo -n "locknwait: Timeout reached, "
+      echo -n "trying to remove lockfile by force: "
+      rm -rf $1 1>&2 > /dev/null
+
+      if [ $? = 0 ]; then
+        echo success
+      else
+        echo failed
+        return 1
+      fi
+    fi
+  done
+
+  ln -s $TMPFILE $LOCKFILE
+  ret=$?
+  rm $TMPFILE
+
+  if [ $ret -ne 0 ]; then
+    >&2 echo \
+        "locknwait: ERROR: unable to write lockfile: \"$LOCKFILE\"."
+    exit 1
+  fi
+fi

@@ -1,0 +1,339 @@
+# ptfancy prompt theme
+#
+# Copyright (c) 2020, Serghei Iakovlev
+#
+# This theme relies on the folowing Zsh options:
+#   - prompt_subst (see: conf.d/prompt)
+#   - local_options (see: conf.d/gopts)
+#
+# As well as on the following functions:
+#   - add-zsh-hook (see: conf.d/defuns)
+#
+# This file is autoloaded as a function in the current shell
+# context.  For more info see zshcontrib(1).
+
+prompt_ptfancy_help () {
+  cat <<'ENDHELP'
+This prompt is color-scheme-able.  With this prompt theme, the
+prompt contains the current username and hostname, the current
+working directory, the previous command's exit code (if non-zero),
+the flag “[SSH]” (if there is a SSH connection), and information
+about Git/SVN repository status (when inside a VCS repository).
+
+You can invoke it thus:
+
+  prompt ptfancy [<color1> [<color2> [<color3> [<color4>]]]]
+
+where the colors are for the user@host foreground, exit status,
+current working directory, and VCS branch respectively.  The default
+colors are cyan, red, blue, and yellow.  To specify colours, use
+English words like “magenta”.
+
+This theme is designed for dark backgrounds, but should work with
+light backgrounds too.  Recommended fonts for this theme are: Roboto
+Mono, DejaVu Sans Mono, Fira Code, Source Code Pro, Hack, Consolas
+or similar.
+
+This theme relies on `localoptions' and `promptsubst' options.  Thus
+these options should be set before.  For more see zshoptions(1).  To
+modify `precmd' and `preexec' the availability of `add-zsh-hook' is
+required.  For more see zshcontrib(1).
+ENDHELP
+}
+
+prompt_ptfancy_setup () {
+  # Default color scheme.
+  typeset -ga prompt_ptfancy_colors
+  prompt_ptfancy_colors=(
+    ${1:-'cyan'}
+    ${2:-'red'}
+    ${3:-'blue'}
+    ${4:-'yellow'}
+  )
+
+  # Set `zle_highlight' according to theme definition.
+  typeset -ga zle_highlight
+
+  # Contexts:
+  # - `default': Any text within the command line not affected by
+  #              any other highlighting.
+  #
+  # Types of highlighting:
+  # - `none':    No highlighting is applied to the given context.
+  zle_highlight[(r)default:*]=default:none
+
+  # Configure VCS info.
+
+  # Will be used to provide current VCS info.
+  # For more see zshcontrib(1).
+  autoload -Uz vcs_info
+
+  # Export the following messages:
+  #
+  # $vcs_info_msg_0_   - Branch name (and possible VCS backend)
+  # $vcs_info_msg_1_   - Stage status
+  # $vcs_info_msg_2_   - VCS actions
+  zstyle ':vcs_info:*' max-exports 3
+
+  zstyle ':vcs_info:*' enable svn git
+
+  # Used VCS formats are:
+  #
+  # %b   - Information about the current branch.
+  # %c   - The string for the staged changes in the repository.
+  # %u   - The string for the unstaged changes in the repository.
+  # %m   - A “misc” replacement.
+  # %a   - An identifier that describes the action.
+
+  # Defaut VCS format.
+  zstyle ':vcs_info:*'     formats '%s:%b'
+  zstyle ':vcs_info:*'     actionformats '%s:%b' '%m' '<!%a>'
+
+  # Git format.
+  zstyle ':vcs_info:git:*' formats '%b' '%c%u %m'
+  zstyle ':vcs_info:git:*' actionformats '%b' '%c%u %m' '<!%a>'
+
+  zstyle ':vcs_info:git:*' check-for-changes true # check for changes
+  zstyle ':vcs_info:git:*' stagedstr \
+         "%{$fg[green]%}●%{$reset_color%}"        # staged changes
+  zstyle ':vcs_info:git:*' unstagedstr \
+         "%{$fg[yellow]%}●%{$reset_color%}"       # unstaged changes
+
+  # Register Git hooks.
+  #
+  # These hook function should be set before setting message to be
+  # able modify message.   When we register hooks in this way we
+  # expect our functions be called up to 3 times: 2 times for
+  # `format' and 3 times for `actionformats'.
+  zstyle ':vcs_info:git+set-message:*' hooks \
+         git_hook_begin \
+         git_untracked \
+         git_ahead_status \
+         git_behind_status \
+         git_merging_status \
+         git_stash_count
+
+  # Uncomment to enable debug.
+  # zstyle ':vcs_info:*' debug true
+
+  # Execute `prompt_ptfancy_precmd' before each prompt.  This will
+  # add `prompt_ptfancy_precmd' to $precmd_functions global array.
+  # For more see zshcontrib(1).
+  add-zsh-hook precmd prompt_ptfancy_precmd
+}
+
+# Are we inside a Git repository?
+#
+# If this hook function returns anything other than 0, subsequent
+# hook functions will not be called.
++vi-git_hook_begin () {
+  if command git rev-parse --is-inside-work-tree > /dev/null 2>&1
+  then
+    return 0
+  fi
+
+  return 1
+}
+
+# Do we have Git untracked files in the working tree?
++vi-git_untracked () {
+  # There are events for `formats' and `actionformats'.
+  # This function uses only `actionformats'.
+  [[ "$1" != "1" ]] && return 0
+
+  if command git status --porcelain 2> /dev/null \
+             | awk '{print $1}' \
+             | command grep -F '??' > /dev/null 2>&1 ; then
+    hook_com[unstaged]+="%{$fg[red]%}●%{$reset_color%}"
+  fi
+}
+
+# Display the number of ahead commits.
+#
+# Check if there are commits not pushed to the remote
+# and indicate this using arrow up.  This function uses
+# ‘%m’ placeholder from `actionformats'.
++vi-git_ahead_status () {
+  # There are events for `formats' and `actionformats'.
+  # This function uses only `actionformats'.
+  [[ "$1" != "1" ]] && return 0
+
+  # Default template.
+  local ahead="%B%{$fg[red]%}⇡num%{$reset_color%}%b"
+  local num_ahead
+
+  num_ahead=$(command git log --oneline @{u}.. 2> /dev/null \
+            | wc -l \
+            | tr -d ' ')
+
+  if [[ "$num_ahead" -gt 0 ]]; then
+    hook_com[misc]+="${ahead//num/$num_ahead}"
+  fi
+}
+
+# Display the number of behind commits.
+#
+# Check if there are commits not pulled from the remote
+# and indicate this using arrow down.  This function uses
+# ‘%m’ placeholder from `actionformats'.
++vi-git_behind_status () {
+  # There are events for `formats' and `actionformats'.
+  # This function uses only `actionformats'.
+  [[ "$1" != "1" ]] && return 0
+
+  # Default template.
+  local behind="%B%{$fg[cyan]%}⇣num%{$reset_color%}%b"
+  local num_behind
+
+  num_behind=$(command git log --oneline ..@{u} 2> /dev/null \
+                 | wc -l \
+                 | tr -d ' ')
+
+  if [[ "$num_behind" -gt 0 ]]; then
+    hook_com[misc]+="${behind//num/$num_behind}"
+  fi
+}
+
+# Indicates merging statuses eg. rabasing, merging, etc.
+#
+# Check if there is a merging process and indicate this using
+# lightning down.  This function uses ‘%m’ placeholder from
+# `actionformats'.
++vi-git_merging_status () {
+  # There are events for `formats' and `actionformats'.
+  # This function uses only `actionformats'.
+  [[ "$1" != "1" ]] && return 0
+
+  # Default template.
+  local merging="%B%{$fg[magenta]%}⚡%{$reset_color%}%b"
+  local git_dir=$(git rev-parse --git-dir 2> /dev/null)
+  if [ -n $git_dir ] && test -r $git_dir/MERGE_HEAD; then
+    hook_com[misc]+="${merging}"
+  fi
+}
+
+# Indicates stash status if there are stashed changes.
+#
+# Check if there are stashed changes and indicate this using braces.
+# This function uses ‘%m’ placeholder from `actionformats'.
++vi-git_stash_count () {
+  # There are events for `formats' and `actionformats'.
+  # This function uses only `actionformats'.
+  [[ "$1" != "1" ]] && return 0
+
+  local stash
+  stash=$(command git stash list 2>/dev/null | wc -l | tr -d ' ')
+  if [[ "${stash}" -gt 0 ]]; then
+    hook_com[misc]+=" {$stash}"
+  fi
+}
+
+# Used prompt escapes are:
+#
+# %?   - Exit status
+# %B   - Start boldface mode
+# %F   - Start using a different foreground color
+# %f   - Stop using a different foreground color
+# %m   - The hostname up to first ‘.’
+# %n   - The username
+# %~   - Current working directory
+prompt_ptfancy_render () {
+  # This is a workaround because after first `local' decalration
+  # exit status will reset to zero.
+  local p_rc=$(print -P '%(?..%F{$prompt_ptfancy_colors[3]}[%F{$prompt_ptfancy_colors[2]}%?%F{$prompt_ptfancy_colors[3]}]%f )')
+
+  local -a pcc
+  local -A pc
+
+  # Default colour scheme.
+  pcc[1]=$prompt_ptfancy_colors[1]
+  pcc[2]=$prompt_ptfancy_colors[2]
+  pcc[3]=$prompt_ptfancy_colors[3]
+  pcc[4]=$prompt_ptfancy_colors[4]
+
+  pc['lsb']="%F{$pcc[3]}[%f" # ‘[’
+  pc['rsb']="%F{$pcc[3]}]%f" # ‘]’
+
+  local prompt
+  local p_ssh
+
+  local p_userhost='%B%F{$pcc[1]}%(!.%m.%n@%m)%f '
+
+  local p_userhost_etc=$(print -P '$p_userhost%(4~|...|)%3~')
+  local p_len=${#p_userhost_etc}
+
+  # Current working path.
+  local p_userpwd
+
+  if [[ $p_len -lt 40 ]]; then
+    p_userpwd='%F{$pcc[3]}%(4~|...|)%3~%F{default}'
+  else
+    local zero='%([BSUbfksu]|[FBK]{*})'
+    local p_userhost_nc='${p_userhost//$~zero/}'
+    local p_userhost_enc=$(print -P '$p_userhost_nc')
+    local space_left=$(( $COLUMNS - $#p_userhost_enc - 2 ))
+
+    p_userpwd="%F{$pcc[3]}%${space_left}<...<%~%F{default}"
+  fi
+
+  # If there is a SSH connection setup colored string using $2 as a
+  # color for “SSH” word and $3 as a color for ‘[’ and ‘]’ brackets.
+  if [ -n "${SSH_CONNECTION}" ]; then
+    p_ssh='%F{$pcc[3]}[%F{$pcc[2]}SSH%F{$pcc[3]}]%f '
+  fi
+
+  vcs_info
+  if [[ -n ${vcs_info_msg_0_} ]]; then
+    messages+=(' %F{default}±%f ')
+
+    [[ -n "$vcs_info_msg_0_" ]] &&
+      messages+=("%F{$pcc[4]}${vcs_info_msg_0_}%f ")
+
+    [[ -n "$vcs_info_msg_1_" ]] &&
+      messages+=("${vcs_info_msg_1_}")
+
+    [[ -n "$vcs_info_msg_2_" ]] &&
+      messages+=("${vcs_info_msg_2_}")
+  fi
+
+  prompt='$p_userhost$p_rc$p_ssh$p_userpwd${(j::)messages}'
+
+  print -P $prompt
+}
+
+# Used prompt escapes are:
+#
+# %f   - Stop using a different foreground color
+# %b   - Stop boldface mode
+# %#   - A ‘#’ if the shell is running with privileges, a ‘%’ if not
+prompt_ptfancy_precmd () {
+  # Do not print commands and their arguments as they are executed.
+  # For more see zshoptions(1).
+  setopt no_xtrace
+
+  PS1='$(prompt_ptfancy_render)
+%f%b%# '
+
+  # The secondary prompt, printed when the shell needs more
+  # information to complete a command.  It is expanded in the same
+  # way as PS1.  For more see zshparam(1).
+  PS2='%_> '
+
+  # Selection prompt used within a select loop.  It is expanded in
+  # the same way as PS1.  For more see zshparam(1).
+  PS3='?# '
+}
+
+prompt_ptfancy_preview () {
+  local -a colors
+  colors=(red green blue magenta)
+
+  if (( ! $#* )); then
+    prompt_preview_theme \
+      ptfancy $colors[1] $colors[2] $colors[3] $colors[4]
+  else
+    prompt_preview_theme ptfancy "$@"
+  fi
+}
+
+prompt_ptfancy_setup "$@"
