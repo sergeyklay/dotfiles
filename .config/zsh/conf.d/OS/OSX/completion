@@ -1,0 +1,10 @@
+# macOS-wide configuration for completion and corrections.
+#
+# This file is sourced on all interactive shells.
+#   .zshenv -> .zprofile -> .zshrc -> [completion] -> .zlogin
+
+[ -d /usr/local/share/zsh/site-functions ] &&
+  fpath=("/usr/local/share/zsh/site-functions" $fpath)
+
+[ -d /opt/homebrew/share/zsh/site-functions ] &&
+  fpath=("/usr/local/share/zsh/site-functions" $fpath)
