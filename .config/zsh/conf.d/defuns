@@ -1,0 +1,38 @@
+# This file containing user wide settings for functions.
+
+ZDOT_DEFUNS=$ZSHDDIR/lib/defuns
+
+if [ -d $ZDOT_DEFUNS ]; then
+  fpath=($ZDOT_DEFUNS $fpath)
+
+  # Treat the '#', '~' and '^' characters as part
+  # of patterns for filename generation, etc.
+  setopt extended_glob
+  for df ($ZDOT_DEFUNS/^*.zwc); autoload ${df##*/}
+  setopt no_extended_glob
+
+  # Setting $ZSH_CACHE_DIR at an early stage to be able to call
+  # `zcompdf' which is depends on this variable.  This will allow us
+  # safely source this file as soon as possible.  We don't export
+  # this variable to allow set it (and check it) before.
+  [ -z "$ZSH_CACHE_DIR" ] && {
+    ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+  }
+
+  # Execute code that does not affect the current session in
+  # the background.
+  {
+    # Compile functions to increase startup speed.
+    [ -d "$ZSH_CACHE_DIR" ] && zcompdf
+  } &!
+
+  # Recompile functions when shell exit.
+  trap "zcompdf &" EXIT
+fi
+
+# Manipulating hook functions.
+# This will provide ability to add and remove custom functions for
+# builtin zsh hooks.
+#
+# For more see: man zshcontrib(1)
+autoload -Uz add-zsh-hook

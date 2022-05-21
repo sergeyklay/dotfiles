@@ -1,0 +1,49 @@
+# This file contains the configuration of PATH variable.
+
+# No duplicate entries are needed.
+typeset -U path
+
+path=(/usr/local/bin $path)
+
+# Homebrew and sistemwide local binaries
+[ -d /usr/local/bin ] && path=(/usr/local/bin $path)
+[ -d /opt/homebrew/bin ] && path=(/opt/homebrew/bin $path)
+[ -d /opt/homebrew/sbin ] && path=(/opt/homebrew/sbin $path)
+
+# Include local bin
+[ -e "$HOME/bin" ] && {
+  [ -L "$HOME/bin" ] || [ -f "$HOME/bin" ] && {
+    path=("$HOME/bin" $path)
+  }
+}
+
+# Local binaries
+[ -d "$HOME/.local/bin" ] && path=("$HOME/.local/bin" $path)
+
+# Cargo binaries
+[ -d $HOME/.cargo/bin ] && path=($HOME/.cargo/bin $path)
+
+# Cabal
+[ -d "$HOME/.cabal/bin" ] && path=("$HOME/.cabal/bin" $path)
+
+# Cask
+[ -d "$HOME/.cask/bin" ] && path=("$HOME/.cask/bin" $path)
+
+# Go lang local workspace
+if [ -d "$HOME/go" ]; then
+  export GOPATH="$HOME/go"
+
+  [ -d "$GOPATH/bin" ] && {
+    # Put binary files created using "go install" command
+    # in "$GOPATH/bin"
+    export GOBIN="$GOPATH/bin"
+    path=("$GOBIN" $path)
+  }
+fi
+
+# OS specific paths.
+[ -r $ZSHDDIR/conf.d/OS/$OSSHORT/path ] && {
+  source $ZSHDDIR/conf.d/OS/$OSSHORT/path
+}
+
+export PATH
