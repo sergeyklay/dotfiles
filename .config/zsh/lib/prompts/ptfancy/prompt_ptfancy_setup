@@ -1,6 +1,6 @@
 # ptfancy prompt theme
 #
-# Copyright (c) 2020, Serghei Iakovlev
+# Copyright (c) 2020-2022, Serghei Iakovlev
 #
 # This theme relies on the folowing Zsh options:
 #   - prompt_subst (see: conf.d/prompt)

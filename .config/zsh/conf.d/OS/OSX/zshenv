@@ -2,8 +2,6 @@
 #
 # This file is sourced on all invokations of zsh.
 #   .zshenv -> [zshenv] -> .zprofile -> .zshrc -> .zlogin
-#                ^
-#   -------------
 
 # See: https://stackoverflow.com/q/7165108/1661465
 LC_ALL=en_US.UTF-8

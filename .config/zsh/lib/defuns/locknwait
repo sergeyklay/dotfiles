@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 #
 # Copyright (c) 2016, Mauro Calderara
-# Copyright (c) 2020, Serghei Iakovlev
+# Copyright (c) 2020-2022, Serghei Iakovlev
 #
 # A shell function to create a lockfile or wait for one to vanish
 #
