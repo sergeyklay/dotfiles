@@ -9,7 +9,7 @@ for defun in * ; do
     # Do compilation if:
     #
     # - ``function'' file is exists and it is not empty
-    # - ``function.zwc`` is absent OR ``function'' is newer
+    # - ``function.zwc'' is absent OR ``function'' is newer
     #   than ``function.zwc''
     if [[ -s $defun && (! -s ${defun}.zwc || $defun -nt ${defun}.zwc) ]]
     then
