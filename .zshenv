@@ -3,7 +3,7 @@
 # Zsh startup file.
 #
 # This file is sourced on all invokations of zsh.
-#   .zshenv -> .zprofile -> .zshrc -> .zlogin
+#   [.zshenv] -> .zprofile -> .zshrc -> .zlogin
 
 # Used for setting user's environment variables.
 # For more see 'man zsh(1)'.
