@@ -3,7 +3,7 @@
 # No duplicate entries are needed.
 typeset -U path
 
-path=(/usr/local/bin $path)
+path=($path)
 
 # Homebrew and sistemwide local binaries
 [ -d /usr/local/bin ] && path=(/usr/local/bin $path)
@@ -21,7 +21,7 @@ path=(/usr/local/bin $path)
 [ -d "$HOME/.local/bin" ] && path=("$HOME/.local/bin" $path)
 
 # Cargo binaries
-[ -d $HOME/.cargo/bin ] && path=($HOME/.cargo/bin $path)
+[ -d "$HOME/.cargo/bin" ] && path=("$HOME/.cargo/bin" $path)
 
 # Cabal
 [ -d "$HOME/.cabal/bin" ] && path=("$HOME/.cabal/bin" $path)
