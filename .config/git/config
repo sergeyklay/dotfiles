@@ -13,9 +13,6 @@
 	pager = less -FRSX
 	precomposeunicode = true
 	quotePath = false
-	# See:
-	# https://github.com/sergeyklay/.emacs.d/blob/master/bin/emacsclient.wrapper
-	# editor = emacsclient.wrapper
 	editor = vim
 
 [pull]
@@ -99,7 +96,3 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
-
-# Local Variables:
-# mode: gitconfig
-# End:
