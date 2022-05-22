@@ -32,9 +32,7 @@ ZSHDDIR="${XDG_CONFIG_HOME:-$ZDOTDIR/.config}/zsh"
 # This function tries to setup platoform independed environment
 # variables.  This function WILL NOT change previously set veriables
 # (if any).
-if typeset -f zenv > /dev/null; then
-  zenv
-fi
+zenv
 
 # OS specific environment.
 if [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/zshenv ]; then
