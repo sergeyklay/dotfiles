@@ -1,4 +1,7 @@
 # This file contains the configuration of manpages.
+#
+# This file is sourced on all invokations of zsh.
+#   .zshenv -> [mans] -> .zprofile -> .zshrc -> .zlogin
 
 # Only do this if the MANPATH variable isn't already set.
 if [ -z ${MANPATH+x} ] || [ "$MANPATH" = ":" ] ; then
