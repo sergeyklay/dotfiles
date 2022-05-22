@@ -1,0 +1,13 @@
+# macOS-wide configuration for editor, pager, and so on.
+#
+# This file is sourced on all invokations of zsh.
+#   .zshenv -> [editor] -> .zprofile -> .zshrc -> .zlogin
+
+# Use a lesspipe filter, if we can find it.
+# This sets the $LESSOPEN variable.
+#
+# brew install lesspipe
+if command -v lesspipe.sh >/dev/null 2>&1 ; then
+  LESSOPEN="| lesspipe.sh %s"
+  export LESSOPEN
+fi

@@ -1,0 +1,49 @@
+# This file contains the definition of the editor.
+#
+# This file is sourced on all invokations of zsh.
+#   .zshenv -> [editor] -> .zprofile -> .zshrc -> .zlogin
+
+# Terminal editor
+if [[ -n ${commands[vim]} ]]; then
+    EDITOR='vim'
+else
+    EDITOR='nano'
+fi
+export EDITOR VISUAL
+
+# A GUI editor could be a full screen editor
+if [[ -n ${commands[gvim]} ]]; then
+    VISUAL='gvim'
+else
+    VISUAL=$EDITOR
+fi
+export VISUAL
+
+# Editor to fallback
+if [[ -n ${commands[vi]} ]]; then
+    ALTERNATE_EDITOR='vi'
+else
+    ALTERNATE_EDITOR=''
+fi
+export ALTERNATE_EDITOR
+
+# More for less
+PAGER=less
+export PAGER
+
+# -X will leave the text in your Terminal, so it doesn't disappear
+#    when you exit less.
+# -F will exit less if the output fits on one screen (so you don't
+#    have to press "q").
+# -R ANSI "color" escape sequences are output in "raw" form.
+#
+# See: https://unix.stackexchange.com/q/38634/50400
+LESS="-X -F -R"
+LESSCHARSET=UTF-8
+LESSHISTFILE="${XDG_CACHE_HOME:-${ZDOTDIR}/.cache}/lesshst"
+export LESS LESSCHARSET LESSHISTFILE
+
+# OS specific settings for editor, pager, and so on.
+if [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/editor ]; then
+  source $ZSHDDIR/conf.d/OS/$OSSHORT/editor
+fi

@@ -1,0 +1,41 @@
+# Setup GnuPG
+#
+# This script assumes you have installed GnuPG >= 2.0 and gpgconf,
+# gpg-agent and gpg-connect-agent are present in your PATH.
+#
+# This file is sourced on all invokations of zsh.
+#   .zshenv -> [gpg] -> .zprofile -> .zshrc -> .zlogin
+
+GNUPGHOME=${GNUPGHOME:-${ZDOTDIR}/.gnupg}
+export GNUPGHOME
+
+# Enable gpg-agent if it is not running
+if [[ -z "$(ps -ef | grep [g]pg-agent)" ]] || \
+     [[ ! -S "$(gpgconf --list-dirs agent-socket)" ]]; then
+  gpg-agent \
+    --homedir "$GNUPGHOME" \
+    --daemon \
+    --use-standard-socket &>/dev/null
+fi
+
+# Update GPG_TTY.  See 'man 1 gpg-agen'.
+GPG_TTY="${TTY:-$(tty)}"
+export GPG_TTY
+
+# Fix for passphrase prompt on the correct tty
+# See https://www.gnupg.org/documentation/manuals/gnupg/Agent-Options.html#option-_002d_002denable_002dssh_002dsupport
+function _gpg-agent_update-tty_preexec {
+  gpg-connect-agent updatestartuptty /bye &>/dev/null
+}
+autoload -U add-zsh-hook
+add-zsh-hook preexec _gpg-agent_update-tty_preexec
+
+# If enable-ssh-support is set, fix ssh agent integration
+if [[ $(gpgconf --list-options gpg-agent 2>/dev/null | \
+   awk -F: '$1=="enable-ssh-support" {print $10}') = 1 ]]; then
+  unset SSH_AGENT_PID
+  if [[ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]]; then
+    SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+    export SSH_AUTH_SOCK
+  fi
+fi

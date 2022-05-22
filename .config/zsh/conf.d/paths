@@ -1,0 +1,53 @@
+# This file contains the configuration of PATH variable.
+#
+# This file is sourced on all invokations of zsh.
+#   .zshenv -> [paths] -> .zprofile -> .zshrc -> .zlogin
+
+# No duplicate entries are needed.
+typeset -U path
+
+path=(/usr/local/bin /usr/bin /bin /usr/sbin /sbin $path)
+
+# Homebrew and sistemwide local binaries
+[ -d /opt/homebrew/sbin ] && path=(/opt/homebrew/sbin $path)
+[ -d /usr/local/sbin ] && path=(/usr/local/sbin $path)
+[ -d /usr/local/bin ] && path=(/usr/local/bin $path)
+[ -d /opt/homebrew/bin ] && path=(/opt/homebrew/bin $path)
+
+# Include local bin
+[ -e "$ZDOTDIR/bin" ] && {
+  [ -L "$ZDOTDIR/bin" ] || [ -d "$ZDOTDIR/bin" ] && {
+    path=("$ZDOTDIR/bin" $path)
+  }
+}
+
+# Cargo binaries
+[ -d "$ZDOTDIR/.cargo/bin" ] && path=("$ZDOTDIR/.cargo/bin" $path)
+
+# Cabal
+[ -d "$ZDOTDIR/.cabal/bin" ] && path=("$ZDOTDIR/.cabal/bin" $path)
+
+# Cask
+[ -d "$ZDOTDIR/.cask/bin" ] && path=("$ZDOTDIR/.cask/bin" $path)
+
+# Go lang local workspace
+if [ -d "$ZDOTDIR/go" ]; then
+  export GOPATH="$ZDOTDIR/go"
+
+  [ -d "$GOPATH/bin" ] && {
+    # Put binary files created using "go install" command
+    # in "$GOPATH/bin"
+    export GOBIN="$GOPATH/bin"
+    path=("$GOBIN" $path)
+  }
+fi
+
+# Local binaries
+[ -d "$ZDOTDIR/.local/bin" ] && path=("$ZDOTDIR/.local/bin" $path)
+
+# OS specific paths.
+[ -r $ZSHDDIR/conf.d/OS/$OSSHORT/paths ] && {
+  source $ZSHDDIR/conf.d/OS/$OSSHORT/paths
+}
+
+export PATH

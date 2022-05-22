@@ -1,0 +1,9 @@
+# The file containing the settings for the zsh line editor (ZLE)
+
+# Zsh Line Editor, includes bindkey and vared builtins
+zmodload -i zsh/zle
+
+# Selects keymap `emacs' for any operations by the current command,
+# and also links `emacs' to `main' so that it is selected  by
+# default the next time the editor starts.
+bindkey -e

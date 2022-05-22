@@ -1,0 +1,36 @@
+# This file contains the configuration of manpages.
+#
+# This file is sourced on all invokations of zsh.
+#   .zshenv -> [mans] -> .zprofile -> .zshrc -> .zlogin
+
+# Only do this if the MANPATH variable isn't already set.
+if [ -z ${MANPATH+x} ] || [ "$MANPATH" = ":" ] ; then
+  if command -v manpath >/dev/null 2>&1; then
+    # Get the original manpath, then modify it.
+    MANPATH="$(manpath 2>/dev/null)"
+  else
+    MANPATH=()
+  fi
+fi
+
+typeset -a places
+places=(
+  /usr/man
+  /usr/share/man
+  /usr/local/man
+  /opt/homebrew/man
+  /usr/local/share/man
+  /opt/homebrew/share/man
+  /opt/man
+  "$HOME/man"
+  "$HOME/.local/share/man"
+)
+
+for p in $places; do
+  [ -d $p ] && manpath=($p $manpath)
+done
+unset places
+
+# No duplicate entries are needed.
+typeset -U manpath
+export MANPATH

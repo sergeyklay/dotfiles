@@ -1,0 +1,25 @@
+#!/usr/bin/env zsh
+#
+# Copyright (c) 2020-2022, Serghei Iakovlev
+#
+# A shell function to clean zsh cache and temporary files.
+
+ZSH_CACHE_DIR="${XDG_CACHE_HOME:-${ZDOTDIR}/.cache}/zsh"
+[ ! -d $ZSH_CACHE_DIR ] && return 0
+
+# Do not query the user before executing 'rm *' or 'rm path/*'.
+setopt rm_star_silent
+
+# Environment files.
+rm -f $ZSH_CACHE_DIR/env/*
+
+# Lock file for compiled functions.
+rm -f $ZSH_CACHE_DIR/zwcs
+
+[ -d $ZDOTDIR/.config/zsh/lib/functions ] && {
+  # Compiled functions.
+  rm -f $ZDOTDIR/.config/zsh/lib/functions/*.zwc
+}
+
+# Enable option back.
+setopt no_rm_star_silent
