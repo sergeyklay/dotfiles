@@ -2,7 +2,7 @@
 
 # function zcompdf {
 
-pushd -q $ZDOT_DEFUNS
+pushd -q $ZDOT_FUNCS
 
 for defun in * ; do
   if [ ${defun%.zwc} = ${defun} ] ; then

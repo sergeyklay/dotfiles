@@ -16,9 +16,9 @@ rm -f $ZSH_CACHE_DIR/env/*
 # Lock file for compiled functions.
 rm -f $ZSH_CACHE_DIR/zwcs
 
-[ -d $ZDOTDIR/.config/zsh/lib/defuns ] && {
+[ -d $ZDOTDIR/.config/zsh/lib/functions ] && {
   # Compiled functions.
-  rm -f $ZDOTDIR/.config/zsh/lib/defuns/*.zwc
+  rm -f $ZDOTDIR/.config/zsh/lib/functions/*.zwc
 }
 
 # Enable option back.

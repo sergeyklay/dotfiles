@@ -1,14 +1,14 @@
 # This file containing user wide settings for functions.
 
-ZDOT_DEFUNS=$ZSHDDIR/lib/defuns
+ZDOT_FUNCS=$ZSHDDIR/lib/functions
 
-if [ -d $ZDOT_DEFUNS ]; then
-  fpath=($ZDOT_DEFUNS $fpath)
+if [ -d $ZDOT_FUNCS ]; then
+  fpath=($ZDOT_FUNCS $fpath)
 
   # Treat the '#', '~' and '^' characters as part
   # of patterns for filename generation, etc.
   setopt extended_glob
-  for df ($ZDOT_DEFUNS/^*.zwc); autoload ${df##*/}
+  for df ($ZDOT_FUNCS/^*.zwc); autoload ${df##*/}
   setopt no_extended_glob
 
   # Setting $ZSH_CACHE_DIR at an early stage to be able to call
