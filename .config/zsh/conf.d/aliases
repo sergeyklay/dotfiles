@@ -1,5 +1,8 @@
 # This file contains the definition of aliases.
 #
+# This file is sourced on all invokations of zsh.
+#   .zshenv -> .zprofile -> .zshrc -> [aliases] -> .zlogin
+#
 # For $OSSHORT, $ZSHDDIR and other variables see .zshenv.
 
 # Things the shell shouldn't correct on:

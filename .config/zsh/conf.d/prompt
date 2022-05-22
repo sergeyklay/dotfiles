@@ -1,4 +1,7 @@
 # The file containing the definition of the prompts.
+#
+# This file is sourced on all invokations of zsh.
+#   .zshenv -> .zprofile -> .zshrc -> [prompt] -> .zlogin
 
 for d in $ZSHDDIR/lib/prompts/*; do
   [ -d $d ] && fpath+=$d

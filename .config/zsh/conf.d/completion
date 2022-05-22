@@ -1,4 +1,7 @@
 # Settings for completion and correction.
+#
+# This file is sourced on all invokations of zsh.
+#   .zshenv -> .zprofile -> .zshrc -> [completion] -> .zlogin
 
 # Completion support.
 #
