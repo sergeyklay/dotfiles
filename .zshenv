@@ -4,8 +4,22 @@
 #
 # This file is sourced on all invokations of zsh.
 #   [.zshenv] -> .zprofile -> .zshrc -> .zlogin
-
-# Used for setting user's environment variables.
+#
+# This file is sourced on all invocations of the shell, unless the `-f`
+# option is set.
+#
+# What goes in it:
+#
+# - Set up the command search path
+# - Other important environment variables
+# - Commands to set up aliases and functions that are needed for other
+#   scripts
+#
+# What does NOT go in it:
+#
+# - Commands that produce output
+# - Anything that assumes the shell is attached to a tty
+#
 # For more see 'man zsh(1)'.
 
 # The base directories for all startup/shutdown files.
