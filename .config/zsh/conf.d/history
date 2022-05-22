@@ -145,6 +145,9 @@ setopt pushd_silent
 # For more see: man zshoptions(1)
 setopt pushd_minus
 
+# Set the directory stack size limit to 20.
+# DIRSTACKSIZE keeps the directory stack from getting too large,
+# much like HISTSIZE
 DIRSTACKSIZE=20
 DIRSTACKFILE=$ZSH_CACHE_DIR/dirs
 
