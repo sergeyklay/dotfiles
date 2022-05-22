@@ -4,11 +4,11 @@
 # `-f' option is set.
 #   .zshenv -> [editor] -> .zprofile -> .zshrc -> .zlogin
 
-# Use a lesspipe filter, if we can find it.
-# This sets the $LESSOPEN variable.
+# Set the Less input preprocessor.
+# Try both `lesspipe` and `lesspipe.sh` as either might exist on a system.
 #
 # brew install lesspipe
-if command -v lesspipe.sh >/dev/null 2>&1 ; then
-  LESSOPEN="| lesspipe.sh %s"
+if [[ -z "$LESSOPEN" ]] && (( $#commands[(i)lesspipe(|.sh)] )); then
+  LESSOPEN="| /usr/bin/env $commands[(i)lesspipe(|.sh)] %s 2>&-"
   export LESSOPEN
 fi
