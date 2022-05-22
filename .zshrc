@@ -14,6 +14,11 @@
 # If not running interactively, don't do anything.
 [[ $- != *i* ]] && return
 
+# This means ~/.zshenv was not sourced.
+if [ -z ${ZDOTDIR+x} ] && [ -f ~/.zshenv ]; then
+  source ~/.zshenv
+fi
+
 # OS specific configuration.
 # This comes first as it tends to mess up things.
 if [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/zshrc ]; then
@@ -21,6 +26,7 @@ if [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/zshrc ]; then
 fi
 
 # Note, order is matter.
+typeset -a configs
 configs=(
   zle            # Zsh Line Editor
   history        # Setting up history
@@ -28,11 +34,9 @@ configs=(
   prompt         # The definition of the prompts
   completion     # Setting up completion support
   keybindings    # Definition of keybindings
-  gpg            # GPG configuration
 )
 
-for c in "$configs[@]" ;  do
+for c in $configs ;  do
   [ -r $ZSHDDIR/conf.d/$c ] && source $ZSHDDIR/conf.d/$c
 done
-
 unset c configs

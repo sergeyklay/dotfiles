@@ -27,6 +27,16 @@ if [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/zshenv ]; then
   source $ZSHDDIR/conf.d/OS/$OSSHORT/zshenv
 fi
 
-[ -r $ZSHDDIR/conf.d/path ] && source $ZSHDDIR/conf.d/path
-[ -r $ZSHDDIR/conf.d/mans ] && source $ZSHDDIR/conf.d/mans
-[ -r $ZSHDDIR/conf.d/editor ] && source $ZSHDDIR/conf.d/editor
+# Order is matter
+typeset -a configs
+configs=(
+  paths   # Setting up PATHs
+  mans    # Setting up MAN pages paths
+  editor  # Setting up the editor
+  gpg     # Setting up GnuPG
+)
+
+for c in $configs ;  do
+  [ -r $ZSHDDIR/conf.d/$c ] && source $ZSHDDIR/conf.d/$c
+done
+unset c configs
