@@ -1,6 +1,9 @@
 # Setting up history.
 #
 # The file containing the user specific settings for the history.
+#
+# This file is sourced on all invokations of zsh.
+#   .zshenv -> .zprofile -> .zshrc -> [history] -> .zlogin
 
 # The number of events loaded from $HISTFILE at startup.
 HISTSIZE=1000
@@ -8,7 +11,7 @@ HISTSIZE=1000
 # The last $SAVEHIST events are the ones that are saved to $HISTFILE
 SAVEHIST=5000
 
-HISTFILE="$ZDOTDIR/.zsh_history"
+HISTFILE=$ZDOTDIR/.zsh_history
 
 # For the protection and ability for future analyzing
 HISTTIMEFORMAT="%h %d %H:%M:%S "
