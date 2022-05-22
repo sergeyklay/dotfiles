@@ -6,35 +6,33 @@
 # No duplicate entries are needed.
 typeset -U path
 
-path=($path)
+path=(/usr/local/bin /usr/bin /bin /usr/sbin /sbin $path)
 
 # Homebrew and sistemwide local binaries
+[ -d /opt/homebrew/sbin ] && path=(/opt/homebrew/sbin $path)
+[ -d /usr/local/sbin ] && path=(/usr/local/sbin $path)
 [ -d /usr/local/bin ] && path=(/usr/local/bin $path)
 [ -d /opt/homebrew/bin ] && path=(/opt/homebrew/bin $path)
-[ -d /opt/homebrew/sbin ] && path=(/opt/homebrew/sbin $path)
 
 # Include local bin
-[ -e "$HOME/bin" ] && {
-  [ -L "$HOME/bin" ] || [ -f "$HOME/bin" ] && {
-    path=("$HOME/bin" $path)
+[ -e "$ZDOTDIR/bin" ] && {
+  [ -L "$ZDOTDIR/bin" ] || [ -d "$ZDOTDIR/bin" ] && {
+    path=("$ZDOTDIR/bin" $path)
   }
 }
 
-# Local binaries
-[ -d "$HOME/.local/bin" ] && path=("$HOME/.local/bin" $path)
-
 # Cargo binaries
-[ -d "$HOME/.cargo/bin" ] && path=("$HOME/.cargo/bin" $path)
+[ -d "$ZDOTDIR/.cargo/bin" ] && path=("$ZDOTDIR/.cargo/bin" $path)
 
 # Cabal
-[ -d "$HOME/.cabal/bin" ] && path=("$HOME/.cabal/bin" $path)
+[ -d "$ZDOTDIR/.cabal/bin" ] && path=("$ZDOTDIR/.cabal/bin" $path)
 
 # Cask
-[ -d "$HOME/.cask/bin" ] && path=("$HOME/.cask/bin" $path)
+[ -d "$ZDOTDIR/.cask/bin" ] && path=("$ZDOTDIR/.cask/bin" $path)
 
 # Go lang local workspace
-if [ -d "$HOME/go" ]; then
-  export GOPATH="$HOME/go"
+if [ -d "$ZDOTDIR/go" ]; then
+  export GOPATH="$ZDOTDIR/go"
 
   [ -d "$GOPATH/bin" ] && {
     # Put binary files created using "go install" command
@@ -43,6 +41,9 @@ if [ -d "$HOME/go" ]; then
     path=("$GOBIN" $path)
   }
 fi
+
+# Local binaries
+[ -d "$ZDOTDIR/.local/bin" ] && path=("$ZDOTDIR/.local/bin" $path)
 
 # OS specific paths.
 [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/paths ] && {
