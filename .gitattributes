@@ -1,6 +1,5 @@
 # Automatically normalize line endings for all text-based files
 * text=auto
 
-.config/fontconfig/fonts.conf linguist-language=XML
-.config/zsh/conf.d/*          linguist-language=Shell
-.config/zsh/lib/*             linguist-language=Shell
+.config/zsh/conf.d/*  linguist-language=Shell
+.config/zsh/lib/*     linguist-language=Shell
