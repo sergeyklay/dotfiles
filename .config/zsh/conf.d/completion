@@ -32,7 +32,7 @@ autoload -Uz compinit
 # -i ........... accept insecure files
 # -C ........... ignore checking at all
 
-ZSH_COMPDUMP=${XDG_CACHE_HOME:-${ZDOTDIR}/.cache}/zsh/zcompdump
+ZSH_COMPDUMP=${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump
 if [[ -n $ZSH_COMPDUMP(#qN.mh+24) ]]
 then
   compinit -d $ZSH_COMPDUMP

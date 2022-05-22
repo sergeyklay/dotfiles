@@ -16,35 +16,37 @@ path=(/usr/local/bin /usr/bin /bin /usr/sbin /sbin $path)
 [ -d /opt/homebrew/bin ] && path=(/opt/homebrew/bin $path)
 
 # Include local bin
-[ -e "$ZDOTDIR/bin" ] && {
-  [ -L "$ZDOTDIR/bin" ] || [ -d "$ZDOTDIR/bin" ] && {
-    path=("$ZDOTDIR/bin" $path)
+[ -e $HOME/bin ] && {
+  [ -L $HOME/bin ] || [ -d $HOME/bin ] && {
+    path=($HOME/bin $path)
   }
 }
 
 # Cargo binaries
-[ -d "$ZDOTDIR/.cargo/bin" ] && path=("$ZDOTDIR/.cargo/bin" $path)
+[ -d $HOME/.cargo/bin ] && path=($HOME/.cargo/bin $path)
 
 # Cabal
-[ -d "$ZDOTDIR/.cabal/bin" ] && path=("$ZDOTDIR/.cabal/bin" $path)
+[ -d $HOME/.cabal/bin ] && path=($HOME/.cabal/bin $path)
 
 # Cask
-[ -d "$ZDOTDIR/.cask/bin" ] && path=("$ZDOTDIR/.cask/bin" $path)
+[ -d $HOME/.cask/bin ] && path=($HOME/.cask/bin $path)
 
 # Go lang local workspace
-if [ -d "$ZDOTDIR/go" ]; then
-  export GOPATH="$ZDOTDIR/go"
+if [ -d $HOME/go ]; then
+  GOPATH=$HOME/go
+  export GOPATH
 
-  [ -d "$GOPATH/bin" ] && {
+  [ -d $GOPATH/bin ] && {
     # Put binary files created using "go install" command
     # in "$GOPATH/bin"
-    export GOBIN="$GOPATH/bin"
-    path=("$GOBIN" $path)
+    GOBIN=$GOPATH/bin
+    export GOBIN
+    path=($GOBIN $path)
   }
 fi
 
 # Local binaries
-[ -d "$ZDOTDIR/.local/bin" ] && path=("$ZDOTDIR/.local/bin" $path)
+[ -d $HOME/.local/bin ] && path=($HOME/.local/bin $path)
 
 # OS specific paths.
 [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/paths ] && {

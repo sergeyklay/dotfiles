@@ -41,7 +41,7 @@ export PAGER
 # See: https://unix.stackexchange.com/q/38634/50400
 LESS="-X -F -R"
 LESSCHARSET=UTF-8
-LESSHISTFILE="${XDG_CACHE_HOME:-${ZDOTDIR}/.cache}/lesshst"
+LESSHISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/lesshst"
 export LESS LESSCHARSET LESSHISTFILE
 
 # OS specific settings for editor, pager, and so on.

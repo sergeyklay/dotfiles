@@ -7,7 +7,7 @@
 # `-f' option is set.
 #   .zshenv -> [gpg] -> .zprofile -> .zshrc -> .zlogin
 
-GNUPGHOME=${GNUPGHOME:-${ZDOTDIR}/.gnupg}
+GNUPGHOME=${GNUPGHOME:-$HOME/.gnupg}
 export GNUPGHOME
 
 # Enable gpg-agent if it is not running

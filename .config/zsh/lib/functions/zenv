@@ -34,7 +34,7 @@
 [ -z "$GID" ]       || GID_BACK="$GID"
 
 if [ -z "$ZSH_CACHE_DIR" ]; then
-  _CACHE_DIR="${XDG_CACHE_HOME:-${ZDOTDIR}/.cache}/zsh"
+  _CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 else
   _CACHE_DIR=$ZSH_CACHE_DIR
 fi
