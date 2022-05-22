@@ -2,11 +2,9 @@
 
 # Zsh startup file.
 #
-# This file is sourced on all invokations of zsh.
+# This file is sourced on all invocations of the shell, unless the
+# `-f' option is set.
 #   [.zshenv] -> .zprofile -> .zshrc -> .zlogin
-#
-# This file is sourced on all invocations of the shell, unless the `-f`
-# option is set.
 #
 # What goes in it:
 #
@@ -43,7 +41,6 @@ fi
 typeset -a configs
 configs=(
   paths   # Setting up PATHs
-  mans    # Setting up MAN pages paths
   editor  # Setting up the editor
   gpg     # Setting up GnuPG
 )

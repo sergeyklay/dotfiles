@@ -2,7 +2,7 @@
 
 # Zsh startup file.
 #
-# This file is sourced on all interactive shells.
+# This file is sourced on interactive invokations of zsh.
 #   .zshenv -> .zprofile -> [.zshrc] -> .zlogin
 #
 # Used for setting user's interactive shell configuration and
@@ -34,6 +34,7 @@ configs=(
   prompt         # The definition of the prompts
   completion     # Setting up completion support
   keybindings    # Definition of keybindings
+  mans           # Setting up MAN pages paths
 )
 
 for c in $configs ;  do
