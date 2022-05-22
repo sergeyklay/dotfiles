@@ -35,6 +35,7 @@ configs=(
   completion     # Setting up completion support
   keybindings    # Definition of keybindings
   mans           # Setting up MAN pages paths
+  nvm            # Setting up Node Version Manager
 )
 
 for c in $configs ;  do
