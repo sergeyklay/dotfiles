@@ -15,8 +15,8 @@
 [[ $- != *i* ]] && return
 
 # This means ~/.zshenv was not sourced.
-if [ -z ${ZDOTDIR+x} ] && [ -f ~/.zshenv ]; then
-  source ~/.zshenv
+if [ -z ${ZDOTDIR+x} ] && [ -r $HOME/.zshenv ]; then
+  source $HOME/.zshenv
 fi
 
 # OS specific configuration.
