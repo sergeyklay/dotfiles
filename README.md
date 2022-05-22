@@ -9,15 +9,15 @@ handle my `.zshrc` and keep things synchronized between machines like
 ## Shell support
 
 These dotfiles are meant to be used with Zsh, but some scripts may
-work as Bash accepts Zsh interpreter.  Also, your shell should support
+work as Bash accepts Z shell interpreter.  Also, your shell should support
 colors so everything works well.  Wherever possible, compatibility with
 Linux as well as macOS is maintained.
 
 ## Project Structure
 
-### Zsh startup files
+### Z shell startup files
 
-There are five startup files that Zsh will read commands from in order:
+There are five startup files that Z shell will read commands from in order:
 
 ```sh
 zshenv
@@ -30,11 +30,11 @@ zlogout
 Below is the explanation about each of these files, when it is loaded,
 and what it does.
 
-### Zsh locations
+### Z shell locations
 
-The default location for zsh system-wide files is in `/etc`. The default
-location for zsh user files is in `$HOME`; this can be customized by
-setting `$ZDOTDIR`.
+The default location for Z shell system-wide files is in `/etc`. The
+default location for Z shell user files is in `$HOME`; this can be
+customized by setting `$ZDOTDIR`.
 
 Thus the default locations are:
 
@@ -102,11 +102,25 @@ What goes in it:
 
 #### `zlogin`
 
-`zlogin` is like `zprofile`, except sourced after zshrc.
+`zlogin` is like `zprofile`, except sourced after `zshrc`.
 
 #### `zlogout`
 
 `zlogout` is sourced when login shells exit.
+
+### Repo files
+
+This repo contains my Z shell conventions for subdirectories and also
+my files that I like to use with multiple environments.
+
+Notable subdirectories:
+
+- `.config/zsh/lib/functions` is for functions
+- `.config/zsh/lib/prompts` is for prompts
+- `.config/zsh/conf.d` is for configuring environment programs via
+  environment variables, such as `$EDITOR`, `$PAGER`, etc, aldo for
+  Z shell settings, such as for aliases, completion, history, etc
+- `.config/zsh/conf.d/OS` is for OS-wide configuration files
 
 ## License
 
