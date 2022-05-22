@@ -1,6 +1,7 @@
 # This file contains the configuration of PATH variable.
 #
-# This file is sourced on all invokations of zsh.
+# This file is sourced on all invocations of the shell, unless the
+# `-f' option is set.
 #   .zshenv -> [paths] -> .zprofile -> .zshrc -> .zlogin
 
 # No duplicate entries are needed.

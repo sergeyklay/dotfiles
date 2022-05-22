@@ -2,6 +2,10 @@
 #
 # The main purpose of this file is to set options that influence the
 # shell's behaviour in scripts.
+#
+# This file is sourced on all invocations of the shell, unless the
+# `-f' option is set.
+#   .zshenv -> [gops] -> .zprofile -> .zshrc -> .zlogin
 
 # If a word begins with an unquoted '=' and the EQUALS option is
 # set, the remainder of the word is taken as the name of a command.

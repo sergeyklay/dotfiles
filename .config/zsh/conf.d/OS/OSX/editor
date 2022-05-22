@@ -1,6 +1,7 @@
 # macOS-wide configuration for editor, pager, and so on.
 #
-# This file is sourced on all invokations of zsh.
+# This file is sourced on all invocations of the shell, unless the
+# `-f' option is set.
 #   .zshenv -> [editor] -> .zprofile -> .zshrc -> .zlogin
 
 # Use a lesspipe filter, if we can find it.

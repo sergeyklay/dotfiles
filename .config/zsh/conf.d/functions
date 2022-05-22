@@ -1,4 +1,8 @@
 # This file containing user wide settings for functions.
+#
+# This file is sourced on all invocations of the shell, unless the
+# `-f' option is set.
+#   .zshenv -> [functions] -> .zprofile -> .zshrc -> .zlogin
 
 ZDOT_FUNCS=$ZSHDDIR/lib/functions
 

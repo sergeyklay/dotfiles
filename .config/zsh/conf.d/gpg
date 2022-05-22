@@ -3,7 +3,8 @@
 # This script assumes you have installed GnuPG >= 2.0 and gpgconf,
 # gpg-agent and gpg-connect-agent are present in your PATH.
 #
-# This file is sourced on all invokations of zsh.
+# This file is sourced on all invocations of the shell, unless the
+# `-f' option is set.
 #   .zshenv -> [gpg] -> .zprofile -> .zshrc -> .zlogin
 
 GNUPGHOME=${GNUPGHOME:-${ZDOTDIR}/.gnupg}

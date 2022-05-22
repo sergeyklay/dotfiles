@@ -1,6 +1,7 @@
 # This file contains the definition of the editor.
 #
-# This file is sourced on all invokations of zsh.
+# This file is sourced on all invocations of the shell, unless the
+# `-f' option is set.
 #   .zshenv -> [editor] -> .zprofile -> .zshrc -> .zlogin
 
 # Terminal editor

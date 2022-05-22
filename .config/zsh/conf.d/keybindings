@@ -1,5 +1,8 @@
 # Definition of keybindings.
 #
+# This file is sourced on interactive invokations of zsh.
+#   .zshenv -> .zprofile -> .zshrc -> [keybindings] -> .zlogin
+#
 # For the reference see terminfo(5).  Alo see:
 # -   $terminfo associative array
 # -   “showkey -a”
