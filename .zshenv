@@ -27,7 +27,7 @@ ZDOTDIR=${ZDOTDIR:-${HOME}}
 ZSHDDIR="${XDG_CONFIG_HOME:-$ZDOTDIR/.config}/zsh"
 
 [ -r $ZSHDDIR/conf.d/gopts ] && source $ZSHDDIR/conf.d/gopts
-[ -r $ZSHDDIR/conf.d/defuns ] && source $ZSHDDIR/conf.d/defuns
+[ -r $ZSHDDIR/conf.d/functions ] && source $ZSHDDIR/conf.d/functions
 
 # This function tries to setup platoform independed environment
 # variables.  This function WILL NOT change previously set veriables

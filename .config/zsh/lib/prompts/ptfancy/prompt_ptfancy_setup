@@ -7,7 +7,7 @@
 #   - local_options (see: conf.d/gopts)
 #
 # As well as on the following functions:
-#   - add-zsh-hook (see: conf.d/defuns)
+#   - add-zsh-hook (see: .config/zsh/lib/functions)
 #
 # This file is autoloaded as a function in the current shell
 # context.  For more info see zshcontrib(1).
