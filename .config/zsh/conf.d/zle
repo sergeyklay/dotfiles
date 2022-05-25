@@ -8,7 +8,7 @@ zmodload -i zsh/zle
 
 # Vim style keybindings by default.
 #
-# Selects keymap `viins' for any operations by the current command,
-# and also links `viins' to `main' so that it is selected by default
-# default the next time the editor starts.
-bindkey -v
+# Selects keymap `emacs' for any operations by the current command,
+# and also links `emacs' to `main' so that it is selected by default
+# the next time the editor starts.
+bindkey -e
