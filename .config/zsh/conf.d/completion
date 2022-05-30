@@ -10,6 +10,11 @@
 # No duplicate entries are needed.
 typeset -U fpath
 
+# Remove previously set not found paths
+for ((i = 1; i <= $#fpath; i++)) {
+  [ ! -d $fpath[i] ] && fpath[i]=()
+}
+
 # Enable completion related modules.  For more see zshmodules(1).
 
 # The compctl builtin for controlling completion.
@@ -26,19 +31,59 @@ zmodload -i zsh/computil
 
 autoload -Uz compinit
 
-# Some relevant information from zsh manpages:
-# -D ........... disables .zcompudump file
-# -d ........... used to set an alternative name to .zcompdump
-# -i ........... accept insecure files
-# -C ........... ignore checking at all
+# OS specific competion. Should be before calling compinit.
+[ -r $ZSHDDIR/conf.d/OS/$OSSHORT/completion ] && {
+  source $ZSHDDIR/conf.d/OS/$OSSHORT/completion
+}
 
-ZSH_COMPDUMP=${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump
+# To speed up the running of `compinit', it can be made to produce a
+# dumped configuration that will be read in on future invocations;
+# this is useful for users that have large numbers of completion
+# functions and/or large numbers of aliases.
+#
+# Explicit file name can be given by `compinit -d dumpfile'. The next
+# invocation of compinit will read the dumped file instead of
+# performing a full initialization.
+#
+# On slow systems, checking the cached dumped configuration file to
+# see if it must be regenerated adds a noticable delay to zsh startup.
+# Bellow little hack restricts it to once a day.
+#
+# The globbing is a little complicated here:
+# - '#q'    is an explicit glob qualifier that makes globbing work
+#           within zsh's [[ ]] construct.
+# - 'N'     makes the glob pattern evaluate to nothing when it
+#           doesn't match (rather than throw a globbing error)
+# - '.'     matches "regular files"
+# - 'mh+24' matches files (or directories or whatever) that are
+#           older than 24 hours.
+ZSH_COMPDUMP=$ZSHCACHEDIR/zcompdump
 if [[ -n $ZSH_COMPDUMP(#qN.mh+24) ]]
 then
   compinit -d $ZSH_COMPDUMP
 else
+  # ignore checking cached dumped configuration at all
   compinit -C
 fi
+
+# Various options for completion and correction.
+
+setopt correct         # correct mistyped commands
+setopt nocorrectall    # do not correct the rest
+setopt automenu        # instantly display the menu, then cycle through
+setopt list_ambiguous  # complete only up to ambiguity
+setopt autolist        # automatically show lists in case of ambiguities
+setopt listtypes       # show @,/ and so on for completion candidates
+LISTMAX=50             # ask for seeing all completion candidates if the
+                       # list would take more than 50 entries
+setopt hash_list_all   # hash command path before completion
+setopt completeinword  # complete not just at word end
+setopt noglobdots      # never match dotfiles with *
+setopt completealiases # complete aliases, too
+setopt extended_glob   # advanced completion and globbing
+
+# Ztyle pattern
+# :completion:<function>:<completer>:<command>:<argument>:<tag>
 
 # Show a menu for >= 10 entries.
 zstyle ':completion:*' menu select=10
@@ -47,8 +92,7 @@ zstyle ':completion:*' menu select=10
 zstyle ':completion:*' use-cache on
 
 # completion cache directory.
-
-zstyle ':completion:*' cache-path $ZSH_COMPDUMP
+zstyle ':completion:*' cache-path $ZSHCACHEDIR/zcompcache
 
 # Ignore unknown cmnds.
 zstyle ':completion:*:functions' ignored-patterns '_*'
@@ -77,23 +121,3 @@ if [ -z "$LS_COLORS" ]; then
 else
   zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 fi
-
-# OS specific competion.
-[ -r $ZSHDDIR/conf.d/OS/$OSSHORT/completion ] && {
-  source $ZSHDDIR/conf.d/OS/$OSSHORT/completion
-}
-
-# Various options for completion and correction.
-setopt correct         # correct mistyped commands
-setopt nocorrectall    # do not correct the rest
-setopt automenu        # instantly display the menu, then cycle through
-setopt list_ambiguous  # complete only up to ambiguity
-setopt autolist        # automatically show lists in case of ambiguities
-setopt listtypes       # show @,/ and so on for completion candidates
-LISTMAX=50             # ask for seeing all completion candidates if the
-                       # list would take more than 50 entries
-setopt hash_list_all   # hash command path before completion
-setopt completeinword  # complete not just at word end
-setopt noglobdots      # never match dotfiles with *
-setopt completealiases # complete aliases, too
-setopt extended_glob   # advanced completion and globbing

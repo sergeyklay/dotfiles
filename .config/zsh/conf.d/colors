@@ -16,7 +16,7 @@ fi
   source $ZSHDDIR/conf.d/OS/$OSSHORT/colors
 }
 
-if [ -z "$LS_COLORS" ];
+if [ -z "$LS_COLORS" ]; then
   CLICOLOR=1
   export CLICOLOR
 fi
