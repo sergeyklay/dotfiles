@@ -30,8 +30,8 @@ typeset -a configs
 configs=(
   zle            # Zsh Line Editor
   history        # Setting up history
-  aliases        # The definition of aliases
   colors         # Setting up colors
+  aliases        # The definition of aliases
   prompt         # The definition of the prompts
   completion     # Setting up completion support
   keybindings    # Definition of keybindings

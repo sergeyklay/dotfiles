@@ -9,7 +9,14 @@ if whence dircolors >/dev/null; then
   else
     eval $(dircolors -b)
   fi
-else
+fi
+
+# OS specific colors setup.
+[ -r $ZSHDDIR/conf.d/OS/$OSSHORT/colors ] && {
+  source $ZSHDDIR/conf.d/OS/$OSSHORT/colors
+}
+
+if [ -z "$LS_COLORS" ];
   CLICOLOR=1
   export CLICOLOR
 fi
