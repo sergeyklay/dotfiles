@@ -4,7 +4,7 @@
 #   .zshenv -> .zprofile -> .zshrc -> [prompt] -> .zlogin
 
 for d in $ZSHDDIR/lib/prompts/*; do
-  [ -d $d ] && fpath+=$d
+  [ -d $d ] && fpath=($d $fpath)
 done
 
 # Initialize several associative arrays to map color names to the
