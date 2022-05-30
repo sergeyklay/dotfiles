@@ -60,14 +60,14 @@ export PATH
 # /etc/zprofile which is executed after ~/.zshenv will overwrite
 # the PATH variable - so to workaround that issue, PATH settings
 # should be re-read in ~/.zprofile
-if [ ! -d ${XDG_CACHE_HOME:-$HOME/.cache}/zsh ]; then
-  mkdir -p ${XDG_CACHE_HOME:-$HOME/.cache}/zsh
+if [ ! -d $ZSH_CACHE_DIR ]; then
+  mkdir -p $ZSH_CACHE_DIR
 fi
 
 if command -v hostname >/dev/null 2>&1; then
-  ZSH_PATH_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/$(hostname -s).paths"
+  ZSH_PATH_CACHE="$ZSH_CACHE_DIR/$(hostname -s).paths"
 else
-  ZSH_PATH_CACHE=${XDG_CACHE_HOME:-$HOME/.cache}/zsh/localhost.paths
+  ZSH_PATH_CACHE=$ZSH_CACHE_DIR/localhost.paths
 fi
 
 if touch $ZSH_PATH_CACHE >/dev/null 2>&1; then

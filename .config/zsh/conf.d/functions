@@ -15,14 +15,6 @@ if [ -d $ZDOT_FUNCS ]; then
   for df ($ZDOT_FUNCS/^*.zwc); autoload ${df##*/}
   setopt no_extended_glob
 
-  # Setting $ZSH_CACHE_DIR at an early stage to be able to call
-  # `zcompdf' which is depends on this variable.  This will allow us
-  # safely source this file as soon as possible.  We don't export
-  # this variable to allow set it (and check it) before.
-  [ -z "$ZSH_CACHE_DIR" ] && {
-    ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
-  }
-
   # Execute code that does not affect the current session in
   # the background.
   {

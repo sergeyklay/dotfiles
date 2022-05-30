@@ -21,16 +21,15 @@
 # - Options
 # - Environment variable settings
 
-
 # ~/.zshenv is supposed to be the ideal place to set the PATH.
 # However on OS X and Arch (and previously Gentoo), the system
 # /etc/zprofile which is executed after ~/.zshenv will overwrite
 # the PATH variable - so to workaround that issue, PATH settings
 # should be re-read in ~/.zprofile
 if command -v hostname >/dev/null 2>&1; then
-  ZSH_PATH_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/$(hostname -s).paths"
+  ZSH_PATH_CACHE="$ZSH_CACHE_DIR/$(hostname -s).paths"
 else
-  ZSH_PATH_CACHE=${XDG_CACHE_HOME:-$HOME/.cache}/zsh/localhost.paths
+  ZSH_PATH_CACHE=$ZSH_CACHE_DIR/localhost.paths
 fi
 
 [ -r $ZSH_PATH_CACHE ] && {

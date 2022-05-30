@@ -4,7 +4,7 @@
 #
 # A shell function to clean zsh cache and temporary files.
 
-ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+[ -z $ZSH_CACHE_DIR ] && return 0
 [ ! -d $ZSH_CACHE_DIR ] && return 0
 
 # Do not query the user before executing 'rm *' or 'rm path/*'.
