@@ -16,11 +16,7 @@ path=(/usr/local/bin /usr/bin /bin /usr/sbin /sbin $path)
 [ -d /opt/homebrew/bin ] && path=(/opt/homebrew/bin $path)
 
 # Include local bin
-[ -e $HOME/bin ] && {
-  [ -L $HOME/bin ] || [ -d $HOME/bin ] && {
-    path=($HOME/bin $path)
-  }
-}
+[ -d $HOME/bin ] && path=($HOME/bin $path)
 
 # Cargo binaries
 [ -d $HOME/.cargo/bin ] && path=($HOME/.cargo/bin $path)
