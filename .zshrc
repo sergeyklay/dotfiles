@@ -31,6 +31,7 @@ configs=(
   zle            # Zsh Line Editor
   history        # Setting up history
   aliases        # The definition of aliases
+  colors         # Setting up colors
   prompt         # The definition of the prompts
   completion     # Setting up completion support
   keybindings    # Definition of keybindings

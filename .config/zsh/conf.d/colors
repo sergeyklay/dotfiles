@@ -1,0 +1,15 @@
+# The file containing the colors setup.
+#
+# This file is sourced on interactive invokations of zsh.
+#   .zshenv -> .zprofile -> .zshrc -> [colors] -> .zlogin
+
+if whence dircolors >/dev/null; then
+  if [ -f $ZSHDDIR/.dircolors ]; then
+    eval $(dircolors -b $ZSHDDIR/.dircolors)
+  else
+    eval $(dircolors -b)
+  fi
+else
+  CLICOLOR=1
+  export CLICOLOR
+fi

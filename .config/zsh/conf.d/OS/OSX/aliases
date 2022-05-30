@@ -23,3 +23,8 @@ fi
 if command -v gmake >/dev/null 2>&1; then
   alias make='gmake'
 fi
+
+# Brew install coreutils
+if command -v gdircolors >/dev/null 2>&1; then
+  alias dircolors='gdircolors'
+fi
