@@ -6,7 +6,7 @@
 # Zsh Line Editor, includes bindkey and vared builtins
 zmodload -i zsh/zle
 
-# Vim style keybindings by default.
+# Emacs style keybindings by default.
 #
 # Selects keymap `emacs' for any operations by the current command,
 # and also links `emacs' to `main' so that it is selected by default
