@@ -19,7 +19,7 @@ if [ -d $ZDOT_FUNCS ]; then
   # the background.
   {
     # Compile functions to increase startup speed.
-    [ -d "$ZSH_CACHE_DIR" ] && zcompdf
+    [ -d "$ZSHCACHEDIR" ] && zcompdf
   } &!
 
   # Recompile functions when shell exit.

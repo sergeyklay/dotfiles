@@ -23,7 +23,7 @@
 # The base directories for all startup/shutdown files.
 ZDOTDIR=${ZDOTDIR:-${HOME}}
 ZSHDDIR="${XDG_CONFIG_HOME:-$ZDOTDIR/.config}/zsh"
-ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$ZDOTDIR/.cache}/zsh"
+ZSHCACHEDIR="${XDG_CACHE_HOME:-$ZDOTDIR/.cache}/zsh"
 
 [ -r $ZSHDDIR/conf.d/gopts ] && source $ZSHDDIR/conf.d/gopts
 [ -r $ZSHDDIR/conf.d/functions ] && source $ZSHDDIR/conf.d/functions

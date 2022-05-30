@@ -36,16 +36,16 @@
 # Probable it is no so good, to silently create a directory, but I
 # use it on my Linux and macOS machines.  Thus, this will create
 # this directory if isn't present.
-[ -d $ZSH_CACHE_DIR ] || mkdir -p $ZSH_CACHE_DIR
+[ ! -d $ZSHCACHEDIR ] || mkdir -p $ZSHCACHEDIR
 
 # If the values of the somewhat more complex variables are already
 # detected, source them from a file instead of invoking this whole
 # thing each time the function call.
 
 if command -v hostname >/dev/null 2>&1; then
-  ZSH_ENV_CACHE="$ZSH_CACHE_DIR/env/$(hostname -s)"
+  ZSH_ENV_CACHE="$ZSHCACHEDIR/env/$(hostname -s)"
 else
-  ZSH_ENV_CACHE=$ZSH_CACHE_DIR/env/localhost
+  ZSH_ENV_CACHE=$ZSHCACHEDIR/env/localhost
 fi
 
 ZSH_ENV_CACHE_LOCK=$ZSH_ENV_CACHE.lock

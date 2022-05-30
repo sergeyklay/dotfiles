@@ -27,9 +27,9 @@
 # the PATH variable - so to workaround that issue, PATH settings
 # should be re-read in ~/.zprofile
 if command -v hostname >/dev/null 2>&1; then
-  ZSH_PATH_CACHE="$ZSH_CACHE_DIR/$(hostname -s).paths"
+  ZSH_PATH_CACHE="$ZSHCACHEDIR/$(hostname -s).paths"
 else
-  ZSH_PATH_CACHE=$ZSH_CACHE_DIR/localhost.paths
+  ZSH_PATH_CACHE=$ZSHCACHEDIR/localhost.paths
 fi
 
 [ -r $ZSH_PATH_CACHE ] && {

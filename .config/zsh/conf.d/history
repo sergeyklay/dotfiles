@@ -152,7 +152,7 @@ setopt pushd_minus
 # DIRSTACKSIZE keeps the directory stack from getting too large,
 # much like HISTSIZE
 DIRSTACKSIZE=20
-DIRSTACKFILE=$ZSH_CACHE_DIR/dirs
+DIRSTACKFILE=$ZSHCACHEDIR/dirs
 
 # This will change directory when zsh starts session
 # to the last visited directory.

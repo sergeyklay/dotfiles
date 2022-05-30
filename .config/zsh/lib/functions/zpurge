@@ -4,17 +4,17 @@
 #
 # A shell function to clean zsh cache and temporary files.
 
-[ -z $ZSH_CACHE_DIR ] && return 0
-[ ! -d $ZSH_CACHE_DIR ] && return 0
+[ -z $ZSHCACHEDIR ] && return 0
+[ ! -d $ZSHCACHEDIR ] && return 0
 
 # Do not query the user before executing 'rm *' or 'rm path/*'.
 setopt rm_star_silent
 
 # Environment files.
-rm -f $ZSH_CACHE_DIR/env/*
+rm -f $ZSHCACHEDIR/env/*
 
 # Lock file for compiled functions.
-rm -f $ZSH_CACHE_DIR/zwcs
+rm -f $ZSHCACHEDIR/zwcs
 
 [ -d $ZDOTDIR/.config/zsh/lib/functions ] && {
   # Compiled functions.
