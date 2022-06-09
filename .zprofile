@@ -20,19 +20,24 @@
 # - Function definitions
 # - Options
 # - Environment variable settings
+#
+# Notes:
+#
+# Actually, `.zshenv' is supposed to be the ideal place to set the
+# PATH.  However on OS X and Arch (and previously Gentoo), the system
+# /etc/zprofile which is executed after `.zshenv' will overwrite
+# the PATH variable - so to workaround that issue, PATH should be set
+# in `.zprofile' instead.
 
-# ~/.zshenv is supposed to be the ideal place to set the PATH.
-# However on OS X and Arch (and previously Gentoo), the system
-# /etc/zprofile which is executed after ~/.zshenv will overwrite
-# the PATH variable - so to workaround that issue, PATH settings
-# should be re-read in ~/.zprofile
-if command -v hostname >/dev/null 2>&1; then
-  ZSH_PATH_CACHE="$ZSHCACHEDIR/$(hostname -s).paths"
-else
-  ZSH_PATH_CACHE=$ZSHCACHEDIR/localhost.paths
-fi
+# Order is matter
+typeset -a configs
+configs=(
+  paths   # Setting up PATHs
+  editor  # Setting up the editor
+  gpg     # Setting up GnuPG
+)
 
-[ -r $ZSH_PATH_CACHE ] && {
-    source $ZSH_PATH_CACHE >/dev/null 2>&1 || true
-}
-rm $ZSH_PATH_CACHE >/dev/null 2>&1 || true
+for c in $configs ;  do
+  [ -r $ZSHDDIR/conf.d/$c ] && source $ZSHDDIR/conf.d/$c
+done
+unset c configs

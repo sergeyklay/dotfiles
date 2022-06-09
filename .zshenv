@@ -37,16 +37,3 @@ zenv
 if [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/zshenv ]; then
   source $ZSHDDIR/conf.d/OS/$OSSHORT/zshenv
 fi
-
-# Order is matter
-typeset -a configs
-configs=(
-  paths   # Setting up PATHs
-  editor  # Setting up the editor
-  gpg     # Setting up GnuPG
-)
-
-for c in $configs ;  do
-  [ -r $ZSHDDIR/conf.d/$c ] && source $ZSHDDIR/conf.d/$c
-done
-unset c configs
