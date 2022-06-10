@@ -2,7 +2,7 @@
 #
 # This file is sourced on all invocations of the shell, unless the
 # `-f' option is set.
-#   .zshenv -> [paths] -> .zprofile -> .zshrc -> .zlogin
+#   .zshenv -> .zprofile -> .zshrc -> [paths] -> .zlogin
 
 # No duplicate entries are needed.
 typeset -U path
