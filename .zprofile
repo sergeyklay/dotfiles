@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-#
+
 # This file is sourced first for login-shells.
 #   .zshenv -> [.zprofile] -> .zshrc -> .zlogin
 #
@@ -20,24 +20,3 @@
 # - Function definitions
 # - Options
 # - Environment variable settings
-#
-# Notes:
-#
-# Actually, `.zshenv' is supposed to be the ideal place to set the
-# PATH.  However on OS X and Arch (and previously Gentoo), the system
-# /etc/zprofile which is executed after `.zshenv' will overwrite
-# the PATH variable - so to workaround that issue, PATH should be set
-# in `.zprofile' instead.
-
-# Order is matter
-typeset -a configs
-configs=(
-  paths   # Setting up PATHs
-  editor  # Setting up the editor
-  gpg     # Setting up GnuPG
-)
-
-for c in $configs ;  do
-  [ -r $ZSHDDIR/conf.d/$c ] && source $ZSHDDIR/conf.d/$c
-done
-unset c configs

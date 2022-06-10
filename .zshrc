@@ -28,6 +28,9 @@ fi
 # Note, order is matter.
 typeset -a configs
 configs=(
+  paths          # Setting up PATHs
+  editor         # Setting up the editor
+  gpg            # Setting up GnuPG
   zle            # Zsh Line Editor
   history        # Setting up history
   colors         # Setting up colors
