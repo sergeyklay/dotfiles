@@ -1,6 +1,6 @@
 # The file containing the colors setup.
 #
-# This file is sourced on interactive invokations of zsh.
+# This file is sourced on interactive invocations of zsh.
 #   .zshenv -> .zprofile -> .zshrc -> [colors] -> .zlogin
 
 if whence dircolors >/dev/null; then

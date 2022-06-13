@@ -1,6 +1,6 @@
 # macOS-wide Zsh configuration of manpages.
 #
-# This file is sourced on interactive invokations of zsh.
+# This file is sourced on interactive invocations of zsh.
 #   .zshenv -> .zprofile -> .zshrc -> [mans] -> .zlogin
 
 [ -d /Library/Apple/usr/share/man ] && {

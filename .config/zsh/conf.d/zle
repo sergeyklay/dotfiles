@@ -1,6 +1,6 @@
 # The file containing the settings for the zsh line editor (ZLE)
 #
-# This file is sourced on interactive invokations of zsh.
+# This file is sourced on interactive invocations of zsh.
 #   .zshenv -> .zprofile -> .zshrc -> [zle] -> .zlogin
 
 # Zsh Line Editor, includes bindkey and vared builtins

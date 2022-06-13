@@ -1,6 +1,6 @@
 # macOS-wide configuration for completion and corrections.
 #
-# This file is sourced on interactive invokations of zsh.
+# This file is sourced on interactive invocations of zsh.
 #   .zshenv -> .zprofile -> .zshrc -> [completion] -> .zlogin
 
 [ -d /usr/local/share/zsh/site-functions ] &&

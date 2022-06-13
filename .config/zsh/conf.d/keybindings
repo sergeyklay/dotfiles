@@ -1,6 +1,6 @@
 # Definition of keybindings.
 #
-# This file is sourced on interactive invokations of zsh.
+# This file is sourced on interactive invocations of zsh.
 #   .zshenv -> .zprofile -> .zshrc -> [keybindings] -> .zlogin
 #
 # For the reference see terminfo(5).  Alo see:

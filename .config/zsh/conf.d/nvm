@@ -1,6 +1,6 @@
 # Configuration of Node Version Manager.
 #
-# This file is sourced on interactive invokations of zsh.
+# This file is sourced on interactive invocations of zsh.
 #   .zshenv -> .zprofile -> .zshrc -> [nvm] -> .zlogin
 
 for d in $HOME/.nvm ${XDG_CONFIG_HOME:-$HOME/.config}/nvm; do

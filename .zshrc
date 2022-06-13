@@ -2,7 +2,7 @@
 
 # Zsh startup file.
 #
-# This file is sourced on interactive invokations of zsh.
+# This file is sourced on interactive invocations of zsh.
 #   .zshenv -> .zprofile -> [.zshrc] -> .zlogin
 #
 # Used for setting user's interactive shell configuration and

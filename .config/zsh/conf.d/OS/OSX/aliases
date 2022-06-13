@@ -1,6 +1,6 @@
 # macOS-wide Zsh aliases file.
 #
-# This file is sourced on interactive invokations of zsh.
+# This file is sourced on interactive invocations of zsh.
 #   .zshenv -> .zprofile -> .zshrc -> [aliases] -> .zlogin
 
 # brew install coreutils
