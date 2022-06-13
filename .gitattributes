@@ -9,6 +9,8 @@
 # Setting up Linguist
 #
 
+.config/git/config    linguist-language=gitconfig linguist-detectable=true
+.config/git/ignore    linguist-language=gitignore linguist-detectable=true
 .config/zsh/conf.d/*  linguist-language=Shell
 .config/zsh/lib/*     linguist-language=Shell
 .gnupg/*.conf         linguist-language=INI linguist-detectable=true
@@ -19,6 +21,7 @@
 # plus any specific settings
 #
 
+.config/git/*    text eol=lf
 .gnupg/*.conf    text eol=lf
 LICENSE          text eol=lf
 README.md        text eol=lf
