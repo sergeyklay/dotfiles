@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Copyright (C) 2014-2021 Serghei Iakovlev <egrep@protonmail.ch>
+# Copyright (C) 2014-2022 Serghei Iakovlev <egrep@protonmail.ch>
 # Copyright (C) 2014 Zlatan Vasović <zlatanvasovic@gmail.com>
 #
 # This file is free software; you can redistribute it and/or
@@ -17,20 +17,26 @@
 # along with this file.  If not, see <https://www.gnu.org/licenses/>.
 #
 # Count git commits or branches.
-# Version: 0.1.1
+# Version: 0.2.0
 #
 # Usage:
 #
-#   git count {c|b|ca}
+#   git count {c|t|b|ca}
 #
 #   Options:
 #     c    Count commits
+#     t    Count commits since last tag
 #     b    Count branches
 #     p    Counting the total number of commits for each participant
+
+VERSION=0.2.0
 
 case "$1" in
   c)
     git rev-list HEAD --count
+    ;;
+  t)
+    git rev-list "$(git tag | tail -n 1)"..HEAD --count
     ;;
   b)
     git branch | wc -l
@@ -40,20 +46,17 @@ case "$1" in
     ;;
   *)
     printf "\n"
-    printf "\e[1;33mgit-count\033[0m v0.1.1"
+    printf "\e[1;33mgit-count\033[0m v%s" "$VERSION"
     printf "\nCount git commits or branches.\n"
     printf "\nUsage:"
-    printf "\ngit count {c|b|p}"
+    printf "\ngit count {c|t|b|p}"
     printf "\n"
     printf "\nOptions:"
     printf "\n  c\tCount commits"
+    printf "\n  t\tCount commits since last tag"
     printf "\n  b\tCount branches"
     printf "\n  p\tCounting the total number of commits for each participant"
     printf "\n\n"
     exit 1
     ;;
 esac
-
-# Local Variables:
-# mode: sh
-# End:
