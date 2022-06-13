@@ -28,18 +28,19 @@ fi
 # Note, order is matter.
 typeset -a configs
 configs=(
-  paths          # Setting up PATHs
-  editor         # Setting up the editor
-  gpg            # Setting up GnuPG
+  paths          # PATHs
+  editor         # Editor
+  gpg            # GnuPG
   zle            # Zsh Line Editor
-  history        # Setting up history
-  colors         # Setting up colors
+  history        # History
+  colors         # Colors
   aliases        # The definition of aliases
   prompt         # The definition of the prompts
-  completion     # Setting up completion support
+  completion     # Completion support
   keybindings    # Definition of keybindings
-  mans           # Setting up MAN pages paths
-  nvm            # Setting up Node Version Manager
+  mans           # MAN pages paths
+  nvm            # Node Version Manager
+  pyenv          # Python Version Manager
 )
 
 for c in $configs ;  do
