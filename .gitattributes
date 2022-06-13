@@ -21,10 +21,11 @@
 # plus any specific settings
 #
 
-.config/git/*    text eol=lf
-.gnupg/*.conf    text eol=lf
-LICENSE          text eol=lf
-README.md        text eol=lf
+.config/git/*      text eol=lf
+.gnupg/*.conf      text eol=lf
+.gnupg/sshcontrol  text eol=lf
+LICENSE            text eol=lf
+README.md          text eol=lf
 
 #
 # Exclude files from exporting
