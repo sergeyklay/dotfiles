@@ -256,6 +256,11 @@ prompt_ptfancy_render () {
 
   local prompt
   local p_ssh
+  
+  local venv
+  if [[ -n "$VIRTUAL_ENV" ]]; then
+    venv="[$(basename $VIRTUAL_ENV)] "
+  fi
 
   local p_userhost='%B%F{$pcc[1]}%(!.%m.%n@%m)%f '
 
@@ -296,7 +301,7 @@ prompt_ptfancy_render () {
       messages+=("${vcs_info_msg_2_}")
   fi
 
-  prompt='$p_userhost$p_rc$p_ssh$p_userpwd${(j::)messages}'
+  prompt='$venv$p_userhost$p_rc$p_ssh$p_userpwd${(j::)messages}'
 
   print -P $prompt
 }
