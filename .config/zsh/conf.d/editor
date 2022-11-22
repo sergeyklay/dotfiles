@@ -4,33 +4,32 @@
 # `-f' option is set.
 #   .zshenv -> .zprofile -> .zshrc -> [paths] -> .zlogin
 
-# Terminal editor
-if [[ -n ${commands[vim]} ]]; then
-    EDITOR='vim'
-else
-    EDITOR='nano'
-fi
-export EDITOR VISUAL
+# Editor to fallback to if the server is not running.  If this
+# variable is empty, then start GNU Emacs in daemon mode and try
+# connecting again.
+ALTERNATE_EDITOR=''
+export ALTERNATE_EDITOR
 
-# A GUI editor could be a full screen editor
-if [[ -n ${commands[gvim]} ]]; then
-    VISUAL='gvim'
+# See:
+# https://github.com/sergeyklay/.emacs.d/blob/master/bin/emacsclient.wrapper
+if command -v emacsclient.wrapper >/dev/null 2>&1 ; then
+  EDITOR=emacsclient.wrapper
 else
-    VISUAL=$EDITOR
+  EDITOR='emacs -nw'
 fi
+export EDITOR
+
+VISUAL="$EDITOR"
 export VISUAL
 
-# Editor to fallback
-if [[ -n ${commands[vi]} ]]; then
-    ALTERNATE_EDITOR='vi'
-else
-    ALTERNATE_EDITOR=''
-fi
-export ALTERNATE_EDITOR
+# Setting alias for emacsclient.  See '.bash_profile' for more.
+# shellcheck disable=SC2139
+alias ec="$EDITOR"
 
 # More for less
 PAGER=less
 export PAGER
+
 
 # -X will leave the text in your Terminal, so it doesn't disappear
 #    when you exit less.
