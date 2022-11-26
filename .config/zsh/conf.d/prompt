@@ -21,4 +21,19 @@ autoload -Uz promptinit; promptinit
 # For more see: man zshoptions(1)
 setopt prompt_subst
 
-prompt ptfancy
+# $TERM="dump" is used in Emacs.
+if [[ $TERM != "dumb" ]]; then
+  prompt ptfancy
+else
+  setopt no_xtrace
+
+  PS1='%# '
+  PS2='%_> '
+  PS3='?# '
+
+  PROMPT='%# '
+fi
+
+# Local Variables:
+# mode: shell-script
+# End:

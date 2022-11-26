@@ -3,8 +3,11 @@
 # This file is sourced on interactive invocations of zsh.
 #   .zshenv -> .zprofile -> .zshrc -> [zle] -> .zlogin
 
-# Zsh Line Editor, includes bindkey and vared builtins
-zmodload -i zsh/zle
+# Zsh Line Editor, includes bindkey and vared builtins.
+# $TERM="dump" is used in Emacs.
+if [[ $TERM != "dumb" ]]; then
+  zmodload -i zsh/zle
+fi
 
 # Emacs style keybindings by default.
 #
@@ -12,3 +15,7 @@ zmodload -i zsh/zle
 # and also links `emacs' to `main' so that it is selected by default
 # the next time the editor starts.
 bindkey -e
+
+# Local Variables:
+# mode: shell-script
+# End:

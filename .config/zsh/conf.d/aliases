@@ -55,3 +55,11 @@ if [[ $UID != 0 ]] && (($+commands[sudo])); then
   sudo_path=({,/usr/local,/usr}/sbin(N-/))
   alias sudo="sudo env PATH=\"$SUDO_PATH:$PATH\""
 fi
+
+if [[ $TERM == "dumb" ]]; then
+  alias less='cat'
+fi
+
+# Local Variables:
+# mode: shell-script
+# End:
