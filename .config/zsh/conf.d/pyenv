@@ -1,4 +1,4 @@
-# Configuration of Node Version Manager.
+# Configuration of Simple Python version management.
 #
 # This file is sourced on interactive invocations of zsh.
 #   .zshenv -> .zprofile -> .zshrc -> [pyenv] -> .zlogin
@@ -28,3 +28,7 @@ if (( ! ${+PYENV_SHELL} )); then
         >&2 echo "command pyenv not found"
     fi
 fi
+
+# Local Variables:
+# mode: shell-script
+# End:
