@@ -28,17 +28,11 @@ fi
 # Note, order is matter.
 typeset -a configs
 configs=(
-  paths          # PATHs
   editor         # Editor
-  gpg            # GnuPG
   zle            # Zsh Line Editor
-  history        # History
   colors         # Colors
-  aliases        # The definition of aliases
-  prompt         # The definition of the prompts
   completion     # Completion support
   keybindings    # Definition of keybindings
-  mans           # MAN pages paths
   nvm            # Node Version Manager
   pyenv          # Python Version Manager
 )

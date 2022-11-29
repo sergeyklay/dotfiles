@@ -37,3 +37,19 @@ zenv
 if [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/zshenv ]; then
   source $ZSHDDIR/conf.d/OS/$OSSHORT/zshenv
 fi
+
+# Note, order is matter.
+typeset -a configs
+configs=(
+  paths          # PATHs
+  gpg            # GnuPG
+  history        # History
+  aliases        # The definition of aliases
+  prompt         # The definition of the prompts
+  mans           # MAN pages paths
+)
+
+for c in $configs ;  do
+  [ -r $ZSHDDIR/conf.d/$c ] && source $ZSHDDIR/conf.d/$c
+done
+unset c configs
