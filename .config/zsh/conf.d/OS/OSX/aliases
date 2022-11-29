@@ -23,3 +23,8 @@ fi
 if command -v gmake >/dev/null 2>&1; then
   alias make='gmake'
 fi
+
+# brew install gawk
+if command -v gawk >/dev/null 2>&1; then
+  alias awk='gawk'
+fi
