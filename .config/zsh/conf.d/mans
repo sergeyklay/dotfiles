@@ -24,6 +24,7 @@ places=(
   /opt/homebrew/share/man
   /opt/man
   "$HOME/man"
+  "$HOME/share/man"
   "$HOME/.local/share/man"
 )
 

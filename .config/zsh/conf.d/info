@@ -19,6 +19,7 @@ places=(
   /usr/local/share/info
   /opt/homebrew/share/info
   "${HOME}/info"
+  "${HOME}/share/info"
   "$HOME/.local/share/info"
 )
 
