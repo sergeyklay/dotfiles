@@ -47,6 +47,7 @@ configs=(
   aliases        # The definition of aliases
   prompt         # The definition of the prompts
   mans           # MAN pages paths
+  info           # INFO paths
 )
 
 for c in $configs ;  do

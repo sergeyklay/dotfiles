@@ -1,0 +1,39 @@
+# This file contains the configuration of info.
+#
+# This file is sourced on interactive invocations of zsh.
+#   .zshenv -> .zprofile -> .zshrc -> [mans] -> .zlogin
+
+# Only do this if the MANPATH variable isn't already set.
+if [ -z ${INFOPATH+x} ] || [ "$INFOPATH" = ":" ] ; then
+  INFOPATH=()
+fi
+
+# No duplicate entries are needed.
+typeset -gxUT INFOPATH infopath
+
+typeset -a places
+places=(
+  /usr/info
+  /usr/local/info
+  /usr/share/info
+  /usr/local/share/info
+  /opt/homebrew/share/info
+  "${HOME}/info"
+  "$HOME/.local/share/info"
+)
+
+for p in $places; do
+  [ -d $p ] && infopath=($p $infopath)
+done
+unset places
+
+# OS specific aliases.
+[ -r $ZSHDDIR/conf.d/OS/$OSSHORT/info ] && {
+  source $ZSHDDIR/conf.d/OS/$OSSHORT/info
+}
+
+export INFOPATH
+
+# Local Variables:
+# mode: shell-script
+# End:
