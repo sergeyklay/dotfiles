@@ -19,6 +19,7 @@ places=(
   /usr/share/man
   /usr/local/man
   /opt/homebrew/man
+  /opt/homebrew/manpages
   /usr/local/share/man
   /opt/homebrew/share/man
   /opt/man
@@ -39,3 +40,7 @@ unset places
 # No duplicate entries are needed.
 typeset -U manpath
 export MANPATH
+
+# Local Variables:
+# mode: shell-script
+# End:
