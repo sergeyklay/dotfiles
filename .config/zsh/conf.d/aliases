@@ -60,6 +60,11 @@ if [[ $TERM == "dumb" ]]; then
   alias less='cat'
 fi
 
+# See https://specmatic.in
+if [[ ~/.local/bin/specmatic.jar ]]; then
+  alias specmatic='java -jar ~/.local/bin/specmatic.jar'
+fi
+
 # Local Variables:
 # mode: shell-script
 # End:
