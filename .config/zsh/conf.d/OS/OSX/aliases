@@ -28,3 +28,17 @@ fi
 if command -v gawk >/dev/null 2>&1; then
   alias awk='gawk'
 fi
+
+# brew install gnu-tar
+if command -v gtar >/dev/null 2>&1; then
+  alias tar='gtar'
+fi
+
+# brew install gnu-sed
+if command -v star >/dev/null 2>&1; then
+  alias sed='gsed'
+fi
+
+# Local Variables:
+# mode: shell-script
+# End:
