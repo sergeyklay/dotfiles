@@ -12,21 +12,18 @@ places=(
   /sbin
   /usr/sbin
   /usr/local/sbin
+  /opt/homebrew/sbin
   /bin
   /usr/bin
   /usr/local/bin
+  /opt/homebrew/bin
 )
 
 for p in $places; do
   [ -d $p ] && path=($p $path)
 done
-unset places
 
-# Homebrew and sistemwide local binaries
-[ -d /opt/homebrew/sbin ] && path=(/opt/homebrew/sbin $path)
-[ -d /usr/local/sbin ] && path=(/usr/local/sbin $path)
-[ -d /usr/local/bin ] && path=(/usr/local/bin $path)
-[ -d /opt/homebrew/bin ] && path=(/opt/homebrew/bin $path)
+unset places
 
 # Include local bin
 [ -d $HOME/bin ] && path=($HOME/bin $path)
@@ -63,3 +60,7 @@ fi
 }
 
 export PATH
+
+# Local Variables:
+# mode: shell-script
+# End:
