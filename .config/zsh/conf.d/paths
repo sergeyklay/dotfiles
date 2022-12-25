@@ -37,6 +37,9 @@ unset places
 # Cask
 [ -d $HOME/.cask/bin ] && path=($HOME/.cask/bin $path)
 
+# Rancher
+[ -d $HOME/.rd/bin ] && path=($HOME/.rd/bin $path)
+
 # Go lang local workspace
 if [ -d $HOME/go ]; then
   GOPATH=$HOME/go
