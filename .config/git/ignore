@@ -68,5 +68,10 @@ GTAGS
 TAGS
 ID
 
+# Version managers
 .python-version
 .ruby-version
+
+# PHP stuf
+composer.phar
+auth.json
