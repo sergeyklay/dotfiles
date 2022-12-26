@@ -21,6 +21,10 @@ if command -v wget >/dev/null 2>&1; then
   alias wget="wget --hsts-file=${XDG_CACHE_HOME:-$HOME/.cache}/wget-hsts"
 fi
 
+if command -v nerdctl >/dev/null 2>&1; then
+  alias nps="nerdctl ps --format '{{.ID}}    {{.Names}}    {{.Status}}'"
+fi
+
 if command -v docker >/dev/null 2>&1; then
   alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Status}}'"
 fi
