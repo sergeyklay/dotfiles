@@ -1,0 +1,10 @@
+# macOS-wide Zsh configuration of paths.
+#
+# This file is sourced on interactive invocations of zsh.
+#   .zshenv -> .zprofile -> .zshrc -> [paths] -> .zlogin
+
+# MySQL client
+[ -d /opt/homebrew/opt/mysql-client/bin ] && path=(/opt/homebrew/opt/mysql-client/bin $path)
+
+# PostgreSQL client
+[ -d /opt/homebrew/opt/libpq/bin ] && path=(/opt/homebrew/opt/libpq/bin $path)
