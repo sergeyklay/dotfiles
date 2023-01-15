@@ -10,7 +10,7 @@
 ALTERNATE_EDITOR=''
 export ALTERNATE_EDITOR
 
-EDITOR='emacsclient -c -nw'
+EDITOR='emacsclient -c -nw -a ""'
 export EDITOR
 
 VISUAL="$EDITOR"
