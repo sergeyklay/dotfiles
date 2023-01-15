@@ -10,19 +10,13 @@
 ALTERNATE_EDITOR=''
 export ALTERNATE_EDITOR
 
-# See:
-# https://github.com/sergeyklay/.emacs.d/blob/master/bin/emacsclient.wrapper
-if command -v emacsclient.wrapper >/dev/null 2>&1 ; then
-  EDITOR=emacsclient.wrapper
-else
-  EDITOR='emacs -nw'
-fi
+EDITOR='emacsclient -c -nw'
 export EDITOR
 
 VISUAL="$EDITOR"
 export VISUAL
 
-# Setting alias for emacsclient.  See '.bash_profile' for more.
+# Setting alias for emacsclient.
 # shellcheck disable=SC2139
 alias ec="$EDITOR"
 
