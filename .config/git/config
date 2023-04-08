@@ -4,7 +4,7 @@
 	signingkey = C6AF1016BBDEA800
 
 [init]
-	defaultBranch = master
+	defaultBranch = main
 
 [core]
 	autocrlf = input
@@ -13,9 +13,7 @@
 	pager = less -FRSX
 	precomposeunicode = true
 	quotePath = false
-	# -c  Create a new frame instead of trying to use the current Emacs frame
-	# -nw Open a new Emacs frame on the current terminal
-	editor = emacsclient -c -nw
+	editor = vim
 
 [pull]
 	rebase = true
@@ -34,30 +32,34 @@
 	prune = true
 
 [merge]
-	tool = ediff
-	stat = true
+	tool = vimdiff
+	conflictstyle = diff3
 
 [mergetool]
+	keepBackup = false
 	prompt = false
 
-[mergetool "ediff"]
-	# -c  Create a new frame instead of trying to use the current Emacs frame
-	# -a  Editor to fallback to if the server is not running.
-	#     If EDITOR is the empty string, start Emacs in daemon mode and try connecting again
-    cmd = emacsclient -c -a \"\"  --eval \"(ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\")\"
+[mergetool "vimdiff"]
+	cmd = "vimdiff \"$LOCAL\" \"$BASE\" \"$REMOTE\" \"$MERGED\" -c '$wincmd w' -c 'wincmd J' "
+	trustExitCode = true
 
 [diff]
 	colormoved = zebra
 
 [difftool]
+	tool = vimdiff
 	prompt = false
+
+# Used when executing `git difftool ...`
+[difftool "vimdiff"]
+    cmd = "vimdiff \"$LOCAL\"  \"$REMOTE\""
 
 [alias]
 	hist = log --graph --decorate --pretty=format:\"%Cred%h%Creset | %Cgreen%ad%Creset | %s%d [%C(yellow)%an%Creset]\" --graph --date=local
 	type = cat-file -t
 	dump = cat-file -p
 	rma = !git ls-files --deleted -z | xargs -0 --no-run-if-empty git rm
-	sc = !git stash && git co master && git fetch --all && git rebase origin/master && git stash pop
+	sc = !git stash && git co main && git fetch --all && git rebase origin/main && git stash pop
 	aliases = "!git config -l | grep alias | cut -c 7-"
 	br = branch
 	st = status

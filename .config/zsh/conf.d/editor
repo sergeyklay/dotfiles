@@ -4,21 +4,11 @@
 # `-f' option is set.
 #   .zshenv -> .zprofile -> .zshrc -> [paths] -> .zlogin
 
-# Editor to fallback to if the server is not running.  If this
-# variable is empty, then start GNU Emacs in daemon mode and try
-# connecting again.
-ALTERNATE_EDITOR=''
-export ALTERNATE_EDITOR
-
-EDITOR='emacsclient -c -nw -a ""'
+EDITOR=vim
 export EDITOR
 
 VISUAL="$EDITOR"
 export VISUAL
-
-# Setting alias for emacsclient.
-# shellcheck disable=SC2139
-alias ec="$EDITOR"
 
 # More for less
 if [[ $TERM == "dumb" ]] ; then
