@@ -1,0 +1,16 @@
+# Configuration of Simple Python version management.
+#
+# This file is sourced on interactive invocations of zsh.
+#   .zshenv -> .zprofile -> .zshrc -> [rbenv] -> .zlogin
+
+if (( ! ${+RBENV_SHELL} )); then
+    if (( ${+commands[rbenv]} )); then
+        eval "$(rbenv init -)"
+    else
+        >&2 echo "command rbenv not found"
+    fi
+fi
+
+# Local Variables:
+# mode: shell-script
+# End:

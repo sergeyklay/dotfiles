@@ -35,6 +35,7 @@ configs=(
   keybindings    # Definition of keybindings
   nvm            # Node Version Manager
   pyenv          # Python Version Manager
+  rbenv          # Ruby Version Manager
 )
 
 for c in $configs ;  do
