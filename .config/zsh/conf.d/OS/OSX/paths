@@ -8,3 +8,8 @@
 
 # PostgreSQL client
 [ -d /opt/homebrew/opt/libpq/bin ] && path=(/opt/homebrew/opt/libpq/bin $path)
+
+# Coursier & Scala setup
+if [ -d "$HOME/Library/Application Support/Coursier/bin" ]; then
+  path=("$HOME/Library/Application Support/Coursier/bin" $path)
+fi
