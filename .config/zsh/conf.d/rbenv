@@ -1,4 +1,4 @@
-# Configuration of Simple Python version management.
+# Configuration of version manager tool for the Ruby.
 #
 # This file is sourced on interactive invocations of zsh.
 #   .zshenv -> .zprofile -> .zshrc -> [rbenv] -> .zlogin
