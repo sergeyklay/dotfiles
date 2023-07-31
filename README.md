@@ -125,4 +125,4 @@ Notable subdirectories:
 ## License
 
 This project is open source software licensed under the GNU General Public
-Licence version 3.  © 2014-2022 [Serghei Iakovlev](https://github.com/sergeyklay)
+License version 3.  © 2014-2022 [Serghei Iakovlev](https://github.com/sergeyklay)
