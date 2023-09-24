@@ -13,7 +13,9 @@
 	pager = less -FRSX
 	precomposeunicode = true
 	quotePath = false
-	editor = vim
+	# -c  Create a new frame instead of trying to use the current Emacs frame
+	# -nw Open a new Emacs frame on the current terminal
+	editor = emacsclient -c -nw
 
 [pull]
 	rebase = true
@@ -39,20 +41,17 @@
 	keepBackup = false
 	prompt = false
 
-[mergetool "vimdiff"]
-	cmd = "vimdiff \"$LOCAL\" \"$BASE\" \"$REMOTE\" \"$MERGED\" -c '$wincmd w' -c 'wincmd J' "
-	trustExitCode = true
+[mergetool "ediff"]
+	# -c  Create a new frame instead of trying to use the current Emacs frame
+	# -a  Editor to fallback to if the server is not running.
+	#     If EDITOR is the empty string, start Emacs in daemon mode and try connecting again
+	cmd = emacsclient -c -a \"\"  --eval \"(ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\")\"
 
 [diff]
 	colormoved = zebra
 
 [difftool]
-	tool = vimdiff
 	prompt = false
-
-# Used when executing `git difftool ...`
-[difftool "vimdiff"]
-    cmd = "vimdiff \"$LOCAL\"  \"$REMOTE\""
 
 [alias]
 	hist = log --graph --decorate --pretty=format:\"%Cred%h%Creset | %Cgreen%ad%Creset | %s%d [%C(yellow)%an%Creset]\" --graph --date=local

@@ -12,3 +12,5 @@ if [[ -z "$LESSOPEN" ]] && (( $#commands[(i)lesspipe(|.sh)] )); then
   LESSOPEN="| /usr/bin/env $commands[(i)lesspipe(|.sh)] %s 2>&-"
   export LESSOPEN
 fi
+
+alias ec='emacsclient -nw -c -a ""'
