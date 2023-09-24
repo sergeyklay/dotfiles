@@ -39,6 +39,11 @@ if command -v star >/dev/null 2>&1; then
   alias sed='gsed'
 fi
 
+# brew install m4
+if [[ -x /opt/homebrew/opt/m4/bin/m4 ]]; then
+  alias m4='/opt/homebrew/opt/m4/bin/m4'
+fi
+
 # Local Variables:
 # mode: shell-script
 # End:
