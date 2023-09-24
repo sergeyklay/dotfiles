@@ -1,4 +1,4 @@
-# Ignore files that start with a hash symbol (#)
+# Ignore files that start and end with a hash symbol (#)
 # Example: #.sqliterc#
 \#*\#
 
