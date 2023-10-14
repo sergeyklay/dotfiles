@@ -256,7 +256,7 @@ prompt_ptfancy_render () {
 
   local prompt
   local p_ssh
-  
+
   local venv
   if [[ -n "$VIRTUAL_ENV" ]]; then
     venv="[$(basename $VIRTUAL_ENV)] "
@@ -342,3 +342,7 @@ prompt_ptfancy_preview () {
 }
 
 prompt_ptfancy_setup "$@"
+
+# Local Variables:
+# mode: shell-script
+# End:

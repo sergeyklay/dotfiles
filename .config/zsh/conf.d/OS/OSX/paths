@@ -18,3 +18,7 @@ fi
 if [ -d /opt/homebrew/opt/m4/bin ]; then
   path=(/opt/homebrew/opt/m4/bin $path)
 fi
+
+# Local Variables:
+# mode: shell-script
+# End:

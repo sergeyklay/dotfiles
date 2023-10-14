@@ -1,7 +1,7 @@
 # This file contains the configuration of info.
 #
 # This file is sourced on interactive invocations of zsh.
-#   .zshenv -> .zprofile -> .zshrc -> [mans] -> .zlogin
+#   .zshenv -> .zprofile -> .zshrc -> [info] -> .zlogin
 
 # Only do this if the MANPATH variable isn't already set.
 if [ -z ${INFOPATH+x} ] || [ "$INFOPATH" = ":" ] ; then

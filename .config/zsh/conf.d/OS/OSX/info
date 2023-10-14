@@ -1,0 +1,13 @@
+# macOS-wide Zsh configuration of info paths.
+#
+# This file is sourced on interactive invocations of zsh.
+#   .zshenv -> .zprofile -> .zshrc -> [info] -> .zlogin
+
+# Vanilla Emacs
+if [ -d /Applications/Emacs.app/Contents/Resources/info ]; then
+    infopath=(/Applications/Emacs.app/Contents/Resources/info $infopath)
+fi
+
+# Local Variables:
+# mode: shell-script
+# End:
