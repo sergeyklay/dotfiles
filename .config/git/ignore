@@ -71,6 +71,7 @@ ID
 # Version managers
 .python-version
 .ruby-version
+.nvmrc
 
 # PHP stuf
 composer.phar
