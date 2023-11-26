@@ -9,9 +9,8 @@
 # fails, it falls back to sourcing `conda.sh` or directly appending the
 # Anaconda binary path to the PATH variable.
 #
-# This file is sourced on all invocations of the shell, unless the
-# `-f' option is set.
-#   .zshenv -> .zprofile -> .zshrc -> [paths] -> .zlogin
+# This file is sourced on interactive invocations of zsh.
+#   .zshenv -> .zprofile -> .zshrc -> [anaconda] -> .zlogin
 
 if [ -f $HOME/anaconda3/bin/conda ]; then
   __conda_setup="$($HOME/anaconda3/bin/conda shell.zsh hook 2> /dev/null)"
