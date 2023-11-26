@@ -1,0 +1,34 @@
+# This script configures the Anaconda environment.
+#
+# It is executed to set up the Anaconda environment for the shell,
+# ensuring that Anaconda's binaries and configurations are correctly
+# included in the PATH variable.
+#
+# The script checks if the Anaconda binary exists, and if so, it uses
+# `conda shell.zsh hook` to initialize the environment. If this approach
+# fails, it falls back to sourcing `conda.sh` or directly appending the
+# Anaconda binary path to the PATH variable.
+#
+# This file is sourced on all invocations of the shell, unless the
+# `-f' option is set.
+#   .zshenv -> .zprofile -> .zshrc -> [paths] -> .zlogin
+
+if [ -f $HOME/anaconda3/bin/conda ]; then
+  __conda_setup="$($HOME/anaconda3/bin/conda shell.zsh hook 2> /dev/null)"
+
+  if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+  else
+    if [ -f $HOME/anaconda3/etc/profile.d/conda.sh ]; then
+      source $HOME/anaconda3/etc/profile.d/conda.sh
+    else
+      [ -d $HOME/anaconda3/bin ] && path=($HOME/anaconda3/bin $path)
+    fi
+  fi
+
+  unset __conda_setup
+fi
+
+# Local Variables:
+# mode: shell-script
+# End:
