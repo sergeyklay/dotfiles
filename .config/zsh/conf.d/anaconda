@@ -12,6 +12,9 @@
 # This file is sourced on interactive invocations of zsh.
 #   .zshenv -> .zprofile -> .zshrc -> [anaconda] -> .zlogin
 
+__prefix="__unset__"
+[ -v PREFIX ] && __prefix="$PREFIX"
+
 if [ -f $HOME/anaconda3/bin/conda ]; then
   __conda_setup="$($HOME/anaconda3/bin/conda shell.zsh hook 2> /dev/null)"
 
@@ -27,6 +30,11 @@ if [ -f $HOME/anaconda3/bin/conda ]; then
 
   unset __conda_setup
 fi
+
+# The PREFIX environment variable conflicts with a lot of tools.
+# Unset it if it was not set before setting up the Anaconda environment.
+[ "$__prefix" = "__unset__" ] && unset PREFIX
+unset __prefix
 
 # Local Variables:
 # mode: shell-script
