@@ -1,0 +1,16 @@
+# Configuration of Rancher Desktop.
+#
+# This file is sourced on interactive invocations of zsh.
+#   .zshenv -> .zprofile -> .zshrc -> [rancher] -> .zlogin
+
+RANCHER_ROOT=$HOME/.rd
+
+if (( ${+RANCHER_ROOT} )) && [ -d $RANCHER_ROOT/bin ]; then
+    path=($RANCHER_ROOT/bin $path)
+fi
+
+unset RANCHER_ROOT
+
+# Local Variables:
+# mode: shell-script
+# End:

@@ -1,0 +1,12 @@
+# Configuration of Rust and its tooling.
+#
+# This file is sourced on interactive invocations of zsh.
+#   .zshenv -> .zprofile -> .zshrc -> [rust] -> .zlogin
+
+if [ -f $HOME/.cargo/env ]; then
+  source $HOME/.cargo/env
+fi
+
+# Local Variables:
+# mode: shell-script
+# End:

@@ -36,6 +36,8 @@ configs=(
   nvm            # Node Version Manager
   pyenv          # Python Version Manager
   rbenv          # Ruby Version Manager
+  rust           # Rust and its tooling
+  rancher        # Rancher Desktop
 )
 
 for c in $configs ;  do
