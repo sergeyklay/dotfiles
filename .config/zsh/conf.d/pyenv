@@ -24,6 +24,9 @@ if (( ! ${+PYENV_SHELL} )); then
         if pyenv commands | grep -q virtualenv-init ; then
             eval "$(pyenv virtualenv-init -)"
         fi
+
+        PYENV_VIRTUALENV_DISABLE_PROMPT=1
+        export PYENV_VIRTUALENV_DISABLE_PROMPT
     else
         >&2 echo "command pyenv not found"
     fi
