@@ -45,6 +45,3 @@ unset c configs
 
 # Configuration below configuration should be after `conf.d` directory
 # scanning and sourcing as it depends on some of the configuration.
-
-# Anda conda initialize.
-[ -r $ZSHDDIR/conf.d/anaconda ] && source $ZSHDDIR/conf.d/anaconda
