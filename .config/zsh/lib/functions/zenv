@@ -210,7 +210,7 @@ case $OSLONG in
 
     OSX_VERSION=$(sw_vers | grep ProductVersion | sed 's/[^0-9.]*\([0-9.]*\).*/\1/' | cut -f2)
     OSRELEASE="${OSX_VERSION%.*}"
-    echo $OSRELEASE
+    unset OSX_VERSION
     case $OSRELEASE in
       10.4)
         OSCODENAME="Tiger"
