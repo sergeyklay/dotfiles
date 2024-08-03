@@ -18,6 +18,7 @@ for defun in * ; do
     fi
   fi
 done
+unset defun
 
 popd -q
 

@@ -6,6 +6,7 @@
 for d in $ZSHDDIR/lib/prompts/*; do
   [ -d $d ] && fpath=($d $fpath)
 done
+unset d
 
 # Initialize several associative arrays to map color names to the
 # ANSI standard eight-color terminal codes.  These are used by the

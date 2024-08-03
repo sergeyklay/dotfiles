@@ -23,7 +23,7 @@ for p in $places; do
   [ -d $p ] && path=($p $path)
 done
 
-unset places
+unset p places
 
 # Include local bin
 [ -d $HOME/bin ] && path=($HOME/bin $path)

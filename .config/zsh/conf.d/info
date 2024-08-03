@@ -26,7 +26,7 @@ places=(
 for p in $places; do
   [ -d $p ] && infopath=($p $infopath)
 done
-unset places
+unset p places
 
 # OS specific aliases.
 [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/info ] && {

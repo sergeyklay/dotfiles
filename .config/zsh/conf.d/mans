@@ -31,7 +31,7 @@ places=(
 for p in $places; do
   [ -d $p ] && manpath=($p $manpath)
 done
-unset places
+unset p places
 
 # OS specific aliases.
 [ -r $ZSHDDIR/conf.d/OS/$OSSHORT/mans ] && {
