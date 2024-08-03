@@ -28,17 +28,11 @@ unset places
 # Include local bin
 [ -d $HOME/bin ] && path=($HOME/bin $path)
 
-# Cargo binaries
-[ -d $HOME/.cargo/bin ] && path=($HOME/.cargo/bin $path)
-
 # Cabal
 [ -d $HOME/.cabal/bin ] && path=($HOME/.cabal/bin $path)
 
 # Cask
 [ -d $HOME/.cask/bin ] && path=($HOME/.cask/bin $path)
-
-# Rancher
-[ -d $HOME/.rd/bin ] && path=($HOME/.rd/bin $path)
 
 # Go lang local workspace
 if [ -d $HOME/go ]; then

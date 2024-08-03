@@ -68,11 +68,6 @@ if [[ $TERM == "dumb" ]]; then
   alias less='cat'
 fi
 
-# See https://specmatic.in
-if [[ ~/.local/bin/specmatic.jar ]]; then
-  alias specmatic='java -jar ~/.local/bin/specmatic.jar'
-fi
-
 # 1password plugin for GitHub CLI
 if command -v op >/dev/null 2>&1; then
   OP_PLUGIN_ALIASES_SOURCED=1

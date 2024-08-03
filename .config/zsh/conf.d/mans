@@ -5,7 +5,7 @@
 
 # Only do this if the MANPATH variable isn't already set.
 if [ -z ${MANPATH+x} ] || [ "$MANPATH" = ":" ] ; then
-  if command -v manpath >/dev/null 2>&1; then
+  if (( ${+commands[manpath]} )); then
     # Get the original manpath, then modify it.
     MANPATH="$(manpath 2>/dev/null)"
   else
@@ -23,9 +23,9 @@ places=(
   /usr/local/share/man
   /opt/homebrew/share/man
   /opt/man
-  "$HOME/man"
-  "$HOME/share/man"
-  "$HOME/.local/share/man"
+  $HOME/man
+  $HOME/share/man
+  $HOME/.local/share/man
 )
 
 for p in $places; do
