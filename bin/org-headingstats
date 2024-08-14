@@ -35,8 +35,8 @@ Usage: org-headingstats [OPTIONS] FILE...
 Generate statistics for headings in Org-mode files.
 
 Options:
-  -t, --tag TAG       Specify a user tag for custom counting (default is "@egrep")
-  -h, --help          Display this help and exit
+  -t, --tag TAG    Specify a user tag for custom counting (default is "@egrep")
+  -h, --help       Display this help and exit
 
 Examples:
   org-headingstats *.org
@@ -51,7 +51,7 @@ EOF
 }
 
 no_files_found() {
-  echo "No files found or no Org-mode files provided as parameters." >&2
+  echo "No files found or no Org-mode files provided as parameters.\n" >&2
   print_usage
   exit 1
 }
