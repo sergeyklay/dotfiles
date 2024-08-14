@@ -1,0 +1,139 @@
+#!/bin/sh
+#
+# Copyright (C) 2024 Serghei Iakovlev <egrep@protonmail.ch>
+# Copyright (C) 2020 Karl Voit <pvimpressum@karl-voit.at>
+#
+# This file is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 3
+# of the License, or (at your option) any later version.
+#
+# This file is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <https://www.gnu.org/licenses/>.
+#
+# A shell script that derives basic statistics on one or more Org mode.
+# files.
+#
+# This script is a slightly modified and adapted version of Karl
+# Voit's script available at:
+# https://gist.github.com/novoid/6a64953c31c9e0c2cbda431c683943ce
+#
+# Version: 2.0
+
+FILES="${@}"
+USERTAG="@egrep"
+
+print_usage() {
+  cat <<EOF
+Usage: org-headingstats [OPTIONS] FILE...
+
+Generate statistics for headings in Org-mode files.
+
+Options:
+  -t, --tag TAG       Specify a user tag for custom counting (default is "@egrep")
+  -h, --help          Display this help and exit
+
+Examples:
+  org-headingstats *.org
+  find ~/org -type f -name "*.org" -print0 | xargs -0 org-headingstats
+
+Description:
+  This script counts the number of headings, tasks, and tags in the
+  provided Org-mode files.  It supports counting specific user tags
+  and separating task-related and non-task-related headings.
+
+EOF
+}
+
+no_files_found() {
+  echo "No files found or no Org-mode files provided as parameters." >&2
+  print_usage
+  exit 1
+}
+
+# Check for the help flag and print usage if found
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+  print_usage
+  exit 0
+fi
+
+# Handle the user tag option
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    -t|--tag)
+      shift
+      USERTAG="$1"
+      ;;
+    -h|--help)
+      print_usage
+      exit 0
+      ;;
+    *)
+      break
+      ;;
+  esac
+  shift
+done
+
+# Collect the remaining arguments as files
+FILES="${@}"
+
+# If no files are provided, show an error and usage
+[ "x$FILES" = "x" ] && no_files_found
+
+# Ensure files exist and are readable
+for file in $FILES; do
+  if [ ! -f "$file" ] || [ ! -r "$file" ]; then
+    echo "File not found or not readable: $file" >&2
+    exit 1
+  fi
+done
+
+# Function to count occurrences with a specific pattern
+count_pattern() {
+  grep -E "$1" $FILES | wc -l | tr -d "[:space:]"
+}
+
+# Process the statistics
+TODO=$(count_pattern '^\*+.*(TODO|NEXT)')
+STARTED=$(count_pattern '^\*+.*STARTED')
+WAITING=$(count_pattern '^\*+.*WAITING')
+CANCELLED=$(count_pattern '^\*+.*CANCELLED')
+DONE=$(count_pattern '^\*+.*DONE')
+
+TOTAL=$(wc -l ${FILES} | awk '/total/ {print $1, $2}')
+HEADINGS=$(count_pattern '^\*+')
+
+USERTAGGED=$(count_pattern "^\*+.*:${USERTAG}:.*")
+OTHERATTAGGED=$(grep -E '^\*+.*:@.+:.*' ${FILES} | grep -v "${USERTAG}" | wc -l | tr -d '[:space:]')
+
+OPEN=$(( TODO + STARTED + WAITING ))
+FINISHED=$(( CANCELLED + DONE ))
+TASKS=$(( OPEN + FINISHED ))
+NONTASKS=$(( HEADINGS - TASKS ))
+
+printf "\nStats for: %s\n\n" "$FILES"
+printf "    %d headings in %s lines\n" "$HEADINGS" "$TOTAL"
+printf "        %d task headings\n" "$TASKS"
+printf "        %d non-task headings\n" "$NONTASKS"
+printf "        %d tagged with %s\n" "$USERTAGGED" "$USERTAG"
+printf "        %d tagged with \"@.+\" but not \"%s\"\n\n" "$OTHERATTAGGED" "$USERTAG"
+
+printf "    %d open tasks:\n" "$OPEN"
+printf "        TODO:      %d\n" "$TODO"
+printf "        STARTED:   %d\n" "$STARTED"
+printf "        WAITING:   %d\n" "$WAITING"
+
+printf "\n    %d finished tasks:\n" "$FINISHED"
+printf "        CANCELLED: %d\n" "$CANCELLED"
+printf "        DONE:      %d\n" "$DONE"
+printf "\n"
+
+# Local Variables:
+# sh-basic-offset: 2
+# End:
