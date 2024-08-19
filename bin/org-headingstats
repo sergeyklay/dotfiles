@@ -103,7 +103,6 @@ count_pattern() {
 TODO=$(count_pattern '^\*+.*(TODO|NEXT)')
 STARTED=$(count_pattern '^\*+.*STARTED')
 WAITING=$(count_pattern '^\*+.*WAITING')
-SOMEDAY=$(count_pattern '^\*+.*SOMEDAY')
 CANCELED=$(count_pattern '^\*+.*CANCELED')
 DONE=$(count_pattern '^\*+.*DONE')
 
@@ -113,7 +112,7 @@ HEADINGS=$(count_pattern '^\*+')
 USERTAGGED=$(count_pattern "^\*+.*:${USERTAG}:.*")
 OTHERATTAGGED=$(grep -E '^\*+.*:@.+:.*' ${FILES} | grep -v "${USERTAG}" | wc -l | tr -d '[:space:]')
 
-OPEN=$(( TODO + STARTED + WAITING + SOMEDAY ))
+OPEN=$(( TODO + STARTED + WAITING ))
 FINISHED=$(( CANCELED + DONE ))
 TASKS=$(( OPEN + FINISHED ))
 NONTASKS=$(( HEADINGS - TASKS ))
@@ -129,7 +128,6 @@ printf "    %d open tasks:\n" "$OPEN"
 printf "        TODO:      %d\n" "$TODO"
 printf "        STARTED:   %d\n" "$STARTED"
 printf "        WAITING:   %d\n" "$WAITING"
-printf "        SOMEDAY:   %d\n" "$SOMEDAY"
 
 printf "\n    %d finished tasks:\n" "$FINISHED"
 printf "        CANCELED:  %d\n" "$CANCELED"
