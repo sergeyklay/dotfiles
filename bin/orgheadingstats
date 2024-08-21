@@ -100,7 +100,7 @@ count_pattern() {
 }
 
 # Process the statistics
-TODO=$(count_pattern '^\*+.*(TODO|NEXT)')
+TODO=$(count_pattern '^\*+.*TODO')
 STARTED=$(count_pattern '^\*+.*STARTED')
 WAITING=$(count_pattern '^\*+.*WAITING')
 CANCELED=$(count_pattern '^\*+.*CANCELED')
