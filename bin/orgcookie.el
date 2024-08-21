@@ -1,5 +1,30 @@
 #!/usr/bin/env emacs --script
 
+;; Copyright (C) 2024 Serghei Iakovlev <egrep@protonmail.ch>
+
+;; Author: Serghei Iakovlev <egrep@protonmail.ch>
+;; URL: https://github.com/sergeyklay/dotfiles/blob/master/bin/orgcookie.el
+;; Keywords: tools, misc
+
+;; This file is NOT part of Emacs.
+
+;;;; License
+
+;; This file is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU General Public License
+;; as published by the Free Software Foundation; either version 3
+;; of the License, or (at your option) any later version.
+;;
+;; This file is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this file.  If not, see <https://www.gnu.org/licenses/>.
+
+;;; Commentary:
+
 ;; This script scans through specified Org files and identifies headings
 ;; that are missing the `COOKIE_DATA` property. It outputs the file names,
 ;; line numbers, and headings with missing properties in a formatted and
@@ -9,6 +34,8 @@
 ;;
 ;;    $ chmod +x ./orgcookie.el
 ;;    $ find ~/org -type f -name "*.org" -print0 | xargs -0 ./orgcookie.el
+
+;;; Code:
 
 (defun org-heading-missing-cookie-data-p ()
   "Return t if the current heading is missing the COOKIE_DATA property.
@@ -66,3 +93,12 @@ green."
 ;; command-line arguments and process them
 (let ((files (cdr command-line-args-left)))
   (process-org-files files))
+
+;; Local Variables:
+;; fill-column: 80
+;; eval: (outline-minor-mode)
+;; eval: (display-fill-column-indicator-mode)
+;; coding: utf-8-unix
+;; End:
+
+;;; orgcookie.el ends here
