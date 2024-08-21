@@ -96,12 +96,12 @@ done
 
 # Function to count occurrences with a specific pattern
 count_pattern() {
-  grep -E "$1" $FILES | wc -l | tr -d "[:space:]"
+  grep -h -E "$1" $FILES | wc -l | tr -d "[:space:]"
 }
 
 # Function to count projects
 count_projects() {
-  grep -E "^\*+.*:project:.*" $FILES
+  grep -h -E "^\*+.*:project:.*" $FILES
 }
 
 # Process the statistics
@@ -120,7 +120,7 @@ OTHERATTAGGED=$(grep -E '^\*+.*:@.+:.*' ${FILES} | grep -v "${USERTAG}" | wc -l 
 # Project statistics
 PROJECTS=$(count_projects)
 TOTAL_PROJECTS=$(echo "$PROJECTS" | wc -l | tr -d '[:space:]')
-CLOSED_PROJECTS=$(echo "$PROJECTS" | grep -E '^\*+.*:project:.*DONE' | wc -l | tr -d '[:space:]')
+CLOSED_PROJECTS=$(echo "$PROJECTS" | grep -E '^\*+[ ]+DONE([ ]+.*)?' | wc -l | tr -d '[:space:]')
 OPEN_PROJECTS=$((TOTAL_PROJECTS - CLOSED_PROJECTS))
 
 OPEN=$(( TODO + STARTED + WAITING ))
