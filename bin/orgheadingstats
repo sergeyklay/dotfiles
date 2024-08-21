@@ -30,7 +30,7 @@ USERTAG="@serghei"
 
 print_usage() {
   cat <<EOF
-Usage: org-headingstats [OPTIONS] FILE...
+Usage: orgheadingstats [OPTIONS] FILE...
 
 Generate statistics for headings in Org-mode files.
 
@@ -39,8 +39,8 @@ Options:
   -h, --help       Display this help and exit
 
 Examples:
-  org-headingstats *.org
-  find ~/org -type f -name "*.org" -print0 | xargs -0 org-headingstats
+  orgheadingstats *.org
+  find ~/org -type f -name "*.org" -print0 | xargs -0 orgheadingstats
 
 Description:
   This script counts the number of headings, tasks, and tags in the
