@@ -38,6 +38,8 @@
 ;; Usage:
 ;;
 ;;    $ chmod +x ./orgcookie.el
+;;    $ ./orgcookie.el -- --help
+;;    $ ./orgcookie.el -- inbox.org
 ;;    $ find ~/org -type f -name "*.org" -print0 | xargs -0 ./orgcookie.el
 ;;    $ find ~/org -type f -name "*.org" -print0 | xargs -0 ./orgcookie.el -- --ignore-heading=1,2
 
@@ -119,19 +121,47 @@ Returns nil if ARG is empty, not provided, or does not contain valid numbers."
         ;; Convert cleaned string to a list of numbers
         (mapcar #'string-to-number (split-string cleaned-arg ","))))))
 
+(defun print-help ()
+  "Print help message for the orgcookie script."
+  (message "orgcookie 1.0.0")
+  (message "Serghei Iakovlev <egrep@protonmail.ch>\n")
+  (message "orgcookie scans through specified Org files and identifies headings")
+  (message "that are missing the `COOKIE_DATA` property. It outputs the file names,")
+  (message "line numbers, and headings with missing properties in the terminal.\n")
+  (message "USAGE:")
+  (message "    orgcookie -- [OPTIONS] [FILES]\n")
+  (message "EXAMPLES:")
+  (message "    orgcookie.el -- --help")
+  (message "    orgcookie.el -- inbox.org")
+  (message "    find ~/org -type f -name \"*.org\" -print0 | xargs -0 orgcookie.el")
+  (message "    find ~/org -type f -name \"*.org\" -print0 | xargs -0 orgcookie.el -- --ignore-heading=1,2\n")
+  (message "SEARCH OPTIONS:")
+  (message "    --ignore-heading=LEVELS")
+  (message "        When this flag is provided, the script will ignore headings")
+  (message "        of the specified levels when checking for COOKIE_DATA property.\n")
+  (message "        LEVELS is a comma-separated list of levels to ignore. For example")
+  (message "        --ignore-heading=1,2 will skip all first- and second-level headings.\n")
+  (message "    -h, --help")
+  (message "        Display this help message.\n"))
 
 ;; Main entry point: get the list of files and options from
 ;; command-line arguments and process them
 (let* ((ignore-arg (seq-find (lambda (arg)
-                               (string-prefix-p "--ignore-heading=" arg))
+                               (or (string-prefix-p "--ignore-heading=" arg)
+                                   (member arg '("-h" "--help"))))
                              command-line-args-left))
-       (ignore-levels (if ignore-arg
+       (ignore-levels (if (and ignore-arg
+                               (string-prefix-p "--ignore-heading=" ignore-arg))
                           (parse-ignore-levels (substring ignore-arg 16))
                         nil))
        (files (seq-remove (lambda (arg)
-                            (string-prefix-p "--ignore-heading=" arg))
+                            (or (string-prefix-p "--ignore-heading=" arg)
+                                (member arg '("-h" "--help"))))
                           (cdr command-line-args-left))))
-  (process-org-files files ignore-levels))
+  (if (or (member "--help" command-line-args-left)
+          (member "-h" command-line-args-left))
+      (print-help)
+    (process-org-files files ignore-levels)))
 
 ;; Local Variables:
 ;; fill-column: 80
