@@ -141,8 +141,9 @@ Returns nil if ARG is empty, not provided, or does not contain valid numbers."
   (message "        of the specified levels when checking for COOKIE_DATA property.\n")
   (message "        LEVELS is a comma-separated list of levels to ignore. For example")
   (message "        --ignore-heading=1,2 will skip all first- and second-level headings.\n")
+  (message "OUTPUT OPTIONS:")
   (message "    -h, --help")
-  (message "        Display this help message.\n"))
+  (message "        This flag prints the help output for orgcookie.\n"))
 
 ;; Main entry point: get the list of files and options from
 ;; command-line arguments and process them
