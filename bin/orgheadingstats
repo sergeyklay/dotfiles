@@ -99,6 +99,11 @@ count_pattern() {
   grep -E "$1" $FILES | wc -l | tr -d "[:space:]"
 }
 
+# Function to count projects
+count_projects() {
+  grep -E "^\*+.*:project:.*" $FILES
+}
+
 # Process the statistics
 TODO=$(count_pattern '^\*+.*TODO')
 STARTED=$(count_pattern '^\*+.*STARTED')
@@ -111,6 +116,12 @@ HEADINGS=$(count_pattern '^\*+')
 
 USERTAGGED=$(count_pattern "^\*+.*:${USERTAG}:.*")
 OTHERATTAGGED=$(grep -E '^\*+.*:@.+:.*' ${FILES} | grep -v "${USERTAG}" | wc -l | tr -d '[:space:]')
+
+# Project statistics
+PROJECTS=$(count_projects)
+TOTAL_PROJECTS=$(echo "$PROJECTS" | wc -l | tr -d '[:space:]')
+CLOSED_PROJECTS=$(echo "$PROJECTS" | grep -E '^\*+.*:project:.*DONE' | wc -l | tr -d '[:space:]')
+OPEN_PROJECTS=$((TOTAL_PROJECTS - CLOSED_PROJECTS))
 
 OPEN=$(( TODO + STARTED + WAITING ))
 FINISHED=$(( CANCELED + DONE ))
@@ -125,13 +136,19 @@ printf "        %d tagged with %s\n" "$USERTAGGED" "$USERTAG"
 printf "        %d tagged with \"@.+\" but not \"%s\"\n\n" "$OTHERATTAGGED" "$USERTAG"
 
 printf "    %d open tasks:\n" "$OPEN"
-printf "        TODO:      %d\n" "$TODO"
-printf "        STARTED:   %d\n" "$STARTED"
-printf "        WAITING:   %d\n" "$WAITING"
+printf "        TODO:           %5d\n" "$TODO"
+printf "        STARTED:        %5d\n" "$STARTED"
+printf "        WAITING:        %5d\n" "$WAITING"
 
 printf "\n    %d finished tasks:\n" "$FINISHED"
-printf "        CANCELED:  %d\n" "$CANCELED"
-printf "        DONE:      %d\n" "$DONE"
+printf "        CANCELED:       %5d\n" "$CANCELED"
+printf "        DONE:           %5d\n" "$DONE"
+printf "\n"
+
+printf "\n    Project statistics:\n"
+printf "        Total projects: %5d\n" "$TOTAL_PROJECTS"
+printf "        Open projects:  %5d\n" "$OPEN_PROJECTS"
+printf "        Closed projects:%5d\n" "$CLOSED_PROJECTS"
 printf "\n"
 
 # Local Variables:
