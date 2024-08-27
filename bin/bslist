@@ -30,9 +30,20 @@
 #
 #   $ bslist
 #
-# Example Output:
-# A  com.apple.dock.server
-# D  com.apple.udb.system-push
+# Typical output is:
+#
+#   A  com.apple.finder.ServiceProvider
+#   D  com.apple.udb.system-push
+#   D  com.apple.systemprofiler
+#   A  com.apple.systemuiserver.ServiceProvider
+#   A  com.apple.dock.server
+#   [...]
+#
+# where:
+#
+# - the first column is the bootstrap service state (A for "Active"
+#   and D "On-demand")
+# - the second column is the name of the bootstrap service
 
 if [ $(id -u) -eq 0 ]; then
     domain=system
