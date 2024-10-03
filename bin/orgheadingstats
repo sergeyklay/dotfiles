@@ -26,7 +26,7 @@
 # Version: 2.0
 
 FILES="${@}"
-USERTAG="@serghei"
+USERTAG="@Serghei"
 
 print_usage() {
   cat <<EOF
@@ -35,7 +35,7 @@ Usage: orgheadingstats [OPTIONS] FILE...
 Generate statistics for headings in Org-mode files.
 
 Options:
-  -t, --tag TAG    Specify a user tag for custom counting (default is "@serghei")
+  -t, --tag TAG    Specify a user tag for custom counting (default is "@Serghei")
   -h, --help       Display this help and exit
 
 Examples:
