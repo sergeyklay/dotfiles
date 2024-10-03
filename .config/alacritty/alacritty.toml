@@ -1,1 +1,51 @@
-live_config_reload = true
+[env]
+TERM = "xterm-256color"
+
+[window]
+decorations = "buttonless"
+opacity = 0.9
+padding.x = 10
+padding.y = 10
+
+[font]
+size = 13.0
+
+[font.bold]
+family = "JetBrainsMono Nerd Font"
+style = "Heavy"
+
+[font.bold_italic]
+family = "JetBrainsMono Nerd Font"
+style = "Heavy Italic"
+
+[font.italic]
+family = "JetBrainsMono Nerd Font"
+style = "Medium Italic"
+
+[font.normal]
+family = "JetBrainsMono Nerd Font"
+style = "Medium"
+
+[colors.primary]
+background = "#0F111A"
+foreground = "#8F93A2"
+
+[colors.normal]
+black = "#0F111A"
+red = "#FF5370"
+green = "#99C794"
+yellow = "#C4E88D"
+blue = "#82AAFF"
+magenta = "#C792EA"
+cyan = "#89DDFF"
+white = "#464B5D"
+
+[colors.bright]
+black = "#0F111A"
+red = "#FF5370"
+green = "#99C794"
+yellow = "#C4E88D"
+blue = "#82AAFF"
+magenta = "#C792EA"
+cyan = "#89DDFF"
+white = "#8F93A2"
