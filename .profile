@@ -156,14 +156,23 @@ if ! command -v add_infopath >/dev/null 2>&1; then
   # Add a directory to MANPATH if it's not already present.
   add_infopath() {
     if ! echo "$INFOPATH" | grep -q -E "(^|:)$1($|:)"; then
-      if [ "$2" = "after" ]; then
-        INFOPATH="$INFOPATH:$1"
+      if [ "$INFOPATH" = "" ]; then
+        INFOPATH="$1"
       else
-        INFOPATH="$1:$INFOPATH"
+        if [ "$2" = "after" ]; then
+          INFOPATH="$INFOPATH:$1"
+        else
+          INFOPATH="$1:$INFOPATH"
+        fi
       fi
     fi
     export INFOPATH
   }
+fi
+
+# Only do this if the INFOPATH variable isn't already set.
+if [ -z "${INFOPATH+x}" ] || [ "$INFOPATH" = ":" ]; then
+  INOPATH=""
 fi
 
 if [ -d /opt/homebrew/share/info ]; then
@@ -173,6 +182,13 @@ fi
 if [ -d /Applications/Emacs.app/Contents/Resources/info ]; then
   add_infopath /Applications/Emacs.app/Contents/Resources/info
 fi
+
+# --------------------------------------------------------------------
+# Setup Locales
+# --------------------------------------------------------------------
+
+LANG=en_US.UTF-8;   export LANG
+LC_ALL=en_US.UTF-8; export LC_ALL
 
 # Local Variables:
 # mode: sh
