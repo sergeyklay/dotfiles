@@ -48,7 +48,12 @@ if [ -n "$BASH_VERSION" ]; then
   fi
 fi
 
+# --------------------------------------------------------------------
+# Setup PATHs
+# --------------------------------------------------------------------
+
 if ! command -v pathmunge >/dev/null 2>&1; then
+  # Add a directory to PATH if it's not already present.
   pathmunge() {
     if ! echo "$PATH" | grep -q -E "(^|:)$1($|:)" ; then
       if [ "$2" = "after" ]; then
@@ -60,8 +65,6 @@ if ! command -v pathmunge >/dev/null 2>&1; then
     export PATH
   }
 fi
-
-# Setup PATHs
 
 if [ -d "/opt/homebrew/bin" ]; then
   pathmunge "/opt/homebrew/bin"
@@ -111,6 +114,38 @@ fi
 # Should be last, so that I can override any binary path
 if [ -d "$HOME/.local/bin" ]; then
   pathmunge "$HOME/.local/bin"
+fi
+
+# --------------------------------------------------------------------
+# Setup MANPATHs
+# --------------------------------------------------------------------
+
+if ! command -v manpathmunge >/dev/null 2>&1; then
+  # Add a directory to MANPATH if it's not already present.
+  manpathmunge() {
+    if ! echo "$MANPATH" | grep -q -E "(^|:)$1($|:)"; then
+      if [ "$2" = "after" ]; then
+        MANPATH="$MANPATH:$1"
+      else
+        MANPATH="$1:$MANPATH"
+      fi
+    fi
+    export MANPATH
+  }
+fi
+
+# Only do this if the MANPATH variable isn't already set.
+if [ -z "${MANPATH+x}" ] || [ "$MANPATH" = ":" ]; then
+  if command -v manpath >/dev/null 2>&1; then
+    # Get the original manpath, then modify it bellow
+    MANPATH="$(manpath 2>/dev/null)"
+  else
+    MANPATH=""
+  fi
+fi
+
+if [ -d "$HOME/share/man" ]; then
+  manpathmunge "$HOME/share/man"
 fi
 
 # Local Variables:
