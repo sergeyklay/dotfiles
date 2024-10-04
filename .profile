@@ -52,9 +52,9 @@ fi
 # Setup PATHs
 # --------------------------------------------------------------------
 
-if ! command -v pathmunge >/dev/null 2>&1; then
+if ! command -v add_path >/dev/null 2>&1; then
   # Add a directory to PATH if it's not already present.
-  pathmunge() {
+  add_path() {
     if ! echo "$PATH" | grep -q -E "(^|:)$1($|:)" ; then
       if [ "$2" = "after" ]; then
         PATH="$PATH:$1"
@@ -67,23 +67,23 @@ if ! command -v pathmunge >/dev/null 2>&1; then
 fi
 
 if [ -d "/opt/homebrew/bin" ]; then
-  pathmunge "/opt/homebrew/bin"
+  add_path "/opt/homebrew/bin"
 fi
 
 if [ -d /opt/homebrew/opt/mysql-client/bin ]; then
-  pathmunge /opt/homebrew/opt/mysql-client/bin
+  add_path /opt/homebrew/opt/mysql-client/bin
 fi
 
 if [ -d /opt/homebrew/opt/libpq/bin ]; then
-  pathmunge /opt/homebrew/opt/libpq/bin
+  add_path /opt/homebrew/opt/libpq/bin
 fi
 
 if [ -d "$HOME/Library/Application Support/Coursier/bin" ]; then
-  pathmunge "$HOME/Library/Application Support/Coursier/bin"
+  add_path "$HOME/Library/Application Support/Coursier/bin"
 fi
 
 if [ -d /opt/homebrew/opt/m4/bin ]; then
-  pathmunge /opt/homebrew/opt/m4/bin
+  add_path /opt/homebrew/opt/m4/bin
 fi
 
 if [ -d "$HOME/go" ]; then
@@ -95,34 +95,34 @@ if [ -d "$HOME/go" ]; then
     # in "$GOPATH/bin"
     GOBIN="$GOPATH/bin"
     export GOBIN
-    pathmunge "$GOBIN"
+    add_path "$GOBIN"
   }
 fi
 
 if [ -d "$HOME/.cabal/bin" ]; then
-  pathmunge "$HOME/.cabal/bin"
+  add_path "$HOME/.cabal/bin"
 fi
 
 if [ -d "$HOME/.cask/bin" ]; then
-  pathmunge "$HOME/.cask/bin"
+  add_path "$HOME/.cask/bin"
 fi
 
 if [ -d "$HOME/bin" ]; then
-  pathmunge "$HOME/bin"
+  add_path "$HOME/bin"
 fi
 
 # Should be last, so that I can override any binary path
 if [ -d "$HOME/.local/bin" ]; then
-  pathmunge "$HOME/.local/bin"
+  add_path "$HOME/.local/bin"
 fi
 
 # --------------------------------------------------------------------
 # Setup MANPATHs
 # --------------------------------------------------------------------
 
-if ! command -v manpathmunge >/dev/null 2>&1; then
+if ! command -v add_manpath >/dev/null 2>&1; then
   # Add a directory to MANPATH if it's not already present.
-  manpathmunge() {
+  add_manpath() {
     if ! echo "$MANPATH" | grep -q -E "(^|:)$1($|:)"; then
       if [ "$2" = "after" ]; then
         MANPATH="$MANPATH:$1"
@@ -145,7 +145,33 @@ if [ -z "${MANPATH+x}" ] || [ "$MANPATH" = ":" ]; then
 fi
 
 if [ -d "$HOME/share/man" ]; then
-  manpathmunge "$HOME/share/man"
+  add_manpath "$HOME/share/man"
+fi
+
+# --------------------------------------------------------------------
+# Setup INFOPATHs
+# --------------------------------------------------------------------
+
+if ! command -v add_infopath >/dev/null 2>&1; then
+  # Add a directory to MANPATH if it's not already present.
+  add_infopath() {
+    if ! echo "$INFOPATH" | grep -q -E "(^|:)$1($|:)"; then
+      if [ "$2" = "after" ]; then
+        INFOPATH="$INFOPATH:$1"
+      else
+        INFOPATH="$1:$INFOPATH"
+      fi
+    fi
+    export INFOPATH
+  }
+fi
+
+if [ -d /opt/homebrew/share/info ]; then
+  add_infopath /opt/homebrew/share/info
+fi
+
+if [ -d /Applications/Emacs.app/Contents/Resources/info ]; then
+  add_infopath /Applications/Emacs.app/Contents/Resources/info
 fi
 
 # Local Variables:
