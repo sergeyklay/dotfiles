@@ -1,11 +1,19 @@
+[shell]
+program = "/opt/homebrew/bin/bash"
+args = ["-l"]
+
 [env]
 TERM = "xterm-256color"
 
 [window]
-decorations = "buttonless"
+dynamic_padding = false
+dynamic_title = true
 opacity = 0.9
-padding.x = 10
-padding.y = 10
+startup_mode = "Maximized"
+
+[window.padding]
+x = 10
+y = 10
 
 [font]
 size = 13.0
@@ -27,25 +35,25 @@ family = "JetBrainsMono Nerd Font"
 style = "Medium"
 
 [colors.primary]
-background = "#0F111A"
-foreground = "#8F93A2"
+background = "#15191F"
+foreground = "#DCDCDC"
 
 [colors.normal]
-black = "#0F111A"
-red = "#FF5370"
-green = "#99C794"
-yellow = "#C4E88D"
-blue = "#82AAFF"
-magenta = "#C792EA"
-cyan = "#89DDFF"
-white = "#464B5D"
+black = "#15191E"
+red = "#B43C2A"
+green = "#00C200"
+yellow = "#C7C400"
+blue = "#2744C7"
+magenta = "#C040BE"
+cyan = "#00C5C7"
+white = "#C7C7C7"
 
 [colors.bright]
-black = "#0F111A"
-red = "#FF5370"
-green = "#99C794"
-yellow = "#C4E88D"
-blue = "#82AAFF"
-magenta = "#C792EA"
-cyan = "#89DDFF"
-white = "#8F93A2"
+black = "#686868"
+red = "#DD7975"
+green = "#58E790"
+yellow = "#ECE100"
+blue = "#A7ABF2"
+magenta = "#E17EE1"
+cyan = "#60FDFF"
+white = "#FFFFFF"
