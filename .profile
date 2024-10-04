@@ -13,18 +13,104 @@
 # You should have received a copy of the GNU General Public License
 # along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
-# User wide environment and startup programs, for login setup.
+# --------------------------------------------------------------------
+# User-specific environment and startup programs configuration.
 #
-# This file is sourced by the first for login shells.
+# This file is executed for login shells only. It serves as a
+# universal profile setup for defining environment variables, PATH
+# adjustments, and system-wide startup configurations.
+#
+# Recommended Usage:
+# - Define global environment variables (e.g., PATH, LANG).
+# - Setup PATH for system and user-specific binaries.
+# - Initialize user agents or services (e.g., ssh-agent, gpg-agent).
+#
+# Restrictions:
+# - Avoid interactive commands (e.g., aliases, functions meant for
+#   interactive use).
+# - Do not place shell-specific configurations here (e.g., bash
+#   aliases should go in ~/.bashrc).
+# - Avoid commands that produce output, to prevent side effects in
+#   non-interactive contexts.
+#
+# Notes:
+# - ~/.profile should be compatible with any POSIX-compliant shell
+#   (sh, bash, etc.).
+# - When used with Bash, this file often sources ~/.bashrc to maintain
+#   a unified environment.
+# --------------------------------------------------------------------
 
-# shellcheck shell=bash
-
-echo "=== .profile ==="
+# shellcheck shell=sh
 
 if [ -n "$BASH_VERSION" ]; then
   if [ -f "$HOME/.bashrc" ]; then
     . "$HOME/.bashrc"
   fi
+fi
+
+if ! command -v pathmunge >/dev/null 2>&1; then
+  pathmunge() {
+    if ! echo "$PATH" | grep -q -E "(^|:)$1($|:)" ; then
+      if [ "$2" = "after" ]; then
+        PATH="$PATH:$1"
+      else
+        PATH="$1:$PATH"
+      fi
+    fi
+    export PATH
+  }
+fi
+
+# Setup PATHs
+
+if [ -d "/opt/homebrew/bin" ]; then
+  pathmunge "/opt/homebrew/bin"
+fi
+
+if [ -d /opt/homebrew/opt/mysql-client/bin ]; then
+  pathmunge /opt/homebrew/opt/mysql-client/bin
+fi
+
+if [ -d /opt/homebrew/opt/libpq/bin ]; then
+  pathmunge /opt/homebrew/opt/libpq/bin
+fi
+
+if [ -d "$HOME/Library/Application Support/Coursier/bin" ]; then
+  pathmunge "$HOME/Library/Application Support/Coursier/bin"
+fi
+
+if [ -d /opt/homebrew/opt/m4/bin ]; then
+  pathmunge /opt/homebrew/opt/m4/bin
+fi
+
+if [ -d "$HOME/go" ]; then
+  GOPATH="$HOME/go"
+  export GOPATH
+
+  [ -d $GOPATH/bin ] && {
+    # Put binary files created using "go install" command
+    # in "$GOPATH/bin"
+    GOBIN="$GOPATH/bin"
+    export GOBIN
+    pathmunge "$GOBIN"
+  }
+fi
+
+if [ -d "$HOME/.cabal/bin" ]; then
+  pathmunge "$HOME/.cabal/bin"
+fi
+
+if [ -d "$HOME/.cask/bin" ]; then
+  pathmunge "$HOME/.cask/bin"
+fi
+
+if [ -d "$HOME/bin" ]; then
+  pathmunge "$HOME/bin"
+fi
+
+# Should be last, so that I can override any binary path
+if [ -d "$HOME/.local/bin" ]; then
+  pathmunge "$HOME/.local/bin"
 fi
 
 # Local Variables:

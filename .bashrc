@@ -23,8 +23,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-echo "=== .bashrc ==="
-
 # Local Variables:
 # mode: sh
 # End:

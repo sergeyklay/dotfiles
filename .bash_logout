@@ -17,8 +17,8 @@
 
 # shellcheck shell=bash
 
-# Clear the screen on logout to prevent information leaks, if not already
-# set as an exit trap elsewhere
+# Clear the screen on logout to prevent information leaks, if not
+# already set as an exit trap elsewhere
 [ -n "$PS1" ] && clear
 
 # Local Variables:
