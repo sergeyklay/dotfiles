@@ -191,12 +191,10 @@ __prompt_command() {
   local exit_code="$?"
 
   local rcol=''
-  local txtred=''
-  local txtpur=''
-  local txtcyn=''
   local bldylw=''
   local bldblu=''
   local bldblk=''
+  local bldred=''
 
   if [ "${COLORTERM:-}" = "truecolor" ]       \
        || [ "${COLORTERM:-}" = "24bit" ]      \
@@ -205,12 +203,10 @@ __prompt_command() {
        || [ "$TERM" = "xterm-256color" ]      \
        || tput setaf 1 >/dev/null 2>&1; then
     rcol='\[\e[0m\]'
-    txtred='\[\e[0;31m\]'
-    txtpur='\[\e[0;35m\]'
-    txtcyn='\[\e[0;36m\]'
     bldylw='\[\e[1;33m\]'
     bldblu='\[\e[1;34m\]'
     bldblk='\[\e[1;30m\]'
+    bldred='\[\e[1;31m\]'
   fi
 
   PS1="${bldblk}"
@@ -218,7 +214,7 @@ __prompt_command() {
   PS1+="${rcol}"
 
   if [ $exit_code != 0 ]; then
-    PS1+=" [${txtred}${exit_code}${rcol}]"
+    PS1+=" [${bldred}${exit_code}${rcol}]"
   fi
 
   PS1+=" ${bldblu}"
