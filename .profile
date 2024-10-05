@@ -80,10 +80,6 @@ if [ "$(uname)" = "Darwin" ]; then
   if [ -d "$HOME/Library/Application Support/Coursier/bin" ]; then
     add_path "$HOME/Library/Application Support/Coursier/bin"
   fi
-
-  if [ -d /opt/homebrew/opt/m4/bin ]; then
-    add_path /opt/homebrew/opt/m4/bin
-  fi
 fi
 
 if [ -d "$HOME/go" ]; then
@@ -141,6 +137,12 @@ if [ -z "${MANPATH+x}" ] || [ "$MANPATH" = ":" ]; then
     MANPATH="$(manpath 2>/dev/null)"
   else
     MANPATH=""
+  fi
+fi
+
+if [ "$(uname)" = "Darwin" ]; then
+  if [ -d /Library/Apple/usr/share/man ]; then
+    add_manpath /Library/Apple/usr/share/man
   fi
 fi
 
