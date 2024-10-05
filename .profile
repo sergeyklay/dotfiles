@@ -247,6 +247,59 @@ if [ -z "$LESSOPEN" ]; then
 fi
 
 # --------------------------------------------------------------------
+# Setup GnuPG
+# --------------------------------------------------------------------
+
+GNUPGHOME=${GNUPGHOME:-$HOME/.gnupg}
+export GNUPGHOME
+
+# Enable gpg-agent if it is not running
+if command -v gpgconf >/dev/null 2>&1 && \
+    command -v gpg-agent >/dev/null 2>&1; then
+  if [ -z "$(pgrep -x gpg-agent)" ] || \
+       [ ! -S "$(gpgconf --list-dirs agent-socket)" ]; then
+    gpg-agent \
+      --homedir "$GNUPGHOME" \
+      --daemon \
+      --use-standard-socket >/dev/null 2>&1
+  fi
+fi
+
+# Update GPG_TTY.  See 'man 1 gpg-agen'.
+GPG_TTY="${TTY:-$(tty)}"
+export GPG_TTY
+
+# Using a PGP key for SSH authentication if it's enabled.
+#
+# Once gpg-agent is running the list of approved keys
+# should be stored in the $GNUPGHOME/sshcontrol file
+# (unless you have your GPG key on a keycard).  Consider
+# the following example to see the general idea:
+#
+#    $ rm ~/.gnupg/sshcontrol
+#    $ ssh-add -l
+#    The agent has no identities.
+#    $ echo YOUR_KEYGRIP > ~/.gnupg/sshcontrol
+#    $ ssh-add -l
+#    4096 SHA256:YOUR_KEY_HERE (none) (RSA)
+#
+# Note: This feature requires a key with the Authentication
+# capability.  To check key copability see:
+#
+#    $ grep '\[A]' <(gpg -K your@id.here)
+#
+if command -v gpgconf >/dev/null 2>&1; then
+  if [ "$(gpgconf --list-options gpg-agent 2>/dev/null | \
+    grep '^enable-ssh-support:' | cut -d: -f10)" = "1" ]; then
+    unset SSH_AGENT_PID
+    if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" != "$$" ]; then
+      SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+      export SSH_AUTH_SOCK
+    fi
+  fi
+fi
+
+# --------------------------------------------------------------------
 # Setup interactive shell (if needed)
 # --------------------------------------------------------------------
 
