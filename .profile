@@ -60,24 +60,30 @@ if ! command -v add_path >/dev/null 2>&1; then
   }
 fi
 
-if [ -d "/opt/homebrew/bin" ]; then
-  add_path "/opt/homebrew/bin"
-fi
+if [ "$(uname)" = "Darwin" ]; then
+  if [ -d /opt/homebrew/bin ]; then
+    add_path /opt/homebrew/bin
+  fi
 
-if [ -d /opt/homebrew/opt/mysql-client/bin ]; then
-  add_path /opt/homebrew/opt/mysql-client/bin
-fi
+  if [ -d /opt/homebrew/opt/coreutils/libexec/gnubin ]; then
+    add_path /opt/homebrew/opt/coreutils/libexec/gnubin
+  fi
 
-if [ -d /opt/homebrew/opt/libpq/bin ]; then
-  add_path /opt/homebrew/opt/libpq/bin
-fi
+  if [ -d /opt/homebrew/opt/mysql-client/bin ]; then
+    add_path /opt/homebrew/opt/mysql-client/bin
+  fi
 
-if [ -d "$HOME/Library/Application Support/Coursier/bin" ]; then
-  add_path "$HOME/Library/Application Support/Coursier/bin"
-fi
+  if [ -d /opt/homebrew/opt/libpq/bin ]; then
+    add_path /opt/homebrew/opt/libpq/bin
+  fi
 
-if [ -d /opt/homebrew/opt/m4/bin ]; then
-  add_path /opt/homebrew/opt/m4/bin
+  if [ -d "$HOME/Library/Application Support/Coursier/bin" ]; then
+    add_path "$HOME/Library/Application Support/Coursier/bin"
+  fi
+
+  if [ -d /opt/homebrew/opt/m4/bin ]; then
+    add_path /opt/homebrew/opt/m4/bin
+  fi
 fi
 
 if [ -d "$HOME/go" ]; then
@@ -169,12 +175,14 @@ if [ -z "${INFOPATH+x}" ] || [ "$INFOPATH" = ":" ]; then
   INOPATH=""
 fi
 
-if [ -d /opt/homebrew/share/info ]; then
-  add_infopath /opt/homebrew/share/info
-fi
+if [ "$(uname)" = "Darwin" ]; then
+  if [ -d /opt/homebrew/share/info ]; then
+    add_infopath /opt/homebrew/share/info
+  fi
 
-if [ -d /Applications/Emacs.app/Contents/Resources/info ]; then
-  add_infopath /Applications/Emacs.app/Contents/Resources/info
+  if [ -d /Applications/Emacs.app/Contents/Resources/info ]; then
+    add_infopath /Applications/Emacs.app/Contents/Resources/info
+  fi
 fi
 
 # --------------------------------------------------------------------
