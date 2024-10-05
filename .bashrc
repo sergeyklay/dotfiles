@@ -23,25 +23,74 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-for file in ~/.aliases; do
-  [ -r "$file" ] && [ -f "$file" ] && source "$file"
-done
-unset file
+# This means ~/.profile was not sourced
+if ! shopt -q login_shell; then
+  # shellcheck disable=SC1090
+  . ~/.profile
+fi
 
-# Autocorrect typos in path names when using `cd`.
-shopt -s cdspell
+# Auto-fix minor typos in interactive use of 'cd'
+shopt -q -s cdspell
+
+# Bash can automatically prepend cd when entering just a path in
+# the shell
+shopt -q -s autocd
 
 # Case-insensitive globbing (used in pathname expansion).
 shopt -s nocaseglob
 
+# Check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS
+shopt -q -s checkwinsize
+
+# Don't let Ctrl-D exit the shell
+set -o ignoreeof
+
+# Immediate notification of background job termination
+set -o notify
+
+# --------------------------------------------------------------------
+# History
+# --------------------------------------------------------------------
+
+# Append to the history file, don't overwrite it
+shopt -s histappend
+
 # Bash attempts to save all lines of a multiple-line command in the
 # same history entry.  This allows easy re-editing of multi-line
 # commands.
-shopt -s cmdhist
+shopt -q -s cmdhist
 
-# Check the window size after each command and, if necessary,
-# update the values of lines and columns.
-shopt -s checkwinsize
+# See man -P 'less -rp HISTCONTROL' bash
+HISTCONTROL="erasedups:ignoreboth"
+
+# The number of commands in history stack in memory
+HISTSIZE=5000
+
+# Maximum number of history lines
+HISTFILESIZE=10000
+
+# For the protection and ability for future analyzing
+HISTTIMEFORMAT="%h %d %H:%M:%S "
+
+# Omit:
+#  &            duplicates
+#  [ ]        lines starting with spaces
+#  history *    history command
+#  cd -*/cd +*  navigation on directory stack
+HISTIGNORE='&:[ ]*:history *:cd -*[0-9]*:cd +*[0-9]*'
+
+# Save commands immediately after use to have shared history
+# between Bash sessions.
+#  'history -a'  append the current history to the history file
+#  'history -c'  clear the history list
+#  'history -r'  read the history file and append its contents to
+#                the history list.
+PROMPT_COMMAND="history -a; history -c; history -r; ${PROMPT_COMMAND}"
+
+if [ -f ~/.config/dirstack.sh ]; then
+  . ~/.config/dirstack.sh
+fi
 
 # --------------------------------------------------------------------
 # Bash completion
@@ -124,6 +173,14 @@ unset colors_support
 # dircolors.
 if [ -f ~/.dircolors ] && command -v dircolors >/dev/null 2>&1; then
     eval "$(dircolors -b ~/.dircolors)"
+fi
+
+# --------------------------------------------------------------------
+# Setup aliases
+# --------------------------------------------------------------------
+
+if [ -f ~/.aliases ]; then
+  . ~/.aliases
 fi
 
 # --------------------------------------------------------------------
