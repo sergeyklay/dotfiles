@@ -1,0 +1,116 @@
+/# This file controls the behaviour of line input editing for
+# programs that use the GNU Readline library.  Existing
+# programs include FTP, Bash, and GDB.
+#
+# You can re-read the inputrc file with C-x C-r.
+# Lines beginning with '#' are comments.
+#
+# For the reference see terminfo(5).  Alo see:
+# -   showkey -a
+# -   xmodmap
+# -   infocmp -cL
+
+# First, include any system-wide bindings and variable
+# assignments from /etc/inputrc
+# (fails silently if file doesn't exist)
+$include /etc/inputrc
+
+set editing-mode emacs
+
+# Two escapes clear command line.
+"\e\e": "\C-a\C-k"
+
+# Arrow keys in ANSI mode
+"\M-[D": backward-char
+"\M-[C": forward-char
+"\M-[A": previous-history
+"\M-[B": next-history
+
+# History search
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+# File rename helper
+"\em": "\C-w\C-y\C-y"
+
+# See: https://unix.stackexchange.com/a/11943/50400
+"\ew": copy-region-as-kill
+
+# Macros that are convenient for shell interaction
+$if Bash
+  # From the readline documentation (info "rluserman")
+  # Macros that are convenient for shell interaction edit the path
+  "\C-xp": "PATH=${PATH}\e\C-e\C-a\ef\C-f"
+
+  # prepare to type a quoted word --
+  # insert open and close double quotes
+  # and move to just after the open quote
+  "\C-x\"": "\"\"\C-b"
+
+  # insert a backslash (testing backslash escapes
+  # in sequences and macros)
+  "\C-x\\": "\\"
+
+  # Quote the current or previous word
+  "\C-xq": "\eb\"\ef\""
+
+  # Add a binding to refresh the line, which is unbound
+  "\C-xr": redraw-current-line
+
+  # Edit variable on current line.
+  "\M-\C-v": "\C-a\C-k$\C-y\M-\C-e\C-a\C-y="
+$endif
+
+# Completed dir names have a slash appended
+set mark-directories on
+
+# Completed names which are symlinks to dirs have a slash appended
+set mark-symlinked-directories on
+
+# Show extra information when completing (like `ls -F`)
+set visible-stats on
+
+set colored-completion-prefix on
+
+# Displays possible completions using different colors
+# to indicate their file type
+set colored-stats on
+
+# Don't strip characters to 7 bits when reading
+set input-meta on
+
+# Cycle through ambiguous completions instead of list
+"\C-i": menu-complete
+
+# Assigning \C-j to any functions causes a slow startup for mc.
+# See: https://midnight-commander.org/ticket/3580#comment:9
+# "\C-j": menu-complete-backward
+
+# Do not use bell at all
+set bell-style none
+
+# List possible completions instead of ringing bell
+set show-all-if-ambiguous on
+
+# Be more intelligent when autocompleting by also looking at the text after
+# the cursor. For example, when the current line is "cd ~/src/mozil", and
+# the cursor is on the "z", pressing Tab will not autocomplete it to "cd
+# ~/src/mozillail", but to "cd ~/src/mozilla". (This is supported by the
+# Readline used by Bash 4.)
+set skip-completed-text on
+
+# Show all completions at once
+set page-completions off
+
+# if there are more than 150 possible completions for
+# a word, ask the user if he wants to see all of them
+set completion-query-items 150
+
+# Local Variables:
+# mode: prog
+# comment-start: "#"
+# comment-end: ""
+# comment-start-skip: "\\(#\\)\\s-*"
+# indent-tabs-mode: nil
+# tab-width: 2
+# End:
