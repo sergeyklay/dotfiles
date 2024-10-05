@@ -172,11 +172,21 @@ fi
 unset colors_support
 
 # Enable color support of ls and also add handy aliases
-if command -v dircolors >/dev/null 2>&1; then
-  if [ -f ~/.dircolors ]; then
-    eval "$(dircolors -b ~/.dircolors)"
-  else
-    eval "$(dircolors -b)"
+if [ "$(uname)" = "Darwin" ]; then
+  if command -v dircolors >/dev/null 2>&1; then
+    if [ -f ~/.dircolors ]; then
+      eval "$(dircolors -b ~/.dircolors)"
+    else
+      eval "$(dircolors -b)"
+    fi
+  fi
+else
+  if command -v gdircolors >/dev/null 2>&1; then
+    if [ -f ~/.dircolors ]; then
+      eval "$(gdircolors -b ~/.dircolors)"
+    else
+      eval "$(gdircolors -b)"
+    fi
   fi
 fi
 

@@ -65,10 +65,6 @@ if [ "$(uname)" = "Darwin" ]; then
     add_path /opt/homebrew/bin
   fi
 
-  if [ -d /opt/homebrew/opt/coreutils/libexec/gnubin ]; then
-    add_path /opt/homebrew/opt/coreutils/libexec/gnubin
-  fi
-
   if [ -d /opt/homebrew/opt/mysql-client/bin ]; then
     add_path /opt/homebrew/opt/mysql-client/bin
   fi
