@@ -34,8 +34,9 @@ shopt -s cdspell
 # Case-insensitive globbing (used in pathname expansion).
 shopt -s nocaseglob
 
-# Bash attempts to save all lines of a multiple-line command in the same history entry.
-# This allows easy re-editing of multi-line commands.
+# Bash attempts to save all lines of a multiple-line command in the
+# same history entry.  This allows easy re-editing of multi-line
+# commands.
 shopt -s cmdhist
 
 # Check the window size after each command and, if necessary,
@@ -79,50 +80,104 @@ fi
 color_prompt=no
 
 # Check explicit color preferences.
-if [ "${USE_ANSI_COLORS:-}" = "true" ] || [ "${COLORTERM:-}" = "truecolor" ]; then
+if [ "${COLORTERM:-}" = "truecolor" ]           \
+     || [ "${COLORTERM:-}" = "24bit" ]          \
+     || [ "${COLORTERM:-}" = "1" ]              \
+     || [ "${COLORTERM:-}" = "gnome-terminal" ] \
+     || [ "${USE_ANSI_COLORS:-}" = "true" ]     \
+     || [ "$TERM" = "xterm-256color" ]          \
+     || tput setaf 1 >/dev/null 2>&1; then
   color_prompt=yes
 else
-  if [ "${COLORTERM:-}" = "gnome-terminal" ]; then
-    color_prompt=yes
-  else
-    # Detect support for colors based on terminal type.
-    case "$TERM" in
-      *-256color) color_prompt=yes;;
-      xterm | xterm-color) color_prompt=yes;;
-    esac
+  # Detect support for colors based on terminal type.
+  case "$TERM" in
+    *-256color) color_prompt=yes;;
+    xterm | xterm-color) color_prompt=yes;;
+  esac
 
-    # Fallback to terminfo detection if no explicit preference is found.
-    if [ "$color_prompt" = "no" ]; then
-      if command -v tput >/dev/null 2>&1; then
-        if tput setaf 1 >/dev/null 2>&1; then
-          color_prompt=yes
-        fi
+  # Fallback to terminfo detection if no explicit preference is
+  # found.
+  if [ "$color_prompt" = "no" ]; then
+    if command -v tput >/dev/null 2>&1; then
+      if tput setaf 1 >/dev/null 2>&1; then
+        color_prompt=yes
       fi
     fi
   fi
 fi
 
-if [ "function" != "$(type -t __git_ps1)" ]; then
-  __git_ps1 () {
-    local b="$(git symbolic-ref HEAD 2>/dev/null)";
-    if [ -n "$b" ]; then
-      printf "$1" "${b##refs/heads/}";
-    fi
-  }
-fi
+if [ "$colors_support" = true ]; then
+  # colorize gcc output
+  GCC_COLORS='error=01;31:'
+  GCC_COLORS+='warning=01;35:'
+  GCC_COLORS+='note=01;36:'
+  GCC_COLORS+='caret=01;32:'
+  GCC_COLORS+='locus=01:'
+  GCC_COLORS+='quote=01'
+  export GCC_COLORS
 
-# TODO: # Bash prompt.
-if [ "$color_prompt" = yes ]; then
-  PS1='\[\e[36m\]\w$(__git_ps1 "\[\033[00m\] on \[\e[35m\] %s")\[\033[00m\]\n$ '
-else
-  PS1='\w$(__git_ps1 " on  %s")\n$ '
+  [[ -z "$COLORTERM" ]] || COLORTERM=1
+  export COLORTERM
 fi
-unset color_prompt
+unset colors_support
 
 # dircolors.
-if [ -x "$(command -v dircolors)" ] && [ -f ~/.dircolors ]; then
+if [ -f ~/.dircolors ] && command -v dircolors >/dev/null 2>&1; then
     eval "$(dircolors -b ~/.dircolors)"
 fi
+
+# --------------------------------------------------------------------
+# Setup Bash prompt
+# --------------------------------------------------------------------
+
+__prompt_command() {
+  local exit_code="$?"
+
+  local rcol=''
+  local txtred=''
+  local txtpur=''
+  local txtcyn=''
+  local bldylw=''
+  local bldblu=''
+  local bldblk=''
+
+  if [ "${COLORTERM:-}" = "truecolor" ]       \
+       || [ "${COLORTERM:-}" = "24bit" ]      \
+       || [ "${COLORTERM:-}" = "1" ]          \
+       || [ "${USE_ANSI_COLORS:-}" = "true" ] \
+       || [ "$TERM" = "xterm-256color" ]      \
+       || tput setaf 1 >/dev/null 2>&1; then
+    rcol='\[\e[0m\]'
+    txtred='\[\e[0;31m\]'
+    txtpur='\[\e[0;35m\]'
+    txtcyn='\[\e[0;36m\]'
+    bldylw='\[\e[1;33m\]'
+    bldblu='\[\e[1;34m\]'
+    bldblk='\[\e[1;30m\]'
+  fi
+
+  PS1="${bldblk}"
+  PS1+='\u@\h'
+  PS1+="${rcol}"
+
+  if [ $exit_code != 0 ]; then
+    PS1+=" [${txtred}${exit_code}${rcol}]"
+  fi
+
+  PS1+=" ${bldblu}"
+  PS1+='\w'
+
+  local b="$(git symbolic-ref HEAD 2>/dev/null)";
+  if [ -n "$b" ]; then
+    PS1+="${rcol} on ${bldylw} ${b##refs/heads/}"
+  fi
+
+  PS1+="${rcol}"
+  PS1+='\n\$ '
+}
+
+PROMPT_COMMAND="__prompt_command; ${PROMPT_COMMAND}"
+PS2='> '
 
 # Local Variables:
 # mode: sh
