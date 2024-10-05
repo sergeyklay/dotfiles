@@ -43,6 +43,35 @@ shopt -s cmdhist
 shopt -s checkwinsize
 
 # --------------------------------------------------------------------
+# Bash completion
+# --------------------------------------------------------------------
+
+if [ "$(uname)" = "Darwin" ] && command -v brew >/dev/null 2>&1; then
+  __brew_prefix=$(brew --prefix)
+
+  # brew install bash-completion
+  if [ -f "$brew_prefix"/etc/bash_completion ]; then
+    . "$brew_prefix"/etc/bash_completion
+  elif [ -f "$brew_prefix"/etc/profile.d/bash_completion.sh ]; then
+    # brew install bash-completion@2
+    if [ -d "$brew_prefix"/etc/bash_completion.d ]; then
+      BASH_COMPLETION_COMPAT_DIR="$brew_prefix"/etc/bash_completion.d
+      export BASH_COMPLETION_COMPAT_DIR
+    fi
+
+    . "$brew_prefix"/etc/profile.d/bash_completion.sh
+  fi
+
+  unset __brew_prefix
+elif ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+# --------------------------------------------------------------------
 # Setup colors
 # --------------------------------------------------------------------
 
@@ -59,7 +88,7 @@ else
     # Detect support for colors based on terminal type.
     case "$TERM" in
       *-256color) color_prompt=yes;;
-      xterm | xterm-color | xterm-256color) color_prompt=yes;;
+      xterm | xterm-color) color_prompt=yes;;
     esac
 
     # Fallback to terminfo detection if no explicit preference is found.
@@ -82,16 +111,16 @@ if [ "function" != "$(type -t __git_ps1)" ]; then
   }
 fi
 
-# Bash prompt.
+# TODO: # Bash prompt.
 if [ "$color_prompt" = yes ]; then
-  PS1='\n\[\e[36m\]\w$(__git_ps1 "\[\033[00m\] on \[\e[35m\] %s")\[\033[00m\]\n$ '
+  PS1='\[\e[36m\]\w$(__git_ps1 "\[\033[00m\] on \[\e[35m\] %s")\[\033[00m\]\n$ '
 else
-  PS1='\n\[\e[36m\]\w$(__git_ps1 "\[\033[00m\] on \[\e[35m\] %s")\[\033[00m\]\n$ '
+  PS1='\w$(__git_ps1 " on  %s")\n$ '
 fi
 unset color_prompt
 
 # dircolors.
-if [ -x "$(command -v dircolors)" ]; then
+if [ -x "$(command -v dircolors)" ] && [ -f ~/.dircolors ]; then
     eval "$(dircolors -b ~/.dircolors)"
 fi
 
