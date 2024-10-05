@@ -13,20 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
-# User wide interactive shell configuration and executing commands.
-#
-# This file is sourced by the second for login shells (after
-# '~/.profile').  Or by the first for interactive non-login shells.
-
 # shellcheck shell=bash
 
-# If not running interactively, don't do anything
-[[ $- != *i* ]] && return
-
-for file in ~/.aliases; do
-  [ -r "$file" ] && [ -f "$file" ] && source "$file"
-done
-unset file
+# Setting alias for emacsclient.
+# shellcheck disable=SC2139
+alias ec="$EDITOR"
 
 # Local Variables:
 # mode: sh
