@@ -166,13 +166,18 @@ if [ "$colors_support" = true ]; then
   export GCC_COLORS
 
   [[ -z "$COLORTERM" ]] || COLORTERM=1
-  export COLORTERM
+  [[ -z "$CLICOLOR" ]]  || CLICOLOR=1
+  export CLICOLOR COLORTERM
 fi
 unset colors_support
 
-# dircolors.
-if [ -f ~/.dircolors ] && command -v dircolors >/dev/null 2>&1; then
+# Enable color support of ls and also add handy aliases
+if command -v dircolors >/dev/null 2>&1; then
+  if [ -f ~/.dircolors ]; then
     eval "$(dircolors -b ~/.dircolors)"
+  else
+    eval "$(dircolors -b)"
+  fi
 fi
 
 # --------------------------------------------------------------------
@@ -199,6 +204,7 @@ __prompt_command() {
   if [ "${COLORTERM:-}" = "truecolor" ]       \
        || [ "${COLORTERM:-}" = "24bit" ]      \
        || [ "${COLORTERM:-}" = "1" ]          \
+       || [ "${CLICOLOR:-}" = "1" ]           \
        || [ "${USE_ANSI_COLORS:-}" = "true" ] \
        || [ "$TERM" = "xterm-256color" ]      \
        || tput setaf 1 >/dev/null 2>&1; then
@@ -222,7 +228,7 @@ __prompt_command() {
 
   local b="$(git symbolic-ref HEAD 2>/dev/null)";
   if [ -n "$b" ]; then
-    PS1+="${rcol} on ${bldylw} ${b##refs/heads/}"
+    PS1+="${rcol} ${bldylw}${b##refs/heads/}"
   fi
 
   PS1+="${rcol}"
