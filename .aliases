@@ -82,6 +82,11 @@ if [ "$(uname)" = "Darwin" ]; then
     alias dd='gdd'
   fi
 
+  # brew install coreutils
+  if command -v gdate >/dev/null 2>&1; then
+    alias date='gdate'
+  fi
+
   # brew install m4
   if [[ -x /opt/homebrew/opt/m4/bin/m4 ]]; then
     alias m4='/opt/homebrew/opt/m4/bin/m4'

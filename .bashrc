@@ -275,22 +275,31 @@ fi
 # Setup nvm
 # --------------------------------------------------------------------
 
-# Search for NVM installation directories in standard paths
-for _d in "$HOME/.nvm" "${XDG_CONFIG_HOME:-$HOME/.config}/nvm"; do
-  if [ -d "$_d" ]; then
-    NVM_DIR="$_d"
+# Function to manually load NVM (Node Version Manager) from standard
+# directories.  This function is defined to optimize shell startup
+# time by avoiding unnecessary searches for the NVM installation and
+# sourcing nvm.sh during every shell session.  Instead, users can call
+# `load_nvm` only when they need to work with Node.js.
+#
+# Usage:
+#   load_nvm
+#
+# This approach minimizes shell initialization overhead while still
+# providing easy access to NVM features when needed.
+load_nvm() {
+  for d in "$HOME/.nvm" "${XDG_CONFIG_HOME:-$HOME/.config}/nvm"; do
+    if [ -d "$d" ]; then
+      NVM_DIR="$d"
 
-    # If nvm.sh exists and is readable, source it and exit the loop
-    if [ -r "$NVM_DIR/nvm.sh" ]; then
-      export NVM_DIR
-      . "$NVM_DIR/nvm.sh"
-      break
+      # If nvm.sh exists and is readable, source it and exit the loop
+      if [ -r "$NVM_DIR/nvm.sh" ]; then
+        export NVM_DIR
+        . "$NVM_DIR/nvm.sh"
+        break
+      fi
     fi
-  else
-    unset NVM_DIR
-  fi
-done
-unset _d
+  done
+}
 
 # Local Variables:
 # mode: sh
