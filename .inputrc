@@ -1,4 +1,19 @@
-/# This file controls the behaviour of line input editing for
+# Copyright (C) 2014-2024 Serghei Iakovlev <gnu@serghei.pl>
+#
+# This file is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 3
+# of the License, or (at your option) any later version.
+#
+# This file is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <https://www.gnu.org/licenses/>.
+
+# This file controls the behaviour of line input editing for
 # programs that use the GNU Readline library.  Existing
 # programs include FTP, Bash, and GDB.
 #
@@ -20,20 +35,39 @@ set editing-mode emacs
 # Two escapes clear command line.
 "\e\e": "\C-a\C-k"
 
-# Arrow keys in ANSI mode
-"\M-[D": backward-char
-"\M-[C": forward-char
-"\M-[A": previous-history
-"\M-[B": next-history
+# These bindings manually map the ANSI escape sequences for arrow
+# keys.  Some terminal emulators, older systems, or misconfigured
+# $TERM values can cause Bash to misinterpret or ignore arrow key
+# input.  By explicitly binding these sequences, you ensure reliable
+# cursor movement and history navigation in edge cases where default
+# handling breaks down.  This can be particularly useful in SSH
+# sessions, weird terminal setups, or when dealing with stripped-down
+# systems where the termcap/terminfo database is incomplete or buggy.
+"\M-[D": backward-char     # Left arrow
+"\M-[C": forward-char      # Right arrow
+"\M-[A": previous-history  # Up arrow
+"\M-[B": next-history      # Down arrow
 
-# History search
+# History search.  Start writing coomand and then press arrow up.
 "\e[A": history-search-backward
 "\e[B": history-search-forward
 
-# File rename helper
+# File rename helper.
+#
+# Example:
+#   $ mv a-long-file-name.txt <M-m>
+#
+# gives:
+#   $ mv a-long-file-name.txt a-long-file-name.txt
 "\em": "\C-w\C-y\C-y"
 
-# See: https://unix.stackexchange.com/a/11943/50400
+# Save the region as if killed, but don’t kill it.
+#
+# Example:
+#   $ abc<C-Spc><C-a><M-w> def <C-y>
+#
+# gives:
+#   $ abc def abc
 "\ew": copy-region-as-kill
 
 # Macros that are convenient for shell interaction

@@ -140,6 +140,11 @@ if [ "$(uname)" = "Darwin" ]; then
   if [ -d /Library/Apple/usr/share/man ]; then
     add_manpath /Library/Apple/usr/share/man
   fi
+
+  # brew install readline
+  if [ -d /opt/homebrew/opt/readline/share/man ]; then
+    add_manpath /opt/homebrew/opt/readline/share/man
+  fi
 fi
 
 if [ -d "$HOME/share/man" ]; then
@@ -176,6 +181,11 @@ fi
 if [ "$(uname)" = "Darwin" ]; then
   if [ -d /opt/homebrew/share/info ]; then
     add_infopath /opt/homebrew/share/info
+  fi
+
+  # brew install readline
+  if [ -d /opt/homebrew/opt/readline/share/info ]; then
+    add_infopath /opt/homebrew/opt/readline/share/info
   fi
 
   if [ -d /Applications/Emacs.app/Contents/Resources/info ]; then
