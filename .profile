@@ -91,6 +91,17 @@ if [ -d "$HOME/go" ]; then
   }
 fi
 
+# Check if PYENV_ROOT is not set and .pyenv directory exists
+if [ -z "${PYENV_ROOT+x}" ] && [ -d "$HOME/.pyenv" ]; then
+  PYENV_ROOT="$HOME/.pyenv"
+  export PYENV_ROOT
+fi
+
+# If PYENV_ROOT is set and its bin directory exists, add it to PATH
+if [ -n "${PYENV_ROOT+x}" ] && [ -d "$PYENV_ROOT/bin" ]; then
+  add_infopath "$PYENV_ROOT/bin"
+fi
+
 if [ -d "$HOME/.cabal/bin" ]; then
   add_path "$HOME/.cabal/bin"
 fi
@@ -271,7 +282,7 @@ if command -v gpgconf >/dev/null 2>&1 && \
   fi
 fi
 
-# Update GPG_TTY.  See 'man 1 gpg-agen'.
+# Update GPG_TTY.  See 'man 1 gpg-agent'.
 GPG_TTY="${TTY:-$(tty)}"
 export GPG_TTY
 

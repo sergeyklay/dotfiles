@@ -248,6 +248,29 @@ __prompt_command() {
 PROMPT_COMMAND="__prompt_command; ${PROMPT_COMMAND}"
 PS2='> '
 
+# --------------------------------------------------------------------
+# Setup pyenv
+# --------------------------------------------------------------------
+
+# Check if PYENV_SHELL is not set
+if [ -z "${PYENV_SHELL+x}" ]; then
+  # Check if the pyenv command exists
+  if command -v pyenv >/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+
+    # Check if pyenv has the virtualenv-init command
+    if pyenv commands | grep -q virtualenv-init; then
+      eval "$(pyenv virtualenv-init -)"
+    fi
+
+    # Disable the virtualenv prompt
+    PYENV_VIRTUALENV_DISABLE_PROMPT=1
+    export PYENV_VIRTUALENV_DISABLE_PROMPT
+  else
+    echo "command pyenv not found" >&2
+  fi
+fi
+
 # Local Variables:
 # mode: sh
 # End:
