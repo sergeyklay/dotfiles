@@ -99,7 +99,7 @@ fi
 
 # If PYENV_ROOT is set and its bin directory exists, add it to PATH
 if [ -n "${PYENV_ROOT+x}" ] && [ -d "$PYENV_ROOT/bin" ]; then
-  add_infopath "$PYENV_ROOT/bin"
+  add_path "$PYENV_ROOT/bin"
 fi
 
 if [ -d "$HOME/.cabal/bin" ]; then
