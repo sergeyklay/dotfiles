@@ -11,8 +11,6 @@
 
 .config/git/config    linguist-language=gitconfig linguist-detectable=true
 .config/git/ignore    linguist-language=gitignore linguist-detectable=true
-.config/zsh/conf.d/*  linguist-language=Shell
-.config/zsh/lib/*     linguist-language=Shell
 .gnupg/*.conf         linguist-language=INI linguist-detectable=true
 
 #
@@ -25,7 +23,7 @@
 .gnupg/*.conf      text eol=lf
 .gnupg/sshcontrol  text eol=lf
 LICENSE            text eol=lf
-README.md          text eol=lf
+README.org         text eol=lf
 
 #
 # Exclude files from exporting

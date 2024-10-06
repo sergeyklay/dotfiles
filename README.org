@@ -1,0 +1,30 @@
+* =~/.*=
+
+All my dotfiles that I port around from system to system. The goal of this
+project is to organize my shell scripts and configurations, and to keep
+them synchronized across multiple machines. It started as a basic setup,
+but now it includes management of =.bashrc=, =.profile=, and various other
+shell-related files and tools.
+
+This repository supports both Linux and macOS, with a focus on keeping the
+configurations portable and adaptable to different environments.
+
+** Shell support
+
+These dotfiles are primarily designed for Bash, but many scripts and
+configurations are compatible with Zsh and other Bash-like shells. The
+shell should support colors and basic POSIX features for optimal behavior.
+
+** License
+
+This project is open source software licensed under the
+[[https://github.com/sergeyklay/dotfiles/blob/master/LICENSE][GNU General Public Licence version 3]].
+Copyright © 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022,
+2023, 2024 Serghei Iakovlev.
+
+*** Note On Copyright Years
+
+In copyright notices where the copyright holder is Serghei Iakovlev,
+then where a range of years appears, this is an inclusive range that
+applies to every year in the range.  For example: 2019-2024 represents
+the years 2019, 2020, 2021, 2022, 2023 and 2024.
