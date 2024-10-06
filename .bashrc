@@ -271,6 +271,27 @@ if [ -z "${PYENV_SHELL+x}" ]; then
   fi
 fi
 
+# --------------------------------------------------------------------
+# Setup nvm
+# --------------------------------------------------------------------
+
+# Search for NVM installation directories in standard paths
+for _d in "$HOME/.nvm" "${XDG_CONFIG_HOME:-$HOME/.config}/nvm"; do
+  if [ -d "$_d" ]; then
+    NVM_DIR="$_d"
+
+    # If nvm.sh exists and is readable, source it and exit the loop
+    if [ -r "$NVM_DIR/nvm.sh" ]; then
+      export NVM_DIR
+      . "$NVM_DIR/nvm.sh"
+      break
+    fi
+  else
+    unset NVM_DIR
+  fi
+done
+unset _d
+
 # Local Variables:
 # mode: sh
 # End:
