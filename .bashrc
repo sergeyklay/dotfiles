@@ -252,41 +252,48 @@ PS2='> '
 # Setup pyenv
 # --------------------------------------------------------------------
 
-# Check if PYENV_SHELL is not set
-if [ -z "${PYENV_SHELL+x}" ]; then
-  # Check if the pyenv command exists
-  if command -v pyenv >/dev/null 2>&1; then
-    eval "$(pyenv init -)"
+# Initialize pyenv (Python Env).
+#
+# Formed as a function to optimize shell startup time by avoiding
+# unnecessary evaling "pyenv init -" during every shell session.
+# Instead, users can call `pyenv_init` only when they need to work with
+# Python.
+#
+# Usage:
+#   pyenv_init
+pyenv_init() {
+  # Check if PYENV_SHELL is not set
+  if [ -z "${PYENV_SHELL+x}" ]; then
+    # Check if the pyenv command exists
+    if command -v pyenv >/dev/null 2>&1; then
+      eval "$(pyenv init -)"
 
-    # Check if pyenv has the virtualenv-init command
-    if pyenv commands | grep -q virtualenv-init; then
-      eval "$(pyenv virtualenv-init -)"
+      # Check if pyenv has the virtualenv-init command
+      if pyenv commands | grep -q virtualenv-init; then
+        eval "$(pyenv virtualenv-init -)"
+      fi
+
+      # Disable the virtualenv prompt
+      PYENV_VIRTUALENV_DISABLE_PROMPT=1
+      export PYENV_VIRTUALENV_DISABLE_PROMPT
     fi
-
-    # Disable the virtualenv prompt
-    PYENV_VIRTUALENV_DISABLE_PROMPT=1
-    export PYENV_VIRTUALENV_DISABLE_PROMPT
-  else
-    echo "command pyenv not found" >&2
   fi
-fi
+}
 
 # --------------------------------------------------------------------
 # Setup nvm
 # --------------------------------------------------------------------
 
-# Function to manually load NVM (Node Version Manager) from standard
-# directories.  This function is defined to optimize shell startup
-# time by avoiding unnecessary searches for the NVM installation and
-# sourcing nvm.sh during every shell session.  Instead, users can call
-# `load_nvm` only when they need to work with Node.js.
+# Initialize NVM (Node Version Manager).
+#
+# Formed as a function to optimize shell startup time by avoiding
+# unnecessary searches for the NVM installation and sourcing nvm.sh
+# during every shell session.  Instead, users can call `nvm_init` only
+# when they need to work with Node.js.
 #
 # Usage:
-#   load_nvm
-#
-# This approach minimizes shell initialization overhead while still
-# providing easy access to NVM features when needed.
-load_nvm() {
+#   nvm_init
+nvm_init() {
   for d in "$HOME/.nvm" "${XDG_CONFIG_HOME:-$HOME/.config}/nvm"; do
     if [ -d "$d" ]; then
       NVM_DIR="$d"
@@ -299,6 +306,27 @@ load_nvm() {
       fi
     fi
   done
+}
+
+# --------------------------------------------------------------------
+# Setup rbenv
+# --------------------------------------------------------------------
+
+# Initialize rbenv (Ruby Env).
+#
+# Formed as a function to optimize shell startup time by avoiding
+# unnecessary evaling "rbenv init -" during every shell session.
+# Instead, users can call `rbenv_init` only when they need to work with
+# Ruby.
+#
+# Usage:
+#   rbenv_init
+rbenv_init() {
+  if [[ -z "${RBENV_SHELL+x}" ]]; then
+    if command -v rbenv >/dev/null 2>&1; then
+      eval "$(rbenv init -)"
+    fi
+  fi
 }
 
 # Local Variables:
