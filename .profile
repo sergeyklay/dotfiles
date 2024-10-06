@@ -110,6 +110,10 @@ if [ -d "$HOME/.cask/bin" ]; then
   add_path "$HOME/.cask/bin"
 fi
 
+if [ -d "$HOME/.rd/bin" ]; then
+  add_path "$HOME/.rd/bin"
+fi
+
 if [ -d "$HOME/bin" ]; then
   add_path "$HOME/bin"
 fi
