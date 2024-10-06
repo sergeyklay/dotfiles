@@ -343,6 +343,27 @@ if command -v gpgconf >/dev/null 2>&1; then
 fi
 
 # --------------------------------------------------------------------
+# Setup hostname
+# --------------------------------------------------------------------
+
+# Default values for HOST and HOSTNAME
+HOST=localhost
+HOSTNAME="$HOST.localdomain"
+
+case "$(uname -s 2>/dev/null)" in
+  Linux|FreeBSD|Darwin)
+    if type hostname >/dev/null 2>&1; then
+      # Get full hostname
+      HOSTNAME="$(hostname)"
+      # Short name (first part before the dot)
+      HOST="$(echo "$HOSTNAME" | cut -d. -f1)"
+    fi
+    ;;
+esac
+
+export HOST HOSTNAME
+
+# --------------------------------------------------------------------
 # Setup interactive shell (if needed)
 # --------------------------------------------------------------------
 
