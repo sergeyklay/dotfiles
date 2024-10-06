@@ -106,6 +106,24 @@ if [ -d "$HOME/.cabal/bin" ]; then
   add_path "$HOME/.cabal/bin"
 fi
 
+if [ -d "$HOME/.cargo/bin" ]; then
+  add_path "$HOME/.cargo/bin"
+fi
+
+if [ -z "${RUST_SRC_PATH+x}" ]; then
+  if command -v rustc >/dev/null 2>&1; then
+    # See https://github.com/racer-rust/racer#configuration
+    RUST_SYSROOT="$(rustc --print sysroot)"
+    RUST_SRC_PATH="$RUST_SYSROOT/lib/rustlib/src/rust/library"
+
+    if [ -d "$RUST_SRC_PATH" ]; then
+      export RUST_SRC_PATH
+    else
+      unset RUST_SRC_PATH RUST_SYSROOT
+    fi
+  fi
+fi
+
 if [ -d "$HOME/.cask/bin" ]; then
   add_path "$HOME/.cask/bin"
 fi
@@ -164,6 +182,10 @@ fi
 
 if [ -d "$HOME/share/man" ]; then
   add_manpath "$HOME/share/man"
+fi
+
+if [ -n "${RUST_SYSROOT+x}" ] && [ -d "$RUST_SYSROOT/share/man" ]; then
+  add_manpath "$RUST_SYSROOT/share/man"
 fi
 
 # --------------------------------------------------------------------
