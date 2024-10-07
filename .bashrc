@@ -23,12 +23,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# This means ~/.profile was not sourced
-if ! shopt -q login_shell; then
-  # shellcheck disable=SC1090
-  . ~/.profile
-fi
-
 # Auto-fix minor typos in interactive use of 'cd'
 shopt -q -s cdspell
 
