@@ -1,0 +1,26 @@
+### Idle configuration
+#
+# Example configuration:
+#
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+#          before-sleep 'swaylock -f -c 000000'
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+exec swayidle -w \
+  timeout 600 'swaylock -f -e -l -F -c 000000 ; gpg-connect-agent updatestartuptty /bye >/dev/null' \
+  timeout 9000 'swaymsg "output * dpms off" ; gpg-connect-agent updatestartuptty /bye >/dev/null' \
+       resume 'swaymsg "output * dpms on" ; gpg-connect-agent updatestartuptty /bye >/dev/null' \
+ after-resume 'swaymsg "output * dpms on" ; gpg-connect-agent updatestartuptty /bye >/dev/null' \
+ before-sleep 'swaylock -f -e -l -F -c 000000 ; gpg-connect-agent updatestartuptty /bye >/dev/null' \
+         lock 'swaylock -f -e -l -F -c 000000' \
+       unlock 'gpg-connect-agent updatestartuptty /bye >/dev/null' \
+     idlehint 600
+
+# Local Variables:
+# mode: conf
+# End:

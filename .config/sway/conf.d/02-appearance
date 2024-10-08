@@ -1,4 +1,4 @@
-### Looks
+### Appearance
 
 # class                 border  bground text    indicator child_border
 client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
@@ -14,3 +14,7 @@ font pango:JetBrains Mono 11
 default_border pixel 1
 default_floating_border pixel 1
 hide_edge_borders --i3 smart
+
+# Local Variables:
+# mode: conf
+# End:
