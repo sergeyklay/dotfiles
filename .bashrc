@@ -219,9 +219,9 @@ __prompt_command() {
     bldred='\[\e[1;31m\]'
   fi
 
-  PS1="${bldblk}"
-  PS1+='\u@\h'
-  PS1+="${rcol}"
+  # PS1="${bldblk}"
+  PS1='\u@\h'
+  # PS1+="${rcol}"
 
   if [ $exit_code != 0 ]; then
     PS1+=" [${bldred}${exit_code}${rcol}]"
