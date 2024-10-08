@@ -9,6 +9,7 @@
 # Setting up Linguist
 #
 
+.config/waybar/config linguist-language=JSONC linguist-detectable=true
 .config/git/config    linguist-language=gitconfig linguist-detectable=true
 .config/git/ignore    linguist-language=gitignore linguist-detectable=true
 .gnupg/*.conf         linguist-language=INI linguist-detectable=true
