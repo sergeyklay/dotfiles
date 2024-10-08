@@ -46,8 +46,7 @@ if [ "$(uname)" = "Darwin" ]; then
     alias l='ls -G -CF'
   fi
 
-  # macOS uses too outdated make.  I prefer install a fresh one using
-  # brew and alias it here.
+  # brew install make
   if command -v gmake >/dev/null 2>&1; then
     alias make='gmake'
   fi
