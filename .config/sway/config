@@ -19,6 +19,9 @@ set $menu wofi --show drun,dmenu | xargs swaymsg exec --
 
 include conf.d/*
 
+# Floating windows
+for_window [app_id="foot.nmtui"] floating enable
+
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.

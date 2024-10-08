@@ -60,7 +60,7 @@
     "tooltip-format-disconnected": "Disconnected",
     "format-alt": "{ifname}: {ipaddr}/{cidr}",
     "format-alt-click": "click-right",
-    "on-click": "alacritty -e nmtui",
+    "on-click": "foot -w 700x700 -a foot.nmtui bash -c 'sleep 0.1; nmtui'",
     "max-length": 50
   },
   "idle_inhibitor": {
