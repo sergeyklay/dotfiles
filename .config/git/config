@@ -58,7 +58,6 @@
 	type = cat-file -t
 	dump = cat-file -p
 	rma = !git ls-files --deleted -z | xargs -0 --no-run-if-empty git rm
-	sc = !git stash && git co main && git fetch --all && git rebase origin/main && git stash pop
 	aliases = "!git config -l | grep alias | cut -c 7-"
 	br = branch
 	st = status
