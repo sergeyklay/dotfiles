@@ -32,12 +32,6 @@
 #   aliases should go in ~/.bashrc).
 # - Avoid commands that produce output, to prevent side effects in
 #   non-interactive contexts.
-#
-# Notes:
-# - ~/.profile should be compatible with any POSIX-compliant shell
-#   (sh, bash, etc.).
-# - When used with Bash, this file often sources ~/.bashrc to maintain
-#   a unified environment.
 # --------------------------------------------------------------------
 
 # shellcheck shell=sh
