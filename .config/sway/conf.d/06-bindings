@@ -180,6 +180,7 @@ bindsym --release Ctrl+Shift+Print exec --no-startup-id grim -g "$(slurp)" -t pn
 #
 # Notifications
 #
+
 bindsym Alt+space exec makoctl set-mode default
 bindsym Shift+Alt+space exec makoctl set-mode dnd
 
