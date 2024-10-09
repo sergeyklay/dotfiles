@@ -1,0 +1,12 @@
+width=520
+height=300
+allow_images=true
+image_size=28px
+drun-display_generic=true
+dynamic_lines=true
+insensitive=true
+term=foot
+
+# Local Variables:
+# mode: conf
+# End:
