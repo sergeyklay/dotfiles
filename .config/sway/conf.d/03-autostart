@@ -1,5 +1,7 @@
 ### Autostart
 
+exec mako
+
 # Local Variables:
 # mode: conf
 # End:

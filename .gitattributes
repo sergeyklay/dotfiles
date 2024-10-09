@@ -13,6 +13,8 @@
 .config/git/config    linguist-language=gitconfig linguist-detectable=true
 .config/git/ignore    linguist-language=gitignore linguist-detectable=true
 .gnupg/*.conf         linguist-language=INI linguist-detectable=true
+.config/sway/conf.d/* linguist-language=INI linguist-detectable=true
+.config/sway/config   linguist-language=INI linguist-detectable=true
 
 #
 # Text files.
