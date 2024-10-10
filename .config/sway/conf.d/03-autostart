@@ -1,6 +1,34 @@
 ### Autostart
 
+# export some useful env vars
+# DISPLAY is needed here only for CLion which does not work yet on native
+# wayland. See:
+# - https://youtrack.jetbrains.com/issue/JBR-3206
+# - https://youtrack.jetbrains.com/issue/JBR-1315
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY DBUS_SESSION_BUS_ADDRESS SWAYSOCK
+
+# fix for pinentry-gnome3 on sway
+# DISPLAY is needed here only for CLion which does not work yet on native
+# wayland. See:
+# - https://youtrack.jetbrains.com/issue/JBR-3206
+# - https://youtrack.jetbrains.com/issue/JBR-1315
+exec dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY DBUS_SESSION_BUS_ADDRESS SWAYSOCK
+
+# enable gnome-keyring daemon
+exec /usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh
+exec $keyring
+
+# enable notifications
 exec mako
+
+# set theme
+set $gnome-schema org.gnome.desktop.interface
+exec_always {
+  gsettings set $gnome-schema gtk-theme 'Arc'
+  gsettings set $gnome-schema icon-theme 'Arc'
+  gsettings set $gnome-schema cursor-theme 'DMZ-Black'
+  gsettings set $gnome-schema font-name 'Ubuntu 11'
+}
 
 # Local Variables:
 # mode: conf
