@@ -6,8 +6,8 @@ them synchronized across multiple machines. It started as a basic setup,
 but now it includes management of =.bashrc=, =.profile=, and various other
 shell-related files and tools.
 
-#+CAPTION: Screen capture on Thu Oct 10 00:59:08 AM CEST 2024
-#+NAME:   fig:2024-10-10_005908
+#+CAPTION: Screen capture on Thu Oct 10 07:04:27 PM CEST 2024
+#+NAME:   fig:2024-10-10_190427
 [[./screenshot.png]]
 
 This repository supports both Linux and macOS, with a focus on keeping the
