@@ -22,12 +22,12 @@
     "disable-markup": false,
     "format": "{icon}",
     "format-icons": {
-      "1": "1 <span font='Font Awesome 5 Free 11'> </span>",
-      "2": "2 <span font='Font Awesome 5 Free 11'> </span>",
-      "3": "3 <span font='Font Awesome 5 Free 11'> </span>",
-      "4": "4 <span font='Font Awesome 5 Free 11'> </span>",
-      "5": "5 <span font='Font Awesome 5 Free 11'> </span>",
-      "6": "6 <span font='Font Awesome 5 Free 11'> </span>"
+      "1": "1 <span font='Font Awesome 6 Free 11'> \uf120</span>",
+      "2": "2 <span font='Font Awesome 6 Free 11'> \uf198</span>",
+      "3": "3 <span font='Font Awesome 6 Free 11'> \uf269</span>",
+      "4": "4 <span font='Font Awesome 6 Free 11'> \uf0e0</span>",
+      "5": "5 <span font='Font Awesome 6 Free 11'> \uf121</span>",
+      "6": "6 <span font='Font Awesome 6 Free 11'> \uf1bc</span>"
     }
   },
   "sway/window": {
@@ -51,9 +51,9 @@
   },
   "network": {
     "format": "{ifname}",
-    "format-wifi": "<span font='Font Awesome 5 Free 10'></span>   {signalStrength}%",
-    "format-ethernet": " {ifname}",
-    "format-disconnected": "⚠ Disconnected",
+    "format-wifi": "<span font='Font Awesome 6 Free 10'>\uf1eb</span>   {signalStrength}%",
+    "format-ethernet": "<span font='Font Awesome 6 Free 10'>\uf0c1</span> {ifname}",
+    "format-disconnected": "<span font='Font Awesome 6 Free 9'>\uf071</span> Disconnected",
     "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
     "tooltip-format-wifi": "{essid} ({signalStrength}%): {ipaddr}/{cidr}",
     "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
@@ -66,25 +66,25 @@
   "idle_inhibitor": {
     "format": "{icon}",
     "format-icons": {
-      "activated": "<span font='Font Awesome 5 Free 9'></span>",
-      "deactivated": "<span font='Font Awesome 5 Free 9'></span>"
+      "activated": "<span font='Font Awesome 6 Free 9'>\uf3c1</span>",
+      "deactivated": "<span font='Font Awesome 6 Free 9'>\uf023</span>"
     }
   },
   "pulseaudio": {
-    "format": "<span font='Font Awesome 5 Free 11'>{icon}</span>  {volume}%",
-    "format-alt": "<span font='Font Awesome 5 Free 11'>{icon}</span>  {volume}%",
+    "format": "<span font='Font Awesome 6 Free 11'>{icon}</span>  {volume}%",
+    "format-alt": "<span font='Font Awesome 6 Free 11'>{icon}</span>  {volume}%",
     "format-alt-click": "click-right",
-    "format-muted": "<span font='Font Awesome 5 Free 11'></span> 0%",
+    "format-muted": "<span font='Font Awesome 6 Free 11'>\uf6a9</span> 0%",
     "format-icons": {
-      "phone": [" ", " ", " ", " "],
-      "default": ["", "", "", ""]
+      "phone": ["\uf025 \uf026", "\uf025 \uf027", "\uf025 \uf027", "\uf025 \uf028"],
+      "default": ["\uf026", "\uf027", "\uf027", "\uf028"]
     },
     "scroll-step": 2,
     "on-click": "pavucontrol",
     "tooltip": false
   },
   "temperature": {
-    "format": "<span font='Font Awesome 5 Free 9'></span> {temperatureC:3}°C",
+    "format": "<span font='Font Awesome 6 Free 9'>\uf76b</span> {temperatureC:3}°C",
     "hwmon-path": "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input",
     "tooltip": false
   },
@@ -95,18 +95,18 @@
       "warning": 25,
       "critical": 10
     },
-    "format": "<span font='Font Awesome 5 Free 11'>{icon}</span>  {capacity}%",
-    "format-charging": "<span font='Font Awesome 5 Free'></span>  <span font='Font Awesome 5 Free 11'>{icon}</span>  {capacity}%",
-    "format-full": "<span font='Font Awesome 5 Free'></span>  <span font='Font Awesome 5 Free 11'>{icon}</span>  100%",
-    "format-icons": ["", "", "", "", ""],
+    "format": "<span font='Font Awesome 6 Free 11'>{icon}</span>  {capacity}%",
+    "format-charging": "<span font='Font Awesome 6 Free'>\uf0e7</span>  <span font='Font Awesome 6 Free 11'>{icon}</span>  {capacity}%",
+    "format-full": "<span font='Font Awesome 6 Free'>\uf0e7</span>  <span font='Font Awesome 6 Free 11'>{icon}</span>  100%",
+    "format-icons": ["\uf244", "\uf243", "\uf242", "\uf241", "\uf240"],
     "format-time": "{H}h{M}m",
     "max-length": 25
   },
   "custom/powermenu": {
     "return-type": "json",
     "exec": "~/.config/waybar/modules/powermenu.sh",
-    "format": "<span font='Font Awesome 5 Free 9'>{icon}</span>  {}",
-    "format-icons": [""],
+    "format": "<span font='Font Awesome 6 Free 9'>{icon}</span>  {}",
+    "format-icons": ["\uf011"],
     "interval": 3600,
     "escape": true,
     "on-click": "wofi-csv Power"

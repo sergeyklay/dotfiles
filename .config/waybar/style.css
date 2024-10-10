@@ -1,5 +1,5 @@
 #waybar {
-    font-family: "Fira Sans SemiBold";
+    font-family: "Open Sans Semibold";
     font-size: 13px;
 }
 
@@ -86,6 +86,7 @@ window#waybar.solo {
 }
 
 #language {
+  font-size: 14px;
 }
 
 #custom-disturb-on,
