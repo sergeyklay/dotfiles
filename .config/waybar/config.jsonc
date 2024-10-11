@@ -9,7 +9,7 @@
   "modules-center": ["clock"],
   "modules-right": [
     "idle_inhibitor",
-    "pulseaudio",
+    "wireplumber",
     "temperature",
     "network",
     "sway/language",
@@ -20,16 +20,17 @@
   "sway/workspaces": {
     "disable-scroll": true,
     "disable-markup": false,
-    "format": "{icon}",
+    "format": "{name}   {icon}",
     "format-icons": {
-      "1": "1 <span font='Font Awesome 6 Free 11'> \uf120</span>",
-      "2": "2 <span font='Font Awesome 6 Free 11'> \uf198</span>",
-      "3": "3 <span font='Font Awesome 6 Free 11'> \uf269</span>",
-      "4": "4 <span font='Font Awesome 6 Free 11'> \uf0e0</span>",
-      "5": "5 <span font='Font Awesome 6 Free 11'> \uf121</span>",
-      "6": "6 <span font='Font Awesome 6 Free 11'> \uf1bc</span>"
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
+      "5": "",
+      "6": ""
     }
   },
+
   "sway/window": {
     "max-length": 60,
     "tooltip": false
@@ -41,6 +42,7 @@
     "on-click": "swaymsg input 'type:keyboard' xkb_switch_layout next",
     "tooltip": false
   },
+
   "sway/mode": {
     "format": "<span style=\"italic\">{}</span>"
   },
@@ -49,11 +51,12 @@
     "format": "{:%a %d %b - %H:%M}",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
   },
+
   "network": {
     "format": "{ifname}",
-    "format-wifi": "<span font='Font Awesome 6 Free 10'>\uf1eb</span>   {signalStrength}%",
-    "format-ethernet": "<span font='Font Awesome 6 Free 10'>\uf0c1</span> {ifname}",
-    "format-disconnected": "<span font='Font Awesome 6 Free 9'>\uf071</span> Disconnected",
+    "format-wifi": "  {signalStrength}%",
+    "format-ethernet": "  {ifname}",
+    "format-disconnected": "⚠  Disconnected",
     "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
     "tooltip-format-wifi": "{essid} ({signalStrength}%): {ipaddr}/{cidr}",
     "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
@@ -63,52 +66,59 @@
     "on-click": "foot -w 700x700 -a foot.nmtui bash -c 'sleep 0.1; nmtui'",
     "max-length": 50
   },
+
   "idle_inhibitor": {
     "format": "{icon}",
     "format-icons": {
-      "activated": "<span font='Font Awesome 6 Free 9'>\uf3c1</span>",
-      "deactivated": "<span font='Font Awesome 6 Free 9'>\uf023</span>"
+      "activated": "",
+      "deactivated": ""
     }
   },
-  "pulseaudio": {
-    "format": "<span font='Font Awesome 6 Free 11'>{icon}</span>  {volume}%",
-    "format-alt": "<span font='Font Awesome 6 Free 11'>{icon}</span>  {volume}%",
-    "format-alt-click": "click-right",
-    "format-muted": "<span font='Font Awesome 6 Free 11'>\uf6a9</span> 0%",
-    "format-icons": {
-      "phone": ["\uf025 \uf026", "\uf025 \uf027", "\uf025 \uf027", "\uf025 \uf028"],
-      "default": ["\uf026", "\uf027", "\uf027", "\uf028"]
-    },
-    "scroll-step": 2,
-    "on-click": "pavucontrol",
+
+  "wireplumber": {
+    "format": "{icon} {volume}%",
+    "format-muted": " 0%",
+    "format-icons": ["", "", ""],
+    "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "scroll-step": 5,
+    "max-volume": 150,
     "tooltip": false
   },
+
   "temperature": {
-    "format": "<span font='Font Awesome 6 Free 9'>\uf76b</span> {temperatureC:3}°C",
+    "format": "{icon} {temperatureC}°C",
+    "format-critical": "{icon} {temperatureC}°C",
     "hwmon-path": "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input",
+    "format-icons": [""],
     "tooltip": false
   },
+
   "battery": {
     "bat": "BAT0",
     "interval": 30,
     "states": {
-      "warning": 25,
-      "critical": 10
+      "warning": 30,
+      "critical": 15
     },
-    "format": "<span font='Font Awesome 6 Free 11'>{icon}</span>  {capacity}%",
-    "format-charging": "<span font='Font Awesome 6 Free'>\uf0e7</span>  <span font='Font Awesome 6 Free 11'>{icon}</span>  {capacity}%",
-    "format-full": "<span font='Font Awesome 6 Free'>\uf0e7</span>  <span font='Font Awesome 6 Free 11'>{icon}</span>  100%",
-    "format-icons": ["\uf244", "\uf243", "\uf242", "\uf241", "\uf240"],
+    "format": " {icon} {capacity}% ",
+    "format-charging": " {capacity}%",
+    "format-plugged": " {capacity}%",
+    "format-alt": "{icon} {time}",
+    "format-icons": [" ", " ", " ", " ", " "],
     "format-time": "{H}h{M}m",
     "max-length": 25
   },
+
   "custom/powermenu": {
     "return-type": "json",
     "exec": "~/.config/waybar/modules/powermenu.sh",
-    "format": "<span font='Font Awesome 6 Free 9'>{icon}</span>  {}",
-    "format-icons": ["\uf011"],
+    "format": "{icon} {}",
+    "format-icons": ["⏻"],
     "interval": 3600,
     "escape": true,
+    "tooltip": false,
     "on-click": "wofi-csv Power"
   }
 }

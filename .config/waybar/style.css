@@ -1,7 +1,9 @@
-#waybar {
-    font-family: "Open Sans Semibold";
-    font-size: 13px;
+* {
+  font-family: "Noto Sans";
+  font-size: 13px;
 }
+
+#waybar { }
 
 #window {
     padding: 0 10px;
@@ -66,7 +68,7 @@ window#waybar.solo {
 #temperature,
 #backlight,
 #network,
-#pulseaudio,
+#wireplumber,
 #tray,
 #mode,
 #idle_inhibitor,
@@ -75,8 +77,8 @@ window#waybar.solo {
 #custom-disturb_on,
 #custom-disturb_off,
 #custom-mic {
-    margin: 0px 0px 0px 10px;
-    padding: 0 5px;
+    margin: 0px 0px 0px 8px;
+    padding: 0 6px;
     color: #f8f8f2;
 }
 
@@ -106,6 +108,10 @@ window#waybar.solo {
 
 #battery.critical {
   color: rgba(238, 46, 36, 1);
+}
+
+#custom-powermenu {
+  font-size: 18px;
 }
 
 @keyframes blink {
