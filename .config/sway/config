@@ -22,6 +22,10 @@ include conf.d/*
 # Floating windows
 for_window [app_id="foot.nmtui"] floating enable
 
+# v4l GUI
+for_window [app_id="qv4l2"] floating enable
+for_window [app_id="qvidcap"] floating enable
+
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.

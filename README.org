@@ -19,6 +19,7 @@ dotfiles will be relevant and functional:
 
 - Gentoo Linux (recommend)
 - Arch Linux
+- Debian
 - Ubuntu
 - Fedora
 
