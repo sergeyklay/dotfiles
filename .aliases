@@ -109,6 +109,11 @@ if command -v rg >/dev/null 2>&1; then
   alias rg='rg --color=auto'
 fi
 
+# Add alias to colorify commands
+if tty -s && [ -n "$TERM" ] && [ "$TERM" != dumb ] && command -v grc >/dev/null 2>&1; then
+  alias colorify="grc -es"
+fi
+
 # Wget will use the supplied file as the HSTS database
 if command -v wget >/dev/null 2>&1; then
   alias wget="wget --hsts-file=${XDG_CACHE_HOME:-$HOME/.cache}/wget-hsts"
