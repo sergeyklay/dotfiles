@@ -26,6 +26,11 @@ for_window [app_id="foot.nmtui"] floating enable
 for_window [app_id="qv4l2"] floating enable
 for_window [app_id="qvidcap"] floating enable
 
+# Zoom
+for_window [class="zoom" title="Zoom Workplace"] floating enable
+for_window [class="zoom" title="Meeting"] floating disable, fullscreen enable
+for_window [class="zoom" title="Zoom Workplace - Licensed account"] floating disable
+
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
