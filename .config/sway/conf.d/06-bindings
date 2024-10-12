@@ -164,8 +164,10 @@ bindsym --locked XF86AudioMicMute exec --no-startup-id wpctl set-mute @DEFAULT_A
 bindsym --locked Mod4+l exec --no-startup-id "swaylock -f -e -l -F -c 000000"
 
 # TODO: ??? (Fn+F10)
-# TODO: XF86MonBrightnessDown (Fn+F11)
-# TODO: XF86MonBrightnessUp (Fn+F12)
+
+# F11, F12
+bindsym --locked XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+bindsym --locked XF86MonBrightnessUp exec --no-startup-id brightnessctl set 5%+
 
 #
 # Screenshots
