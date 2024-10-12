@@ -31,24 +31,12 @@ bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. 
 #
 
 # Move your focus around
-bindsym $mod+$left focus left
-bindsym $mod+$down focus down
-bindsym $mod+$up focus up
-bindsym $mod+$right focus right
-
-# Or use $mod+[up|down|left|right]
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # Move the focused window with the same, but add Shift
-bindsym $mod+Shift+$left move left
-bindsym $mod+Shift+$down move down
-bindsym $mod+Shift+$up move up
-bindsym $mod+Shift+$right move right
-
-# Ditto, with arrow keys
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
@@ -153,13 +141,31 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 #
-# Volume
+# Functional Keys (Fn + F1..F12)
 #
 
-bindsym --locked XF86AudioRaiseVolume exec --no-startup-id pulseaudio-ctl up
-bindsym --locked XF86AudioLowerVolume exec --no-startup-id pulseaudio-ctl down
-bindsym --locked XF86AudioMute exec --no-startup-id pulseaudio-ctl mute
-bindsym --locked shift+XF86AudioMute exec --no-startup-id pulseaudio-ctl mute-input
+# F1,F2,F3,F4:
+bindsym --locked XF86AudioMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym --locked XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bindsym --locked XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym --locked XF86AudioMicMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+
+# F5,F6,F7:
+# These key works out of box
+
+# TODO: XF86WebCam (Fn+F8)
+
+# F9:
+# Turns out my Lenovo Y520's Fn+F9 is hardwired to blast Mod4+L (aka
+# Super+L), which is the standard lock screen shortcut.  Sway was
+# hijacking Mod4+L for window focus a.k.a. classic vim nav (which I
+# ain't using), so the lock screen wasn't firing.  Nuked those default
+# binds, and now Fn+F9 (and Win+L) lock the screen like a charm.
+bindsym --locked Mod4+l exec --no-startup-id "swaylock -f -e -l -F -c 000000"
+
+# TODO: ??? (Fn+F10)
+# TODO: XF86MonBrightnessDown (Fn+F11)
+# TODO: XF86MonBrightnessUp (Fn+F12)
 
 #
 # Screenshots
@@ -183,13 +189,6 @@ bindsym --release Ctrl+Shift+Print exec --no-startup-id grim -g "$(slurp)" -t pn
 
 bindsym Alt+space exec makoctl set-mode default
 bindsym Shift+Alt+space exec makoctl set-mode dnd
-
-#
-# Misc
-#
-
-# Lock screen
-bindsym $mod+Control+q exec "swaylock -f -e -l -F -c 000000"
 
 # Local Variables:
 # mode: conf
