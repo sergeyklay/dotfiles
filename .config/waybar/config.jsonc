@@ -92,6 +92,7 @@
 
       // terminal
       "serghei@saturn - (.*)": "  $1",
+      "saturn: (.*)": "  $1",
 
       // Firefox
       "(.*) — Mozilla Firefox": "<span foreground='#f38ba8'>󰈹 </span> $1",
