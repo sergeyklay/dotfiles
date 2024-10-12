@@ -40,7 +40,7 @@ input "1:1:AT_Translated_Set_2_keyboard" {
     # terminate:ctrl_alt_bksp — Terminate session via Ctrl + Alt + Backspace
     # ctrl:nocaps             — Make Caps Lock yet another Ctrl
     # shift:both_capslock     — Toggle Caps Lock when press left and right Shift
-    xkb_options grp:win_space_toggle,compose:ralt,terminate:ctrl_alt_bksp,ctrl:nocaps,shift:both_capslock:super_win
+    xkb_options grp:win_space_toggle,compose:ralt,terminate:ctrl_alt_bksp,ctrl:nocaps,shift:both_capslock
 }
 
 input type:touchpad {
