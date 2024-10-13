@@ -22,7 +22,7 @@
 @define-color wireplumber       #171724;
 @define-color backlight         #1e1e2e;
 @define-color battery           #313244;
-@define-color power             #6c7086;
+@define-color power             #9399b2;
 
 /* Main Background */
 window#waybar { background: @background; }
