@@ -1,8 +1,8 @@
 #!/usr/bin/env emacs --script
 
-;; Copyright (C) 2024 Serghei Iakovlev <egrep@protonmail.ch>
+;; Copyright (C) 2024 Serghei Iakovlev <gnu@serghei.pl>
 
-;; Author: Serghei Iakovlev <egrep@protonmail.ch>
+;; Author: Serghei Iakovlev <gnu@serghei.pl>
 ;; URL: https://github.com/sergeyklay/dotfiles/blob/master/bin/orgcookie.el
 ;; Keywords: tools, misc
 
@@ -124,7 +124,7 @@ Returns nil if ARG is empty, not provided, or does not contain valid numbers."
 (defun print-help ()
   "Print help message for the orgcookie script."
   (message "orgcookie 1.0.0")
-  (message "Serghei Iakovlev <egrep@protonmail.ch>\n")
+  (message "Serghei Iakovlev <gnu@serghei.pl>\n")
   (message "orgcookie scans through specified Org files and identifies headings")
   (message "that are missing the `COOKIE_DATA` property. It outputs the file names,")
   (message "line numbers, and headings with missing properties in the terminal.\n")
