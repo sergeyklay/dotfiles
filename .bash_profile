@@ -303,11 +303,19 @@ if command -v gpgconf >/dev/null 2>&1 && \
 fi
 
 # Update GPG_TTY.  See 'man 1 gpg-agent'.
-GPG_TTY="${TTY:-$(tty)}"
+GPG_TTY="${GPG_TTY:-$(tty 2>/dev/null)}"
 export GPG_TTY
 
+# Support for old systems with GnuPG 1.x.
+if command -v gpg2 >/dev/null 2>&1; then
+  GPG=gpg2
+  export GPG
+elif command -v gpg >/dev/null 2>&1; then
+  GPG=gpg
+  export GPG
+fi
+
 # Using a PGP key for SSH authentication if it's enabled.
-#
 # For more details see the --enable-ssh-support section of
 # gpg-agent(1).
 if command -v gpgconf >/dev/null 2>&1; then
