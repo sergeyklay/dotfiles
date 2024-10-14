@@ -291,14 +291,15 @@ GNUPGHOME=${GNUPGHOME:-$HOME/.gnupg}
 export GNUPGHOME
 
 # Enable gpg-agent if it is not running
-if command -v gpgconf >/dev/null 2>&1 && \
-    command -v gpg-agent >/dev/null 2>&1; then
-  if [ -z "$(pgrep -x gpg-agent)" ] || \
+if command -v gpgconf >/dev/null 2>&1; then
+  if command -v gpg-agent >/dev/null 2>&1; then
+    if [ -z "$(pgrep -x gpg-agent)" ] || \
        [ ! -S "$(gpgconf --list-dirs agent-socket)" ]; then
     gpg-agent \
       --homedir "$GNUPGHOME" \
       --daemon \
       --use-standard-socket >/dev/null 2>&1
+    fi
   fi
 fi
 
