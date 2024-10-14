@@ -16,6 +16,13 @@
 .gnupg/*.conf         linguist-language=INI linguist-detectable=true
 .config/sway/conf.d/* linguist-language=INI linguist-detectable=true
 .config/sway/config   linguist-language=INI linguist-detectable=true
+bin/git-count         linguist-language=Shell linguist-detectable=true
+bin/nvm-init          linguist-language=Shell linguist-detectable=true
+bin/orgheadingstats   linguist-language=Shell linguist-detectable=true
+bin/pyenv-init        linguist-language=Shell linguist-detectable=true
+bin/rbenv-init        linguist-language=Shell linguist-detectable=true
+bin/sway              linguist-language=Shell linguist-detectable=true
+bin/wofi-csv          linguist-language=Shell linguist-detectable=true
 
 #
 # Text files.
