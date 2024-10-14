@@ -308,23 +308,8 @@ export GPG_TTY
 
 # Using a PGP key for SSH authentication if it's enabled.
 #
-# Once gpg-agent is running the list of approved keys
-# should be stored in the $GNUPGHOME/sshcontrol file
-# (unless you have your GPG key on a keycard).  Consider
-# the following example to see the general idea:
-#
-#    $ rm ~/.gnupg/sshcontrol
-#    $ ssh-add -l
-#    The agent has no identities.
-#    $ echo YOUR_KEYGRIP > ~/.gnupg/sshcontrol
-#    $ ssh-add -l
-#    4096 SHA256:YOUR_KEY_HERE (none) (RSA)
-#
-# Note: This feature requires a key with the Authentication
-# capability.  To check key copability see:
-#
-#    $ grep '\[A]' <(gpg -K your@id.here)
-#
+# For more details see the --enable-ssh-support section of
+# gpg-agent(1).
 if command -v gpgconf >/dev/null 2>&1; then
   if [ "$(gpgconf --list-options gpg-agent 2>/dev/null | \
     grep '^enable-ssh-support:' | cut -d: -f10)" = "1" ]; then
@@ -334,6 +319,14 @@ if command -v gpgconf >/dev/null 2>&1; then
       export SSH_AUTH_SOCK
     fi
   fi
+fi
+
+# If gpg-agent is used over SSH, a graphical pinentry password prompt
+# will not come up in the login shell. This causes all operations that
+# require a password to fail.
+if [[ -n "$SSH_CONNECTION" ]] ;then
+  PINENTRY_USER_DATA="USE_CURSES=1"
+  export PINENTRY_USER_DATA
 fi
 
 # --------------------------------------------------------------------
