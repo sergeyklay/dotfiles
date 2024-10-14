@@ -330,10 +330,11 @@ if command -v gpgconf >/dev/null 2>&1; then
   fi
 fi
 
-# If gpg-agent is used over SSH, a graphical pinentry password prompt
-# will not come up in the login shell. This causes all operations that
-# require a password to fail.
-if [[ -n "$SSH_CONNECTION" ]] ;then
+# If gpg-agent is used over SSH or there is no graphical environment
+# available, set PINENTRY_USER_DATA to force a curses-based
+# prompt. This ensures password prompts work in an SSH session or in
+# environments without a graphical interface.
+if [ -n "$SSH_CONNECTION" ] || [ -z "$DISPLAY" ]; then
   PINENTRY_USER_DATA="USE_CURSES=1"
   export PINENTRY_USER_DATA
 fi
