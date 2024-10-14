@@ -1,27 +1,22 @@
 ### Autostart
 
-# export some useful env vars
-# DISPLAY is needed here only for CLion which does not work yet on native
-# wayland. See:
-# - https://youtrack.jetbrains.com/issue/JBR-3206
-# - https://youtrack.jetbrains.com/issue/JBR-1315
+# Export some useful env vars.
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY DBUS_SESSION_BUS_ADDRESS SWAYSOCK
 
-# fix for pinentry-gnome3 on sway
-# DISPLAY is needed here only for CLion which does not work yet on native
-# wayland. See:
-# - https://youtrack.jetbrains.com/issue/JBR-3206
-# - https://youtrack.jetbrains.com/issue/JBR-1315
-exec dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY DBUS_SESSION_BUS_ADDRESS SWAYSOCK
+# DBus activation environment is independent from systemd. While most of
+# dbus-activated services are already using `SystemdService` directive, some
+# still don't and thus we should set the dbus environment with a separate
+# command.
+exec dbus-update-activation-environment --all
 
-# enable gnome-keyring daemon
-exec /usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh
-exec $keyring
+# Enable gnome-keyring daemon.
+exec gnome-keyring-daemon --start --components=pkcs11,secrets,ssh
+exec export $(gnome-keyring-daemon)
 
-# enable notifications
+# Enable notifications support.
 exec mako
 
-# set theme
+# Set up theme.
 set $gnome-schema org.gnome.desktop.interface
 exec_always {
   gsettings set $gnome-schema gtk-theme 'Arc'
