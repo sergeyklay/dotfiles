@@ -20,7 +20,7 @@
 contacts=$(khard list --fields formatted_name | LC_TYPE=en_US.UTF-8 sort)
 
 # Filter my CardDAV groups
-contacts=$(echo "$contacts" | grep -E -v '^(FLAIR|Misc|Shops|Us|VIPs)')
+contacts=$(echo "$contacts" | grep -E -v '^(Autosaved|FLAIR|Misc|Shops|Us|VIPs)')
 contacts=$(echo "$contacts" | grep -E -v '^(Formatted Name|Address book)')
 contacts=$(echo "$contacts" | grep -E -v '^[[:space:]]*$')
 
