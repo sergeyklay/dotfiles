@@ -200,10 +200,9 @@ tooltip {
   color: black;
   background: @logo;
   font-size: 11pt;
-  margin-right: -1px;
   margin-bottom: -2px;
-  padding-right: 2px;
-  padding-left: 3px;
+  padding-right: 8px;
+  padding-left: 5px;
   text-shadow: 0px 0px 1.5px rgba(0, 0, 0, 1);
 }
 
