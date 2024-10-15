@@ -171,7 +171,7 @@
 
   "custom/wifi": {
     "exec": "~/.config/waybar/modules/essid.sh",
-    "interval": 30,
+    "interval": 1,
     "format": "Wi-Fi",   // use "{}" to display wifi name
     "tooltip": true,
     "tooltip-format": "{}",
