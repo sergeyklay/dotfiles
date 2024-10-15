@@ -334,7 +334,8 @@ fi
 # available, set PINENTRY_USER_DATA to force a curses-based
 # prompt. This ensures password prompts work in an SSH session or in
 # environments without a graphical interface.
-if [ -n "$SSH_CONNECTION" ] || [ -z "$DISPLAY" ]; then
+if [ -n "$SSH_CONNECTION" ] \
+     || ( [ -z "$DISPLAY" ]  && [ -z "$WAYLAND_DISPLAY" ] ); then
   PINENTRY_USER_DATA="USE_CURSES=1"
   export PINENTRY_USER_DATA
 fi
