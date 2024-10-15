@@ -25,11 +25,14 @@ contacts=$(echo "$contacts" | grep -E -v '^(Formatted Name|Address book)')
 contacts=$(echo "$contacts" | grep -E -v '^[[:space:]]*$')
 
 contact=$(echo "$contacts" | wofi --show dmenu --prompt 'Contacts:')
+contact=$(echo "$contact" | xargs)
 
 if [ -n "$contact" ]; then
-  contact_info=$(khard show "$(echo "$contact" | xargs)")
+  contact_info="$(khard show "$contact")"
+
   foot \
     -w 700x700 \
+    -o pad=10x10 \
     -T "$(echo "$contact" | xargs) - Contact" \
     -a foot.contact \
     bash -c "echo '$contact_info'; echo; read -p 'Press Enter to exit...'"
