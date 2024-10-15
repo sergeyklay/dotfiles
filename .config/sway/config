@@ -21,6 +21,7 @@ include conf.d/*
 
 # Floating windows
 for_window [app_id="foot.nmtui"] floating enable
+for_window [app_id="foot.contact"] floating enable
 
 # v4l GUI
 for_window [app_id="qv4l2"] floating enable
