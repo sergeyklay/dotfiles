@@ -17,17 +17,18 @@
 
 # shellcheck shell=bash
 
-khard list  -d first_name | \
+khard list  -d first_name -s last_name | \
   tail -n+2 | \
+  grep -E -v '^[0-9]*[[:space:]]*(Autosaved|FLAIR|Misc|Shops|Us|VIPs)[[:space:]]' | \
   fzf --reverse \
-  --with-nth=2.. \
-  --preview "khard show {2} {3}" \
-  --bind "alt-e:execute(khard edit {2} {3})" \
-  --bind "alt-a:execute(khard new)" \
-  --bind "alt-r:execute(khard list)" \
-  --header-lines=1 \
-  --color fg:242,bg:233,hl:65,fg+:15,bg+:234,hl+:108 \
-  --color info:108,prompt:109,spinner:108,pointer:168,marker:168
+    --with-nth=2.. \
+    --preview "khard show {2} {3}" \
+    --bind "alt-e:execute(khard edit {2} {3})" \
+    --bind "alt-a:execute(khard new)" \
+    --bind "alt-r:execute(khard list)" \
+    --header-lines=1 \
+    --color fg:242,bg:233,hl:65,fg+:15,bg+:234,hl+:108 \
+    --color info:108,prompt:109,spinner:108,pointer:168,marker:168
 
 # Local Variables:
 # mode: sh
