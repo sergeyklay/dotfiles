@@ -1,10 +1,17 @@
 #!/bin/bash
 
+# Check if necessary utilities are installed
+if ! command -v nmcli &> /dev/null || ! command -v iw &> /dev/null; then
+  echo "{\"text\": \"󰤮 Wi-Fi\", \"tooltip\": \"Wi-Fi utilities are missing\"}"
+  exit 1
+fi
+
 wifi_info=$(nmcli -t -f active,ssid,signal dev wifi | grep "^yes")
 
 # If no ESSID is found, set a default value
 if [ -z "$wifi_info" ]; then
-  echo "{\"text\": \"󰤮  WiFi\", \"tooltip\": \"No Connection\"}"
+  essid="No Connection"
+  signal=0
 else
   # Some defaults
   ip_address="127.0.0.1"
@@ -44,20 +51,6 @@ else
 
     # Download speed
     tx_bitrate=$(echo "$iw_output" | grep "tx bitrate:" | awk '{print $3 " " $4}')
-
-
-    # Determine Wi-Fi icon based on signal strength
-    if [ "$signal" -ge 80 ]; then
-      icon="󰤨"  # Strong signal
-    elif [ "$signal" -ge 60 ]; then
-      icon="󰤥"  # Good signal
-    elif [ "$signal" -ge 40 ]; then
-      icon="󰤢"  # Weak signal
-    elif [ "$signal" -ge 20 ]; then
-      icon="󰤟"  # Very weak signal
-    else
-      icon="󰤮"  # No signal
-    fi
   fi
 
   # Get the current Wi-Fi ESSID
@@ -79,6 +72,20 @@ else
   if [ -n "$tx_bitrate" ]; then
     tooltip+="\nTx Rate:     ${tx_bitrate}"
   fi
-
-  echo "{\"text\": \"${icon}  WiFi\", \"tooltip\": \"$tooltip\"}"
 fi
+
+# Determine Wi-Fi icon based on signal strength
+if [ "$signal" -ge 80 ]; then
+  icon="󰤨"  # Strong signal
+elif [ "$signal" -ge 60 ]; then
+  icon="󰤥"  # Good signal
+elif [ "$signal" -ge 40 ]; then
+  icon="󰤢"  # Weak signal
+elif [ "$signal" -ge 20 ]; then
+  icon="󰤟"  # Very weak signal
+else
+  icon="󰤮"  # No signal
+fi
+
+# Change "Wi-Fi" to "${essid}" to display network name
+echo "{\"text\": \"${icon} Wi-Fi\", \"tooltip\": \"${tooltip}\"}"
