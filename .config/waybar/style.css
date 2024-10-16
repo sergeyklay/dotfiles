@@ -3,8 +3,8 @@
   border: none;
   font-family: "JetBrainsMono Nerd Font";
   font-weight: bold;
-  font-size: 13px;
-  min-height: 13px;
+  font-size: 14px;
+  min-height: 14px;
 }
 
 @import "theme.css";
@@ -25,7 +25,9 @@
 @define-color power             #9399b2;
 
 /* Main Background */
-window#waybar { background: @background; }
+window#waybar {
+  background: @background;
+}
 
 /* [new] Drop Shadow */
 window#waybar > box {
@@ -47,7 +49,7 @@ tooltip {
 /* Workspace Button */
 #workspaces button {
   color: @foreground;
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: none;
   margin-top: 2px;
   margin-right: 0px;
@@ -70,7 +72,7 @@ tooltip {
   padding-right: 6px;
   padding-left: 6px;
   animation: ws_active 20s ease-in-out 1;
-  transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
+  transition: all 0.4s cubic-bezier(0.55, -0.68, 0.48, 1.682);
 }
 
 /* Hover Effect for Workspace Buttons */
@@ -79,7 +81,7 @@ tooltip {
   background: @hover-bg;
   box-shadow: none;
   animation: ws_hover 20s ease-in-out 1;
-  transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+  transition: all 0.3s cubic-bezier(0.55, -0.68, 0.48, 1.682);
 }
 
 /* General Module Styling */
@@ -112,7 +114,7 @@ tooltip {
 #custom-left6,
 #custom-left7,
 #custom-left8 {
-  font-size: 11pt;
+  font-size: 13.2pt;
   text-shadow: -1px 0px 2px rgba(0, 0, 0, 1);
 }
 
@@ -122,13 +124,15 @@ tooltip {
 #custom-right3,
 #custom-right4,
 #custom-right5 {
-  font-size: 11pt;
+  font-size: 13.2pt;
   padding-right: 3px;
   text-shadow: 1px 0px 2px rgba(0, 0, 0, 1);
 }
 
 /* Window Icon */
-#custom-ws { background: @background; }
+#custom-ws {
+  background: @background;
+}
 
 /* Workspaces */
 #custom-left1 {
@@ -137,7 +141,9 @@ tooltip {
   padding-left: 2px;
 }
 
-#workspaces { background: @workspaces; }
+#workspaces {
+  background: @workspaces;
+}
 
 #custom-right1 {
   color: @workspaces;
@@ -145,12 +151,13 @@ tooltip {
 }
 
 /* Temperature */
-#custom-paddc { padding-right: 22px; }
+#custom-paddc {
+  padding-right: 22px;
+}
 
 #custom-left2 {
   color: @cpuinfo;
   background: @background;
-  border-radius: 10px;
   padding-left: 3px;
 }
 
@@ -180,7 +187,9 @@ tooltip {
   padding-left: 3px;
 }
 
-#cpu { background: @cpu; }
+#cpu {
+  background: @cpu;
+}
 
 #custom-leftin1 {
   color: @cpu;
@@ -199,10 +208,10 @@ tooltip {
 #custom-logo {
   color: black;
   background: @logo;
-  font-size: 11pt;
+  font-size: 13.2pt;
   margin-bottom: -2px;
-  padding-right: 8px;
-  padding-left: 5px;
+  padding-right: 9px;
+  padding-left: 6px;
   text-shadow: 0px 0px 1.5px rgba(0, 0, 0, 1);
 }
 
@@ -218,7 +227,9 @@ tooltip {
   margin-bottom: -2px;
 }
 
-#clock.time { background: @time; }
+#clock.time {
+  background: @time;
+}
 
 #custom-right3 {
   color: @time;
@@ -226,7 +237,9 @@ tooltip {
 }
 
 /* Date */
-#clock.date { background: @date; }
+#clock.date {
+  background: @date;
+}
 
 #custom-right4 {
   color: @date;
@@ -260,7 +273,9 @@ tooltip {
   padding-left: 3px;
 }
 
-#wireplumber { background: @wireplumber; }
+#wireplumber {
+  background: @wireplumber;
+}
 
 /* Brightness */
 #custom-left7 {
@@ -269,7 +284,9 @@ tooltip {
   padding-left: 2px;
 }
 
-#backlight { background: @backlight; }
+#backlight {
+  background: @backlight;
+}
 
 /* Battery */
 #custom-left8 {
@@ -278,11 +295,17 @@ tooltip {
   padding-left: 2px;
 }
 
-#battery { background: @battery; }
+#battery {
+  background: @battery;
+}
 
-#battery.warning { color: #f9e2af; }
+#battery.warning {
+  color: #f9e2af;
+}
 
-#battery.critical { color: #f38ba8; }
+#battery.critical {
+  color: #f38ba8;
+}
 
 /* Power Button */
 #custom-leftin2 {
@@ -309,5 +332,5 @@ tooltip {
   color: @hover-fg;
   background: @hover-bg;
   box-shadow: none;
-  transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+  transition: all 0.3s cubic-bezier(0.55, -0.68, 0.48, 1.682);
 }
