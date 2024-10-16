@@ -90,7 +90,7 @@
     "separate-outputs": true,
     "rewrite": {
       // desktop
-      "": "<span foreground='#89b4fa'> </span> Sway",
+      "": "<span foreground='#89b4fa'> </span> Sway",
 
       // terminal
       "serghei@saturn - (.*)": "  $1",
