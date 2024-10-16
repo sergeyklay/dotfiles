@@ -1,3 +1,6 @@
+// Originally from MechaBar by Sejjy (https://github.com/sejjy/mechabar)
+// Modified by Serghei Iakovlev to include custom layout and color scheme
+
 {
   "layer": "top",
   "position": "top",
@@ -165,10 +168,10 @@
 
   "custom/wifi": {
     "exec": "~/.config/waybar/modules/essid.sh",
-    "interval": 1,
-    "format": "󰤨 Wi-Fi",   // use "{}" to display wifi name
+    "return-type": "json",
+    "format": "{}",
     "tooltip": true,
-    "tooltip-format": "{}",
+    "interval": 5,
     "on-click": "foot -w 700x700 -a foot.nmtui bash -c 'sleep 0.1; nmtui'",
     "min-length": 7,
     "max-length": 7
