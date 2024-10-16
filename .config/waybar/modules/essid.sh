@@ -1,11 +1,10 @@
 #!/bin/bash
 
-# Get the current Wi-Fi ESSID
-essid=$(nmcli -t -f active,ssid dev wifi | awk -F: '/^yes/ {print $2}')
+wifi_info=$(nmcli -t -f active,ssid,signal dev wifi | grep "^yes")
 
 # If no ESSID is found, set a default value
-if [ -z "$essid" ]; then
-  echo "{\"text\": \"󰤨 WiFi\", \"tooltip\": \"No Connection\"}"
+if [ -z "$wifi_info" ]; then
+  echo "{\"text\": \"󰤮  WiFi\", \"tooltip\": \"No Connection\"}"
 else
   # Some defaults
   ip_address="127.0.0.1"
@@ -13,9 +12,10 @@ else
   mac_address="N/A"
   bssid="N/A"
   chan="N/A"
-  signal="N/A"
+  rssi="N/A"
   rx_bitrate=""
   tx_bitrate=""
+  signal=$(echo $wifi_info | awk -F: '{print $3}')
 
   active_device=$(nmcli -t -f DEVICE,STATE device status | \
     grep -w "connected" | \
@@ -23,13 +23,13 @@ else
     awk -F: '{print $1}')
 
   if [ -n "$active_device" ]; then
-    output=$(nmcli -e no -g IP4.ADDRESS,IP4.GATEWAY,GENERAL.HWADDR device show $active_device)
+    output=$(nmcli -e no -g ip4.address,ip4.gateway,general.hwaddr device show $active_device)
 
     ip_address=$(echo "$output" | sed -n '1p')
     gateway=$(echo "$output" | sed -n '2p')
     mac_address=$(echo "$output" | sed -n '3p')
 
-    line=$(nmcli -e no -t -f ACTIVE,BSSID,CHAN,FREQ device wifi | grep "^yes")
+    line=$(nmcli -e no -t -f active,bssid,chan,freq device wifi | grep "^yes")
 
     bssid=$(echo "$line" | awk -F':' '{print $2":"$3":"$4":"$5":"$6":"$7}')
     chan=$(echo "$line" | awk -F':' '{print $8}')
@@ -37,14 +37,31 @@ else
     chan="$chan ($freq)"
 
     iw_output=$(iw dev "$active_device" station dump)
-    signal=$(echo "$iw_output" | grep "signal:" | awk '{print $2 " dBm"}')
+    rssi=$(echo "$iw_output" | grep "signal:" | awk '{print $2 " dBm"}')
 
     # Upload speed
     rx_bitrate=$(echo "$iw_output" | grep "rx bitrate:" | awk '{print $3 " " $4}')
 
     # Download speed
     tx_bitrate=$(echo "$iw_output" | grep "tx bitrate:" | awk '{print $3 " " $4}')
+
+
+    # Determine Wi-Fi icon based on signal strength
+    if [ "$signal" -ge 80 ]; then
+      icon="󰤨"  # Strong signal
+    elif [ "$signal" -ge 60 ]; then
+      icon="󰤥"  # Good signal
+    elif [ "$signal" -ge 40 ]; then
+      icon="󰤢"  # Weak signal
+    elif [ "$signal" -ge 20 ]; then
+      icon="󰤟"  # Very weak signal
+    else
+      icon="󰤮"  # No signal
+    fi
   fi
+
+  # Get the current Wi-Fi ESSID
+  essid=$(echo $wifi_info | awk -F: '{print $2}')
 
   tooltip="$essid\n"
   tooltip+="\nIP Address:  ${ip_address}"
@@ -52,6 +69,7 @@ else
   tooltip+="\nMAC Address: ${mac_address}"
   tooltip+="\nBSSID:       ${bssid}"
   tooltip+="\nChannel:     ${chan}"
+  tooltip+="\nRSSI:        ${rssi}"
   tooltip+="\nSignal:      ${signal}"
 
   if [ -n "$rx_bitrate" ]; then
@@ -62,18 +80,5 @@ else
     tooltip+="\nTx Rate:     ${tx_bitrate}"
   fi
 
-  declare -A myarray=(
-    ["text"]="󰤨 WiFi"
-    ["tooltip"]=$tooltip
-  )
-
-  json="{"
-
-  for key in "${!myarray[@]}"; do
-    value=${myarray[$key]}
-    json+="\"$key\":\"$value\","
-  done
-
-  json="${json%,}}"
-  echo "$json"
+  echo "{\"text\": \"${icon}  WiFi\", \"tooltip\": \"$tooltip\"}"
 fi
