@@ -141,9 +141,8 @@
   },
 
   "clock#time": {
-    "format": "󱑂 {:%H:%M}",
-    "tooltip": true,
-    "tooltip-format": "{:%I:%M %p}",
+    "format": "󱑂 {:%I:%M}",
+    "tooltip": false,
     "min-length": 8,
     "max-length": 8
   },
