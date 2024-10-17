@@ -143,7 +143,7 @@ else
   # Get the current Wi-Fi ESSID
   essid=$(echo $wifi_info | awk -F: '{print $2}')
 
-  tooltip="$essid\n"
+  tooltip="<span color='#f9e2af'><b>${essid}</b></span>\n"
   tooltip+="\nIP Address:  ${ip_address}"
   tooltip+="\nRouter:      ${gateway}"
   tooltip+="\nMAC Address: ${mac_address}"
