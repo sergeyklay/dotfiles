@@ -3,7 +3,7 @@
 All my dotfiles that I port around from system to system. The goal of this
 project is to organize my shell scripts and configurations, and to keep
 them synchronized across multiple machines. It started as a basic setup,
-but now it includes management of =.bashrc=, =.profile=, and various other
+but now it includes management of =.bashrc=, =.bash_profile=, and various other
 shell-related files and tools.
 
 #+CAPTION: Screen capture on Thu Oct 10 07:04:27 PM CEST 2024
