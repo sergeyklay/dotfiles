@@ -185,7 +185,7 @@
 
   "wireplumber": {
     "format": "{icon} {volume}%",
-    "format-muted": "婢 {volume}%",
+    "format-muted": "󰝟 {volume}%",
     "format-icons": {
       "headphone": "󰋋",
       "default": ["󰖀", "󰕾"]
