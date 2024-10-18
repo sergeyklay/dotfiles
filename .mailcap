@@ -1,0 +1,1 @@
+text/html; elinks -dump -force-html %s; copiousoutput; description=HTML Text; nametemplate=%s.html
