@@ -232,58 +232,6 @@ LANG=en_US.UTF-8;   export LANG
 LC_ALL=en_US.UTF-8; export LC_ALL
 
 # --------------------------------------------------------------------
-# Setup Editor
-# --------------------------------------------------------------------
-
-# Editor to fallback to if the server is not running.  If this
-# variable is empty, then start GNU Emacs in daemon mode and try
-# connecting again.
-ALTERNATE_EDITOR=''
-export ALTERNATE_EDITOR
-
-EDITOR='emacsclient -c -nw -a ""'
-export EDITOR
-
-VISUAL="$EDITOR"
-export VISUAL
-
-# More for less
-if [[ $TERM == "dumb" ]] ; then
-  PAGER=cat
-else
-  PAGER=less
-fi
-export PAGER
-
-if [[ $TERM != "dumb" ]]; then
-  # -X will leave the text in your Terminal, so it doesn't disappear
-  #    when you exit less.
-  # -F will exit less if the output fits on one screen (so you don't
-  #    have to press "q").
-  # -R ANSI "color" escape sequences are output in "raw" form.
-  #
-  # See: https://unix.stackexchange.com/q/38634/50400
-  LESS="-X -F -R"
-  LESSCHARSET=UTF-8
-  LESSHISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/lesshst"
-  export LESS LESSCHARSET LESSHISTFILE
-fi
-
-# Set the Less input preprocessor.
-# Try to find either `lesspipe` or `lesspipe.sh` in the system path.
-#
-# Install using: `brew install lesspipe` on macOS
-if [ -z "$LESSOPEN" ]; then
-  # Check for the existence of lesspipe or lesspipe.sh
-  if command -v lesspipe >/dev/null 2>&1; then
-    LESSOPEN="| /usr/bin/env lesspipe %s 2>&-"
-  elif command -v lesspipe.sh >/dev/null 2>&1; then
-    LESSOPEN="| /usr/bin/env lesspipe.sh %s 2>&-"
-  fi
-  [ -n "$LESSOPEN" ] && export LESSOPEN
-fi
-
-# --------------------------------------------------------------------
 # Setup GnuPG
 # --------------------------------------------------------------------
 
