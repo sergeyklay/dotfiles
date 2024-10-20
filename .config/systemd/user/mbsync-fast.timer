@@ -11,3 +11,7 @@ OnUnitActiveSec=1m
 
 [Install]
 WantedBy=timers.target
+
+# Local Variables:
+# mode: conf
+# End:

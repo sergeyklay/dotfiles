@@ -12,3 +12,7 @@ ExecStartPost=/usr/bin/notmuch new
 
 [Install]
 WantedBy=default.target
+
+# Local Variables:
+# mode: conf
+# End:
