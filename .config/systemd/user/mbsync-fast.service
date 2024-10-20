@@ -1,0 +1,14 @@
+# systemctl --user enable mbsync-fast.service
+
+[Unit]
+Description=Mailbox synchronization service (fast channels)
+Documentation=man:mbsync(1)
+ConditionPathExists=%h/.mbsyncrc
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/mbsync fastmail-fast
+ExecStartPost=/usr/bin/notmuch new
+
+[Install]
+WantedBy=default.target

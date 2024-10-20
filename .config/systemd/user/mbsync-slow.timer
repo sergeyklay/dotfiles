@@ -1,0 +1,13 @@
+# systemctl --user enable mbsync-slow.timer
+# systemctl --user start mbsync-slow.timer
+
+[Unit]
+Description=Mailbox synchronization timer (slow channels)
+ConditionPathExists=%h/.mbsyncrc
+
+[Timer]
+OnBootSec=5m
+OnUnitActiveSec=30m
+
+[Install]
+WantedBy=timers.target

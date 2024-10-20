@@ -1,0 +1,13 @@
+# systemctl --user enable mbsync-fast.timer
+# systemctl --user start mbsync-fast.timer
+
+[Unit]
+Description=Mailbox synchronization timer (fast channels)
+ConditionPathExists=%h/.mbsyncrc
+
+[Timer]
+OnBootSec=1m
+OnUnitActiveSec=1m
+
+[Install]
+WantedBy=timers.target
