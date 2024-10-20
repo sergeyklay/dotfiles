@@ -294,6 +294,14 @@ __prompt_command() {
 PROMPT_COMMAND="__prompt_command; ${PROMPT_COMMAND}"
 PS2='> '
 
+# --------------------------------------------------------------------
+# Setup Nodejs
+# --------------------------------------------------------------------
+
+# Resolving EACCES permissions errors when installing packages globally
+NPM_CONFIG_PREFIX="$HOME/.local/"
+export NPM_CONFIG_PREFIX
+
 # Local Variables:
 # mode: sh
 # End:
