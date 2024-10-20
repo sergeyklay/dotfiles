@@ -5,3 +5,13 @@
 # Ignore files that end with a tilde (~)
 # Example: .gitignore~
 .*~
+
+# Various ruby scripts installed by gem
+bin/common-prefix
+bin/dotenv
+bin/licensed
+bin/licensee
+bin/nokogiri
+bin/racc
+bin/reverse_markdown
+bin/thor
