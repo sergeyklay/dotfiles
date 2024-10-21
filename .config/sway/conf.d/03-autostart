@@ -1,7 +1,19 @@
 ### Autostart
 
-# Export some useful env vars.
-exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY DBUS_SESSION_BUS_ADDRESS SWAYSOCK
+# Enable gnome-keyring daemon.
+#
+# The command bellow assumes you have something like that in your PAM
+# config:
+#
+#   $ grep keyring /etc/pam.d/login
+#   auth            optional        pam_gnome_keyring.so
+#   password        optional        pam_gnome_keyring.so
+#   session         optional        pam_gnome_keyring.so auto_start
+#
+# Note: I have no "ssh" in components for gnome-keyring-daemon coz I have
+# manage SSH by GnuPG.
+exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components="pkcs11,secrets"
+exec export $(gnome-keyring-daemon)
 
 # DBus activation environment is independent from systemd. While most of
 # dbus-activated services are already using `SystemdService` directive, some
@@ -9,12 +21,11 @@ exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY DBUS_SESSION_BU
 # command.
 exec dbus-update-activation-environment --all
 
-# Enable gnome-keyring daemon.
-exec gnome-keyring-daemon --start --components=pkcs11,secrets,ssh
-exec export $(gnome-keyring-daemon)
+# Export some useful env vars.
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY DBUS_SESSION_BUS_ADDRESS SWAYSOCK
 
 # Enable notifications support.
-exec mako
+exec --no-startup-id mako
 
 # Set up theme.
 set $gnome-schema org.gnome.desktop.interface

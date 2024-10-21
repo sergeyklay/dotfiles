@@ -27,7 +27,11 @@ if [[ -f "$SWAY_CONFIG_HOME/env" ]]; then
   set +a
 fi
 
-exec systemd-cat --identifier sway dbus-run-session -- /usr/bin/sway "$@"
+if [ -n "$DBUS_SESSION_BUS_ADDRESS" ]; then
+  exec systemd-cat --identifier sway dbus-run-session -- /usr/bin/sway "$@"
+else
+  exec systemd-cat --identifier sway /usr/bin/sway "$@"
+fi
 
 # Local Variables:
 # mode: sh
