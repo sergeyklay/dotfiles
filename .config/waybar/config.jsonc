@@ -232,10 +232,6 @@
 
   "custom/powermenu": {
     "format": " ",
-    "return-type": "json",
-    "exec": "~/.config/waybar/modules/powermenu.sh",
-    "interval": 3600,
-    "escape": true,
     "tooltip": false,
     "menu": "on-click",
     "menu-file": "~/.config/waybar/power_menu.xml",
