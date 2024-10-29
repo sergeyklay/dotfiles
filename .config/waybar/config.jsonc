@@ -237,7 +237,16 @@
     "interval": 3600,
     "escape": true,
     "tooltip": false,
-    "on-click": "wofi-csv Power"
+    "menu": "on-click",
+    "menu-file": "~/.config/waybar/power_menu.xml",
+    "menu-actions": {
+      "shutdown": "systemctl poweroff -i",
+      "reboot": "systemctl reboot",
+      "suspend": "systemctl suspend",
+      "hibernate": "systemctl hibernate",
+      "logout": "swaymsg exit",
+      "lock": "swaylock -f -e -l -F -c 000000"
+    }
   },
 
   // Padding
