@@ -240,7 +240,7 @@
     "menu": "on-click",
     "menu-file": "~/.config/waybar/power_menu.xml",
     "menu-actions": {
-      "shutdown": "systemctl poweroff -i",
+      "shutdown": "systemctl poweroff",
       "reboot": "systemctl reboot",
       "suspend": "systemctl suspend",
       "hibernate": "systemctl hibernate",
