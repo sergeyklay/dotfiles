@@ -232,84 +232,6 @@ LANG=en_US.UTF-8;   export LANG
 LC_ALL=en_US.UTF-8; export LC_ALL
 
 # --------------------------------------------------------------------
-# Setup GnuPG
-# --------------------------------------------------------------------
-
-GNUPGHOME=${GNUPGHOME:-$HOME/.gnupg}
-export GNUPGHOME
-
-# Enable gpg-agent if it is not running
-if command -v gpgconf >/dev/null 2>&1; then
-  if command -v gpg-agent >/dev/null 2>&1; then
-    if [ -z "$(pgrep -x gpg-agent)" ] || \
-       [ ! -S "$(gpgconf --list-dirs agent-socket)" ]; then
-    gpg-agent \
-      --homedir "$GNUPGHOME" \
-      --daemon \
-      --use-standard-socket >/dev/null 2>&1
-    fi
-  fi
-fi
-
-# Update GPG_TTY.  See 'man 1 gpg-agent'.
-GPG_TTY="${GPG_TTY:-$(tty 2>/dev/null)}"
-export GPG_TTY
-
-# Support for old systems with GnuPG 1.x.
-if command -v gpg2 >/dev/null 2>&1; then
-  GPG=gpg2
-  export GPG
-elif command -v gpg >/dev/null 2>&1; then
-  GPG=gpg
-  export GPG
-fi
-
-# Using a PGP key for SSH authentication if it's enabled.
-# For more details see the --enable-ssh-support section of
-# gpg-agent(1).
-if command -v gpgconf >/dev/null 2>&1; then
-  if [ "$(gpgconf --list-options gpg-agent 2>/dev/null | \
-    grep '^enable-ssh-support:' | cut -d: -f10)" = "1" ]; then
-    unset SSH_AGENT_PID
-    if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" != "$$" ]; then
-      SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-      export SSH_AUTH_SOCK
-    fi
-  fi
-fi
-
-# If gpg-agent is used over SSH or there is no graphical environment
-# available, set PINENTRY_USER_DATA to force a curses-based
-# prompt. This ensures password prompts work in an SSH session or in
-# environments without a graphical interface.
-if [ -n "$SSH_CONNECTION" ] \
-     || ( [ -z "$DISPLAY" ]  && [ -z "$WAYLAND_DISPLAY" ] ); then
-  PINENTRY_USER_DATA="USE_CURSES=1"
-  export PINENTRY_USER_DATA
-fi
-
-# --------------------------------------------------------------------
-# Setup hostname
-# --------------------------------------------------------------------
-
-# Default values for HOST and HOSTNAME
-HOST=localhost
-HOSTNAME="$HOST.localdomain"
-
-case "$(uname -s 2>/dev/null)" in
-  Linux|FreeBSD|Darwin)
-    if type hostname >/dev/null 2>&1; then
-      # Get full hostname
-      HOSTNAME="$(hostname)"
-      # Short name (first part before the dot)
-      HOST="$(echo "$HOSTNAME" | cut -d. -f1)"
-    fi
-    ;;
-esac
-
-export HOST HOSTNAME
-
-# --------------------------------------------------------------------
 # XDG Base Directory Configuration
 # --------------------------------------------------------------------
 
@@ -389,6 +311,81 @@ then
   test -n "$XDG_TEMPLATES_DIR" && export XDG_TEMPLATES_DIR
   test -n "$XDG_VIDEOS_DIR" && export XDG_VIDEOS_DIR
 fi
+
+# --------------------------------------------------------------------
+# Setup GnuPG
+# --------------------------------------------------------------------
+
+GNUPGHOME=${GNUPGHOME:-$HOME/.gnupg}
+export GNUPGHOME
+
+# Enable gpg-agent if it is not running
+if command -v gpgconf >/dev/null 2>&1; then
+  if command -v gpg-agent >/dev/null 2>&1; then
+    if [ -z "$(pgrep -x gpg-agent)" ] || \
+       [ ! -S "$(gpgconf --list-dirs agent-socket)" ]; then
+    gpg-agent \
+      --homedir "$GNUPGHOME" \
+      --daemon \
+      --use-standard-socket >/dev/null 2>&1
+    fi
+  fi
+fi
+
+# Update GPG_TTY.  See 'man 1 gpg-agent'.
+GPG_TTY="${GPG_TTY:-$(tty 2>/dev/null)}"
+export GPG_TTY
+
+# Support for old systems with GnuPG 1.x.
+if command -v gpg2 >/dev/null 2>&1; then
+  GPG=gpg2
+  export GPG
+elif command -v gpg >/dev/null 2>&1; then
+  GPG=gpg
+  export GPG
+fi
+
+# --------------------------------------------------------------------
+# Setup SSH
+# --------------------------------------------------------------------
+
+if [ -z "$SSH_AUTH_SOCK" ]; then
+  if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+    rm -f "$XDG_RUNTIME_DIR/ssh-agent.sock" 2> /dev/null || true
+    eval "$(ssh-agent -a $XDG_RUNTIME_DIR/ssh-agent.sock -s)"
+  else
+    SSH_AGENT_PID=$(pgrep -u "$USER" ssh-agent)
+    SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.sock"
+    export SSH_AGENT_PID SSH_AUTH_SOCK
+  fi
+fi
+
+if [ -n "$SSH_AUTH_SOCK" ]; then
+  if [ -z "$(ssh-add -l 2>/dev/null)" ]; then
+    ssh-add -q
+  fi
+fi
+
+# --------------------------------------------------------------------
+# Setup hostname
+# --------------------------------------------------------------------
+
+# Default values for HOST and HOSTNAME
+HOST=localhost
+HOSTNAME="$HOST.localdomain"
+
+case "$(uname -s 2>/dev/null)" in
+  Linux|FreeBSD|Darwin)
+    if type hostname >/dev/null 2>&1; then
+      # Get full hostname
+      HOSTNAME="$(hostname)"
+      # Short name (first part before the dot)
+      HOST="$(echo "$HOSTNAME" | cut -d. -f1)"
+    fi
+    ;;
+esac
+
+export HOST HOSTNAME
 
 # --------------------------------------------------------------------
 # Setup interactive shell (if needed)
