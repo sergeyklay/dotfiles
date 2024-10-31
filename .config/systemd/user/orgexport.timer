@@ -1,0 +1,16 @@
+# systemctl --user daemon-reload
+# systemctl --user enable --now orgexport.timer
+
+[Unit]
+Description=Daily Emacs org-store-agenda-views timer
+
+[Timer]
+OnCalendar=*-*-* 22:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+
+# Local Variables:
+# mode: conf
+# End:
