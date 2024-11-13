@@ -1,5 +1,5 @@
-# systemctl --user enable mbsync-slow.timer
-# systemctl --user start mbsync-slow.timer
+# systemctl --user daemon-reload
+# systemctl --user enable --now mbsync-slow.timer
 
 [Unit]
 Description=Mailbox synchronization timer (slow channels)
