@@ -1,0 +1,57 @@
+# The IMAP protocol keeps an "internaldate" for each message, which represents
+# the date and time when the email was first received by the server. This is
+# different from the date in the email's header, which is set by the sender.
+# Some email clients and web interfaces, like Fastmail, use this internaldate
+# to sort messages chronologically.
+#
+# By enabling the "CopyArrivalDate" option, mbsync will use the file's
+# modification date from the local Maildir as the IMAP internaldate, and
+# vice versa. This ensures that emails keep their correct received time when
+# syncing, rather than using the time of synchronization. Without this option,
+# the sync time might be used as the internaldate, causing emails to appear
+# out of order in clients that rely on the internaldate for sorting.
+CopyArrivalDate yes
+
+# Accounts
+
+IMAPAccount fastmail
+Host imap.fastmail.com
+UserCmd "secret-tool lookup service mail type username"
+PassCmd "secret-tool lookup service mail type password"
+TLSType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+# Stores
+
+IMAPStore fastmail-remote
+Account fastmail
+
+MaildirStore fastmail-local
+Path ~/Mail/Fastmail/
+Inbox ~/Mail/Fastmail/INBOX
+SubFolders Verbatim
+
+# Channels
+
+Channel fastmail-fast
+Far :fastmail-remote:
+Near :fastmail-local:
+Patterns INBOX Sent
+Create Both
+Expunge Both
+SyncState *
+
+Channel fastmail-slow
+Far :fastmail-remote:
+Near :fastmail-local:
+Patterns % !INBOX !Sent !Notes !Memos
+Create Both
+Expunge Both
+SyncState *
+Sync Pull New Gone Flags
+
+# Groups
+
+Group fastmail
+Channel fastmail-fast
+Channel fastmail-slow
