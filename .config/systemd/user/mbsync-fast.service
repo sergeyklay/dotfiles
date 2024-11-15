@@ -7,8 +7,8 @@ ConditionPathExists=%h/.mbsyncrc
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/mbsync fastmail-fast
-ExecStartPost=/usr/bin/notmuch new
+ExecStart=mbsync fastmail-fast
+ExecStartPost=notmuch new
 
 [Install]
 WantedBy=default.target
