@@ -21,7 +21,7 @@
 # Ruby.
 #
 # Usage:
-#   rbenv-init
+#   $ source "$(command -v rbenv-init)"
 
 if [[ -z "${RBENV_SHELL+x}" ]]; then
   if command -v rbenv >/dev/null 2>&1; then

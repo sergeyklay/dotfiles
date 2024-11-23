@@ -21,7 +21,7 @@
 # Python.
 #
 # Usage:
-#   pyenv-init
+#   $ source "$(command -v pyenv-init)"
 
 # Check if PYENV_SHELL is not set
 if [ -z "${PYENV_SHELL+x}" ]; then
