@@ -29,8 +29,8 @@ for d in "$HOME/.nvm" "${XDG_CONFIG_HOME:-$HOME/.config}/nvm"; do
 
     # If nvm.sh exists and is readable, source it and exit the loop
     if [ -r "$NVM_DIR/nvm.sh" ]; then
-      # nvm is not compatible with the NPM_CONFIG_PREFIX environment
-      # variable
+      # Do not use NPM_CONFIG_PREFIX env var when nvm is used.
+      # nvm is not compatible with the NPM_CONFIG_PREFIX env var.
       unset NPM_CONFIG_PREFIX
 
       export NVM_DIR
