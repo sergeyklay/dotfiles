@@ -76,3 +76,7 @@ ID
 # PHP stuf
 composer.phar
 auth.json
+
+# Direnv files
+.direnv
+.envrc
