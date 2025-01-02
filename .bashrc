@@ -279,23 +279,38 @@ fi
 # Setup Nodejs
 # --------------------------------------------------------------------
 
-for d in "$HOME/.nvm" "${XDG_CONFIG_HOME:-$HOME/.config}/nvm"; do
-  if [ -d "$d" ]; then
-    NVM_DIR="$d"
+setup_nvm() {
+  local nvm_dirs=()
 
-    # If nvm.sh exists and is readable, source it and exit the loop
-    if [ -r "$NVM_DIR/nvm.sh" ]; then
-      # Do not use NPM_CONFIG_PREFIX env var when nvm is used.
-      # nvm is not compatible with the NPM_CONFIG_PREFIX env var.
-      unset NPM_CONFIG_PREFIX
+  [ -n "$XDG_CONFIG_HOME" ] && nvm_dirs+=("${XDG_CONFIG_HOME}/nvm")
+  nvm_dirs+=("$HOME/.nvm" "${XDG_CONFIG_HOME:-$HOME/.config}/nvm")
 
-      export NVM_DIR
-      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-      break
+  for d in "${nvm_dirs[@]}"; do
+    if [ -d "$d" ]; then
+      NVM_DIR="${d}"
+
+      # If nvm.sh exists and is readable, source it and exit the loop
+      if [ -r "$NVM_DIR/nvm.sh" ]; then
+        # Do not use NPM_CONFIG_PREFIX env var when nvm is used.
+        # nvm is not compatible with the NPM_CONFIG_PREFIX env var.
+        unset NPM_CONFIG_PREFIX
+
+        export NVM_DIR
+        [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+
+        # Possible bash completion is here
+        [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
+        break
+      fi
     fi
-  fi
-done
+  done
+}
+
+export -f setup_nvm
+
+if [[ -z "${NVM_DIR+x}" ]]; then
+  setup_nvm
+fi
 
 # Do not use NPM_CONFIG_PREFIX env var when nvm is used.
 # nvm is not compatible with the NPM_CONFIG_PREFIX env var.
