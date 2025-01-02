@@ -70,6 +70,7 @@ ID
 
 # Version managers
 .python-version
+.python-virtualenv
 .ruby-version
 .nvmrc
 
