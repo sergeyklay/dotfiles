@@ -244,9 +244,90 @@ if [ -f ~/.bash_aliases ]; then
   . ~/.bash_aliases
 fi
 
+
+# --------------------------------------------------------------------
+# Initialize pyenv
+# --------------------------------------------------------------------
+
+# Check if PYENV_SHELL is not set
+if [ -z "${PYENV_SHELL+x}" ]; then
+  # Check if the pyenv command exists
+  if command -v pyenv >/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+
+    # Check if pyenv has the virtualenv-init command
+    if pyenv commands | grep -q virtualenv-init; then
+      eval "$(pyenv virtualenv-init -)"
+    fi
+
+    # Disable the virtualenv prompt
+    PYENV_VIRTUALENV_DISABLE_PROMPT=1
+    export PYENV_VIRTUALENV_DISABLE_PROMPT
+  fi
+fi
+
+# --------------------------------------------------------------------
+# Setup Ruby Env Manager
+# --------------------------------------------------------------------
+if [[ -z "${RBENV_SHELL+x}" ]]; then
+  if command -v rbenv >/dev/null 2>&1; then
+    eval "$(rbenv init -)"
+  fi
+fi
+
+# --------------------------------------------------------------------
+# Setup Nodejs
+# --------------------------------------------------------------------
+
+for d in "$HOME/.nvm" "${XDG_CONFIG_HOME:-$HOME/.config}/nvm"; do
+  if [ -d "$d" ]; then
+    NVM_DIR="$d"
+
+    # If nvm.sh exists and is readable, source it and exit the loop
+    if [ -r "$NVM_DIR/nvm.sh" ]; then
+      # Do not use NPM_CONFIG_PREFIX env var when nvm is used.
+      # nvm is not compatible with the NPM_CONFIG_PREFIX env var.
+      unset NPM_CONFIG_PREFIX
+
+      export NVM_DIR
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+      break
+    fi
+  fi
+done
+
+# Do not use NPM_CONFIG_PREFIX env var when nvm is used.
+# nvm is not compatible with the NPM_CONFIG_PREFIX env var.
+if [ -z "$NVM_DIR" ]; then
+  # Resolving EACCES permissions errors when installing packages globally.
+  NPM_CONFIG_PREFIX="$HOME/.local/"
+  export NPM_CONFIG_PREFIX
+fi
+
+# --------------------------------------------------------------------
+# Setup direnv
+# --------------------------------------------------------------------
+
+if command -v direnv >/dev/null 2>&1; then
+  eval "$(direnv hook bash)"
+fi
+
 # --------------------------------------------------------------------
 # Setup Bash prompt
 # --------------------------------------------------------------------
+
+show_virtual_env() {
+  if [ -n "$VIRTUAL_ENV_PROMPT" ]; then
+    echo "${VIRTUAL_ENV_PROMPT} "
+  elif [[ -n "$VIRTUAL_ENV" && -n "$DIRENV_DIR" ]]; then
+    echo "($(basename $VIRTUAL_ENV)) "
+  else
+    echo ""
+  fi
+}
+
+export -f show_virtual_env
 
 __prompt_command() {
   local exit_code="$?"
@@ -271,9 +352,11 @@ __prompt_command() {
     bldred='\[\e[1;31m\]'
   fi
 
-  # PS1="${bldblk}"
-  PS1='\u@\h'
-  # PS1+="${rcol}"
+  PS1='$(show_virtual_env)'
+
+  PS1+="${bldblk}"
+  PS1+='\u@\h'
+  PS1+="${rcol}"
 
   if [ $exit_code != 0 ]; then
     PS1+=" [${bldred}${exit_code}${rcol}]"
@@ -293,26 +376,6 @@ __prompt_command() {
 
 PROMPT_COMMAND="__prompt_command; ${PROMPT_COMMAND}"
 PS2='> '
-
-# --------------------------------------------------------------------
-# Setup direnv
-# --------------------------------------------------------------------
-
-if command -v direnv >/dev/null 2>&1; then
-  eval "$(direnv hook bash)"
-fi
-
-# --------------------------------------------------------------------
-# Setup Nodejs
-# --------------------------------------------------------------------
-
-# Do not use NPM_CONFIG_PREFIX env var when nvm is used.
-# nvm is not compatible with the NPM_CONFIG_PREFIX env var.
-if [ -z "$NVM_DIR" ]; then
-  # Resolving EACCES permissions errors when installing packages globally.
-  NPM_CONFIG_PREFIX="$HOME/.local/"
-  export NPM_CONFIG_PREFIX
-fi
 
 # Local Variables:
 # mode: sh
