@@ -11,7 +11,7 @@ use_python() {
 use_nodejs() {
   NODE_VERSION="$1"
 
-  if [[ -z "${NVM_DIR+x}" ]]; then
+  if [[ -z "${NVM_DIR+x}" ]] || [[ -z "$(which nvm 2>/dev/null)" ]]; then
     setup_nvm
   fi
 
