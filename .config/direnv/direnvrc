@@ -2,28 +2,39 @@
 
 ### use a certain pyenv version
 use_python() {
+  local pyversion=$1
+
   if [ -n "$(which pyenv)" ]; then
-    local pyversion=$1
     pyenv local ${pyversion}
   fi
 }
 
 use_nodejs() {
-  NODE_VERSION="$1"
+  local node_version="$1"
+  local nvm_sh=""
 
-  if [[ -z "${NVM_DIR+x}" ]] || [[ -z "$(which nvm 2>/dev/null)" ]]; then
+  if [[ ! $(command -v nvm) || -z "${NVM_DIR+x}" ]]; then
     setup_nvm
+    nvm_sh="$(command -v nvm 2> /dev/null)"
   fi
 
-  nvm use "$NODE_VERSION"
+  if [[ -e "${nvm_sh}/nvm.sh" ]]; then
+    . "${nvm_sh}/nvm.sh"
+  fi
+
+  if [[ $(command -v nvm) ]]; then
+    nvm use --silent "$node_version"
+  fi
 }
 
 layout_virtualenv() {
   local pyversion=$1
   local pvenv=$2
+
   if [ -n "$(which pyenv virtualenv)" ]; then
     pyenv virtualenv --force --quiet ${pyversion} ${pvenv}-${pyversion}
   fi
+
   pyenv local --unset
 }
 
