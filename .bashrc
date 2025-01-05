@@ -289,29 +289,35 @@ setup_nvm() {
   for d in "${nvm_dirs[@]}"; do
     if [ -d "$d" ]; then
       NVM_DIR="${d}"
-
       # If nvm.sh exists and is readable, source it and exit the loop
       if [ -r "$NVM_DIR/nvm.sh" ]; then
+        export NVM_DIR
+
         # Do not use NPM_CONFIG_PREFIX env var when nvm is used.
         # nvm is not compatible with the NPM_CONFIG_PREFIX env var.
         unset NPM_CONFIG_PREFIX
 
-        export NVM_DIR
-        [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
+        if [ -s "$NVM_DIR/nvm.sh" ]; then
+          . "$NVM_DIR/nvm.sh"
+        fi
 
-        # Possible bash completion is here
-        [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
-        break
+        if [ -s "$NVM_DIR/bash_completion" ]; then
+          . "$NVM_DIR/bash_completion"
+        fi
+
+        return 0
       fi
     fi
   done
-}
 
-export -f setup_nvm
+  return 0
+}
 
 if [[ -z "${NVM_DIR+x}" ]]; then
   setup_nvm
 fi
+
+export -f setup_nvm
 
 # Do not use NPM_CONFIG_PREFIX env var when nvm is used.
 # nvm is not compatible with the NPM_CONFIG_PREFIX env var.
