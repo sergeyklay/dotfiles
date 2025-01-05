@@ -269,9 +269,10 @@ fi
 # --------------------------------------------------------------------
 # Setup Ruby Env Manager
 # --------------------------------------------------------------------
+
 if [[ -z "${RBENV_SHELL+x}" ]]; then
-  if command -v rbenv >/dev/null 2>&1; then
-    eval "$(rbenv init -)"
+  if [[ -d "$HOME/.rbenv" && -r "$HOME/.rbenv/bin/rbenv" ]]; then
+    eval "$("$HOME/.rbenv/bin/rbenv" init - --no-rehash bash)"
   fi
 fi
 
