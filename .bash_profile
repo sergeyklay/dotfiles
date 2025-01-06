@@ -391,6 +391,9 @@ export HOST HOSTNAME
 # Setup interactive shell (if needed)
 # --------------------------------------------------------------------
 
+BASH_PROFILE_SOURCED=1
+export BASH_PROFILE_SOURCED
+
 if [ -n "$BASH_VERSION" ]; then
   if [ -f "$HOME/.bashrc" ]; then
     . "$HOME/.bashrc"

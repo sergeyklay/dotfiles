@@ -23,6 +23,13 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# Some app and vitual terminals unable in login shells
+if [ -z "${BASH_PROFILE_SOURCED+x}" ]; then
+  if [ -f "$HOME/.bash_profile" ]; then
+    source "$HOME/.bash_profile"
+  fi
+fi
+
 # Auto-fix minor typos in interactive use of 'cd'
 shopt -q -s cdspell
 
