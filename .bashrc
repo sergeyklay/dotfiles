@@ -268,7 +268,7 @@ fi
 if [ -z "${PYENV_SHELL+x}" ]; then
   # Check if the pyenv command exists
   if command -v pyenv >/dev/null 2>&1; then
-    eval "$(pyenv init -)"
+    eval "$(pyenv init - bash)"
 
     # Check if pyenv has the virtualenv-init command
     if pyenv commands | grep -q virtualenv-init; then
