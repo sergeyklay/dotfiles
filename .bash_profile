@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2024 Serghei Iakovlev <gnu@serghei.pl>
+# Copyright (C) 2014-2025 Serghei Iakovlev <gnu@serghei.pl>
 #
 # This file is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -128,6 +128,10 @@ fi
 
 if [ -d "$HOME/bin" ]; then
   add_path "$HOME/bin"
+fi
+
+if [ -d /opt/pycharm/bin ]; then
+  add_path /opt/pycharm/bin
 fi
 
 # Should be last, so that I can override any binary path

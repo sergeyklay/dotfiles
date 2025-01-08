@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2024 Serghei Iakovlev <gnu@serghei.pl>
+# Copyright (C) 2014-2025 Serghei Iakovlev <gnu@serghei.pl>
 #
 # This file is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -99,6 +99,38 @@ fi
 
 if [ -f ~/.config/proctools.sh ]; then
   . ~/.config/proctools.sh
+fi
+
+# --------------------------------------------------------------------
+# DE setup
+# --------------------------------------------------------------------
+
+# Check if running under Wayland
+if [ "$XDG_SESSION_TYPE" = "wayland" ] || [ -n "$WAYLAND_DISPLAY" ]; then
+    # Set environment variables for Wayland compatibility
+    GDK_BACKEND=wayland
+    QT_QPA_PLATFORM=wayland
+    export GDK_BACKEND QT_QPA_PLATFORM
+
+    # Optimize Java AWT for non-reparenting window managers.
+    # See: https://wiki.archlinux.org/title/Sway#Java_applications
+    _JAVA_AWT_WM_NONREPARENTING=1
+    export _JAVA_AWT_WM_NONREPARENTING
+
+    # Enable native Wayland support for Firefox
+    MOZ_ENABLE_WAYLAND=1
+    export MOZ_ENABLE_WAYLAND
+
+    # Force Clutter to use Wayland backend
+    CLUTTER_BACKEND=wayland
+    export CLUTTER_BACKEND
+
+    # Force SDL to use Wayland video driver
+    SDL_VIDEODRIVER=wayland
+    export SDL_VIDEODRIVER
+else
+    # Not a Wayland session, do nothing
+    :
 fi
 
 # --------------------------------------------------------------------

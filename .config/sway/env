@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2024 Serghei Iakovlev <gnu@serghei.pl>
+# Copyright (C) 2014-2025 Serghei Iakovlev <gnu@serghei.pl>
 #
 # This file is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,9 +26,15 @@ LIBSEAT_BACKEND=logind
 QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 QT_QPA_PLATFORM=wayland
 
+# Enable native Wayland support for Firefox
 MOZ_ENABLE_WAYLAND=1
+
+# Force Clutter to use Wayland backend
 CLUTTER_BACKEND=wayland
+
+# Force SDL to use Wayland video driver
 SDL_VIDEODRIVER=wayland
+
 WLR_DRM_DEVICES=/dev/dri/card0
 
 # If set, makes GTK+ use the named theme instead of the theme that is
@@ -36,7 +42,7 @@ WLR_DRM_DEVICES=/dev/dri/card0
 # a theme variant to load, by appending the variant name with a colon.
 GTK_THEME=Arc-Darker
 
-# Fix blank screen when opened Java applications.
+# Optimize Java AWT for non-reparenting window managers.
 # See: https://wiki.archlinux.org/title/Sway#Java_applications
 _JAVA_AWT_WM_NONREPARENTING=1
 

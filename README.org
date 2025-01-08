@@ -58,7 +58,7 @@ been doing this for 11 years and plan to continue for the next 11.
 This project is open source software licensed under the
 [[https://github.com/sergeyklay/dotfiles/blob/master/LICENSE][GNU General Public Licence version 3]].
 Copyright © 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022,
-2023, 2024 Serghei Iakovlev.
+2023, 2024, 2025 Serghei Iakovlev.
 
 *** Note On Copyright Years
 
