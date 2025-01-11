@@ -1,0 +1,16 @@
+# systemctl --user daemon-reload
+# systemctl --user enable --now backup-calibre.timer
+
+[Unit]
+Description=Run Calibre Library Backup Daily
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+
+# Local Variables:
+# mode: conf
+# End:

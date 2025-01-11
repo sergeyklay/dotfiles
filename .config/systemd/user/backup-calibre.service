@@ -1,0 +1,13 @@
+[Unit]
+Description=Backup Calibre Library
+
+[Service]
+Type=oneshot
+ExecStart=%h/bin/backup-calibre.sh
+Environment="BACKUP_DIR=%h/Documents/Backups/Calibre"
+Environment="CALIBRE_LIBRARY=%h/Documents/Library"
+Environment="ENCRYPTION_KEY=1E0B5331219BEA88"
+
+# Local Variables:
+# mode: conf
+# End:
