@@ -3,7 +3,7 @@
 ;; Copyright (C) 2024 Serghei Iakovlev <gnu@serghei.pl>
 
 ;; Author: Serghei Iakovlev <gnu@serghei.pl>
-;; URL: https://github.com/sergeyklay/dotfiles/blob/master/bin/orgcookie.el
+;; URL: https://github.com/sergeyklay/dotfiles/blob/main/bin/orgcookie.el
 ;; Keywords: tools, misc
 
 ;; This file is NOT part of Emacs.
