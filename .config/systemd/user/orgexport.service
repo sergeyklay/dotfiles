@@ -3,7 +3,7 @@ Description=Store org agenda views.
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/emacsclient --no-wait --eval '(org-store-agenda-views)'
+ExecStart=emacsclient --no-wait --eval '(org-store-agenda-views)'
 
 # Local Variables:
 # mode: conf
