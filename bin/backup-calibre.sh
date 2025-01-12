@@ -80,25 +80,36 @@
 # Enable and start the timer:
 #
 #    systemctl -user enable --now backup-calibre.timer
+#
+# To see logs:
+#
+#    journalctl -u backup-calibre.service -f
 
 # shellcheck shell=bash
 
 # Exit on error
 set -e
 
+_ctb_error="\e[1;31m"
+_c_reset="\e[0m"
+
 # Default configurations
 DEFAULT_MAX_BACKUPS=15
 DEFAULT_ARCHIVE_NAME="calibre_backup_{hostname}_{date}.tar.gz"
 
-log_info() { echo "$(date +'%Y-%m-%d %H:%M:%S') [INFO] $*" >&1; }
-log_error() { echo "$(date +'%Y-%m-%d %H:%M:%S') [ERROR] $*" >&2; }
+log_error() { printf "${_ctb_error}%s${_c_reset}\n" "$1" >&2; }
+log_info() { printf "%s\n" "$1" >&1; }
 
 # Cleanup temporary files
 cleanup() {
-  [ -n "$TEMP_HASH_FILE" ] && [ -f "$TEMP_HASH_FILE" ] && rm -f "$TEMP_HASH_FILE"
-  [ -n "$ARCHIVE_PATH" ] && [ -f "$ARCHIVE_PATH" ] && rm -f "$ARCHIVE_PATH"
+  if [ -n "$ARCHIVE_PATH" ]; then
+    if [ -f "$ARCHIVE_PATH" ]; then
+      rm -f "$ARCHIVE_PATH"
+    fi
+  fi
 }
-trap cleanup EXIT
+# Trap signals to ensure cleanup on script termination
+trap 'cleanup' EXIT SIGINT SIGTERM SIGHUP SIGQUIT
 
 check_env_var() {
   VAR_NAME=$1
@@ -138,8 +149,7 @@ create_backup() {
   ARCHIVE_PATH="$BACKUP_DIR/$ARCHIVE_NAME"
 
   log_info "Creating backup archive: $ARCHIVE_PATH"
-  # tar -czf "$ARCHIVE_PATH" "$CALIBRE_LIBRARY"
-  (cd "$CALIBRE_LIBRARY" && tar -czf "$ARCHIVE_PATH" .)
+  ( cd "$CALIBRE_LIBRARY" && tar -czf "$ARCHIVE_PATH" . )
 
   log_info "Encrypting backup archive: $ARCHIVE_PATH"
   gpg --encrypt --no-armor --recipient "$ENCRYPTION_KEY" --output "${ARCHIVE_PATH}.gpg" "$ARCHIVE_PATH"
@@ -211,6 +221,8 @@ main() {
 }
 
 main
+
+exit 0
 
 # Local Variables:
 # mode: sh
