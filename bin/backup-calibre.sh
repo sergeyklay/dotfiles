@@ -15,76 +15,75 @@
 # You should have received a copy of the GNU General Public License
 # along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
-# A script to backup a Calibre library directory securely.
+# backup-calibre.sh - A script to backup a Calibre library directory securely.
 #
-# DESCRIPTION:
-# This script creates encrypted backups of a specified Calibre library directory.
-# The backups are stored as GPG-encrypted tar.gz files with additional checksum
-# files for verification. The script also ensures that a defined maximum number
-# of backups are retained by removing the oldest backups when necessary.
+# SYNOPSIS
+#   backup-calibre.sh
 #
-# FEATURES:
-# - Incremental backup logic using library content checksums to avoid unnecessary backups.
-# - Encrypted backups using GPG with asymmetric encryption.
-# - Classic checksum file generation for backup integrity verification.
-# - Automatic cleanup of old backups beyond the specified limit.
+# DESCRIPTION
+#   The backup-calibre.sh script creates encrypted backups of a specified
+#   Calibre library directory.  The backups are stored as GPG-encrypted tar.gz
+#   files with additional checksum files for verification. The script also
+#   ensures that a defined maximum number of backups are retained by removing
+#   the oldest backups when necessary.
 #
-# REQUIREMENTS:
-# - tar: For archiving and compressing the library.
-# - gpg: For encrypting the backup files.
-# - Environment variables (see usage below).
+# USAGE
+#   To run the script, set the required environment variables and execute:
 #
-# USAGE:
-# To run the script, set the required environment variables and execute:
+#        BACKUP_DIR=/path/to/backup/directory \
+#        CALIBRE_LIBRARY=/path/to/calibre/library \
+#        ENCRYPTION_KEY="recipient_key_id_or_email" \
+#        ./backup-calibre.sh
 #
-#     BACKUP_DIR=/path/to/backup/directory \
-#     CALIBRE_LIBRARY=/path/to/calibre/library \
-#     ENCRYPTION_KEY="recipient_key_id_or_email" \
-#     ./backup-calibre.sh
+# DEPENDENCIES
+#   - tar: For archiving and compressing the library.
+#   - gpg: For encrypting the backup files.
+#   - Environment variables (see usage below).
 #
-# ENVIRONMENT VARIABLES:
-# - CALIBRE_LIBRARY: Path to the Calibre library directory to be backed up (mandatory).
-# - BACKUP_DIR: Path to the directory where backups will be stored (mandatory).
-# - ENCRYPTION_KEY: GPG recipient key identifier for encrypting backups (mandatory).
-# - MAX_BACKUPS: Maximum number of backups to retain (optional; default: 15).
-# - ARCHIVE_NAME_TEMPLATE: Template for the backup file names, e.g.,
-#   "calibre_backup_{hostname}_{date}.tar.gz" (optional; default: a predefined format).
+# ENVIRONMENT VARIABLES
+#   - BACKUP_DIR: Path to the directory where backups will be stored.
+#   - CALIBRE_LIBRARY: Path to the Calibre library directory to be backed up.
+#   - ENCRYPTION_KEY: GPG recipient key identifier for encrypting backups.
+#   - MAX_BACKUPS: Maximum number of backups to retain (optional; default: 15).
+#   - ARCHIVE_NAME_TEMPLATE: Template for the backup file names, e.g.,
+#                            "calibre_backup_{hostname}_{date}.tar.gz"
+#                            (optional; default: a predefined format).
 #
-# SYSTEMD TIMER:
-# To automate this script, you can use a systemd timer. For example:
+# EXAMPLES
+#   To automate this script, you can use a systemd timer. For example:
 #
-# Create a systemd service file ($HOME/.config/systemd/user/backup-calibre.service):
+#   Create a systemd service file $HOME/.config/systemd/user/backup-calibre.service:
 #
-#     [Unit]
-#     Description=Backup Calibre Library
+#        [Unit]
+#        Description=Backup Calibre Library
 #
-#     [Service]
-#     Type=oneshot
-#     ExecStart=/path/to/backup-calibre.sh
-#     Environment="BACKUP_DIR=/path/to/backup/directory"
-#     Environment="CALIBRE_LIBRARY=/path/to/calibre/library"
-#     Environment="ENCRYPTION_KEY=recipient_key_id_or_email"
+#        [Service]
+#        Type=oneshot
+#        ExecStart=/path/to/backup-calibre.sh
+#        Environment="BACKUP_DIR=/path/to/backup/directory"
+#        Environment="CALIBRE_LIBRARY=/path/to/calibre/library"
+#        Environment="ENCRYPTION_KEY=recipient_key_id_or_email"
 #
-# Create a systemd timer file ($HOME/.config/systemd/user/backup-calibre.timer):
+#   Create a systemd timer file: $HOME/.config/systemd/user/backup-calibre.timer:
 #
-#     [Unit]
-#     Description=Run Calibre Library Backup Daily
+#        [Unit]
+#        Description=Run Calibre Library Backup Daily
 #
-#     [Timer]
-#     OnCalendar=daily
-#     Persistent=true
+#        [Timer]
+#        OnCalendar=daily
+#        Persistent=true
 #
-#     [Install]
-#     WantedBy=timers.target
+#        [Install]
+#        WantedBy=timers.target
 #
-# Enable and start the timer:
+#   Enable and start the timer:
 #
-#    systemctl -user enable --now backup-calibre.timer
+#        systemctl -user enable --now backup-calibre.timer
 #
-# To see logs:
+#   To see logs:
 #
-#    journalctl --user -u backup-calibre.timer
-#    journalctl --user -u backup-calibre.service
+#        journalctl --user -u backup-calibre.timer
+#        journalctl --user -u backup-calibre.service
 
 # shellcheck shell=bash
 
@@ -107,7 +106,7 @@ cleanup() {
   fi
 }
 # Trap signals to ensure cleanup on script termination
-trap 'cleanup' EXIT SIGINT SIGTERM SIGHUP SIGQUIT
+trap '__exit_code=$?; cleanup; exit $__exit_code' EXIT SIGINT SIGTERM SIGHUP SIGQUIT
 
 check_env_var() {
   VAR_NAME=$1
