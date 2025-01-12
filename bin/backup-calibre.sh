@@ -83,21 +83,19 @@
 #
 # To see logs:
 #
-#    journalctl -u backup-calibre.service -f
+#    journalctl --user -u backup-calibre.timer
+#    journalctl --user -u backup-calibre.service
 
 # shellcheck shell=bash
 
 # Exit on error
 set -e
 
-_ctb_error="\e[1;31m"
-_c_reset="\e[0m"
-
 # Default configurations
 DEFAULT_MAX_BACKUPS=15
-DEFAULT_ARCHIVE_NAME="calibre_backup_{hostname}_{date}.tar.gz"
+DEFAULT_ARCHIVE_NAME='calibre_backup_{hostname}_{date}.tar.gz'
 
-log_error() { printf "${_ctb_error}%s${_c_reset}\n" "$1" >&2; }
+log_error() { printf "\e[1;31m%s\e[0m\n" "$1" >&2; }
 log_info() { printf "%s\n" "$1" >&1; }
 
 # Cleanup temporary files
