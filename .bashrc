@@ -382,21 +382,116 @@ if command -v direnv >/dev/null 2>&1; then
   eval "$(direnv hook bash)"
 fi
 
-# --------------------------------------------------------------------
-# Setup Bash prompt
-# --------------------------------------------------------------------
+mkpyenv() {
+  local pyversion="$1"
+  local pvenv="$2"
+  local envrc_file=".envrc"
+  local current_dir="$PWD"
 
-show_virtual_env() {
-  if [ -n "$VIRTUAL_ENV_PROMPT" ]; then
-    echo "${VIRTUAL_ENV_PROMPT} "
-  elif [[ -n "$VIRTUAL_ENV" && -n "$DIRENV_DIR" ]]; then
-    echo "($(basename $VIRTUAL_ENV)) "
-  else
-    echo ""
+  # Display usage information
+  usage() {
+    cat >&2 <<EOF
+Usage: mkpyenv <python-version> <virtualenv-name>
+Create a direnv-managed Python virtual environment.
+
+Arguments:
+  python-version    Python version (e.g., 3.11.0)
+  virtualenv-name   Name for the virtualenv
+
+Example: mkpyenv 3.11.0 myproject
+EOF
+  }
+
+  # Validate input parameters
+  if [ $# -ne 2 ]; then
+    echo "Error: Exactly two arguments are required." >&2
+    usage
+    return 1
   fi
-}
 
-export -f show_virtual_env
+  # Validate python version format
+  if ! [[ $pyversion =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
+    echo "Error: Invalid Python version format. Expected format: X.Y.Z or X.Y" >&2
+    return 1
+  fi
+
+  # Validate virtualenv name
+  if ! [[ $pvenv =~ ^[a-zA-Z0-9_-]+$ ]]; then
+    echo "Error: Virtualenv name must contain only letters, numbers, dashes, and underscores" >&2
+    return 1
+  fi
+
+  # Check dependencies
+  local missing_deps=()
+  for cmd in pyenv direnv; do
+    if ! command -v "$cmd" >/dev/null 2>&1; then
+      missing_deps+=("$cmd")
+    fi
+  done
+
+  if [ ${#missing_deps[@]} -ne 0 ]; then
+    echo "Error: Missing required dependencies: ${missing_deps[*]}" >&2
+    return 1
+  fi
+
+  # Verify Python version availability
+  if ! pyenv versions --bare | grep -q "^${pyversion}$"; then
+    cat >&2 <<EOF
+Error: Python version '${pyversion}' is not installed in pyenv.
+
+Available Python versions:
+$(pyenv versions --bare | sed 's/^/  - /')
+
+To install ${pyversion}:
+  pyenv install ${pyversion}
+EOF
+    return 1
+  fi
+
+  # Handle existing .envrc
+  if [ -f "$envrc_file" ]; then
+    echo "Warning: .envrc file already exists in current directory." >&2
+    read -r -p "Do you want to overwrite it? [y/N] " reply
+    echo
+    if [[ ! $reply =~ ^[Yy]$ ]]; then
+      echo "Operation cancelled." >&2
+      return 1
+    fi
+  fi
+
+  # Create .envrc with proper configuration
+  cat > "$envrc_file" <<EOF
+# Python virtual environment configuration
+# Created by mkpyenv on $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+pyversion=${pyversion}
+pvenv=${pvenv}
+
+# Use specified Python version
+use python \${pyversion}
+
+# Create the virtualenv if not yet done
+layout virtualenv \${pyversion} \${pvenv}
+
+# Activate the virtualenv
+layout activate \${pvenv}-\${pyversion}
+
+# Local Variables:
+# mode: sh
+# End:
+EOF
+
+  # Set secure file permissions
+  chmod 0644 "$envrc_file"
+
+  # Allow direnv
+  if ! direnv allow "$current_dir"; then
+    echo "Error: Failed to run 'direnv allow'" >&2
+    return 1
+  fi
+
+  echo "Successfully created .envrc and enabled direnv for the current directory" >&2
+  echo "Virtual environment will be created as: ${pvenv}-${pyversion}" >&2
+}
 
 # --------------------------------------------------------------------
 # Misc functions and aliases
@@ -425,6 +520,22 @@ function cursor {
     (nohup "$app" $base_args $wayland_args "$@" >/dev/null 2>&1 & disown)
   fi
 }
+
+# --------------------------------------------------------------------
+# Setup Bash prompt
+# --------------------------------------------------------------------
+
+show_virtual_env() {
+  if [ -n "$VIRTUAL_ENV_PROMPT" ]; then
+    echo "${VIRTUAL_ENV_PROMPT} "
+  elif [[ -n "$VIRTUAL_ENV" && -n "$DIRENV_DIR" ]]; then
+    echo "($(basename $VIRTUAL_ENV)) "
+  else
+    echo ""
+  fi
+}
+
+export -f show_virtual_env
 
 __prompt_command() {
   local exit_code="$?"
