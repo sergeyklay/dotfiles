@@ -394,25 +394,61 @@ mkpyenv() {
     cat <<EOF
 mkpyenv - Create a direnv-managed Python virtual environment
 
-Usage: mkpyenv <version> <virtualenv-name>
-       mkpyenv --version
-       mkpyenv --help
+SYNOPSIS
+  mkpyenv <version> <virtualenv-name>
+  mkpyenv --version
+  mkpyenv --help
 
-Arguments:
-  version          Python version from pyenv
-  virtualenv-name  Name for the virtualenv (alphanumeric, dash, underscore)
+DESCRIPTION
+  Creates a Python virtual environment using pyenv and direnv, setting up an
+  isolated development environment for Python projects.  This function automates
+  the process of creating a virtual environment and configuring direnv to
+  manage environment activation.
 
-Examples:
-  mkpyenv 3.11.11 webapp
-  mkpyenv 3.12.8 api-service
+  Parameters:
 
-Requirements:
-  pyenv   Python version management tool
-  direnv  Directory environment manager
+  <version>
+    The Python version to use for the virtual environment.
 
-Environment:
+  <virtualenv-name>
+    The name of the virtual environment.  Should follow the following format:
+    alphanumeric (with dash/underscore).
+
+OPTIONS
+  --version
+    Display the version of mkpyenv
+
+  --help
+    Display this help message
+
+USAGE
+  1. Create a virtual environment for Python 3.11.11 named 'webapp':
+    mkpyenv 3.11.11 webapp
+
+  2. Create a virtual environment for Python 3.12.8 named 'api-service':
+    mkpyenv 3.12.8 api-service
+
+  3. Display the version of mkpyenv:
+    mkpyenv --version
+
+  4. Display the help message:
+    mkpyenv --help
+
+REQUIREMENTS
+  This function depends on the following tools:
+    - pyenv             Python version management tool
+    - pyenv-virtualenv  Python virtual environment manager
+    - direnv            Directory environment manager
+
+ENVIRONMENT
   .envrc  Configuration file created in current directory
   PATH    Automatically updated to include virtualenv binaries
+
+NOTES
+  The function will fail if pyenv or direnv are not installed.  Existing .envrc
+  files will be overwritten.  The virtual environment name must be alphanumeric
+  (with dash/underscore).  Python version must be available in pyenv
+  (use 'pyenv install' first).
 EOF
   }
 
