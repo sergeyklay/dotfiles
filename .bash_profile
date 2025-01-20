@@ -134,6 +134,10 @@ if [ -d /opt/pycharm/bin ]; then
   add_path /opt/pycharm/bin
 fi
 
+if [ -d /opt/microsoft/powershell/7 ]; then
+  add_path /opt/microsoft/powershell/7
+fi
+
 # Should be last, so that I can override any binary path
 if [ -d "$HOME/.local/bin" ]; then
   add_path "$HOME/.local/bin"
