@@ -403,27 +403,27 @@ export -f show_virtual_env
 # --------------------------------------------------------------------
 
 function cursor {
-    local app="$HOME/Applications/cursor.appimage"
-    local wayland_args=""
-    local base_args="--no-sandbox"
+  local app="$HOME/Applications/cursor.appimage"
+  local wayland_args=""
+  local base_args="--no-sandbox"
 
-    # Validate appimage exists and is executable
-    if [ ! -f "$app" ] || [ ! -x "$app" ]; then
-      echo "Error: Cursor appimage not found or not executable at $app" >&2
-      return 1
-    fi
+  # Validate appimage exists and is executable
+  if [ ! -f "$app" ] || [ ! -x "$app" ]; then
+    echo "Error: Cursor appimage not found or not executable at $app" >&2
+    return 1
+  fi
 
-    # Add Wayland support if running under Wayland
-    if [ "$XDG_SESSION_TYPE" = "wayland" ] || [ -n "$WAYLAND_DISPLAY" ]; then
-      wayland_args="--ozone-platform=wayland"
-    fi
+  # Add Wayland support if running under Wayland
+  if [ "$XDG_SESSION_TYPE" = "wayland" ] || [ -n "$WAYLAND_DISPLAY" ]; then
+    wayland_args="--ozone-platform=wayland"
+  fi
 
-    # Run with no arguments - open Cursor
-    if [[ $# = 0 ]]; then
-      (nohup "$app" $base_args $wayland_args >/dev/null 2>&1 & disown)
-    else
-      (nohup "$app" $base_args $wayland_args "$@" >/dev/null 2>&1 & disown)
-    fi
+  # Run with no arguments - open Cursor
+  if [[ $# = 0 ]]; then
+    (nohup "$app" $base_args $wayland_args >/dev/null 2>&1 & disown)
+  else
+    (nohup "$app" $base_args $wayland_args "$@" >/dev/null 2>&1 & disown)
+  fi
 }
 
 __prompt_command() {
