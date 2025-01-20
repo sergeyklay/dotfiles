@@ -387,25 +387,51 @@ mkpyenv() {
   local pvenv="$2"
   local envrc_file=".envrc"
   local current_dir="$PWD"
+  local version="1.0.0"
 
-  # Display usage information
+  # Display usage information with available Python versions
   usage() {
-    cat >&2 <<EOF
-Usage: mkpyenv <python-version> <virtualenv-name>
-Create a direnv-managed Python virtual environment.
+    cat <<EOF
+mkpyenv - Create a direnv-managed Python virtual environment
+
+Usage: mkpyenv <version> <virtualenv-name>
+       mkpyenv --version
+       mkpyenv --help
 
 Arguments:
-  python-version    Python version (e.g., 3.11.0)
-  virtualenv-name   Name for the virtualenv
+  version          Python version from pyenv
+  virtualenv-name  Name for the virtualenv (alphanumeric, dash, underscore)
 
-Example: mkpyenv 3.11.0 myproject
+Examples:
+  mkpyenv 3.11.11 webapp
+  mkpyenv 3.12.8 api-service
+
+Requirements:
+  pyenv   Python version management tool
+  direnv  Directory environment manager
+
+Environment:
+  .envrc  Configuration file created in current directory
+  PATH    Automatically updated to include virtualenv binaries
 EOF
   }
+
+  # Handle help option
+  if [ $# -eq 1 ] && [[ "$1" == "--help" || "$1" == "-h" ]]; then
+    usage
+    return 0
+  fi
+
+  # Handle version option
+  if [ $# -eq 1 ] && [[ "$1" == "--version" || "$1" == "-v" ]]; then
+    echo "mkpyenv $version"
+    return 0
+  fi
 
   # Validate input parameters
   if [ $# -ne 2 ]; then
     echo "Error: Exactly two arguments are required." >&2
-    usage
+    echo "Try 'mkpyenv --help' for more information." >&2
     return 1
   fi
 
@@ -450,7 +476,7 @@ EOF
 
   # Handle existing .envrc
   if [ -f "$envrc_file" ]; then
-    echo "Warning: .envrc file already exists in current directory." >&2
+    echo "Warning: .envrc file already exists in current directory." >&1
     read -r -p "Do you want to overwrite it? [y/N] " reply
     echo
     if [[ ! $reply =~ ^[Yy]$ ]]; then
@@ -489,8 +515,8 @@ EOF
     return 1
   fi
 
-  echo "Successfully created .envrc and enabled direnv for the current directory" >&2
-  echo "Virtual environment will be created as: ${pvenv}-${pyversion}" >&2
+  echo "Successfully created .envrc and enabled direnv for the current directory" >&1
+  echo "Virtual environment will be created as: ${pvenv}-${pyversion}" >&1
 }
 
 # --------------------------------------------------------------------
