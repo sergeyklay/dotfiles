@@ -441,14 +441,32 @@ REQUIREMENTS
     - direnv            Directory environment manager
 
 ENVIRONMENT
-  .envrc  Configuration file created in current directory
-  PATH    Automatically updated to include virtualenv binaries
+  PATH
+    Will be automatically updated to include virtualenv binaries.
+
+FILES
+  .envrc
+    Configuration file for direnv to manage the virtual environment will be
+    created in current directory.
+
+  .venv
+    Symbolic link to virtual environment directory will be created in
+    current directory.  Actually this is not a direct function of mkpyenv,
+    and for this behavior to work, the ~/.config/direnv/direnvrc should be
+    configured to create symbolic links to virtual environments.  For example
+    see: https://github.com/sergeyklay/dotfiles/blob/26d5c33d0fbfc7c460a5110008c368b7c1b2baf8/.config/direnv/direnvrc#L30-L39
 
 NOTES
   The function will fail if pyenv or direnv are not installed.  Existing .envrc
-  files will be overwritten.  The virtual environment name must be alphanumeric
-  (with dash/underscore).  Python version must be available in pyenv
-  (use 'pyenv install' first).
+  files will not be overwritten without confirmation.  The virtual environment
+  name must be alphanumeric (with dash/underscore).  Python version must be
+  available in pyenv (use 'pyenv install' first).
+
+COPYRIGHT
+  Copyright (C) 2025 Serghei Iakovlev <gnu@serghei.pl>
+
+SEE ALSO
+  direnv(1), pyenv(1)
 EOF
   }
 
