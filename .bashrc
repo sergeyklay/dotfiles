@@ -300,7 +300,8 @@ fi
 if [ -z "${PYENV_SHELL+x}" ]; then
   # Check if the pyenv command exists
   if command -v pyenv >/dev/null 2>&1; then
-    eval "$(pyenv init - bash)"
+    eval "$(pyenv init --path)"
+    eval "$(pyenv init -)"
 
     # Check if pyenv has the virtualenv-init command
     if pyenv commands | grep -q virtualenv-init; then
@@ -449,16 +450,9 @@ FILES
     Configuration file for direnv to manage the virtual environment will be
     created in current directory.
 
-  .venv
-    Symbolic link to virtual environment directory will be created in
-    current directory.  Actually this is not a direct function of mkpyenv,
-    and for this behavior to work, the ~/.config/direnv/direnvrc should be
-    configured to create symbolic links to virtual environments.  For example
-    see: https://github.com/sergeyklay/dotfiles/blob/26d5c33d0fbfc7c460a5110008c368b7c1b2baf8/.config/direnv/direnvrc#L30-L39
-
 NOTES
   The function will fail if pyenv or direnv are not installed.  Existing .envrc
-  files will not be overwritten without confirmation.  The virtual environment
+  file will not be overwritten without confirmation.  The virtual environment
   name must be alphanumeric (with dash/underscore).  Python version must be
   available in pyenv (use 'pyenv install' first).
 
@@ -470,22 +464,35 @@ SEE ALSO
 EOF
   }
 
-  # Handle help option
-  if [ $# -eq 1 ] && [[ "$1" == "--help" || "$1" == "-h" ]]; then
-    usage
-    return 0
-  fi
+  # Handle help and version options
+  if [ $# -eq 1 ]; then
+    if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+      usage
+      return 0
+    fi
 
-  # Handle version option
-  if [ $# -eq 1 ] && [[ "$1" == "--version" || "$1" == "-v" ]]; then
-    echo "mkpyenv $version"
-    return 0
+    if [[ "$1" == "--version" || "$1" == "-v" ]]; then
+      echo "mkpyenv $version"
+      return 0
+    fi
+
+    {
+      echo
+      echo "Error: Invalid option: $1"
+      echo "Try 'mkpyenv --help' for more information."
+      echo
+    } 1>&2
+    return 1
   fi
 
   # Validate input parameters
   if [ $# -ne 2 ]; then
-    echo "Error: Exactly two arguments are required." >&2
-    echo "Try 'mkpyenv --help' for more information." >&2
+    {
+      echo
+      echo "Error: Exactly two arguments are required."
+      echo "Try 'mkpyenv --help' for more information."
+      echo
+    } 1>&2
     return 1
   fi
 
@@ -541,18 +548,20 @@ EOF
 
   # Create .envrc with proper configuration
   cat > "$envrc_file" <<EOF
-# Python virtual environment configuration
-# Created by mkpyenv on $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+# Python virtual environment configuration.
+# Created by mkpyenv on $(date -u +"%Y-%m-%d %H:%M:%S UTC").
+
+# Set Python version and virtualenv name.
 pyversion=${pyversion}
 pvenv=${pvenv}
 
-# Use specified Python version
+# Use specified Python version.
 use python \${pyversion}
 
-# Create the virtualenv if not yet done
+# Create the Python virtualenv if not yet done.
 layout virtualenv \${pyversion} \${pvenv}
 
-# Activate the virtualenv
+# Activate the Python virtualenv environment in current shell.
 layout activate \${pvenv}-\${pyversion}
 
 # Local Variables:
@@ -560,7 +569,6 @@ layout activate \${pvenv}-\${pyversion}
 # End:
 EOF
 
-  # Set secure file permissions
   chmod 0644 "$envrc_file"
 
   # Allow direnv
@@ -568,9 +576,6 @@ EOF
     echo "Error: Failed to run 'direnv allow'" >&2
     return 1
   fi
-
-  echo "Successfully created .envrc and enabled direnv for the current directory" >&1
-  echo "Virtual environment will be created as: ${pvenv}-${pyversion}" >&1
 }
 
 # --------------------------------------------------------------------
