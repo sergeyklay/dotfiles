@@ -1,14 +1,5 @@
 # -*- mode: sh; -*-
 
-### use a certain pyenv version
-use_python() {
-  local pyversion=$1
-
-  if [ -n "$(which pyenv)" ]; then
-    pyenv local ${pyversion}
-  fi
-}
-
 use_nodejs() {
   local node_version="$1"
   local nvm_sh=""
@@ -27,27 +18,48 @@ use_nodejs() {
   fi
 }
 
-layout_virtualenv() {
-  local pyversion=$1
-  local pvenv=$2
+# Use specified Python version.
+use_python() {
+  local pyversion="$1"
 
-  if [ -n "$(which pyenv virtualenv)" ]; then
-    pyenv virtualenv --force --quiet ${pyversion} ${pvenv}-${pyversion}
-    if [ ! -e "$PWD/.venv" ]; then
-      ln -s "$(pyenv root)/versions/${pvenv}-${pyversion}" $PWD/.venv
-    fi
+  if [ -n "$(which pyenv)" ]; then
+    pyenv local ${pyversion}
+  else
+    log_error "Error:pyenv not found"
   fi
-
-  pyenv local --unset
 }
 
-layout_activate() {
-  if [ -n "$(which pyenv)" ]; then
-    local activate_script="$(pyenv root)/versions/$1/bin/activate"
-    if [ -f "$activate_script" ] && [ -r "$activate_script" ]; then
-      . "$activate_script"
+# Create the virtualenv.
+layout_virtualenv() {
+  local pyversion="$1"
+  local pvenv="$2"
+
+  if has pyenv; then
+    if [ -n "$(which pyenv virtualenv)" ]; then
+      pyenv virtualenv --force ${pyversion} "${pvenv}-${pyversion}"
+      ln -sf "$(pyenv root)/versions/${pvenv}-${pyversion}" "${PWD}/.venv"
     else
-      echo "Virtual environment activate script not found or not readable at $activate_script" >&2
+      log_error "Error: pyenv virtualenv not found"
     fi
+
+    pyenv local --unset
+  else
+    log_error "Error: pyenv not found"
+  fi
+}
+
+# Activate the virtualenv.
+layout_activate() {
+  local pvenv="$1"
+
+  if has pyenv; then
+    local activate_script="$(pyenv root)/versions/${pvenv}/bin/activate"
+    if [ -f "${activate_script}" ] && [ -r "${activate_script}" ]; then
+      . "${activate_script}"
+    else
+      log_error "Error: the specified virtualenv '${pvenv}' is not found"
+    fi
+  else
+    log_error "Error: pyenv not found neither in the PATH nor in the SHELL functions"
   fi
 }
