@@ -1,0 +1,293 @@
+#!/usr/bin/env bash
+#
+# mkllmproj - LLM project scaffolding tool.
+#
+# Copyright (C) 2024 Serghei Iakovlev <gnu@serghei.pl>
+#
+# This file is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 3
+# of the License, or (at your option) any later version.
+#
+# This file is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <https://www.gnu.org/licenses/>.
+
+# shellcheck shell=bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+# Constants
+readonly SCRIPT_NAME="${0##*/}"
+readonly VERSION="1.0.0"
+
+# Print error message to stderr
+error() {
+  echo "ERROR: $*" >&2
+}
+
+# Print usage information
+usage() {
+  cat << EOF
+Usage: $SCRIPT_NAME [-h] [-v]
+
+Options:
+  -h  Display this help message
+  -v  Display version information
+EOF
+}
+
+# Process command line options
+while getopts ":hv" opt; do
+  case $opt in
+    h)
+      usage
+      exit 0
+      ;;
+    v)
+      echo "$SCRIPT_NAME version $VERSION"
+      exit 0
+      ;;
+    \?)
+      error "Invalid option: -$OPTARG"
+      usage
+      exit 1
+      ;;
+  esac
+done
+
+# Prompt for project name
+read -rp "Enter project name: " project_name
+
+if [[ -z "$project_name" ]]; then
+  error "Project name cannot be empty"
+  exit 1
+fi
+
+# Prompt for project description
+read -rp "Enter project description (press Enter to skip): " project_description
+
+# If description is empty, use a default value
+if [[ -z "$project_description" ]]; then
+  project_description="LLM project"
+fi
+
+# Normalize project name
+project_name_normalized=$(echo "$project_name" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+
+# Create project files
+create_env() {
+  cat > .env << 'EOL'
+LANGSMITH_TRACING=true
+LANGSMITH_ENDPOINT=https://api.smith.langchain.com
+LANGSMITH_API_KEY=
+
+MODEL=gpt-4o-mini
+
+OPENAI_API_KEY=
+
+EOL
+}
+
+create_gitignore() {
+  cat > .gitignore << 'EOL'
+.venv
+.env
+__pycache__
+EOL
+}
+
+create_main() {
+  cat > main.py << 'EOL'
+import os
+from pathlib import Path
+from typing import Any, TypedDict
+
+from dotenv import load_dotenv
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_openai import ChatOpenAI
+
+
+load_dotenv(dotenv_path=Path(__file__).resolve().parent / ".env")
+
+
+class TranslationInput(TypedDict):
+    adjective: str
+    noun: str
+
+
+def create_llm(
+    model: str,
+    temperature: float = 0.5,
+    max_tokens: int = 256,
+    **kwargs: Any,
+) -> ChatOpenAI:
+    """Create a ChatOpenAI instance with specified configuration.
+
+    Args:
+        model: The model identifier
+        temperature: Controls randomness in the output (0.0 to 2.0)
+        max_tokens: Maximum number of tokens to generate
+        **kwargs: Additional parameters to pass to ChatOpenAI
+
+    Returns:
+        Configured ChatOpenAI instance
+    """
+    return ChatOpenAI(
+        model=model,
+        temperature=temperature,
+        max_tokens=max_tokens,
+        **kwargs,
+    )
+
+
+def verify_envirinment() -> None:
+    """Verify that all required environment variables are set."""
+    # Feel free to add more environment variables
+    # or remove the ones that are not required
+    required_env_vars = [
+        "LANGSMITH_TRACING",
+        "LANGSMITH_ENDPOINT",
+        "LANGSMITH_API_KEY",
+        "MODEL",
+        "OPENAI_API_KEY",
+    ]
+
+    for env_var in required_env_vars:
+        if env_var not in os.environ:
+            raise ValueError(
+                (f"Environment variable {env_var} is not set. "
+                 "Please set the environment variable in your .env file "
+                 "or set it directly in your environment and try again."))
+
+
+if __name__ == "__main__":
+    try:
+        verify_envirinment()
+    except ValueError as e:
+        print(e)
+        exit(1)
+
+    model = create_llm(
+        model=os.environ["MODEL"],
+        temperature=0.3,
+        max_tokens=500,
+        request_timeout=30,    # Custom timeout in seconds
+        top_p=0.9,             # Nucleus sampling parameter
+    )
+
+    system_template = (
+        "You are a nice AI bot that helps people with their questions. "
+        "You should provide clear, direct answers."
+    )
+
+    template = ChatPromptTemplate([
+        ("system", system_template),
+        ("human", "How many stars are there in the sky?"),
+        ("ai", "There are 88 constellations in the sky."),
+        ("human", "Who is man's {adjective} {noun}?"),
+    ])
+
+    prompt = template.invoke(
+        TranslationInput(
+            adjective="best",
+            noun="friend",
+        )
+    )
+
+    response = model.invoke(prompt)
+    print(response.content)
+EOL
+}
+
+create_pyproject() {
+  cat > pyproject.toml << EOL
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "${project_name_normalized}"
+version = "1.0.0"
+description = "${project_description}"
+authors = ["Serghei Iakovlev <gnu@serghei.pl>"]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+keywords = []
+classifiers = []
+packages = []
+include = []
+
+[tool.poetry.dependencies]
+python = ">=3.10, <4"
+python-dotenv = "^1.0.0"
+langsmith = "^0.2.11"
+langchain-core = "^0.3.31"
+langchain-openai = "^0.3.1"
+langchain_community = "^0.3.15"
+
+[tool.poetry.group.dev.dependencies]
+debugpy = "^1.8.9"
+EOL
+}
+
+create_readme() {
+  cat > README.md << EOL
+# ${project_name}
+
+## Description
+
+${project_description}
+
+## Installation
+
+\`\`\`bash
+poetry install --with=dev --no-root
+\`\`\`
+
+## Usage
+
+\`\`\`bash
+poetry run python main.py
+# or
+python main.py
+\`\`\`
+
+## License
+
+This project is licensed under the GPL-3.0 License - see the LICENSE file for details.
+EOL
+}
+
+install_dependencies() {
+  # Ask user if they want to install dependencies
+  read -rp "Do you want to install dependencies? [y/N] " install_deps
+  if [[ "${install_deps,,}" =~ ^y$ ]]; then
+    # Check if poetry is installed
+    if ! command -v poetry &> /dev/null; then
+      echo "Poetry is not installed. Please install Poetry first."
+      exit 1
+    fi
+
+    poetry install --with=dev --no-root
+  fi
+}
+
+main() {
+  # Create project files
+  create_env
+  create_gitignore
+  create_main
+  create_pyproject
+  create_readme
+  install_dependencies
+
+  echo "Project ${project_name} has been created successfully!"
+}
+
+main "$@"
