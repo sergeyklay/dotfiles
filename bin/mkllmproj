@@ -37,29 +37,24 @@ IFS=$'\n\t'
 readonly SCRIPT_NAME="${0##*/}"
 readonly VERSION="1.1.0"
 
-# Print error message to stderr
-error() {
-  echo "${SCRIPT_NAME}: $*" >&2
-}
-
 # Print usage information
 usage() {
   cat << EOF
 ${SCRIPT_NAME} - LLM project scaffolding tool [version ${VERSION}]
 
-Usage:	${SCRIPT_NAME} [options]
+Usage:	${SCRIPT_NAME} [options] [[--] name]
 
 ${SCRIPT_NAME} is a tool for creating standardized scaffolding for LLM
 (Large Language Model) projects, setting up common directories and
 configuration files needed for LLM development.
 
+Positional parameters:
+  name                      project name (optional)
+                            if not provided, will prompt interactively;
 Command options:
-  -n, --name NAME           specify project name;
-  -h, --help                show the help;
-  -V, --version             show the version;
-
-Note: If no project name is provided via options, the tool will
-      prompt for it in interactive mode.
+  -h, --help                show this help message and exit;
+  -V, --version             show program's version number and exit;
+  --                        terminates argument processing;
 
 For bug reporting instructions, please see:
 <https://github.com/sergeyklay/dotfiles/>.
@@ -79,21 +74,14 @@ while [[ $# -gt 0 ]]; do
       echo "${SCRIPT_NAME} version ${VERSION}"
       exit 0
       ;;
-    -n|--name)
+    --)
+      # Everything after -- is a positional parameter
       shift
-      if [[ $# -eq 0 ]]; then
-        {
-          echo "${SCRIPT_NAME}: --name takes one parameter"
-          echo "Use ${SCRIPT_NAME} --help for help with command-line options"
-        } >&2
-        exit 1
+      if [[ $# -gt 0 ]]; then
+        project_name="$1"
+        shift
       fi
-      project_name="$1"
-      if [[ -z "$project_name" ]]; then
-        error "Project name cannot be empty"
-        exit 1
-      fi
-      shift
+      break
       ;;
     -*)
       error "Invalid option: $1"
@@ -101,18 +89,27 @@ while [[ $# -gt 0 ]]; do
       exit 1
       ;;
     *)
+      # First non-option argument is the project name
+      project_name="$1"
       shift
       ;;
   esac
 done
 
-# If no project name provided via options, prompt for it
-if [[ -z "$project_name" ]]; then
-  read -rp "Enter project name: " project_name
-  if [[ -z "$project_name" ]]; then
+# Validate project name if provided as argument
+if [[ -n "$project_name" ]]; then
+  if [[ -z "${project_name// }" ]]; then
     error "Project name cannot be empty"
     exit 1
   fi
+else
+  # Prompt for project name if not provided
+  while [[ -z "${project_name// }" ]]; do
+    read -rp "Enter project name: " project_name
+    if [[ -z "${project_name// }" ]]; then
+      echo "Project name cannot be empty. Please try again."
+    fi
+  done
 fi
 
 # Prompt for project description
