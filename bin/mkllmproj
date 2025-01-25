@@ -37,12 +37,21 @@ IFS=$'\n\t'
 readonly SCRIPT_NAME="${0##*/}"
 readonly VERSION="1.1.0"
 
+version() {
+  cat <<EOF
+${SCRIPT_NAME} ${VERSION}
+Copyright (C) 2025 Serghei Iakovlev.
+This is free software; see the source for copying conditions. There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+EOF
+}
+
 # Print usage information
 usage() {
   cat << EOF
 ${SCRIPT_NAME} - LLM project scaffolding tool [version ${VERSION}]
 
-Usage:	${SCRIPT_NAME} [options] [[--] name [description]]
+Usage:	${SCRIPT_NAME} [options] [[--] name]
 
 Description:
   ${SCRIPT_NAME} is a tool for creating standardized scaffolding for LLM
@@ -51,13 +60,16 @@ Description:
 
 Examples:
   # Create a project named "myproject" with a description
-  \$ ${SCRIPT_NAME} myproject "This is a description of my LLM project."
+  \$ ${SCRIPT_NAME} myproject -d "This is a description of my LLM project."
 
   # Create a project named "myproject" without a description (will be prompted)
   \$ ${SCRIPT_NAME} myproject
 
   # Create a project and install dependencies automatically
   \$ ${SCRIPT_NAME} myproject --install
+
+  # Create a project in a specific directory
+  \$ ${SCRIPT_NAME} myproject --path /path/to/directory
 
   # Ask for project name and description, and install dependencies automatically
   \$ ${SCRIPT_NAME} --install
@@ -68,13 +80,15 @@ Examples:
 Positional parameters:
   name                      Project name (optional)
                             If not provided, will prompt interactively;
-  description               Project description (optional)
-                            If not provided, will prompt interactively;
 Command options:
   -h, --help                Show this help message
   -V, --version             Show program's version number
+  -d, --description         Project description (optional)
+                            If not provided, will prompt interactively
       --install             Install dependencies without prompting
       --no-install          Skip dependency installation
+      --path                Directory where project should be created
+                            If not provided, uses current directory
   --                        Terminates option parsing
 
 For bug reporting instructions, please see:
@@ -85,6 +99,14 @@ EOF
 project_name=""
 project_description=""
 install_deps=""
+project_path=""
+original_dir=$(pwd)
+
+# Ensure we return to the original directory
+cleanup() {
+  cd "$original_dir"
+}
+trap cleanup EXIT
 
 # Process command line options
 while [[ $# -gt 0 ]]; do
@@ -94,8 +116,13 @@ while [[ $# -gt 0 ]]; do
       exit 0
       ;;
     -V|--version)
-      echo "${SCRIPT_NAME} version ${VERSION}"
+      version
       exit 0
+      ;;
+    -d|--description)
+      shift
+      project_description="$1"
+      shift
       ;;
     --install)
       install_deps="yes"
@@ -105,16 +132,17 @@ while [[ $# -gt 0 ]]; do
       install_deps="no"
       shift
       ;;
+    --path)
+      shift
+      project_path="$1"
+      shift
+      ;;
     --)
       # Everything after -- is a positional parameter
       shift
       if [[ $# -gt 0 ]]; then
         project_name="$1"
         shift
-        if [[ $# -gt 0 ]]; then
-          # Capture all remaining arguments as description
-          project_description="$*"
-        fi
       fi
       break
       ;;
@@ -127,14 +155,28 @@ while [[ $# -gt 0 ]]; do
       if [[ -z "$project_name" ]]; then
         project_name="$1"
       else
-        # If project_name is set, treat all remaining arguments as description
-        project_description="$*"
-        break
+        error "Unexpected argument: $1"
+        usage
+        exit 1
       fi
       shift
       ;;
   esac
 done
+
+# Change to project directory if specified
+if [[ -n "$project_path" ]]; then
+  if [[ ! -d "$project_path" ]]; then
+    mkdir -p "$project_path" || {
+      echo "${SCRIPT_NAME}: failed to create directory $project_path"
+      exit 1
+    }
+  fi
+  cd "$project_path" || {
+    echo "${SCRIPT_NAME}: failed to change to directory $project_path"
+    exit 1
+  }
+fi
 
 # Validate project name if provided as argument
 if [[ -n "$project_name" ]]; then
