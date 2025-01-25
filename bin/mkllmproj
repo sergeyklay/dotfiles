@@ -19,12 +19,23 @@
 
 # shellcheck shell=bash
 
-set -euo pipefail
+# trace ERR through pipes
+set -o pipefail
+
+# trace ERR through 'time command' and other functions
+set -o errtrace
+
+# set -u : exit the script if you try to use an uninitialised variable
+set -o nounset
+
+# set -e : exit the script if any statement returns a non-true return value
+set -o errexit
+
 IFS=$'\n\t'
 
 # Constants
 readonly SCRIPT_NAME="${0##*/}"
-readonly VERSION="1.0.0"
+readonly VERSION="1.1.0"
 
 # Print error message to stderr
 error() {
@@ -34,27 +45,29 @@ error() {
 # Print usage information
 usage() {
   cat << EOF
-Usage: $SCRIPT_NAME [-h] [-v]
+$SCRIPT_NAME - LLM project scaffolding tool [version $VERSION]
 
-Options:
-  -h  Display this help message
-  -v  Display version information
+Usage:	$SCRIPT_NAME [options]
+
+Command options:
+  -h, --help                show the help;
+  -V, --version             show the version;
 EOF
 }
 
 # Process command line options
-while getopts ":hv" opt; do
-  case $opt in
-    h)
+for arg in "$@"; do
+  case $arg in
+    -h|--help)
       usage
       exit 0
       ;;
-    v)
+    -V|--version)
       echo "$SCRIPT_NAME version $VERSION"
       exit 0
       ;;
-    \?)
-      error "Invalid option: -$OPTARG"
+    -*)
+      error "Invalid option: $arg"
       usage
       exit 1
       ;;
@@ -90,7 +103,6 @@ LANGSMITH_API_KEY=
 MODEL=gpt-4o-mini
 
 OPENAI_API_KEY=
-
 EOL
 }
 
@@ -146,7 +158,7 @@ def create_llm(
     )
 
 
-def verify_envirinment() -> None:
+def verify_environment() -> None:
     """Verify that all required environment variables are set."""
     # Feel free to add more environment variables
     # or remove the ones that are not required
@@ -158,17 +170,17 @@ def verify_envirinment() -> None:
         "OPENAI_API_KEY",
     ]
 
-    for env_var in required_env_vars:
-        if env_var not in os.environ:
-            raise ValueError(
-                (f"Environment variable {env_var} is not set. "
-                 "Please set the environment variable in your .env file "
-                 "or set it directly in your environment and try again."))
+    missing_vars = [var for var in required_env_vars if var not in os.environ]
+    if missing_vars:
+        raise ValueError(
+            "Missing required environment variables: "
+            f"{', '.join(missing_vars)}. Please set them in your .env file."
+        )
 
 
 if __name__ == "__main__":
     try:
-        verify_envirinment()
+        verify_environment()
     except ValueError as e:
         print(e)
         exit(1)
