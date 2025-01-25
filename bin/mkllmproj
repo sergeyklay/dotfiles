@@ -399,7 +399,7 @@ install_dependencies() {
   if [[ "${install_deps,,}" =~ ^y(es)?$ ]]; then
     # Check if poetry is installed
     if ! command -v poetry &> /dev/null; then
-      echo "${SCRIPT_NAME}: poetry is not installed. Please install Poetry first."
+      echo "${SCRIPT_NAME}: poetry is not installed. Please install poetry first."
       exit 1
     fi
 
