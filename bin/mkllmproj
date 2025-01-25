@@ -39,47 +39,80 @@ readonly VERSION="1.1.0"
 
 # Print error message to stderr
 error() {
-  echo "ERROR: $*" >&2
+  echo "${SCRIPT_NAME}: $*" >&2
 }
 
 # Print usage information
 usage() {
   cat << EOF
-$SCRIPT_NAME - LLM project scaffolding tool [version $VERSION]
+${SCRIPT_NAME} - LLM project scaffolding tool [version ${VERSION}]
 
-Usage:	$SCRIPT_NAME [options]
+Usage:	${SCRIPT_NAME} [options]
+
+${SCRIPT_NAME} is a tool for creating standardized scaffolding for LLM
+(Large Language Model) projects, setting up common directories and
+configuration files needed for LLM development.
 
 Command options:
+  -n, --name NAME           specify project name;
   -h, --help                show the help;
   -V, --version             show the version;
+
+Note: If no project name is provided via options, the tool will
+      prompt for it in interactive mode.
+
+For bug reporting instructions, please see:
+<https://github.com/sergeyklay/dotfiles/>.
 EOF
 }
 
+project_name=""
+
 # Process command line options
-for arg in "$@"; do
-  case $arg in
+while [[ $# -gt 0 ]]; do
+  case "$1" in
     -h|--help)
       usage
       exit 0
       ;;
     -V|--version)
-      echo "$SCRIPT_NAME version $VERSION"
+      echo "${SCRIPT_NAME} version ${VERSION}"
       exit 0
       ;;
+    -n|--name)
+      shift
+      if [[ $# -eq 0 ]]; then
+        {
+          echo "${SCRIPT_NAME}: --name takes one parameter"
+          echo "Use ${SCRIPT_NAME} --help for help with command-line options"
+        } >&2
+        exit 1
+      fi
+      project_name="$1"
+      if [[ -z "$project_name" ]]; then
+        error "Project name cannot be empty"
+        exit 1
+      fi
+      shift
+      ;;
     -*)
-      error "Invalid option: $arg"
+      error "Invalid option: $1"
       usage
       exit 1
+      ;;
+    *)
+      shift
       ;;
   esac
 done
 
-# Prompt for project name
-read -rp "Enter project name: " project_name
-
+# If no project name provided via options, prompt for it
 if [[ -z "$project_name" ]]; then
-  error "Project name cannot be empty"
-  exit 1
+  read -rp "Enter project name: " project_name
+  if [[ -z "$project_name" ]]; then
+    error "Project name cannot be empty"
+    exit 1
+  fi
 fi
 
 # Prompt for project description
@@ -303,3 +336,7 @@ main() {
 }
 
 main "$@"
+
+# Local Variables:
+# mode: sh
+# End:
