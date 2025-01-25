@@ -147,7 +147,7 @@ while [[ $# -gt 0 ]]; do
       break
       ;;
     -*)
-      error "Invalid option: $1"
+      echo "${SCRIPT_NAME}: invalid option: $1"
       usage
       exit 1
       ;;
@@ -155,7 +155,7 @@ while [[ $# -gt 0 ]]; do
       if [[ -z "$project_name" ]]; then
         project_name="$1"
       else
-        error "Unexpected argument: $1"
+        echo "${SCRIPT_NAME}: unexpected argument: $1"
         usage
         exit 1
       fi
@@ -181,7 +181,7 @@ fi
 # Validate project name if provided as argument
 if [[ -n "$project_name" ]]; then
   if [[ -z "${project_name// }" ]]; then
-    error "Project name cannot be empty"
+    echo "${SCRIPT_NAME}: project name cannot be empty"
     exit 1
   fi
 else
@@ -189,7 +189,7 @@ else
   while [[ -z "${project_name// }" ]]; do
     read -rp "Enter project name: " project_name
     if [[ -z "${project_name// }" ]]; then
-      echo "Project name cannot be empty. Please try again."
+      echo "${SCRIPT_NAME}: project name cannot be empty"
     fi
   done
 fi
