@@ -44,31 +44,38 @@ ${SCRIPT_NAME} - LLM project scaffolding tool [version ${VERSION}]
 
 Usage:	${SCRIPT_NAME} [options] [[--] name [description]]
 
-${SCRIPT_NAME} is a tool for creating standardized scaffolding for LLM
-(Large Language Model) projects, setting up common directories and
-configuration files needed for LLM development.
+Description:
+  ${SCRIPT_NAME} is a tool for creating standardized scaffolding for LLM
+  (Large Language Model) projects, setting up common directories and
+  configuration files needed for LLM development.
 
-Example:
-
+Examples:
   # Create a project named "myproject" with a description
-  # "This is a description of my LLM project."
   \$ ${SCRIPT_NAME} myproject "This is a description of my LLM project."
 
   # Create a project named "myproject" without a description (will be prompted)
   \$ ${SCRIPT_NAME} myproject
 
-  # Print help message
-  \$ ${SCRIPT_NAME} --help
+  # Create a project and install dependencies automatically
+  \$ ${SCRIPT_NAME} myproject --install
+
+  # Ask for project name and description, and install dependencies automatically
+  \$ ${SCRIPT_NAME} --install
+
+  # Ask for project name and description, and skip dependency installation
+  \$ ${SCRIPT_NAME} --no-install
 
 Positional parameters:
-  name                      project name (optional)
-                            if not provided, will prompt interactively;
-  description              project description (optional)
-                            if not provided, will prompt interactively;
+  name                      Project name (optional)
+                            If not provided, will prompt interactively;
+  description               Project description (optional)
+                            If not provided, will prompt interactively;
 Command options:
-  -h, --help                show this help message and exit;
-  -V, --version             show program's version number and exit;
-  --                        terminates argument processing;
+  -h, --help                Show this help message
+  -V, --version             Show program's version number
+      --install             Install dependencies without prompting
+      --no-install          Skip dependency installation
+  --                        Terminates option parsing
 
 For bug reporting instructions, please see:
 <https://github.com/sergeyklay/dotfiles/>.
@@ -77,6 +84,7 @@ EOF
 
 project_name=""
 project_description=""
+install_deps=""
 
 # Process command line options
 while [[ $# -gt 0 ]]; do
@@ -88,6 +96,14 @@ while [[ $# -gt 0 ]]; do
     -V|--version)
       echo "${SCRIPT_NAME} version ${VERSION}"
       exit 0
+      ;;
+    --install)
+      install_deps="yes"
+      shift
+      ;;
+    --no-install)
+      install_deps="no"
+      shift
       ;;
     --)
       # Everything after -- is a positional parameter
@@ -333,9 +349,12 @@ EOL
 }
 
 install_dependencies() {
-  # Ask user if they want to install dependencies
-  read -rp "Do you want to install dependencies? [y/N] " install_deps
-  if [[ "${install_deps,,}" =~ ^y$ ]]; then
+  # Skip prompting if --install or --no-install was specified
+  if [[ -z "$install_deps" ]]; then
+    read -rp "Do you want to install dependencies? [y/N] " install_deps
+  fi
+
+  if [[ "${install_deps,,}" =~ ^y(es)?$ ]]; then
     # Check if poetry is installed
     if ! command -v poetry &> /dev/null; then
       echo "Poetry is not installed. Please install Poetry first."
