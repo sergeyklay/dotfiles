@@ -81,40 +81,67 @@ class Version:
             list: List of version components (integers and strings).
         """
         version_str = version_str.lower().strip()
+
+        # Split into release and pre-release parts
         parts = version_str.split('.')
         result = []
+        pre_release = None
 
         for part in parts:
-            subparts = re.split(r'[-_]', part)
-            for subpart in subparts:
-                if subpart.startswith(('a', 'b', 'rc')):
-                    match = re.match(r'([a-z]+)(\d*)', subpart)
-                    if match:
-                        type_part, num_part = match.groups()
-                        type_val = {'rc': 3, 'b': 2, 'a': 1}.get(type_part, 0)
-                        num_val = int(num_part) if num_part else 0
-                        result.extend([type_val, num_val])
-                    continue
-                try:
-                    result.append(int(subpart))
-                except ValueError:
-                    result.append(subpart)
+            # Check for pre-release markers
+            if any(marker in part for marker in ['rc', 'a', 'b']):
+                # Store pre-release info separately
+                match = re.match(r'(\d+)?(rc|a|b)(\d*)', part)
+                if match:
+                    num, type_part, pre_num = match.groups()
+                    if num:  # If there's a version number before the pre-release
+                        result.append(int(num))
+                    # Pre-release type: rc > b > a
+                    type_val = {'rc': 3, 'b': 2, 'a': 1}.get(type_part, 0)
+                    pre_num = int(pre_num) if pre_num else 0
+                    pre_release = (type_val, pre_num)
+                continue
+
+            # Handle post-release
+            if 'post' in part:
+                match = re.match(r'(\d+)?post(\d+)', part)
+                if match:
+                    num, post_num = match.groups()
+                    if num:
+                        result.append(int(num))
+                    result.extend([4, int(post_num)])  # 4 is higher than rc/b/a
+                continue
+
+            # Convert to integer if possible
+            try:
+                result.append(int(part))
+            except ValueError:
+                result.append(part)
+
+        # Append pre-release info at the end if it exists
+        if pre_release:
+            result.extend(pre_release)
+
         return result
 
     def __lt__(self, other):
         """Compare versions following PEP 440 ordering."""
         if not isinstance(other, Version):
             other = Version(str(other))
+
+        # Pad shorter version with zeros
         v1 = self.parts + [0] * (len(other.parts) - len(self.parts))
         v2 = other.parts + [0] * (len(self.parts) - len(other.parts))
+
+        # Compare parts
         for p1, p2 in zip(v1, v2):
             if isinstance(p1, int) and isinstance(p2, int):
                 if p1 != p2:
                     return p1 < p2
             elif isinstance(p1, int):
-                return True
+                return False  # Release versions come after pre-releases
             elif isinstance(p2, int):
-                return False  # Numbers come before strings
+                return True  # Pre-releases come before release versions
             else:
                 if p1 != p2:
                     return p1 < p2
