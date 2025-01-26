@@ -93,6 +93,9 @@ Examples:
   # Run doctests:
   $ pip-query --test
 
+  # Force color output even when piping:
+  $ pip-query --search requests --color y | less -R
+
 Command options:
   -h, --help               Show this help message
   -V, --version            Show program's version number
@@ -100,6 +103,7 @@ Command options:
   -m, --max-packages NUM   Maximum number of packages to display (default: 30,
                            0 means show all matches)
   -t, --test               Run doctests
+      --color <y|n>        Enable (y) or disable (n) color output
 
 Notes:
   This tool requires an internet connection for the initial package list fetch
@@ -108,9 +112,13 @@ Notes:
   Package information is cached for 24 hours to improve performance and
   reduce load on PyPI servers.
 
+  Color output is enabled by default when outputting to a terminal. Use
+  --color y to force color output when piping to another program, or
+  --color n to disable colors entirely.
+
 For bug reporting instructions, please see:
-<https://github.com/sergeyklay/dotfiles/>
-"""
+<https://github.com/sergeyklay/dotfiles/>"""
+
     print(help_text)
 
 
@@ -315,12 +323,32 @@ signal.signal(signal.SIGINT, signal_interrupt)
 signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 
 
+def get_color_mode(args=None):
+    """
+    Determine if color output should be enabled based on arguments and environment.
+
+    Args:
+        args (argparse.Namespace, optional): Parsed command line arguments.
+
+    Returns:
+        bool: True if color output should be enabled, False otherwise.
+    """
+    if args and hasattr(args, 'color'):
+        if args.color == 'y':
+            return True
+        if args.color == 'n':
+            return False
+
+    return supports_color()
+
+
 def supports_color():
     """
     Check if the terminal supports color output.
 
     This function checks various environment variables and terminal
     capabilities to determine if color output is supported and desired.
+    This can be overridden by the --color command line option.
 
     Returns:
         bool: True if color output is supported, False otherwise.
@@ -341,11 +369,40 @@ def supports_color():
 
 class Colors:
     """ANSI color codes for terminal output."""
-    GREEN = '\033[32m' if supports_color() else ''
-    BOLD_GREEN = '\033[1;32m' if supports_color() else ''
-    BOLD_WHITE = '\033[1;37m' if supports_color() else ''
-    RESET = '\033[0m' if supports_color() else ''
+    _use_color = True  # Class variable to control color usage
 
+    @classmethod
+    def set_color_mode(cls, enable_color):
+        """Set whether to use color output."""
+        cls._use_color = enable_color
+
+    @classmethod
+    def _get_color(cls, code):
+        """Get color code if colors are enabled."""
+        return code if cls._use_color else ''
+
+    @property
+    def GREEN(self):
+        """Green color code."""
+        return self._get_color('\033[32m')
+
+    @property
+    def BOLD_GREEN(self):
+        """Bold green color code."""
+        return self._get_color('\033[1;32m')
+
+    @property
+    def BOLD_WHITE(self):
+        """Bold white color code."""
+        return self._get_color('\033[1;37m')
+
+    @property
+    def RESET(self):
+        """Reset color code."""
+        return self._get_color('\033[0m')
+
+# Create a singleton instance
+COLORS = Colors()
 
 def colorize(text, color):
     """
@@ -358,7 +415,7 @@ def colorize(text, color):
     Returns:
         str: Colorized text if supported, original text otherwise.
     """
-    return f"{color}{text}{Colors.RESET}" if color else text
+    return f"{color}{text}{COLORS.RESET}" if color else text
 
 
 def get_cache_dir():
@@ -638,20 +695,20 @@ def format_package_info(package_name, data):
     python_requires = info.get("requires_python") or ""
 
     # Format labels with color
-    latest_version_label = colorize("Latest version available:", Colors.GREEN)
-    latest_release_label = colorize("Latest release date:", Colors.GREEN)
+    latest_version_label = colorize("Latest version available:", COLORS.GREEN)
+    latest_release_label = colorize("Latest release date:", COLORS.GREEN)
     version_history_label = colorize(
         f"Version history{' (last 10)' if len(all_versions) > 10 else ''}:",
-        Colors.GREEN
+        COLORS.GREEN
     )
-    release_history_label = colorize("Release history:", Colors.GREEN)
-    homepage_label = colorize("Homepage:", Colors.GREEN)
-    description_label = colorize("Description:", Colors.GREEN)
-    author_label = colorize("Author:", Colors.GREEN)
-    requires_label = colorize("Requires:", Colors.GREEN)
-    license_label = colorize("License:", Colors.GREEN)
+    release_history_label = colorize("Release history:", COLORS.GREEN)
+    homepage_label = colorize("Homepage:", COLORS.GREEN)
+    description_label = colorize("Description:", COLORS.GREEN)
+    author_label = colorize("Author:", COLORS.GREEN)
+    requires_label = colorize("Requires:", COLORS.GREEN)
+    license_label = colorize("License:", COLORS.GREEN)
 
-    return (f"{colorize('*', Colors.BOLD_GREEN)}  {colorize(package_name, Colors.BOLD_WHITE)}\n"
+    return (f"{colorize('*', COLORS.BOLD_GREEN)}  {colorize(package_name, COLORS.BOLD_WHITE)}\n"
             f"      {latest_version_label} {latest_version}\n"
             f"      {latest_release_label} {latest_release_date or 'Not specified'}\n"
             f"      {version_history_label} {recent_versions_str}\n"
@@ -903,6 +960,10 @@ def parse_args(args=None):
                        action='store_true',
                        help='run doctests and exit')
 
+    parser.add_argument('--color',
+                       choices=['y', 'n'],
+                       help='enable or disable color output')
+
     return parser.parse_args(args)
 
 
@@ -920,6 +981,9 @@ def main():
     try:
         args = parse_args()
 
+        # Set color mode before any output
+        Colors.set_color_mode(get_color_mode(args))
+
         if args.version:
             show_version()
             return 0
@@ -935,7 +999,7 @@ def main():
             show_help()
             return 0
 
-        print(f"\n[ Results for search key: {colorize(args.search, Colors.BOLD_WHITE)} ]")
+        print(f"\n[ Results for search key: {colorize(args.search, COLORS.BOLD_WHITE)} ]")
         print("Searching...\n")
 
         results, total_matches = search_similar_packages(
@@ -944,7 +1008,7 @@ def main():
         )
 
         if not results:
-            print(f"No packages found matching '{colorize(args.search, Colors.BOLD_WHITE)}'")
+            print(f"No packages found matching '{colorize(args.search, COLORS.BOLD_WHITE)}'")
             print("\n[ Packages found: 0 ]\n")
             return 0
 
@@ -957,10 +1021,10 @@ def main():
 
         # Print summary
         if args.max_packages > 0 and total_matches > args.max_packages:
-            print(f"[ Packages found: {colorize(str(total_matches), Colors.BOLD_WHITE)} ]")
+            print(f"[ Packages found: {colorize(str(total_matches), COLORS.BOLD_WHITE)} ]")
             print(f"[ Shown most relevant {args.max_packages} packages ]\n")
         else:
-            print(f"[ Packages found: {colorize(str(len(results)), Colors.BOLD_WHITE)} ]\n")
+            print(f"[ Packages found: {colorize(str(len(results)), COLORS.BOLD_WHITE)} ]\n")
 
         return 0
     except KeyboardInterrupt as e:
