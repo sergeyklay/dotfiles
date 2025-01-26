@@ -46,7 +46,6 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 EOF
 }
 
-# Print usage information
 usage() {
   cat << EOF
 ${SCRIPT_NAME} - LLM project scaffolding tool [version ${VERSION}]
@@ -79,7 +78,7 @@ Examples:
 
 Positional parameters:
   name                      Project name (optional)
-                            If not provided, will prompt interactively;
+                            If not provided, will prompt interactively
 Command options:
   -h, --help                Show this help message
   -V, --version             Show program's version number
@@ -147,16 +146,20 @@ while [[ $# -gt 0 ]]; do
       break
       ;;
     -*)
-      echo "${SCRIPT_NAME}: invalid option: $1"
-      usage
+      {
+        echo "${SCRIPT_NAME}: invalid option: $1"
+        echo "Try '${SCRIPT_NAME} --help' for more information."
+      } 1>&2
       exit 1
       ;;
     *)
       if [[ -z "$project_name" ]]; then
         project_name="$1"
       else
-        echo "${SCRIPT_NAME}: unexpected argument: $1"
-        usage
+        {
+          echo "${SCRIPT_NAME}: unexpected argument: $1"
+          echo "Try '${SCRIPT_NAME} --help' for more information."
+        } 1>&2
         exit 1
       fi
       shift
@@ -168,12 +171,12 @@ done
 if [[ -n "$project_path" ]]; then
   if [[ ! -d "$project_path" ]]; then
     mkdir -p "$project_path" || {
-      echo "${SCRIPT_NAME}: failed to create directory $project_path"
+      echo "${SCRIPT_NAME}: failed to create directory $project_path" >&2
       exit 1
     }
   fi
   cd "$project_path" || {
-    echo "${SCRIPT_NAME}: failed to change to directory $project_path"
+    echo "${SCRIPT_NAME}: failed to change to directory $project_path" >&2
     exit 1
   }
 fi
@@ -181,7 +184,7 @@ fi
 # Validate project name if provided as argument
 if [[ -n "$project_name" ]]; then
   if [[ -z "${project_name// }" ]]; then
-    echo "${SCRIPT_NAME}: project name cannot be empty"
+    echo "${SCRIPT_NAME}: project name cannot be empty" >&2
     exit 1
   fi
 else
@@ -189,7 +192,7 @@ else
   while [[ -z "${project_name// }" ]]; do
     read -rp "Enter project name: " project_name
     if [[ -z "${project_name// }" ]]; then
-      echo "${SCRIPT_NAME}: project name cannot be empty"
+      echo "${SCRIPT_NAME}: project name cannot be empty" >&2
     fi
   done
 fi
