@@ -30,17 +30,17 @@ Features:
     - Colored terminal output (when supported)
     - Version comparison following PEP 440
     - Graceful error handling and signal management
+    - Configurable number of displayed packages
 
 Example:
+    # Show default number of packages (30)
     $ pip-query requests
-    [ Results for search key: requests ]
-    Searching...
 
-    * requests
-        Latest version available: 2.31.0
-        Latest release date: 2024-03-12
-        Version history: 2.31.0, 2.30.0, ...
-        ...
+    # Search for 'flask' packages and show 50 results:
+    $ pip-query --max-packages 50 flask
+
+    # Search for 'django' packages and show all matches:
+    $ pip-query --max-packages 0 django
 
 Note:
     This tool uses the PyPI JSON API and piwheels.org for package information.
@@ -77,19 +77,24 @@ Description:
   and dependencies.
 
 Examples:
-  # Search for the 'requests' package:
+  # Search for the 'requests' package (shows default 30 packages):
   $ pip-query requests
 
-  # Search for packages containing 'flask':
-  $ pip-query flask
+  # Search for 'flask' packages and show 50 results:
+  $ pip-query --max-packages 50 flask
+
+  # Search for 'django' packages and show all matches:
+  $ pip-query --max-packages 0 django
 
 Positional parameters:
-  package-name              Name of the package to search for. Can be a partial
-                            name - the tool will find similar matches.
+  package-name             Name of the package to search for.  Can be a partial
+                           name - the tool will find similar matches.
 
 Command options:
   -h, --help               Show this help message
   -V, --version            Show program's version number
+  -m, --max-packages NUM   Maximum number of packages to display (default: 30,
+                           0 means show all matches)
 
 Notes:
   This tool requires an internet connection for the initial package list fetch
@@ -115,7 +120,7 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."""
 # Check Python version
 if sys.version_info < (3, 6):
     sys.stderr.write("""
-Error: Unsupported Python version.
+pip-query: Unsupported Python version.
 This script requires Python 3.6 or newer.
 You are using Python {}.{}.{}.
 
@@ -608,18 +613,20 @@ def format_package_info(package_name, data):
             f"      {license_label} {license_info}")
 
 
-def search_similar_packages(query, similarity_threshold=0.8):
+def search_similar_packages(query, similarity_threshold=0.8, max_packages=30):
     """
     Search for packages with names similar to the query.
 
     This function implements a fuzzy search algorithm that finds packages
     with names similar to the search query. It uses multiple similarity
-    metrics and can return up to 30 most relevant matches.
+    metrics and returns the most relevant matches.
 
     Args:
         query (str): Package name to search for.
         similarity_threshold (float, optional): Minimum similarity score (0-1).
             Defaults to 0.8.
+        max_packages (int, optional): Maximum number of packages to return.
+            Defaults to 30. If 0, returns all matches.
 
     Returns:
         tuple: (dict of package data, total number of matches found)
@@ -642,12 +649,14 @@ def search_similar_packages(query, similarity_threshold=0.8):
             if score >= similarity_threshold
         ]
 
-        # Sort by similarity score and take top 30 packages
+        # Sort by similarity score and take top N packages
         most_similar = sorted(
             matching_packages,
             key=lambda x: x[1],
             reverse=True
-        )[:30]
+        )
+        if max_packages > 0:
+            most_similar = most_similar[:max_packages]
 
         # First try to load all packages from cache
         similar_packages = {}
@@ -663,6 +672,7 @@ def search_similar_packages(query, similarity_threshold=0.8):
 
         # Now fetch packages that weren't in cache
         if packages_to_fetch:
+            print(f"Fetching data for {len(packages_to_fetch)} packages from PyPI...", file=sys.stderr)
             # Use concurrent.futures to fetch packages in parallel
             with ThreadPoolExecutor(max_workers=min(10, len(packages_to_fetch))) as executor:
                 # Submit all package fetch tasks
@@ -797,23 +807,44 @@ def main():
         int: Exit code (0 for success, non-zero for errors)
     """
     try:
-        if len(sys.argv) < 2:
+        # Parse command line arguments
+        max_packages = 30  # Default value
+        args = sys.argv[1:]
+
+        if not args:
             raise ParseError("Missing package name argument")
 
         # Handle command-line options
-        if sys.argv[1] in ['-h', '--help']:
+        if args[0] in ['-h', '--help']:
             show_help()
             return 0
 
-        if sys.argv[1] in ['-V', '--version']:
+        if args[0] in ['-V', '--version']:
             show_version()
             return 0
 
-        query = sys.argv[1]
+        # Parse max-packages option
+        if args[0] in ['-m', '--max-packages']:
+            if len(args) < 3:
+                raise ParseError("Missing value for --max-packages")
+            try:
+                max_packages = int(args[1])
+                if max_packages < 0:
+                    raise ValueError("Number must be non-negative")
+                args = args[2:]
+            except ValueError:
+                raise ParseError("Invalid value for --max-packages")
+        elif len(args) >= 2 and args[1] in ['-m', '--max-packages']:
+            raise ParseError("--max-packages option must come before package name")
+
+        if not args:
+            raise ParseError("Missing package name argument")
+
+        query = args[0]
         print(f"\n[ Results for search key: {colorize(query, Colors.BOLD_WHITE)} ]")
         print("Searching...\n")
 
-        results, total_matches = search_similar_packages(query)
+        results, total_matches = search_similar_packages(query, max_packages=max_packages)
 
         if not results:
             print(f"No packages found matching '{colorize(query, Colors.BOLD_WHITE)}'")
@@ -828,18 +859,18 @@ def main():
                 print()  # Empty line between packages
 
         # Print summary
-        if total_matches > 30:
+        if max_packages > 0 and total_matches > max_packages:
             print(f"[ Packages found: {colorize(str(total_matches), Colors.BOLD_WHITE)} ]")
-            print("[ Shown most relevant 30 packages ]\n")
+            print(f"[ Shown most relevant {max_packages} packages ]\n")
         else:
             print(f"[ Packages found: {colorize(str(len(results)), Colors.BOLD_WHITE)} ]\n")
 
         return 0
 
     except ParseError as e:
-        sys.stderr.write(f"Error: {str(e)}\n")
-        sys.stderr.write(f"Usage: {sys.argv[0]} package-name\n")
-        sys.stderr.write(f"Try '{sys.argv[0]} --help' for more information.\n")
+        sys.stderr.write(f"pip-query: {str(e)}\n")
+        sys.stderr.write("Usage: pip-query [--max-packages NUM] package-name\n")
+        sys.stderr.write("Try 'pip-query --help' for more information.\n")
         return 1
     except KeyboardInterrupt as e:
         # Handle Ctrl+C gracefully
