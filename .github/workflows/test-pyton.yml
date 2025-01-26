@@ -74,11 +74,14 @@ jobs:
 
       - name: Test script execution
         run: |
-          # Test basic functionality
-          python3 bin/pip-query requests
+          # Test help by default (no arguments)
+          python3 bin/pip-query
 
-          # Test with max packages option
-          python3 bin/pip-query --max-packages 5 flask
+          # Test basic search functionality
+          python3 bin/pip-query --search requests
+
+          # Test search with max packages option
+          python3 bin/pip-query -s flask --max-packages 5
 
           # Test version output
           python3 bin/pip-query --version
