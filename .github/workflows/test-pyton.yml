@@ -65,6 +65,14 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Restore pip-query cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip-query
+          key: ${{ runner.os }}-pip-query-${{ hashFiles('**/pip-query') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-query-
+
       - name: Run tests
         run: |
           chmod +x bin/pip-query
