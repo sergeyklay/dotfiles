@@ -11,6 +11,85 @@ from urllib.request import urlopen
 from difflib import SequenceMatcher
 
 
+class Version:
+    """Version comparison following PEP 440."""
+
+    def __init__(self, version_str):
+        self.version_str = str(version_str)
+        self.parts = self._parse_version(version_str)
+
+    def _parse_version(self, version_str):
+        """Parse version string into comparable parts."""
+        version_str = version_str.lower().strip()
+
+        # Split on dots first to handle version numbers correctly
+        parts = version_str.split('.')
+        result = []
+
+        for part in parts:
+            # Split on special characters for pre-release parts
+            subparts = re.split(r'[-_]', part)
+
+            for subpart in subparts:
+                # Handle alpha/beta/rc markers
+                if subpart.startswith(('a', 'b', 'rc')):
+                    match = re.match(r'([a-z]+)(\d*)', subpart)
+                    if match:
+                        type_part, num_part = match.groups()
+                        # Order: release candidates > beta > alpha
+                        type_val = {'rc': 3, 'b': 2, 'a': 1}.get(type_part, 0)
+                        num_val = int(num_part) if num_part else 0
+                        result.extend([type_val, num_val])
+                    continue
+
+                # Convert to integer if possible
+                try:
+                    result.append(int(subpart))
+                except ValueError:
+                    result.append(subpart)
+
+        return result
+
+    def __lt__(self, other):
+        if not isinstance(other, Version):
+            other = Version(str(other))
+
+        # Pad shorter version with zeros
+        v1 = self.parts + [0] * (len(other.parts) - len(self.parts))
+        v2 = other.parts + [0] * (len(self.parts) - len(other.parts))
+
+        # Compare parts
+        for p1, p2 in zip(v1, v2):
+            if isinstance(p1, int) and isinstance(p2, int):
+                if p1 != p2:
+                    return p1 < p2
+            elif isinstance(p1, int):
+                return True  # Numbers come before strings
+            elif isinstance(p2, int):
+                return False  # Numbers come before strings
+            else:
+                if p1 != p2:
+                    return p1 < p2
+        return False
+
+    def __eq__(self, other):
+        if not isinstance(other, Version):
+            other = Version(str(other))
+        return self.parts == other.parts
+
+    def __str__(self):
+        return self.version_str
+
+
+def normalize_version(version_str):
+    """Normalize version string for comparison."""
+    try:
+        return Version(version_str)
+    except Exception:
+        # Fallback to string comparison if parsing fails
+        return version_str
+
+
 # Custom exceptions
 class ParseError(Exception):
     def __init__(self, message):
@@ -68,19 +147,6 @@ class Colors:
 def colorize(text, color):
     """Add color to text if supported."""
     return f"{color}{text}{Colors.RESET}" if color else text
-
-
-def normalize_version(version_str):
-    """Normalize version string for comparison."""
-    def convert_to_int(s):
-        try:
-            return int(s)
-        except ValueError:
-            return s.lower()
-
-    # Split version string into components
-    components = re.split(r'[.-_]', version_str)
-    return [convert_to_int(c) for c in components]
 
 
 def get_package_info(package_name):
@@ -266,14 +332,14 @@ def format_package_info(package_name, data):
     info = data.get("info", {})
     releases = data.get("releases", {})
 
-    # Get all versions sorted
+    # Get all versions sorted using packaging.version
     try:
         all_versions = sorted(releases.keys(),
                             key=normalize_version,
-                            reverse=True)
+                            reverse=True)  # Sort in reverse order (newest first)
     except Exception:
         # Fallback to simple string sorting if complex sorting fails
-        all_versions = sorted(releases.keys(), reverse=True)
+        all_versions = sorted(releases.keys(), reverse=True)  # Sort in reverse order
 
     latest_version = info.get("version", "")
 
@@ -291,8 +357,8 @@ def format_package_info(package_name, data):
                 except (ValueError, TypeError):
                     latest_release_date = upload_time
 
-    # Take first 10 versions in chronological order
-    recent_versions = all_versions[-10:] if all_versions else []
+    # Take first 10 versions (they're already in reverse chronological order)
+    recent_versions = all_versions[:10] if len(all_versions) > 10 else all_versions
     recent_versions_str = ", ".join(recent_versions) if recent_versions else ""
 
     # Handle potentially missing or None values
