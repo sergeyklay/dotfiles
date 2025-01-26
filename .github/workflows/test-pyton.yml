@@ -93,6 +93,11 @@ jobs:
           python3 bin/pip-query --search requests --max-packages 5 --color y | cat
           python3 bin/pip-query --search requests --max-packages 5 --color n | cat
 
+          # Test cache options
+          python3 bin/pip-query --search langchain --max-packages 5  # Creates cache
+          python3 bin/pip-query --search langchain --max-packages 5  # Uses cache
+          python3 bin/pip-query --search langchain --max-packages 5 --no-cache  # Bypasses cache
+
       - name: Success Reporting
         if: success()
         run: git log --format=fuller -5
