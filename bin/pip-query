@@ -90,6 +90,9 @@ Examples:
   # Search for 'django' packages and show all matches:
   $ pip-query --search django --max-packages 0
 
+  # Search without using cache:
+  $ pip-query --search requests --no-cache
+
   # Run doctests:
   $ pip-query --test
 
@@ -104,13 +107,14 @@ Command options:
                            0 means show all matches)
   -t, --test               Run doctests
       --color <y|n>        Enable (y) or disable (n) color output
+      --no-cache           Do not use cache for package information
 
 Notes:
   This tool requires an internet connection for the initial package list fetch
   and for retrieving package information not in the cache.
 
   Package information is cached for 24 hours to improve performance and
-  reduce load on PyPI servers.
+  reduce load on PyPI servers. Use --no-cache to always fetch fresh data.
 
   Color output is enabled by default when outputting to a terminal. Use
   --color y to force color output when piping to another program, or
@@ -437,13 +441,19 @@ def get_cache_dir():
     return cache_dir
 
 
-def load_cached_packages():
+def load_cached_packages(use_cache=True):
     """
     Load package list from cache if it exists and is not expired.
+
+    Args:
+        use_cache (bool): Whether to use cache. If False, returns None.
 
     Returns:
         set: Set of package names from cache, or None if cache is invalid/expired.
     """
+    if not use_cache:
+        return None
+
     cache_file = os.path.join(get_cache_dir(), 'packages.json')
 
     try:
@@ -453,7 +463,6 @@ def load_cached_packages():
         # Check if cache is older than 24 hours
         if time.time() - os.path.getmtime(cache_file) > 86400:  # 24 hours in seconds
             return None
-
         with open(cache_file, 'r', encoding='utf-8') as f:
             cached_data = json.load(f)
             return set(cached_data.get('packages', []))
@@ -477,10 +486,10 @@ def save_to_cache(packages):
                 'timestamp': time.time()
             }, f)
     except IOError as e:
-        print(f"Warning: Could not save package list to cache: {e}", file=sys.stderr)
+        sys.stderr.write(f"Warning: Could not save package list to cache: {e}")
 
 
-def get_available_packages():
+def get_available_packages(use_cache=True):
     """
     Fetch list of available packages from piwheels with caching.
 
@@ -488,11 +497,14 @@ def get_available_packages():
     If the cache is missing or expired, it fetches the list from piwheels.org.
     On network errors, it falls back to expired cache if available.
 
+    Args:
+        use_cache (bool): Whether to use cache. If False, always fetches fresh data.
+
     Returns:
         set: Set of available package names.
     """
-    # Try to load from cache first
-    cached_packages = load_cached_packages()
+    # Try to load from cache first if allowed
+    cached_packages = load_cached_packages(use_cache=use_cache)
     if cached_packages is not None:
         return cached_packages
 
@@ -502,14 +514,15 @@ def get_available_packages():
         with urlopen(url, timeout=10.0) as response:
             data = json.loads(response.read().decode("utf-8"))
             packages = {pkg[0] for pkg in data}
-            save_to_cache(packages)
+            if use_cache:
+                save_to_cache(packages)
             return packages
     except Exception as e:
-        print(f"Error fetching package list: {e}", file=sys.stderr)
-        # If fetching fails, try to use expired cache as fallback
-        cached_packages = load_cached_packages()
+        sys.stderr.write(f"Error fetching package list: {e}\n")
+        # If fetching fails and cache is allowed, try to use expired cache as fallback
+        cached_packages = load_cached_packages(use_cache=use_cache)
         if cached_packages is not None:
-            print("Warning: Using expired cache as fallback", file=sys.stderr)
+            sys.stderr.write("Using expired cache as fallback\n")
             return cached_packages
         return set()
 
@@ -720,7 +733,7 @@ def format_package_info(package_name, data):
             f"      {license_label} {license_info}")
 
 
-def search_similar_packages(query, similarity_threshold=0.8, max_packages=30):
+def search_similar_packages(query, similarity_threshold=0.8, max_packages=30, use_cache=True):
     """
     Search for packages with names similar to the query.
 
@@ -734,12 +747,13 @@ def search_similar_packages(query, similarity_threshold=0.8, max_packages=30):
             Defaults to 0.8.
         max_packages (int, optional): Maximum number of packages to return.
             Defaults to 30. If 0, returns all matches.
+        use_cache (bool): Whether to use cache. If False, always fetches fresh data.
 
     Returns:
         tuple: (dict of package data, total number of matches found)
     """
     try:
-        all_packages = get_available_packages()
+        all_packages = get_available_packages(use_cache=use_cache)
         if not all_packages:
             print("Could not fetch package list", file=sys.stderr)
             return {}, 0
@@ -765,17 +779,17 @@ def search_similar_packages(query, similarity_threshold=0.8, max_packages=30):
         if max_packages > 0:
             most_similar = most_similar[:max_packages]
 
-        # First try to load all packages from cache
+        # First try to load all packages from cache if allowed
         similar_packages = {}
         packages_to_fetch = []
 
         for package, _similarity in most_similar:
             # Try to load from cache first
-            cached_data = load_cached_package_info(package)
+            cached_data = load_cached_package_info(package, use_cache=use_cache)
             if cached_data is not None:
                 similar_packages[package] = cached_data
-            else:
-                packages_to_fetch.append(package)
+                continue
+            packages_to_fetch.append(package)
 
         # Now fetch packages that weren't in cache
         if packages_to_fetch:
@@ -784,7 +798,7 @@ def search_similar_packages(query, similarity_threshold=0.8, max_packages=30):
             with ThreadPoolExecutor(max_workers=min(10, len(packages_to_fetch))) as executor:
                 # Submit all package fetch tasks
                 future_to_package = {
-                    executor.submit(get_package_info, package): package
+                    executor.submit(get_package_info, package, use_cache): package
                     for package in packages_to_fetch
                 }
 
@@ -808,7 +822,7 @@ def search_similar_packages(query, similarity_threshold=0.8, max_packages=30):
 
             for variant in variations:
                 if variant not in similar_packages:
-                    data = get_package_info(variant)
+                    data = get_package_info(variant, use_cache=use_cache)
                     if data:
                         similar_packages[variant] = data
 
@@ -819,16 +833,20 @@ def search_similar_packages(query, similarity_threshold=0.8, max_packages=30):
         return {}, 0
 
 
-def load_cached_package_info(package_name):
+def load_cached_package_info(package_name, use_cache=True):
     """
     Load package information from cache if it exists and is not expired.
 
     Args:
         package_name (str): Name of the package to load.
+        use_cache (bool): Whether to use cache. If False, returns None.
 
     Returns:
         dict: Package information from cache, or None if cache is invalid/expired.
     """
+    if not use_cache:
+        return None
+
     cache_dir = os.path.join(get_cache_dir(), 'packages')
     cache_file = os.path.join(cache_dir, f"{package_name}.json")
 
@@ -866,7 +884,7 @@ def save_package_info_to_cache(package_name, data):
         print(f"Warning: Could not save package info to cache: {e}", file=sys.stderr)
 
 
-def get_package_info(package_name):
+def get_package_info(package_name, use_cache=True):
     """
     Fetch package information from PyPI with caching.
 
@@ -875,12 +893,13 @@ def get_package_info(package_name):
 
     Args:
         package_name (str): Name of the package to fetch information for.
+        use_cache (bool): Whether to use cache. If False, always fetches fresh data.
 
     Returns:
         dict: Package information from PyPI or None if fetch fails.
     """
-    # Try to load from cache first
-    cached_data = load_cached_package_info(package_name)
+    # Try to load from cache first if allowed
+    cached_data = load_cached_package_info(package_name, use_cache=use_cache)
     if cached_data is not None:
         return cached_data
 
@@ -889,7 +908,8 @@ def get_package_info(package_name):
     try:
         with urlopen(url, timeout=10.0) as response:
             data = json.loads(response.read().decode("utf-8"))
-            save_package_info_to_cache(package_name, data)
+            if use_cache:
+                save_package_info_to_cache(package_name, data)
             return data
     except Exception as e:
         # Ignore network errors
@@ -964,6 +984,10 @@ def parse_args(args=None):
                        choices=['y', 'n'],
                        help='enable or disable color output')
 
+    parser.add_argument('--no-cache',
+                       action='store_true',
+                       help='do not use cache for package information')
+
     return parser.parse_args(args)
 
 
@@ -1004,7 +1028,8 @@ def main():
 
         results, total_matches = search_similar_packages(
             args.search,
-            max_packages=args.max_packages
+            max_packages=args.max_packages,
+            use_cache=not args.no_cache
         )
 
         if not results:
