@@ -86,6 +86,9 @@ Examples:
   # Search for 'django' packages and show all matches:
   $ pip-query --max-packages 0 django
 
+  # Run doctests:
+  $ pip-query --test
+
 Positional parameters:
   package-name             Name of the package to search for.  Can be a partial
                            name - the tool will find similar matches.
@@ -95,6 +98,7 @@ Command options:
   -V, --version            Show program's version number
   -m, --max-packages NUM   Maximum number of packages to display (default: 30,
                            0 means show all matches)
+  -t, --test               Run doctests
 
 Notes:
   This tool requires an internet connection for the initial package list fetch
@@ -186,7 +190,7 @@ class Version:
                     if num:  # If there's a version number before the pre-release
                         result.append(int(num))
                     # Pre-release type: rc > b > a
-                    type_val = {'rc': 3, 'b': 2, 'a': 1}.get(type_part, 0)
+                    type_val = {'a': -3, 'b': -2, 'rc': -1}.get(type_part, 0)
                     pre_num = int(pre_num) if pre_num else 0
                     pre_release = (type_val, pre_num)
                 continue
@@ -210,6 +214,9 @@ class Version:
         # Append pre-release info at the end if it exists
         if pre_release:
             result.extend(pre_release)
+        else:
+            # Add a high value for release versions to rank them above pre-releases
+            result.extend([0, 0])  # Regular releases rank higher than pre-releases
 
         return result
 
@@ -256,6 +263,18 @@ def normalize_version(version_str):
 
     Returns:
         Version: Normalized version object for comparison.
+
+    Examples:
+        >>> str(normalize_version('1.0.0'))
+        '1.0.0'
+        >>> normalize_version('2.1.0') > normalize_version('2.0.9')
+        True
+        >>> normalize_version('1.0.0rc1') < normalize_version('1.0.0')
+        True
+        >>> normalize_version('2.0.0b1') < normalize_version('2.0.0')
+        True
+        >>> normalize_version('1.0.0a1') < normalize_version('1.0.0b1')
+        True
     """
     try:
         return Version(version_str)
@@ -436,21 +455,31 @@ def calculate_similarity(query, package):
     """
     Calculate similarity ratio between query and package name.
 
-    This function implements a multi-stage similarity calculation:
-    1. Exact match check
-    2. Complete part match check
-    3. Substring match check
-    4. Fuzzy ratio calculation
-
     Args:
         query (str): Search query.
         package (str): Package name to compare against.
 
     Returns:
         float: Similarity score between 0 and 1.
+
+    Examples:
+        >>> calculate_similarity('requests', 'requests')
+        1.0
+        >>> calculate_similarity('flask', 'flask-login') > 0.8
+        True
+        >>> calculate_similarity('django', 'flask') < 0.5
+        True
+        >>> calculate_similarity('test', 'pytest-test') > 0.7
+        True
+        >>> calculate_similarity('a', 'django') < 0.3
+        True
     """
     query = query.lower()
     package = package.lower()
+
+    # Special handling for single-character queries
+    if len(query) == 1:
+        return 0.1 if query in package else 0.0
 
     query_parts = set(re.split(r'[-_]', query))
     package_parts = set(re.split(r'[-_]', package))
@@ -471,9 +500,13 @@ def calculate_similarity(query, package):
     if package.startswith(query):
         return 0.85
 
-    # Short query handling
-    if len(query) <= 3 and query not in package:
-        return 0.0
+    # Short query handling (2-3 characters)
+    if len(query) <= 3:
+        # For very short queries, be more strict
+        if query not in package:
+            return 0.0
+        # If it's in the package name but not at start, give lower score
+        return 0.2
 
     # Fuzzy matching for partial matches
     if any(qpart in package for qpart in query_parts):
@@ -486,14 +519,23 @@ def normalize_license(license_text):
     """
     Normalize and format license information.
 
-    This function attempts to standardize license names and handle
-    long license texts by extracting the license type or truncating.
-
     Args:
         license_text (str): Raw license text from package metadata.
 
     Returns:
         str: Normalized license information.
+
+    Examples:
+        >>> normalize_license('MIT')
+        'MIT'
+        >>> normalize_license('Apache License 2.0')
+        'Apache-2.0'
+        >>> normalize_license('GNU GPL')
+        'GPL'
+        >>> normalize_license('')
+        'Not specified'
+        >>> normalize_license('BSD-3-Clause')
+        'BSD 3-Clause'
     """
     if not license_text:
         return "Not specified"
@@ -821,6 +863,12 @@ def main():
 
         if args[0] in ['-V', '--version']:
             show_version()
+            return 0
+
+        if args[0] in ['-t', '--test']:
+            import doctest
+            print("Running doctests...")
+            doctest.testmod(verbose=True)
             return 0
 
         # Parse max-packages option
