@@ -68,9 +68,7 @@ jobs:
             ${{ runner.os }}-pip-query-
 
       - name: Run tests
-        run: |
-          chmod +x bin/pip-query
-          python3 bin/pip-query --test
+        run: python3 bin/pip-query --test
 
       - name: Test script execution
         run: |
