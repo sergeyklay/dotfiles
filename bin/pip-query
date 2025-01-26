@@ -2,31 +2,450 @@
 
 import json
 import sys
+import re
+import os
+import signal
+import time
+from pathlib import Path
+from urllib.request import urlopen
+from difflib import SequenceMatcher
 
-import urllib3
-from pkg_resources import parse_version
+
+# Custom exceptions
+class ParseError(Exception):
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
 
 
-def versions(package_name):
-    http = urllib3.PoolManager()
+class SignalInterrupt(KeyboardInterrupt):
+    def __init__(self, signum):
+        self.signum = signum
+
+
+def signal_interrupt(signum, _frame):
+    raise SignalInterrupt(signum)
+
+
+# Set up signal handlers
+signal.signal(signal.SIGTERM, signal_interrupt)
+signal.signal(signal.SIGINT, signal_interrupt)
+# Prevent "[Errno 32] Broken pipe" exceptions when writing to a pipe
+signal.signal(signal.SIGPIPE, signal.SIG_DFL)
+
+
+def supports_color():
+    """Check if the terminal supports color output."""
+    # Check if NO_COLOR is set (https://no-color.org/)
+    if 'NO_COLOR' in os.environ:
+        return False
+
+    # Check if output is a terminal
+    if not hasattr(sys.stdout, 'isatty'):
+        return False
+    if not sys.stdout.isatty():
+        return False
+
+    # Check for specific environment variables
+    if 'COLORTERM' in os.environ:
+        return True
+
+    term = os.environ.get('TERM', '')
+    if term == 'dumb':
+        return False
+
+    return 'xterm' in term or 'vt100' in term or '256color' in term
+
+
+# ANSI escape codes for colors
+class Colors:
+    GREEN = '\033[32m' if supports_color() else ''
+    BOLD_GREEN = '\033[1;32m' if supports_color() else ''
+    BOLD_WHITE = '\033[1;37m' if supports_color() else ''
+    RESET = '\033[0m' if supports_color() else ''
+
+
+def colorize(text, color):
+    """Add color to text if supported."""
+    return f"{color}{text}{Colors.RESET}" if color else text
+
+
+def normalize_version(version_str):
+    """Normalize version string for comparison."""
+    def convert_to_int(s):
+        try:
+            return int(s)
+        except ValueError:
+            return s.lower()
+
+    # Split version string into components
+    components = re.split(r'[.-_]', version_str)
+    return [convert_to_int(c) for c in components]
+
+
+def get_package_info(package_name):
+    """Fetch package information from PyPI."""
     url = f"https://pypi.org/pypi/{package_name}/json"
 
-    response = http.request("GET", url)
-    data = json.loads(response.data.decode("utf-8"))
+    try:
+        with urlopen(url, timeout=10.0) as response:
+            data = json.loads(response.read().decode("utf-8"))
+            return data
+    except Exception as e:
+        # Error fetching package info for package_name, just return None
+        return None
+
+
+def get_cache_dir():
+    """Get the appropriate cache directory based on OS."""
+    if os.name == 'nt':  # Windows
+        base_dir = os.environ.get('LOCALAPPDATA', os.path.expanduser('~'))
+        cache_dir = os.path.join(base_dir, 'pip-query', 'cache')
+    else:  # Unix/Linux/macOS
+        cache_dir = os.path.join(
+            os.environ.get('XDG_CACHE_HOME', os.path.expanduser('~/.cache')),
+            'pip-query'
+        )
+
+    # Ensure cache directory exists
+    os.makedirs(cache_dir, exist_ok=True)
+    return cache_dir
+
+
+def load_cached_packages():
+    """Load package list from cache if it exists and is not expired."""
+    cache_file = os.path.join(get_cache_dir(), 'packages.json')
 
     try:
-        releases = data["releases"].keys()
-    except KeyError:
-        releases = []
+        if not os.path.exists(cache_file):
+            return None
 
-    sorted(releases, key=parse_version, reverse=True)
+        # Check if cache is older than 24 hours
+        if time.time() - os.path.getmtime(cache_file) > 86400:  # 24 hours in seconds
+            return None
 
-    return releases
+        with open(cache_file, 'r', encoding='utf-8') as f:
+            cached_data = json.load(f)
+            return set(cached_data.get('packages', []))
+    except (IOError, json.JSONDecodeError):
+        return None
+
+
+def save_to_cache(packages):
+    """Save package list to cache."""
+    cache_file = os.path.join(get_cache_dir(), 'packages.json')
+
+    try:
+        with open(cache_file, 'w', encoding='utf-8') as f:
+            json.dump({
+                'packages': list(packages),
+                'timestamp': time.time()
+            }, f)
+    except IOError as e:
+        print(f"Warning: Could not save package list to cache: {e}", file=sys.stderr)
+
+
+def get_available_packages():
+    """Fetch list of available packages from piwheels with caching."""
+    # Try to load from cache first
+    cached_packages = load_cached_packages()
+    if cached_packages is not None:
+        return cached_packages
+
+    # If not in cache or expired, fetch from piwheels
+    url = "https://www.piwheels.org/packages.json"
+    try:
+        with urlopen(url, timeout=10.0) as response:
+            data = json.loads(response.read().decode("utf-8"))
+            # Extract just package names from the data
+            packages = {pkg[0] for pkg in data}
+
+            # Save to cache
+            save_to_cache(packages)
+
+            return packages
+    except Exception as e:
+        print(f"Error fetching package list: {e}", file=sys.stderr)
+        # If fetching fails, try to use expired cache as fallback
+        cached_packages = load_cached_packages()
+        if cached_packages is not None:
+            print("Warning: Using expired cache as fallback", file=sys.stderr)
+            return cached_packages
+        return set()
+
+
+def calculate_similarity(query, package):
+    """Calculate similarity ratio between query and package name."""
+    # Convert both strings to lowercase for better matching
+    query = query.lower()
+    package = package.lower()
+
+    # Split names into parts (by common separators)
+    query_parts = set(re.split(r'[-_]', query))
+    package_parts = set(re.split(r'[-_]', package))
+
+    # Check for exact match first
+    if query == package:
+        return 1.0
+
+    # Check if query is a complete part of the package name
+    if query in package_parts:
+        return 0.95
+
+    # Check if all query parts are in the package name
+    if all(qpart in package for qpart in query_parts):
+        return 0.9
+
+    # Check if package name starts with the query
+    if package.startswith(query):
+        return 0.85
+
+    # For very short queries (3 chars or less), require exact substring match
+    if len(query) <= 3 and query not in package:
+        return 0.0
+
+    # Calculate standard similarity only if the query is at least partially in the package name
+    if any(qpart in package for qpart in query_parts):
+        return SequenceMatcher(None, query, package).ratio()
+
+    return 0.0
+
+
+def normalize_license(license_text):
+    """Normalize and format license information."""
+    if not license_text:
+        return "Not specified"
+
+    # Common license name mappings
+    LICENSE_MAPPINGS = {
+        'MIT': 'MIT',
+        'BSD': 'BSD',
+        'BSD License': 'BSD',
+        'BSD-3-Clause': 'BSD 3-Clause',
+        'BSD-2-Clause': 'BSD 2-Clause',
+        'Apache 2.0': 'Apache-2.0',
+        'Apache License 2.0': 'Apache-2.0',
+        'Apache License, Version 2.0': 'Apache-2.0',
+        'Apache Software License': 'Apache-2.0',
+        'GNU GPL': 'GPL',
+        'GNU General Public License': 'GPL',
+        'GPL': 'GPL',
+        'LGPL': 'LGPL',
+        'Python Software Foundation License': 'PSF',
+        'PSF': 'PSF',
+    }
+
+    # Check if it's a known license name
+    if license_text in LICENSE_MAPPINGS:
+        return LICENSE_MAPPINGS[license_text]
+
+    # Handle long license texts
+    if len(license_text) > 100:
+        # Try to extract license name from the text
+        lower_text = license_text.lower()
+        if 'apache license' in lower_text and '2.0' in lower_text:
+            return 'Apache-2.0'
+        if 'mit license' in lower_text:
+            return 'MIT'
+        if 'bsd license' in lower_text:
+            return 'BSD'
+        if 'gnu general public license' in lower_text or 'gpl' in lower_text:
+            return 'GPL'
+
+        # If we can't identify the license, truncate it
+        return f"{license_text[:97]}..."
+
+    return license_text
+
+
+def format_package_info(package_name, data):
+    """Format package information according to the specified template."""
+    if not data:
+        return ""
+
+    info = data.get("info", {})
+    releases = data.get("releases", {})
+
+    # Get all versions sorted
+    try:
+        all_versions = sorted(releases.keys(),
+                            key=normalize_version,
+                            reverse=True)
+    except Exception:
+        # Fallback to simple string sorting if complex sorting fails
+        all_versions = sorted(releases.keys(), reverse=True)
+
+    latest_version = info.get("version", "")
+
+    # Get latest release date
+    latest_release_date = ""
+    if latest_version and latest_version in releases:
+        release_info = releases[latest_version]
+        if release_info and isinstance(release_info, list) and release_info[0]:
+            upload_time = release_info[0].get('upload_time', '')
+            if upload_time:
+                try:
+                    # Convert to more readable format
+                    timestamp = time.strptime(upload_time[:19], "%Y-%m-%dT%H:%M:%S")
+                    latest_release_date = time.strftime("%Y-%m-%d", timestamp)
+                except (ValueError, TypeError):
+                    latest_release_date = upload_time
+
+    # Take first 10 versions in chronological order
+    recent_versions = all_versions[-10:] if all_versions else []
+    recent_versions_str = ", ".join(recent_versions) if recent_versions else ""
+
+    # Handle potentially missing or None values
+    homepage = info.get("home_page") or info.get("project_url") or "Not specified"
+    description = info.get("summary") or "No description available"
+    author = info.get("author") or "Not specified"
+    license_info = normalize_license(info.get("license", ""))
+    python_requires = info.get("requires_python") or "Not specified"
+
+    # Format labels with color
+    latest_version_label = colorize("Latest version available:", Colors.GREEN)
+    latest_release_label = colorize("Latest release date:", Colors.GREEN)
+    version_history_label = colorize(
+        f"Version history{' (last 10)' if len(all_versions) > 10 else ''}:",
+        Colors.GREEN
+    )
+    release_history_label = colorize("Release history:", Colors.GREEN)
+    homepage_label = colorize("Homepage:", Colors.GREEN)
+    description_label = colorize("Description:", Colors.GREEN)
+    author_label = colorize("Author:", Colors.GREEN)
+    requires_label = colorize("Requires:", Colors.GREEN)
+    license_label = colorize("License:", Colors.GREEN)
+
+    return (f"{colorize('*', Colors.BOLD_GREEN)}  {colorize(package_name, Colors.BOLD_WHITE)}\n"
+            f"      {latest_version_label} {latest_version}\n"
+            f"      {latest_release_label} {latest_release_date or 'Not specified'}\n"
+            f"      {version_history_label} {recent_versions_str}\n"
+            f"      {release_history_label} https://pypi.org/project/{package_name}/#history\n"
+            f"      {homepage_label} {homepage}\n"
+            f"      {description_label} {description}\n"
+            f"      {author_label} {author}\n"
+            f"      {requires_label} Python {python_requires}\n"
+            f"      {license_label} {license_info or 'Not specified'}")
+
+
+def search_similar_packages(query, similarity_threshold=0.8):
+    """Search for packages with names similar to the query."""
+    try:
+        # Get all available packages
+        all_packages = get_available_packages()
+        if not all_packages:
+            print("Could not fetch package list", file=sys.stderr)
+            return {}, 0
+
+        # Calculate similarities for all packages
+        package_similarities = [
+            (package, calculate_similarity(query, package))
+            for package in all_packages
+        ]
+
+        # Get all packages above threshold
+        matching_packages = [
+            (pkg, score) for pkg, score in package_similarities
+            if score >= similarity_threshold
+        ]
+
+        # Sort by similarity score and take top 30 packages
+        most_similar = sorted(
+            matching_packages,
+            key=lambda x: x[1],
+            reverse=True
+        )[:30]
+
+        # Fetch package data for most similar packages
+        similar_packages = {}
+        for package, similarity in most_similar:
+            data = get_package_info(package)
+            if data:
+                similar_packages[package] = data
+
+        # If no similar packages found, try variations of the query
+        if not similar_packages:
+            variations = [
+                query.lower(),
+                query.replace("-", "_"),
+                query.replace("_", "-"),
+            ]
+
+            for variant in variations:
+                data = get_package_info(variant)
+                if data:
+                    similar_packages[variant] = data
+
+        return similar_packages, len(matching_packages)
+
+    except Exception as e:
+        print(f"Error searching for packages: {e}", file=sys.stderr)
+        return {}, 0
+
+
+def main():
+    try:
+        if len(sys.argv) < 2:
+            raise ParseError("Missing package name argument")
+
+        query = sys.argv[1]
+        print(f"\n[ Results for search key: {colorize(query, Colors.BOLD_WHITE)} ]")
+        print("Searching...\n")
+
+        results, total_matches = search_similar_packages(query)
+
+        if not results:
+            print(f"No packages found matching '{colorize(query, Colors.BOLD_WHITE)}'")
+            print("\n[ Packages found: 0 ]\n")
+            return 0
+
+        # Sort results by package name and print
+        for package_name, package_data in sorted(results.items(), key=lambda x: x[0].lower()):
+            info = format_package_info(package_name, package_data)
+            if info:
+                print(info)
+                print()  # Empty line between packages
+
+        # Print summary
+        if total_matches > 30:
+            print(f"[ Packages found: {colorize(str(total_matches), Colors.BOLD_WHITE)} ]")
+            print("[ Shown most relevant 30 packages ]\n")
+        else:
+            print(f"[ Packages found: {colorize(str(len(results)), Colors.BOLD_WHITE)} ]\n")
+
+        return 0
+
+    except ParseError as e:
+        sys.stderr.write(f"Error: {str(e)}\n")
+        sys.stderr.write(f"Usage: {sys.argv[0]} package-name\n")
+        return 1
+    except KeyboardInterrupt as e:
+        # Handle Ctrl+C gracefully
+        signum = getattr(e, 'signum', signal.SIGINT)
+        sys.stderr.write(f"\nInterrupted by user (signal {signum})\n")
+        return 130
+    except Exception as e:
+        # Handle unexpected exceptions
+        sys.stderr.write("\nAn unexpected error occurred:\n")
+        import traceback
+        sys.stderr.write(traceback.format_exc())
+        return 1
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print(f"Usage: {sys.argv[0]} package-name", file=sys.stderr)
+    try:
+        sys.exit(main())
+    except KeyboardInterrupt as e:
+        # Handle keyboard interrupts at the top level
+        signum = getattr(e, 'signum', signal.SIGINT)
+        signal.signal(signum, signal.SIG_DFL)
+        sys.stderr.write(f"\n\nExiting on signal {signum}\n")
+        sys.stderr.flush()
+        sys.exit(130)
+    except SystemExit as e:
+        raise
+    except Exception as e:
+        sys.stderr.write("\nFatal error:\n")
+        import traceback
+        sys.stderr.write(traceback.format_exc())
         sys.exit(1)
-
-    print(*versions(sys.argv[1]), sep='\n')
