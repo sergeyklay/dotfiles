@@ -28,17 +28,33 @@ Example:
 Note:
     This tool uses the PyPI JSON API and piwheels.org for package information.
     Internet connectivity is required for the initial package list fetch.
+
+Requirements:
+    Python >= 3.6 (f-strings and other modern features are used)
 """
 
 import json
-import sys
-import re
 import os
+import re
 import signal
+import sys
 import time
-from pathlib import Path
-from urllib.request import urlopen
 from difflib import SequenceMatcher
+from urllib.request import urlopen
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+
+# Check Python version
+if sys.version_info < (3, 6):
+    sys.stderr.write("""
+Error: Unsupported Python version.
+This script requires Python 3.6 or newer.
+You are using Python {}.{}.{}.
+
+Please upgrade your Python installation or use a compatible version.
+Visit https://www.python.org/downloads/ for more information.
+""".format(*sys.version_info[:3]))
+    sys.exit(1)
 
 
 class Version:
@@ -245,24 +261,6 @@ def colorize(text, color):
         str: Colorized text if supported, original text otherwise.
     """
     return f"{color}{text}{Colors.RESET}" if color else text
-
-
-def get_package_info(package_name):
-    """
-    Fetch package information from PyPI.
-
-    Args:
-        package_name (str): Name of the package to fetch information for.
-
-    Returns:
-        dict: Package information from PyPI or None if fetch fails.
-    """
-    url = f"https://pypi.org/pypi/{package_name}/json"
-    try:
-        with urlopen(url, timeout=10.0) as response:
-            return json.loads(response.read().decode("utf-8"))
-    except Exception:
-        return None
 
 
 def get_cache_dir():
@@ -583,12 +581,37 @@ def search_similar_packages(query, similarity_threshold=0.8):
             reverse=True
         )[:30]
 
-        # Fetch package data for most similar packages
+        # First try to load all packages from cache
         similar_packages = {}
-        for package, similarity in most_similar:
-            data = get_package_info(package)
-            if data:
-                similar_packages[package] = data
+        packages_to_fetch = []
+
+        for package, _similarity in most_similar:
+            # Try to load from cache first
+            cached_data = load_cached_package_info(package)
+            if cached_data is not None:
+                similar_packages[package] = cached_data
+            else:
+                packages_to_fetch.append(package)
+
+        # Now fetch packages that weren't in cache
+        if packages_to_fetch:
+            # Use concurrent.futures to fetch packages in parallel
+            with ThreadPoolExecutor(max_workers=min(10, len(packages_to_fetch))) as executor:
+                # Submit all package fetch tasks
+                future_to_package = {
+                    executor.submit(get_package_info, package): package
+                    for package in packages_to_fetch
+                }
+
+                # Process completed tasks as they finish
+                for future in as_completed(future_to_package):
+                    package = future_to_package[future]
+                    try:
+                        data = future.result()
+                        if data:
+                            similar_packages[package] = data
+                    except Exception as e:
+                        print(f"Error fetching {package}: {e}", file=sys.stderr)
 
         # Try variations if no matches found
         if not similar_packages:
@@ -599,15 +622,99 @@ def search_similar_packages(query, similarity_threshold=0.8):
             ]
 
             for variant in variations:
-                data = get_package_info(variant)
-                if data:
-                    similar_packages[variant] = data
+                if variant not in similar_packages:
+                    data = get_package_info(variant)
+                    if data:
+                        similar_packages[variant] = data
 
         return similar_packages, len(matching_packages)
 
     except Exception as e:
         print(f"Error searching for packages: {e}", file=sys.stderr)
         return {}, 0
+
+
+def load_cached_package_info(package_name):
+    """
+    Load package information from cache if it exists and is not expired.
+
+    Args:
+        package_name (str): Name of the package to load.
+
+    Returns:
+        dict: Package information from cache, or None if cache is invalid/expired.
+    """
+    cache_dir = os.path.join(get_cache_dir(), 'packages')
+    cache_file = os.path.join(cache_dir, f"{package_name}.json")
+
+    try:
+        if not os.path.exists(cache_file):
+            return None
+
+        # Check if cache is older than 24 hours
+        if time.time() - os.path.getmtime(cache_file) > 86400:  # 24 hours in seconds
+            return None
+
+        with open(cache_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            return data
+    except (IOError, json.JSONDecodeError):
+        return None
+
+
+def save_package_info_to_cache(package_name, data):
+    """
+    Save package information to cache.
+
+    Args:
+        package_name (str): Name of the package.
+        data (dict): Package information to cache.
+    """
+    cache_dir = os.path.join(get_cache_dir(), 'packages')
+    os.makedirs(cache_dir, exist_ok=True)
+    cache_file = os.path.join(cache_dir, f"{package_name}.json")
+
+    try:
+        with open(cache_file, 'w', encoding='utf-8') as f:
+            json.dump(data, f)
+    except IOError as e:
+        print(f"Warning: Could not save package info to cache: {e}", file=sys.stderr)
+
+
+def get_package_info(package_name):
+    """
+    Fetch package information from PyPI with caching.
+
+    This function attempts to load package information from cache first.
+    If the cache is missing or expired, it fetches the data from PyPI.
+
+    Args:
+        package_name (str): Name of the package to fetch information for.
+
+    Returns:
+        dict: Package information from PyPI or None if fetch fails.
+    """
+    # Try to load from cache first
+    cached_data = load_cached_package_info(package_name)
+    if cached_data is not None:
+        return cached_data
+
+    # If not in cache or expired, fetch from PyPI
+    url = f"https://pypi.org/pypi/{package_name}/json"
+    try:
+        with urlopen(url, timeout=10.0) as response:
+            data = json.loads(response.read().decode("utf-8"))
+            save_package_info_to_cache(package_name, data)
+            return data
+    except Exception as e:
+        # Ignore network errors
+        if "Connection refused" in str(e):
+            return None
+        # Ignore 404 errors
+        if "404" in str(e):
+            return None
+        print(f"Warning: Could not fetch package info for {package_name}: {e}", file=sys.stderr)
+        return None
 
 
 def main():
