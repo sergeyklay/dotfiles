@@ -135,7 +135,7 @@ You are using Python {}.{}.{}.
 Please upgrade your Python installation or use a compatible version.
 Visit https://www.python.org/downloads/ for more information.
 """.format(*sys.version_info[:3]))
-    sys.exit(1)
+        sys.exit(1)
 
 
 class Version:
@@ -155,6 +155,7 @@ class Version:
         >>> v2 = Version('1.2.3b1')
         >>> v1 > v2
         True
+
     """
 
     def __init__(self, version_str):
@@ -279,6 +280,7 @@ def normalize_version(version_str):
         True
         >>> normalize_version('1.0.0a1') < normalize_version('1.0.0b1')
         True
+
     """
     try:
         return Version(version_str)
@@ -477,6 +479,7 @@ def calculate_similarity(query, package):
         True
         >>> calculate_similarity('a', 'django') < 0.3
         True
+
     """
     query = query.lower()
     package = package.lower()
@@ -540,6 +543,7 @@ def normalize_license(license_text):
         'Not specified'
         >>> normalize_license('BSD-3-Clause')
         'BSD 3-Clause'
+
     """
     if not license_text:
         return "Not specified"
