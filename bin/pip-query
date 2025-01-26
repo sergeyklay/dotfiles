@@ -1,5 +1,35 @@
 #!/usr/bin/env python3
 
+"""
+PyPI Package Query Tool.
+
+This module provides functionality to search and display information about Python
+packages available on PyPI. It supports fuzzy package name matching, caching of
+package lists, and formatted output of package details.
+
+Features:
+    - Fuzzy package name search
+    - Cached package list for faster subsequent searches
+    - Colored terminal output (when supported)
+    - Version comparison following PEP 440
+    - Graceful error handling and signal management
+
+Example:
+    $ pip-query requests
+    [ Results for search key: requests ]
+    Searching...
+
+    * requests
+        Latest version available: 2.31.0
+        Latest release date: 2024-03-12
+        Version history: 2.31.0, 2.30.0, ...
+        ...
+
+Note:
+    This tool uses the PyPI JSON API and piwheels.org for package information.
+    Internet connectivity is required for the initial package list fetch.
+"""
+
 import json
 import sys
 import re
@@ -12,59 +42,77 @@ from difflib import SequenceMatcher
 
 
 class Version:
-    """Version comparison following PEP 440."""
+    """
+    Version string parser and comparison following PEP 440.
+
+    This class implements version string parsing and comparison logic that follows
+    Python's version specification (PEP 440). It handles standard version numbers,
+    pre-releases (alpha, beta, rc), and development versions.
+
+    Attributes:
+        version_str (str): The original version string.
+        parts (list): Parsed version components for comparison.
+
+    Example:
+        >>> v1 = Version('1.2.3')
+        >>> v2 = Version('1.2.3b1')
+        >>> v1 > v2
+        True
+    """
 
     def __init__(self, version_str):
+        """
+        Initialize a Version instance.
+
+        Args:
+            version_str (str): The version string to parse.
+        """
         self.version_str = str(version_str)
         self.parts = self._parse_version(version_str)
 
     def _parse_version(self, version_str):
-        """Parse version string into comparable parts."""
-        version_str = version_str.lower().strip()
+        """
+        Parse version string into comparable components.
 
-        # Split on dots first to handle version numbers correctly
+        Args:
+            version_str (str): The version string to parse.
+
+        Returns:
+            list: List of version components (integers and strings).
+        """
+        version_str = version_str.lower().strip()
         parts = version_str.split('.')
         result = []
 
         for part in parts:
-            # Split on special characters for pre-release parts
             subparts = re.split(r'[-_]', part)
-
             for subpart in subparts:
-                # Handle alpha/beta/rc markers
                 if subpart.startswith(('a', 'b', 'rc')):
                     match = re.match(r'([a-z]+)(\d*)', subpart)
                     if match:
                         type_part, num_part = match.groups()
-                        # Order: release candidates > beta > alpha
                         type_val = {'rc': 3, 'b': 2, 'a': 1}.get(type_part, 0)
                         num_val = int(num_part) if num_part else 0
                         result.extend([type_val, num_val])
                     continue
-
-                # Convert to integer if possible
                 try:
                     result.append(int(subpart))
                 except ValueError:
                     result.append(subpart)
-
         return result
 
     def __lt__(self, other):
+        """Compare versions following PEP 440 ordering."""
         if not isinstance(other, Version):
             other = Version(str(other))
-
-        # Pad shorter version with zeros
         v1 = self.parts + [0] * (len(other.parts) - len(self.parts))
         v2 = other.parts + [0] * (len(self.parts) - len(other.parts))
-
-        # Compare parts
         for p1, p2 in zip(v1, v2):
             if isinstance(p1, int) and isinstance(p2, int):
                 if p1 != p2:
                     return p1 < p2
             elif isinstance(p1, int):
-                return True  # Numbers come before strings
+                return True
             elif isinstance(p2, int):
                 return False  # Numbers come before strings
             else:
@@ -73,36 +121,49 @@ class Version:
         return False
 
     def __eq__(self, other):
+        """Check version equality."""
         if not isinstance(other, Version):
             other = Version(str(other))
         return self.parts == other.parts
 
     def __str__(self):
+        """Return the original version string."""
         return self.version_str
 
 
 def normalize_version(version_str):
-    """Normalize version string for comparison."""
+    """
+    Normalize version string for comparison.
+
+    Args:
+        version_str (str): Version string to normalize.
+
+    Returns:
+        Version: Normalized version object for comparison.
+    """
     try:
         return Version(version_str)
     except Exception:
-        # Fallback to string comparison if parsing fails
         return version_str
 
 
-# Custom exceptions
 class ParseError(Exception):
+    """Raised when command-line arguments cannot be parsed correctly."""
+
     def __init__(self, message):
         self.message = message
         super().__init__(self.message)
 
 
 class SignalInterrupt(KeyboardInterrupt):
+    """Raised when a signal interrupts the program execution."""
+
     def __init__(self, signum):
         self.signum = signum
 
 
 def signal_interrupt(signum, _frame):
+    """Signal handler that raises SignalInterrupt."""
     raise SignalInterrupt(signum)
 
 
@@ -114,30 +175,31 @@ signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 
 
 def supports_color():
-    """Check if the terminal supports color output."""
-    # Check if NO_COLOR is set (https://no-color.org/)
+    """
+    Check if the terminal supports color output.
+
+    This function checks various environment variables and terminal
+    capabilities to determine if color output is supported and desired.
+
+    Returns:
+        bool: True if color output is supported, False otherwise.
+    """
     if 'NO_COLOR' in os.environ:
         return False
-
-    # Check if output is a terminal
     if not hasattr(sys.stdout, 'isatty'):
         return False
     if not sys.stdout.isatty():
         return False
-
-    # Check for specific environment variables
     if 'COLORTERM' in os.environ:
         return True
-
     term = os.environ.get('TERM', '')
     if term == 'dumb':
         return False
-
     return 'xterm' in term or 'vt100' in term or '256color' in term
 
 
-# ANSI escape codes for colors
 class Colors:
+    """ANSI color codes for terminal output."""
     GREEN = '\033[32m' if supports_color() else ''
     BOLD_GREEN = '\033[1;32m' if supports_color() else ''
     BOLD_WHITE = '\033[1;37m' if supports_color() else ''
@@ -145,25 +207,44 @@ class Colors:
 
 
 def colorize(text, color):
-    """Add color to text if supported."""
+    """
+    Add color to text if terminal supports it.
+
+    Args:
+        text (str): Text to colorize.
+        color (str): ANSI color code to use.
+
+    Returns:
+        str: Colorized text if supported, original text otherwise.
+    """
     return f"{color}{text}{Colors.RESET}" if color else text
 
 
 def get_package_info(package_name):
-    """Fetch package information from PyPI."""
-    url = f"https://pypi.org/pypi/{package_name}/json"
+    """
+    Fetch package information from PyPI.
 
+    Args:
+        package_name (str): Name of the package to fetch information for.
+
+    Returns:
+        dict: Package information from PyPI or None if fetch fails.
+    """
+    url = f"https://pypi.org/pypi/{package_name}/json"
     try:
         with urlopen(url, timeout=10.0) as response:
-            data = json.loads(response.read().decode("utf-8"))
-            return data
-    except Exception as e:
-        # Error fetching package info for package_name, just return None
+            return json.loads(response.read().decode("utf-8"))
+    except Exception:
         return None
 
 
 def get_cache_dir():
-    """Get the appropriate cache directory based on OS."""
+    """
+    Get the appropriate cache directory based on OS.
+
+    Returns:
+        str: Path to the cache directory.
+    """
     if os.name == 'nt':  # Windows
         base_dir = os.environ.get('LOCALAPPDATA', os.path.expanduser('~'))
         cache_dir = os.path.join(base_dir, 'pip-query', 'cache')
@@ -172,14 +253,17 @@ def get_cache_dir():
             os.environ.get('XDG_CACHE_HOME', os.path.expanduser('~/.cache')),
             'pip-query'
         )
-
-    # Ensure cache directory exists
     os.makedirs(cache_dir, exist_ok=True)
     return cache_dir
 
 
 def load_cached_packages():
-    """Load package list from cache if it exists and is not expired."""
+    """
+    Load package list from cache if it exists and is not expired.
+
+    Returns:
+        set: Set of package names from cache, or None if cache is invalid/expired.
+    """
     cache_file = os.path.join(get_cache_dir(), 'packages.json')
 
     try:
@@ -198,7 +282,12 @@ def load_cached_packages():
 
 
 def save_to_cache(packages):
-    """Save package list to cache."""
+    """
+    Save package list to cache.
+
+    Args:
+        packages (set): Set of package names to cache.
+    """
     cache_file = os.path.join(get_cache_dir(), 'packages.json')
 
     try:
@@ -212,7 +301,16 @@ def save_to_cache(packages):
 
 
 def get_available_packages():
-    """Fetch list of available packages from piwheels with caching."""
+    """
+    Fetch list of available packages from piwheels with caching.
+
+    This function attempts to load the package list from cache first.
+    If the cache is missing or expired, it fetches the list from piwheels.org.
+    On network errors, it falls back to expired cache if available.
+
+    Returns:
+        set: Set of available package names.
+    """
     # Try to load from cache first
     cached_packages = load_cached_packages()
     if cached_packages is not None:
@@ -223,12 +321,8 @@ def get_available_packages():
     try:
         with urlopen(url, timeout=10.0) as response:
             data = json.loads(response.read().decode("utf-8"))
-            # Extract just package names from the data
             packages = {pkg[0] for pkg in data}
-
-            # Save to cache
             save_to_cache(packages)
-
             return packages
     except Exception as e:
         print(f"Error fetching package list: {e}", file=sys.stderr)
@@ -241,36 +335,49 @@ def get_available_packages():
 
 
 def calculate_similarity(query, package):
-    """Calculate similarity ratio between query and package name."""
-    # Convert both strings to lowercase for better matching
+    """
+    Calculate similarity ratio between query and package name.
+
+    This function implements a multi-stage similarity calculation:
+    1. Exact match check
+    2. Complete part match check
+    3. Substring match check
+    4. Fuzzy ratio calculation
+
+    Args:
+        query (str): Search query.
+        package (str): Package name to compare against.
+
+    Returns:
+        float: Similarity score between 0 and 1.
+    """
     query = query.lower()
     package = package.lower()
 
-    # Split names into parts (by common separators)
     query_parts = set(re.split(r'[-_]', query))
     package_parts = set(re.split(r'[-_]', package))
 
-    # Check for exact match first
+    # Exact match
     if query == package:
         return 1.0
 
-    # Check if query is a complete part of the package name
+    # Complete part match
     if query in package_parts:
         return 0.95
 
-    # Check if all query parts are in the package name
+    # All query parts in package
     if all(qpart in package for qpart in query_parts):
         return 0.9
 
-    # Check if package name starts with the query
+    # Package starts with query
     if package.startswith(query):
         return 0.85
 
-    # For very short queries (3 chars or less), require exact substring match
+    # Short query handling
     if len(query) <= 3 and query not in package:
         return 0.0
 
-    # Calculate standard similarity only if the query is at least partially in the package name
+    # Fuzzy matching for partial matches
     if any(qpart in package for qpart in query_parts):
         return SequenceMatcher(None, query, package).ratio()
 
@@ -278,11 +385,21 @@ def calculate_similarity(query, package):
 
 
 def normalize_license(license_text):
-    """Normalize and format license information."""
+    """
+    Normalize and format license information.
+
+    This function attempts to standardize license names and handle
+    long license texts by extracting the license type or truncating.
+
+    Args:
+        license_text (str): Raw license text from package metadata.
+
+    Returns:
+        str: Normalized license information.
+    """
     if not license_text:
         return "Not specified"
 
-    # Common license name mappings
     LICENSE_MAPPINGS = {
         'MIT': 'MIT',
         'BSD': 'BSD',
@@ -301,13 +418,10 @@ def normalize_license(license_text):
         'PSF': 'PSF',
     }
 
-    # Check if it's a known license name
     if license_text in LICENSE_MAPPINGS:
         return LICENSE_MAPPINGS[license_text]
 
-    # Handle long license texts
     if len(license_text) > 100:
-        # Try to extract license name from the text
         lower_text = license_text.lower()
         if 'apache license' in lower_text and '2.0' in lower_text:
             return 'Apache-2.0'
@@ -318,28 +432,38 @@ def normalize_license(license_text):
         if 'gnu general public license' in lower_text or 'gpl' in lower_text:
             return 'GPL'
 
-        # If we can't identify the license, truncate it
         return f"{license_text[:97]}..."
 
     return license_text
 
 
 def format_package_info(package_name, data):
-    """Format package information according to the specified template."""
+    """
+    Format package information for display.
+
+    This function takes package metadata and formats it for terminal display,
+    including version information, release dates, and other package details.
+    It handles missing data gracefully and applies color formatting when supported.
+
+    Args:
+        package_name (str): Name of the package.
+        data (dict): Package metadata from PyPI.
+
+    Returns:
+        str: Formatted package information ready for display.
+    """
     if not data:
         return ""
 
     info = data.get("info", {})
     releases = data.get("releases", {})
 
-    # Get all versions sorted using packaging.version
     try:
         all_versions = sorted(releases.keys(),
                             key=normalize_version,
-                            reverse=True)  # Sort in reverse order (newest first)
+                            reverse=True)
     except Exception:
-        # Fallback to simple string sorting if complex sorting fails
-        all_versions = sorted(releases.keys(), reverse=True)  # Sort in reverse order
+        all_versions = sorted(releases.keys(), reverse=True)
 
     latest_version = info.get("version", "")
 
@@ -351,17 +475,14 @@ def format_package_info(package_name, data):
             upload_time = release_info[0].get('upload_time', '')
             if upload_time:
                 try:
-                    # Convert to more readable format
                     timestamp = time.strptime(upload_time[:19], "%Y-%m-%dT%H:%M:%S")
                     latest_release_date = time.strftime("%Y-%m-%d", timestamp)
                 except (ValueError, TypeError):
                     latest_release_date = upload_time
 
-    # Take first 10 versions (they're already in reverse chronological order)
     recent_versions = all_versions[:10] if len(all_versions) > 10 else all_versions
     recent_versions_str = ", ".join(recent_versions) if recent_versions else ""
 
-    # Handle potentially missing or None values
     homepage = info.get("home_page") or info.get("project_url") or "Not specified"
     description = info.get("summary") or "No description available"
     author = info.get("author") or "Not specified"
@@ -391,13 +512,26 @@ def format_package_info(package_name, data):
             f"      {description_label} {description}\n"
             f"      {author_label} {author}\n"
             f"      {requires_label} Python {python_requires}\n"
-            f"      {license_label} {license_info or 'Not specified'}")
+            f"      {license_label} {license_info}")
 
 
 def search_similar_packages(query, similarity_threshold=0.8):
-    """Search for packages with names similar to the query."""
+    """
+    Search for packages with names similar to the query.
+
+    This function implements a fuzzy search algorithm that finds packages
+    with names similar to the search query. It uses multiple similarity
+    metrics and can return up to 30 most relevant matches.
+
+    Args:
+        query (str): Package name to search for.
+        similarity_threshold (float, optional): Minimum similarity score (0-1).
+            Defaults to 0.8.
+
+    Returns:
+        tuple: (dict of package data, total number of matches found)
+    """
     try:
-        # Get all available packages
         all_packages = get_available_packages()
         if not all_packages:
             print("Could not fetch package list", file=sys.stderr)
@@ -429,7 +563,7 @@ def search_similar_packages(query, similarity_threshold=0.8):
             if data:
                 similar_packages[package] = data
 
-        # If no similar packages found, try variations of the query
+        # Try variations if no matches found
         if not similar_packages:
             variations = [
                 query.lower(),
@@ -450,6 +584,16 @@ def search_similar_packages(query, similarity_threshold=0.8):
 
 
 def main():
+    """
+    Main entry point for the pip-query tool.
+
+    This function handles the command-line interface, executes the package
+    search, and displays the results. It includes comprehensive error handling
+    and proper exit code management.
+
+    Returns:
+        int: Exit code (0 for success, non-zero for errors)
+    """
     try:
         if len(sys.argv) < 2:
             raise ParseError("Missing package name argument")
