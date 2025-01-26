@@ -627,7 +627,7 @@ def format_package_info(package_name, data):
     description = info.get("summary") or "No description available"
     author = info.get("author") or "Not specified"
     license_info = normalize_license(info.get("license", ""))
-    python_requires = info.get("requires_python") or "Not specified"
+    python_requires = info.get("requires_python") or ""
 
     # Format labels with color
     latest_version_label = colorize("Latest version available:", Colors.GREEN)
@@ -651,7 +651,7 @@ def format_package_info(package_name, data):
             f"      {homepage_label} {homepage}\n"
             f"      {description_label} {description}\n"
             f"      {author_label} {author}\n"
-            f"      {requires_label} Python {python_requires}\n"
+            f"      {requires_label} {'Python ' + python_requires if python_requires else 'Not specified'}\n"
             f"      {license_label} {license_info}")
 
 
