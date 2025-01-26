@@ -33,14 +33,14 @@ Features:
     - Configurable number of displayed packages
 
 Example:
-    # Show default number of packages (30)
-    $ pip-query requests
+    # Search for packages (shows default 30 packages)
+    $ pip-query --search requests
 
-    # Search for 'flask' packages and show 50 results:
-    $ pip-query --max-packages 50 flask
+    # Search with custom number of results
+    $ pip-query -s flask --max-packages 50
 
-    # Search for 'django' packages and show all matches:
-    $ pip-query --max-packages 0 django
+    # Search and show all matches
+    $ pip-query --search django --max-packages 0
 
 Note:
     This tool uses the PyPI JSON API and piwheels.org for package information.
@@ -56,19 +56,23 @@ import re
 import signal
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime
 from difflib import SequenceMatcher
 from urllib.request import urlopen
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime\
+
 
 # Version information
-VERSION = "2.0.0"
+VERSION = "2.1.0"
+
 
 def show_help():
     """Display help information."""
     help_text = f"""pip-query - search and display Python package information [version {VERSION}]
 
-Usage:	pip-query [options] <package-name>
+Usage:	pip-query --search <package-name> [options]
+        pip-query --test
+        pip-query --help | --version
 
 Description:
   pip-query is a tool to search and display information about Python packages
@@ -78,24 +82,21 @@ Description:
 
 Examples:
   # Search for the 'requests' package (shows default 30 packages):
-  $ pip-query requests
+  $ pip-query --search requests
 
   # Search for 'flask' packages and show 50 results:
-  $ pip-query --max-packages 50 flask
+  $ pip-query -s flask --max-packages 50
 
   # Search for 'django' packages and show all matches:
-  $ pip-query --max-packages 0 django
+  $ pip-query --search django --max-packages 0
 
   # Run doctests:
   $ pip-query --test
 
-Positional parameters:
-  package-name             Name of the package to search for.  Can be a partial
-                           name - the tool will find similar matches.
-
 Command options:
   -h, --help               Show this help message
   -V, --version            Show program's version number
+  -s, --search QUERY       Search for packages matching QUERY
   -m, --max-packages NUM   Maximum number of packages to display (default: 30,
                            0 means show all matches)
   -t, --test               Run doctests
@@ -112,6 +113,7 @@ For bug reporting instructions, please see:
 """
     print(help_text)
 
+
 def show_version():
     """Display version information."""
     current_year = datetime.now().year
@@ -121,9 +123,11 @@ This is free software; see the source for copying conditions. There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."""
     print(version_text)
 
-# Check Python version
-if sys.version_info < (3, 6):
-    sys.stderr.write("""
+
+def system_check():
+    """Check system requirements."""
+    if sys.version_info < (3, 6):
+        sys.stderr.write("""
 pip-query: Unsupported Python version.
 This script requires Python 3.6 or newer.
 You are using Python {}.{}.{}.
@@ -837,6 +841,67 @@ def get_package_info(package_name):
         return None
 
 
+def parse_args(args=None):
+    """
+    Parse command-line arguments.
+
+    This function uses argparse to handle command-line arguments in a
+    standard and maintainable way, but uses custom help formatting.
+
+    Args:
+        args (list, optional): List of arguments to parse. If None,
+            uses sys.argv[1:]. Defaults to None.
+
+    Returns:
+        argparse.Namespace: Parsed command-line arguments.
+    """
+    import argparse
+
+    class CustomHelpFormatter(argparse.HelpFormatter):
+        def format_help(self):
+            # Return empty string to suppress argparse's help
+            return ""
+
+    class CustomArgumentParser(argparse.ArgumentParser):
+        def __init__(self, *args, **kwargs):
+            kwargs['formatter_class'] = CustomHelpFormatter
+            super().__init__(*args, **kwargs)
+
+        def print_help(self, file=None):
+            # Use our custom help function instead
+            show_help()
+
+        def error(self, message):
+            # Customize error handling
+            sys.stderr.write(f"pip-query: {message}\n")
+            sys.stderr.write("Try 'pip-query --help' for more information.\n")
+            sys.exit(1)
+
+    parser = CustomArgumentParser(
+        description='Search and display Python package information from PyPI.'
+    )
+
+    parser.add_argument('-V', '--version',
+                       action='store_true',
+                       help='show program version and exit')
+
+    parser.add_argument('-s', '--search',
+                       metavar='QUERY',
+                       help='search for packages matching QUERY')
+
+    parser.add_argument('-m', '--max-packages',
+                       type=int,
+                       default=30,
+                       metavar='NUM',
+                       help='maximum number of packages to display (default: 30, 0 means show all)')
+
+    parser.add_argument('-t', '--test',
+                       action='store_true',
+                       help='run doctests and exit')
+
+    return parser.parse_args(args)
+
+
 def main():
     """
     Main entry point for the pip-query tool.
@@ -849,53 +914,33 @@ def main():
         int: Exit code (0 for success, non-zero for errors)
     """
     try:
-        # Parse command line arguments
-        max_packages = 30  # Default value
-        args = sys.argv[1:]
+        args = parse_args()
 
-        if not args:
-            raise ParseError("Missing package name argument")
-
-        # Handle command-line options
-        if args[0] in ['-h', '--help']:
-            show_help()
-            return 0
-
-        if args[0] in ['-V', '--version']:
+        if args.version:
             show_version()
             return 0
 
-        if args[0] in ['-t', '--test']:
+        if args.test:
             import doctest
             print("Running doctests...")
             doctest.testmod(verbose=True)
             return 0
 
-        # Parse max-packages option
-        if args[0] in ['-m', '--max-packages']:
-            if len(args) < 3:
-                raise ParseError("Missing value for --max-packages")
-            try:
-                max_packages = int(args[1])
-                if max_packages < 0:
-                    raise ValueError("Number must be non-negative")
-                args = args[2:]
-            except ValueError:
-                raise ParseError("Invalid value for --max-packages")
-        elif len(args) >= 2 and args[1] in ['-m', '--max-packages']:
-            raise ParseError("--max-packages option must come before package name")
+        if not args.search:
+            # If no search query provided, show help and exit
+            show_help()
+            return 0
 
-        if not args:
-            raise ParseError("Missing package name argument")
-
-        query = args[0]
-        print(f"\n[ Results for search key: {colorize(query, Colors.BOLD_WHITE)} ]")
+        print(f"\n[ Results for search key: {colorize(args.search, Colors.BOLD_WHITE)} ]")
         print("Searching...\n")
 
-        results, total_matches = search_similar_packages(query, max_packages=max_packages)
+        results, total_matches = search_similar_packages(
+            args.search,
+            max_packages=args.max_packages
+        )
 
         if not results:
-            print(f"No packages found matching '{colorize(query, Colors.BOLD_WHITE)}'")
+            print(f"No packages found matching '{colorize(args.search, Colors.BOLD_WHITE)}'")
             print("\n[ Packages found: 0 ]\n")
             return 0
 
@@ -907,19 +952,13 @@ def main():
                 print()  # Empty line between packages
 
         # Print summary
-        if max_packages > 0 and total_matches > max_packages:
+        if args.max_packages > 0 and total_matches > args.max_packages:
             print(f"[ Packages found: {colorize(str(total_matches), Colors.BOLD_WHITE)} ]")
-            print(f"[ Shown most relevant {max_packages} packages ]\n")
+            print(f"[ Shown most relevant {args.max_packages} packages ]\n")
         else:
             print(f"[ Packages found: {colorize(str(len(results)), Colors.BOLD_WHITE)} ]\n")
 
         return 0
-
-    except ParseError as e:
-        sys.stderr.write(f"pip-query: {str(e)}\n")
-        sys.stderr.write("Usage: pip-query [--max-packages NUM] package-name\n")
-        sys.stderr.write("Try 'pip-query --help' for more information.\n")
-        return 1
     except KeyboardInterrupt as e:
         # Handle Ctrl+C gracefully
         signum = getattr(e, 'signum', signal.SIGINT)
@@ -935,6 +974,7 @@ def main():
 
 if __name__ == "__main__":
     try:
+        system_check()
         sys.exit(main())
     except KeyboardInterrupt as e:
         # Handle keyboard interrupts at the top level
