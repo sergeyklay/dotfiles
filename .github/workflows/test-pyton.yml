@@ -1,0 +1,90 @@
+# Copyright (C) 2025 Serghei Iakovlev <gnu@serghei.pl>
+#
+# This file is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 3
+# of the License, or (at your option) any later version.
+#
+# This file is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <https://www.gnu.org/licenses/>.
+
+---
+name: Test Python Code
+
+on:
+  push:
+    branches-ignore:
+      # These should always correspond to pull requests, so ignore them for
+      # the push trigger and let them be triggered by the pull_request
+      # trigger, avoiding running the workflow twice.  This is a minor
+      # optimization so there's no need to ensure this is comprehensive.
+      - 'dependabot/**'
+    paths:
+      - 'bin/pip-query'
+  pull_request:
+    paths:
+      - 'bin/pip-query'
+
+env:
+  PYTHONUNBUFFERED: '1'
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+
+    # The maximum number of minutes to let a workflow run
+    # before GitHub automatically cancels it. Default: 360
+    timeout-minutes: 30
+
+    strategy:
+      # When set to true, GitHub cancels
+      # all in-progress jobs if any matrix job fails.
+      fail-fast: false
+
+      matrix:
+        python-version: ['3.6', '3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 5
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Run tests
+        run: |
+          chmod +x bin/pip-query
+          python3 bin/pip-query --test
+
+      - name: Test script execution
+        run: |
+          # Test basic functionality
+          python3 bin/pip-query requests
+
+          # Test with max packages option
+          python3 bin/pip-query --max-packages 5 flask
+
+          # Test version output
+          python3 bin/pip-query --version
+
+          # Test help output
+          python3 bin/pip-query --help
+
+      - name: Success Reporting
+        if: success()
+        run: git log --format=fuller -5
