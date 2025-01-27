@@ -241,7 +241,6 @@ from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 
-
 load_dotenv(dotenv_path=Path(__file__).resolve().parent / ".env")
 
 
@@ -279,7 +278,7 @@ def verify_environment() -> None:
     """Verify that all required environment variables are set."""
     # Feel free to add more environment variables
     # or remove the ones that are not required
-    required_env_vars = [
+    required = [
         "LANGSMITH_TRACING",
         "LANGSMITH_ENDPOINT",
         "LANGSMITH_API_KEY",
@@ -287,7 +286,7 @@ def verify_environment() -> None:
         "OPENAI_API_KEY",
     ]
 
-    missing_vars = [var for var in required_env_vars if var not in os.environ]
+    missing_vars = [v for v in required if v not in os.environ or not os.environ[v]]
     if missing_vars:
         raise ValueError(
             "Missing required environment variables: "
@@ -306,8 +305,8 @@ if __name__ == "__main__":
         model=os.environ["MODEL"],
         temperature=0.3,
         max_tokens=500,
-        request_timeout=30,    # Custom timeout in seconds
-        top_p=0.9,             # Nucleus sampling parameter
+        request_timeout=30,  # Custom timeout in seconds
+        top_p=0.9,  # Nucleus sampling parameter
     )
 
     system_template = (
@@ -315,19 +314,20 @@ if __name__ == "__main__":
         "You should provide clear, direct answers."
     )
 
-    template = ChatPromptTemplate([
-        ("system", system_template),
-        ("human", "How many stars are there in the sky?"),
-        ("ai", "There are 88 constellations in the sky."),
-        ("human", "Who is man's {adjective} {noun}?"),
-    ])
-
-    prompt = template.invoke(
-        TranslationInput(
-            adjective="best",
-            noun="friend",
-        )
+    template = ChatPromptTemplate(
+        [
+            ("system", system_template),
+            ("human", "How many stars are there in the sky?"),
+            ("ai", "There are 88 constellations in the sky."),
+            ("human", "Who is man's {adjective} {noun}?"),
+        ]
     )
+
+    input: TranslationInput = {
+        "adjective": "best",
+        "noun": "friend",
+    }
+    prompt = template.invoke(dict(input))
 
     response = model.invoke(prompt)
     print(response.content)
@@ -406,6 +406,7 @@ EOL
 }
 
 create_vscode_settings() {
+  mkdir .vscode || echo "${SCRIPT_NAME}: unable to create .vscode directory" >&2
   cat > .vscode/settings.json << EOL
 {
     "python.analysis.typeCheckingMode": "basic",
