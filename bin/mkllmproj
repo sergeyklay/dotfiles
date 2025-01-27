@@ -356,12 +356,23 @@ include = []
 python = ">=3.10, <4"
 python-dotenv = "^1.0.0"
 langsmith = "^0.2.11"
+langchain = "^0.3.15"
 langchain-core = "^0.3.31"
-langchain-openai = "^0.3.1"
-langchain_community = "^0.3.15"
+langchain-openai = "^0.3.2"
+langchain-community = "^0.3.15"
 
 [tool.poetry.group.dev.dependencies]
-debugpy = "^1.8.9"
+debugpy = "^1.8.12"
+isort = "^5.13.2"
+black = "^24.10.0"
+
+[tool.black]
+line-length = 88
+target-version = ["py310"]
+
+[tool.isort]
+profile = "black"
+py_version = 310
 EOL
 }
 
@@ -377,6 +388,7 @@ ${project_description}
 
 \`\`\`bash
 poetry install --with=dev --no-root
+poetry install
 \`\`\`
 
 ## Usage
@@ -390,6 +402,30 @@ python main.py
 ## License
 
 This project is licensed under the GPL-3.0 License - see the LICENSE file for details.
+EOL
+}
+
+create_vscode_settings() {
+  cat > .vscode/settings.json << EOL
+{
+    "python.analysis.typeCheckingMode": "basic",
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+        }
+    },
+    "isort.args": ["--profile", "black"],
+    "black-formatter.args": ["--config", "pyproject.toml"]
+}
 EOL
 }
 
@@ -407,6 +443,7 @@ install_dependencies() {
     fi
 
     poetry install --with=dev --no-root
+    poetry install
   fi
 }
 
@@ -417,6 +454,7 @@ main() {
   create_main
   create_pyproject
   create_readme
+  create_vscode_settings
   install_dependencies
 
   echo "Project ${project_name} has been created successfully!"
