@@ -787,7 +787,6 @@ def search_similar_packages(query, similarity_threshold=0.8, max_packages=30, us
 
         # Now fetch packages that weren't in cache
         if packages_to_fetch:
-            print(f"Fetching data for {len(packages_to_fetch)} packages from PyPI...", file=sys.stderr)
             # Use concurrent.futures to fetch packages in parallel
             with ThreadPoolExecutor(max_workers=min(10, len(packages_to_fetch))) as executor:
                 # Submit all package fetch tasks
@@ -1021,32 +1020,29 @@ def main():
             show_help()
             return 0
 
-        if args.exact:
-            # Exact package lookup mode
-            print(f"\n[ Package information: {colorize(args.exact, COLORS.BOLD_WHITE)} ]")
-            data = get_package_info(args.exact, use_cache=not args.no_cache)
-            if not data:
-                print(f"Package '{colorize(args.exact, COLORS.BOLD_WHITE)}' not found on PyPI")
-                return 0
+        query = args.search or args.exact
+        results = {}
+        total_matches = 0
 
-            info = format_package_info(args.exact, data)
-            if info:
-                print(info)
-                print()
-            return 0
-
-        # Fuzzy search mode
-        print(f"\n[ Results for search key: {colorize(args.search, COLORS.BOLD_WHITE)} ]")
+        print(f"\n[ Results for search key: {colorize(query, COLORS.BOLD_WHITE)} ]")
         print("Searching...\n")
 
-        results, total_matches = search_similar_packages(
-            args.search,
-            max_packages=args.max_packages,
-            use_cache=not args.no_cache
-        )
+        # Exact package lookup mode
+        if args.exact:
+            data = get_package_info(args.exact, use_cache=not args.no_cache)
+            if data:
+                results = {args.exact: data}
+                total_matches = 1
+        # Fuzzy search mode
+        else:
+            results, total_matches = search_similar_packages(
+                args.search,
+                max_packages=args.max_packages,
+                use_cache=not args.no_cache
+            )
 
         if not results:
-            print(f"No packages found matching '{colorize(args.search, COLORS.BOLD_WHITE)}'")
+            print(f"No packages found matching '{colorize(query, COLORS.BOLD_WHITE)}'")
             print("\n[ Packages found: 0 ]\n")
             return 0
 
