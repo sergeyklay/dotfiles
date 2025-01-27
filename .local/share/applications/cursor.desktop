@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Name=Cursor
+Exec=/home/serghei/Applications/cursor.appimage --ozone-platform=wayland --no-sandbox %U
+Terminal=false
+Type=Application
+Icon=/home/serghei/Applications/cursor.png
+Categories=Development;
+StartupWMClass=cursor-url-handler
+X-AppImage-Version=0.42.0
+MimeType=x-scheme-handler/cursor;
+Categories=Utility;
+Comment[en_US]=Code editor with AI

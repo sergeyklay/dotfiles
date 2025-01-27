@@ -1,0 +1,14 @@
+# For information about the Desktop Entry specification,
+# see http://freedesktop.org/wiki/Specifications/desktop-entry-spec.
+
+[Desktop Entry]
+Version=1.0
+Name=Brogw
+GenericName=Web Browser
+Comment=Route links to appropriate web browser
+Type=Application
+Exec=brogw %u
+Terminal=false
+Categories=Network;WebBrowser
+StartupNotify=false
+MimeType=x-scheme-handler/http;x-scheme-handler/https;

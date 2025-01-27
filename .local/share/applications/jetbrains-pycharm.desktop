@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=PyCharm Professional Edition
+Icon=/opt/pycharm/bin/pycharm.svg
+Exec=env _JAVA_AWT_WM_NONREPARENTING=1 "/opt/pycharm/bin/pycharm" %f
+Comment=Python IDE for Professional Developers
+Categories=Development;IDE;
+Terminal=false
+StartupWMClass=jetbrains-pycharm
+StartupNotify=true
