@@ -98,6 +98,11 @@ jobs:
           python3 bin/pip-query --search langchain --max-packages 5  # Uses cache
           python3 bin/pip-query --search langchain --max-packages 5 --no-cache  # Bypasses cache
 
+          # Test exact search
+          python3 bin/pip-query --exact requests  # Existing package
+          python3 bin/pip-query -e nonexistent-package-123  # Non-existent package
+          python3 bin/pip-query --exact requests --no-cache  # Without cache
+
       - name: Success Reporting
         if: success()
         run: git log --format=fuller -5

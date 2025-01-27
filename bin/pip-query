@@ -32,16 +32,6 @@ Features:
     - Graceful error handling and signal management
     - Configurable number of displayed packages
 
-Example:
-    # Search for packages (shows default 30 packages)
-    $ pip-query --search requests
-
-    # Search with custom number of results
-    $ pip-query -s flask --max-packages 50
-
-    # Search and show all matches
-    $ pip-query --search django --max-packages 0
-
 Note:
     This tool uses the PyPI JSON API and piwheels.org for package information.
     Internet connectivity is required for the initial package list fetch.
@@ -63,7 +53,7 @@ from urllib.request import urlopen
 
 
 # Version information
-VERSION = "2.1.0"
+VERSION = "2.2.0"
 
 
 def show_help():
@@ -71,6 +61,7 @@ def show_help():
     help_text = f"""pip-query - search and display Python package information [version {VERSION}]
 
 Usage:	pip-query --search <package-name> [options]
+        pip-query --exact <package-name> [options]
         pip-query --test
         pip-query --help | --version
 
@@ -83,6 +74,9 @@ Description:
 Examples:
   # Search for the 'requests' package (shows default 30 packages):
   $ pip-query --search requests
+
+  # Get exact package information:
+  $ pip-query --exact requests
 
   # Search for 'flask' packages and show 50 results:
   $ pip-query -s flask --max-packages 50
@@ -103,6 +97,7 @@ Command options:
   -h, --help               Show this help message
   -V, --version            Show program's version number
   -s, --search QUERY       Search for packages matching QUERY
+  -e, --exact PACKAGE      Get information for exact package name
   -m, --max-packages NUM   Maximum number of packages to display (default: 30,
                            0 means show all matches)
   -t, --test               Run doctests
@@ -122,7 +117,6 @@ Notes:
 
 For bug reporting instructions, please see:
 <https://github.com/sergeyklay/dotfiles/>"""
-
     print(help_text)
 
 
@@ -962,13 +956,17 @@ def parse_args(args=None):
         description='Search and display Python package information from PyPI.'
     )
 
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('-s', '--search',
+                      metavar='QUERY',
+                      help='search for packages matching QUERY')
+    group.add_argument('-e', '--exact',
+                      metavar='PACKAGE',
+                      help='get information for exact package name')
+
     parser.add_argument('-V', '--version',
                        action='store_true',
                        help='show program version and exit')
-
-    parser.add_argument('-s', '--search',
-                       metavar='QUERY',
-                       help='search for packages matching QUERY')
 
     parser.add_argument('-m', '--max-packages',
                        type=int,
@@ -1018,11 +1016,26 @@ def main():
             doctest.testmod(verbose=True)
             return 0
 
-        if not args.search:
+        if not args.search and not args.exact:
             # If no search query provided, show help and exit
             show_help()
             return 0
 
+        if args.exact:
+            # Exact package lookup mode
+            print(f"\n[ Package information: {colorize(args.exact, COLORS.BOLD_WHITE)} ]")
+            data = get_package_info(args.exact, use_cache=not args.no_cache)
+            if not data:
+                print(f"Package '{colorize(args.exact, COLORS.BOLD_WHITE)}' not found on PyPI")
+                return 0
+
+            info = format_package_info(args.exact, data)
+            if info:
+                print(info)
+                print()
+            return 0
+
+        # Fuzzy search mode
         print(f"\n[ Results for search key: {colorize(args.search, COLORS.BOLD_WHITE)} ]")
         print("Searching...\n")
 
