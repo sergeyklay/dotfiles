@@ -213,11 +213,17 @@ project_name_normalized=$(echo "$project_name" | tr '[:upper:]' '[:lower:]' | tr
 # Create project files
 create_env() {
   cat > .env << 'EOL'
+# Langsmith settings. If LANGCHAIN_TRACING and LANGCHAIN_TRACING_V2 are both true,
+# Langsmith uses the new tracing API (v2). If both are false, tracing is disabled.
+# If LANGCHAIN_TRACING is true and LANGCHAIN_TRACING_V2 is false, Langsmith uses
+# the old tracing API (v1). If LANGCHAIN_TRACING is false, and LANGCHAIN_TRACING_V2
+# is true, Langsmith uses the new tracing API (v2).
 LANGSMITH_TRACING=true
+LANGSMITH_TRACING_V2=true
 LANGSMITH_ENDPOINT=https://api.smith.langchain.com
 LANGSMITH_API_KEY=
 
-MODEL=gpt-4o-mini
+OPENAI_MODEL=gpt-4o-mini
 
 OPENAI_API_KEY=
 EOL
@@ -280,9 +286,10 @@ def verify_environment() -> None:
     # or remove the ones that are not required
     required = [
         "LANGSMITH_TRACING",
+        "LANGSMITH_TRACING_V2",
         "LANGSMITH_ENDPOINT",
         "LANGSMITH_API_KEY",
-        "MODEL",
+        "OPENAI_MODEL",
         "OPENAI_API_KEY",
     ]
 
@@ -302,7 +309,7 @@ if __name__ == "__main__":
         exit(1)
 
     model = create_llm(
-        model=os.environ["MODEL"],
+        model=os.environ["OPENAI_MODEL"],
         temperature=0.3,
         max_tokens=500,
         request_timeout=30,  # Custom timeout in seconds
@@ -337,42 +344,43 @@ EOL
 create_pyproject() {
   cat > pyproject.toml << EOL
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.poetry]
+[project]
 name = "${project_name_normalized}"
-version = "1.0.0"
 description = "${project_description}"
-authors = ["Serghei Iakovlev <gnu@serghei.pl>"]
+version = "1.0.0"
 license = "GPL-3.0-or-later"
 readme = "README.md"
-keywords = []
-classifiers = []
-packages = []
-include = []
+requires-python = ">=3.10, <4"
+authors = [{ name = "Serghei Iakovlev", email = "gnu@serghei.pl" }]
 
-[tool.poetry.dependencies]
-python = ">=3.10, <4"
-python-dotenv = "^1.0.0"
-langsmith = "^0.2.11"
-langchain = "^0.3.15"
-langchain-core = "^0.3.31"
-langchain-openai = "^0.3.2"
-langchain-community = "^0.3.15"
+dependencies = [
+    "python-dotenv>=1.0.1",
+    "langsmith>=0.3.8",
+    "langchain>=0.3.18",
+    "langchain-core>=0.3.34",
+    "langchain-openai>=0.3.4",
+    "langchain-community>=0.3.17",
+]
+
+[tool.poetry]
+package-mode = false
+requires-poetry = ">=2.0"
 
 [tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
 debugpy = "^1.8.12"
-isort = "^5.13.2"
-black = "^24.10.0"
+isort = {version = "^6.0.0", extras = ["colors"]}
 
 [tool.black]
 line-length = 88
-target-version = ["py310"]
+target-version = ["py312"]
 
 [tool.isort]
 profile = "black"
-py_version = 310
+py_version = 312
 EOL
 }
 
@@ -387,7 +395,6 @@ ${project_description}
 ## Installation
 
 \`\`\`bash
-poetry install --with=dev --no-root
 poetry install
 \`\`\`
 
@@ -424,8 +431,26 @@ create_vscode_settings() {
             "source.organizeImports": "explicit"
         }
     },
-    "isort.args": ["--profile", "black"],
-    "black-formatter.args": ["--config", "pyproject.toml"]
+		"isort.args": [
+			"--profile",
+			"black",
+			"--python-version",
+			"auto"
+		],
+		"isort.interpreter": [
+			"\${workspaceFolder}/.venv/bin/python"
+		],
+		"black-formatter.args": [
+			"--target-version",
+			"py312",
+			"--line-length",
+			"88"
+		],
+		"editor.codeActionsOnSave": {
+			"source.organizeImports": "explicit"
+		},
+		"isort.check": true,
+		"isort.importStrategy": "fromEnvironment"
 }
 EOL
 }
@@ -443,7 +468,6 @@ install_dependencies() {
       exit 1
     fi
 
-    poetry install --with=dev --no-root
     poetry install
   fi
 }
