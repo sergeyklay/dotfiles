@@ -2,7 +2,7 @@
 #
 # mkllmproj - LLM project scaffolding tool.
 #
-# Copyright (C) 2024 Serghei Iakovlev <gnu@serghei.pl>
+# Copyright (C) 2024, 2025 Serghei Iakovlev <gnu@serghei.pl>
 #
 # This file is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -35,7 +35,7 @@ IFS=$'\n\t'
 
 # Constants
 readonly SCRIPT_NAME="${0##*/}"
-readonly VERSION="1.1.0"
+readonly VERSION="1.2.0"
 
 version() {
   cat <<EOF
