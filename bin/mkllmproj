@@ -35,7 +35,7 @@ IFS=$'\n\t'
 
 # Constants
 readonly SCRIPT_NAME="${0##*/}"
-readonly VERSION="1.2.0"
+readonly VERSION="1.2.1"
 
 version() {
   cat <<EOF
@@ -213,12 +213,13 @@ project_name_normalized=$(echo "$project_name" | tr '[:upper:]' '[:lower:]' | tr
 # Create project files
 create_env() {
   cat > .env << 'EOL'
-# Langsmith settings. If LANGCHAIN_TRACING and LANGCHAIN_TRACING_V2 are both true,
-# Langsmith uses the new tracing API (v2). If both are false, tracing is disabled.
-# If LANGCHAIN_TRACING is true and LANGCHAIN_TRACING_V2 is false, Langsmith uses
-# the old tracing API (v1). If LANGCHAIN_TRACING is false, and LANGCHAIN_TRACING_V2
-# is true, Langsmith uses the new tracing API (v2).
-LANGSMITH_TRACING=true
+# Langsmith settings.
+#
+# LANGCHAIN_TRACING is deprecated. If set to true while LANGCHAIN_TRACING_V2 is also true,
+# LangChain will throw an error. While v1 tracing still works in some limited cases,
+# it's recommended to use LANGCHAIN_TRACING_V2=true to enable tracing with the v2 API.
+# If both variables are set to false, tracing will be disabled.
+LANGCHAIN_TRACING=false
 LANGSMITH_TRACING_V2=true
 LANGSMITH_ENDPOINT=https://api.smith.langchain.com
 LANGSMITH_API_KEY=
