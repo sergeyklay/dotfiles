@@ -148,6 +148,8 @@ if command -v op >/dev/null 2>&1; then
   alias gh='op plugin run -- gh'
 fi
 
+alias memtop="ps aux --sort=-%mem | awk 'NR==1 || NR<=11 {print \$2, \$4, \$11}' | column -t"
+
 # Local Variables:
 # mode: sh
 # End:
