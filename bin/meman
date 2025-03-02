@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+#
+# meman - Memory Usage Analysis
+#
+# Copyright (C) 2025 Serghei Iakovlev <gnu@serghei.pl>
+#
+# This file is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 3
+# of the License, or (at your option) any later version.
+#
+# This file is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <https://www.gnu.org/licenses/>.
+
+# This script analyzes memory usage by grouping processes and displaying
+# their total memory consumption. Processes consuming more than 1GB are highlighted in red,
+# while those using less than 100MB are highlighted in green.
+# The number of displayed entries can be adjusted via an optional argument (default: 25).
+
+# Set the number of processes to display (default: 25, can be overridden by argument)
+NUM_ENTRIES=${1:-25}
+
+used_mem=$(free | awk '/Mem:/ {print $3}')  # Get used memory in KB
+mem_info=$(free -h | awk '/Mem:/ {print $2 " / " $4}')  # Total / Free memory
+swap_info=$(free -h | awk '/Swap:/ {print $2 " / " $4}')  # Total / Free swap
+
+# Define colors
+RED='\033[31m'
+GREEN='\033[32m'
+NC='\033[0m'  # No Color
+
+# Print table header before sorting
+printf "\n%-5s %-30s %-12s %-18s\n" "#" "PROCESS" "MEMORY (MB)" "MEMORY (%) OF USED"
+printf "%s\n" "--------------------------------------------------------------------"
+
+# Collect and sort data
+ps aux --sort=-%mem | awk -v total="$used_mem" '
+  NR > 1 {
+    split($11, proc, "/")  # Extract only the process name, not full path
+    name = proc[length(proc)]
+    rss[name] += $6; total_rss += $6
+  }
+  END {
+    for (cmd in rss)
+      printf "%-30s %10.1f MB  %15.1f%%\n", cmd, rss[cmd] / 1024, (rss[cmd] / total) * 100
+  }' | sort -k2 -nr | awk -v red="$RED" -v green="$GREEN" -v nc="$NC" 'BEGIN { OFS=" " }
+  {
+    mem_mb = $2 + 0  # Convert memory value to number
+    if (mem_mb > 1000) {
+      print red sprintf("%-5d %s", NR, $0) nc  # Highlight red if > 1GB
+    } else if (mem_mb < 100) {
+      print green sprintf("%-5d %s", NR, $0) nc  # Highlight green if < 100MB
+    } else {
+      print sprintf("%-5d %s", NR, $0)  # Normal color
+    }
+  }' | head -"${NUM_ENTRIES}"  # Limit the number of displayed entries
+
+printf "%s\n" "--------------------------------------------------------------------"
+printf "\n"
+printf "Total / Free Memory: %s\n" "$mem_info"
+printf "Total / Free Swap:   %s\n" "$swap_info"
+
+printf "\n"
+
+# Local Variables:
+# mode: sh
+# End:
