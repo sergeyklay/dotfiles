@@ -132,14 +132,9 @@ if command -v docker >/dev/null 2>&1; then
 fi
 
 # Define kubectl aliases and functions if kubectl is available
-command -v kubectl >/dev/null 2>&1 && {
+if command -v kubectl >/dev/null 2>&1; then
   alias k='kubectl'
-  alias kcd='k config set-context $(k config current-context) --namespace '
-
-  # Aliases for context and namespace management
-  alias kx='kubectl config use-context ${1:-$(kubectl config current-context)}'
-  alias kn='kubectl config set-context --current --namespace ${1:-$(kubectl config view --minify | grep namespace | cut -d" " -f6)}'
-}
+fi
 
 # 1password plugin for GitHub CLI
 if command -v op >/dev/null 2>&1; then
@@ -147,8 +142,6 @@ if command -v op >/dev/null 2>&1; then
   export OP_PLUGIN_ALIASES_SOURCED
   alias gh='op plugin run -- gh'
 fi
-
-alias memtop="ps aux --sort=-%mem | awk 'NR==1 || NR<=11 {print \$2, \$4, \$11}' | column -t"
 
 # Local Variables:
 # mode: sh
