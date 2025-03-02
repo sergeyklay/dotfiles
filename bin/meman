@@ -25,9 +25,10 @@
 # Set the number of processes to display (default: 25, can be overridden by argument)
 NUM_ENTRIES=${1:-25}
 
-used_mem=$(free | awk '/Mem:/ {print $3}')  # Get used memory in KB
-mem_info=$(free -h | awk '/Mem:/ {print $2 " / " $4}')  # Total / Free memory
-swap_info=$(free -h | awk '/Swap:/ {print $2 " / " $4}')  # Total / Free swap
+# Calculate actual used memory (excluding buffers/cache) by using the 'available' column
+used_mem=$(free | awk '/Mem:/ {print $2-$7}')  # total - available = actual used memory
+mem_info=$(free -h | awk '/Mem:/ {print $7 "/" $2}')  # Total / Available memory
+swap_info=$(free -h | awk '/Swap:/ {print $4 "/" $2}')  # Total / Free swap
 
 # Define colors
 RED='\033[31m'
@@ -35,7 +36,7 @@ GREEN='\033[32m'
 NC='\033[0m'  # No Color
 
 # Print table header before sorting
-printf "\n%-5s %-30s %-12s %-18s\n" "#" "PROCESS" "MEMORY (MB)" "MEMORY (%) OF USED"
+printf "\n%-5s %-32s %-17s %-22s\n" "#" "PROCESS" "MEMORY (MB)" "(%) OF USED"
 printf "%s\n" "--------------------------------------------------------------------"
 
 # Collect and sort data
@@ -62,8 +63,8 @@ ps aux --sort=-%mem | awk -v total="$used_mem" '
 
 printf "%s\n" "--------------------------------------------------------------------"
 printf "\n"
-printf "Total / Free Memory: %s\n" "$mem_info"
-printf "Total / Free Swap:   %s\n" "$swap_info"
+printf "Memory: %s\n" "$mem_info"
+printf "Swap:   %s\n" "$swap_info"
 
 printf "\n"
 
