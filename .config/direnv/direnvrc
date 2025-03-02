@@ -59,6 +59,8 @@ layout_activate() {
     else
       log_error "Error: the specified virtualenv '${pvenv}' is not found"
     fi
+
+    pyenv local "${pvenv}"
   else
     log_error "Error: pyenv not found neither in the PATH nor in the SHELL functions"
   fi
