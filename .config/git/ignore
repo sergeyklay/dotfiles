@@ -60,6 +60,7 @@ cmake-build-debug
 .cproject
 .settings
 .ecfg
+.cursor
 
 # GNU GLOBAL, Ctags and ID Utils
 GPATH
