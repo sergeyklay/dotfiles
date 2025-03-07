@@ -1,0 +1,171 @@
+#!/bin/sh
+#
+# Copyright (C) 2025 Serghei Iakovlev <gnu@serghei.pl>
+#
+# This file is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 3
+# of the License, or (at your option) any later version.
+#
+# This file is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file.  If not, see <https://www.gnu.org/licenses/>.
+
+# Cursor IDE AppImage Launcher
+# Version: 0.3.0
+#
+# Launches Cursor IDE with proper path handling and logging.
+# Supports both X11 and Wayland environments.
+
+# Initialize error handling
+# Use -e to exit on error, but allow some commands to fail gracefully
+set -e
+
+# Constants
+readonly APPIMAGE_DIR="${HOME}/Applications"
+readonly LOGFILE="/tmp/cursor-$(date +%Y%m%d-%H%M%S).log"
+readonly CURSOR_APPIMAGE="${APPIMAGE_DIR}/cursor.appimage"
+readonly VERSION="0.3.0"
+
+# Logging functions with timestamps
+log() {
+    printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*" | tee -a "$LOGFILE"
+}
+
+error() {
+    log "ERROR: $*" >&2
+    exit 1
+}
+
+debug() {
+    if [ "${CURSOR_DEBUG:-0}" = "1" ]; then
+        log "DEBUG: $*"
+    fi
+}
+
+# Cleanup handler with error code preservation
+cleanup() {
+    ret=$?
+    debug "Cleanup initiated (exit code: $ret)"
+    # Add cleanup tasks here if needed
+    exit $ret
+}
+
+# Set cleanup trap for graceful exit
+trap cleanup EXIT INT TERM HUP
+
+# Verify prerequisites with helpful messages
+if [ ! -d "$APPIMAGE_DIR" ]; then
+    error "Application directory not found: $APPIMAGE_DIR
+Please create it with: mkdir -p $APPIMAGE_DIR"
+fi
+
+if [ ! -f "$CURSOR_APPIMAGE" ]; then
+    error "Cursor AppImage not found: $CURSOR_APPIMAGE
+Please download it from https://cursor.sh and save it as $CURSOR_APPIMAGE"
+fi
+
+if [ ! -x "$CURSOR_APPIMAGE" ]; then
+    error "Cursor AppImage is not executable: $CURSOR_APPIMAGE
+Please make it executable with: chmod +x $CURSOR_APPIMAGE"
+fi
+
+# Usage information
+usage() {
+    cat <<EOF
+Usage: $(basename "$0") [OPTIONS] [FILE...]
+
+Launch Cursor IDE with proper path handling and logging.
+
+Options:
+  -h, --help     Show this help message
+  -v, --version  Show version information
+  --             End of options
+
+Environment:
+  CURSOR_DEBUG   Set to 1 to enable debug logging
+EOF
+    exit "${1:-0}"
+}
+
+# Initialize command arguments
+args=""
+
+# Process options
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -h|--help)
+            usage 0
+            ;;
+        -v|--version)
+            echo "Cursor IDE AppImage Launcher v${VERSION}"
+            exit 0
+            ;;
+        --)
+            shift
+            break
+            ;;
+        -*)
+            error "Unknown option: $1"
+            ;;
+        *)
+            break
+            ;;
+    esac
+    shift
+done
+
+# Add Wayland flag if needed
+if [ "${XDG_SESSION_TYPE:-}" = "wayland" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
+    debug "Detected Wayland session"
+    args="--ozone-platform=wayland"
+fi
+
+# Process remaining arguments safely
+for arg in "$@"; do
+    # Skip duplicate Wayland flags
+    case "$arg" in
+        --ozone-platform=*)
+            debug "Skipping duplicate ozone-platform flag: $arg"
+            continue
+            ;;
+    esac
+
+    # Convert file paths to absolute with fallbacks
+    if [ -e "$arg" ]; then
+        resolved_path=$(readlink -f "$arg" 2>/dev/null || realpath "$arg" 2>/dev/null || echo "$arg")
+        # Quote the path to handle spaces and special characters
+        args="$args \"$resolved_path\""
+        debug "Resolved path: $arg -> $resolved_path"
+    else
+        args="$args \"$arg\""
+        debug "Using argument as-is: $arg"
+    fi
+done
+
+# Launch Cursor with proper logging
+log "Launching Cursor IDE..."
+debug "Launch command: $CURSOR_APPIMAGE --no-sandbox $args"
+
+# Start Cursor in background with proper output handling
+# Using eval to properly handle quoted arguments and nohup for proper detachment
+(eval "nohup \"$CURSOR_APPIMAGE\" --no-sandbox $args" >>"$LOGFILE" 2>&1 &)
+
+# Get the PID of the last background process
+cursor_pid=$!
+
+# Verify process started with timeout
+for i in 1 2 3; do
+    if kill -0 "$cursor_pid" 2>/dev/null; then
+        log "Cursor IDE launched successfully (PID: $cursor_pid)"
+        debug "Log file: $LOGFILE"
+        exit 0
+    fi
+    sleep 1
+done
+
+error "Failed to start Cursor IDE. Check $LOGFILE for details"

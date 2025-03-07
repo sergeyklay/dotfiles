@@ -384,34 +384,6 @@ if command -v direnv >/dev/null 2>&1; then
 fi
 
 # --------------------------------------------------------------------
-# Misc functions and aliases
-# --------------------------------------------------------------------
-
-function cursor {
-  local app="$HOME/Applications/cursor.appimage"
-  local wayland_args=""
-  local base_args="--no-sandbox"
-
-  # Validate appimage exists and is executable
-  if [ ! -f "$app" ] || [ ! -x "$app" ]; then
-    echo "Error: Cursor appimage not found or not executable at $app" >&2
-    return 1
-  fi
-
-  # Add Wayland support if running under Wayland
-  if [ "$XDG_SESSION_TYPE" = "wayland" ] || [ -n "$WAYLAND_DISPLAY" ]; then
-    wayland_args="--ozone-platform=wayland"
-  fi
-
-  # Run with no arguments - open Cursor
-  if [[ $# = 0 ]]; then
-    (nohup "$app" $base_args $wayland_args >/dev/null 2>&1 & disown)
-  else
-    (nohup "$app" $base_args $wayland_args "$@" >/dev/null 2>&1 & disown)
-  fi
-}
-
-# --------------------------------------------------------------------
 # Setup Bash prompt
 # --------------------------------------------------------------------
 
