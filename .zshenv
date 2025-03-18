@@ -356,3 +356,55 @@ if (( $+commands[gpg2] )); then
 elif (( $+commands[gpg] )); then
   export GPG=gpg
 fi
+
+# --------------------------------------------------------------------
+# Setup SSH
+# --------------------------------------------------------------------
+
+# Setup SSH agent if not already running
+if [[ -z "$SSH_AUTH_SOCK" ]]; then
+  # Define socket path
+  typeset ssh_socket="$HOME/.cache/ssh-agent.sock"
+  
+  # Check if ssh-agent is running for current user
+  if ! pgrep -u "$USER" ssh-agent >/dev/null; then
+    # Remove stale socket if it exists
+    [[ -e "$ssh_socket" ]] && rm -f "$ssh_socket"
+    
+    # Start new ssh-agent with custom socket path
+    eval "$(ssh-agent -a "$ssh_socket" -s)"
+  else
+    # Agent is running, set environment variables
+    SSH_AGENT_PID=$(pgrep -u "$USER" ssh-agent)
+    SSH_AUTH_SOCK="$ssh_socket"
+    export SSH_AGENT_PID SSH_AUTH_SOCK
+  fi
+  
+  unset ssh_socket
+elif (( $+commands[ssh-agent] )); then
+  export SSH_AGENT_PID=$(pgrep -u "$USER" ssh-agent)
+fi
+
+# Add keys if agent has no identities loaded
+if [[ -n "$SSH_AUTH_SOCK" ]] && ! ssh-add -l &>/dev/null; then
+  ssh-add -q
+fi
+
+# --------------------------------------------------------------------
+# Setup hostname
+# --------------------------------------------------------------------
+
+# Set default hostname values
+typeset -g HOST=localhost
+typeset -g HOSTNAME="${HOST}.localdomain"
+
+# Get system hostname if available
+if (( $+commands[hostname] )) && [[ "$OSTYPE" =~ ^(linux|freebsd|darwin) ]]; then
+  # Get full hostname
+  HOSTNAME="$(hostname)"
+  # Extract short hostname (everything before the first dot)
+  HOST="${HOSTNAME%%.*}"
+fi
+
+# Export variables for use in other scripts
+export HOST HOSTNAME
