@@ -209,14 +209,14 @@ if [[ $TERM == "dumb" ]]; then
 else
   # Use less for normal terminals
   typeset -g PAGER=less
-  
+
   # Configure less options:
   # -X: Don't clear screen when exiting
   # -F: Quit if content fits on one screen
   # -R: Display ANSI color sequences properly
   typeset -g LESS="-X -F -R"
   typeset -g LESSCHARSET=UTF-8
-  
+
   typeset -g LESSHISTFILE="$HOME/.cache/lesshst"
 fi
 
@@ -301,17 +301,17 @@ unfunction _have
 # Better performance by avoiding redundant initialization
 if [[ -z "${PYENV_SHELL}" ]] && (( $+commands[pyenv] )); then
   # Add pyenv completions to fpath if directory exists
-  [[ -d "${PYENV_ROOT:-$HOME/.pyenv}/completions" ]] && 
+  [[ -d "${PYENV_ROOT:-$HOME/.pyenv}/completions" ]] &&
     fpath=("${PYENV_ROOT:-$HOME/.pyenv}/completions" $fpath)
-  
+
   # Initialize paths and shell integration
   eval "$(pyenv init --path)"
   eval "$(pyenv init -)"
-  
+
   # Initialize virtualenv support if available
   if pyenv commands 2>/dev/null | grep -q virtualenv-init; then
     eval "$(pyenv virtualenv-init -)"
-    
+
     # Disable pyenv's own prompt modification (use our own prompt)
     typeset -g PYENV_VIRTUALENV_DISABLE_PROMPT=1
   fi
@@ -327,11 +327,11 @@ if [[ -z "${RBENV_SHELL}" ]] && { (( $+commands[rbenv] )) || [[ -x "$HOME/.rbenv
   if [[ ! -v commands[rbenv] && -x "$HOME/.rbenv/bin/rbenv" ]]; then
     path=("$HOME/.rbenv/bin" $path)
   fi
-  
+
   # Add rbenv completions to fpath if directory exists
-  [[ -d "${RBENV_ROOT:-$HOME/.rbenv}/completions" ]] && 
+  [[ -d "${RBENV_ROOT:-$HOME/.rbenv}/completions" ]] &&
     fpath=("${RBENV_ROOT:-$HOME/.rbenv}/completions" $fpath)
-  
+
   # Initialize rbenv without rehashing (faster startup)
   eval "$(rbenv init - --no-rehash zsh)"
 fi
@@ -344,27 +344,27 @@ fi
 function _init_nvm() {
   local -a nvm_dirs
   local nvm_dir
-  
+
   # Search for nvm in standard locations
   nvm_dirs=(
     "$HOME/.config/nvm"
     "$HOME/.nvm"
   )
-  
+
   # Find first valid nvm installation
   for nvm_dir in $nvm_dirs; do
     if [[ -d "$nvm_dir" && -r "$nvm_dir/nvm.sh" ]]; then
       # Set NVM_DIR and unset NPM_CONFIG_PREFIX as they conflict
       typeset -g NVM_DIR="$nvm_dir"
       unset NPM_CONFIG_PREFIX
-      
+
       # Source nvm script
       [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
-      
+
       return 0
     fi
   done
-  
+
   return 1
 }
 
@@ -389,12 +389,12 @@ unfunction _init_nvm 2>/dev/null
 if [[ "$TERM" != "dumb" ]]; then
   # Load the zsh/zle module with improved error reporting
   zmodload -i zsh/zle
-  
+
   # Use Emacs keybindings for line editing
   # This is preferred by many Emacs users for consistency
   # and matches the default readline behavior
   bindkey -e
-  
+
   # Set a shorter key timeout (default is 0.4s)
   export KEYTIMEOUT=20
 fi
@@ -430,11 +430,11 @@ fi
 if [[ "$color_prompt" == "yes" ]]; then
   # Set GCC colors for better error/warning visibility
   typeset -g GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-  
+
   # Set standard color environment variables
   typeset -g COLORTERM=${COLORTERM:-1}
   typeset -g CLICOLOR=${CLICOLOR:-1}
-  
+
   # Export all color-related variables
   export GCC_COLORS COLORTERM CLICOLOR
 fi
