@@ -230,6 +230,73 @@ if [[ -z "$LESSOPEN" ]] && (( $#commands[(i)lesspipe(|.sh)] )); then
 fi
 
 # --------------------------------------------------------------------
+# Setup aliases
+# --------------------------------------------------------------------
+
+# Helper function to check command availability
+function _have() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+# Command correction prevention
+alias cp='nocorrect cp'
+alias mv='nocorrect mv'
+alias mkdir='nocorrect noglob mkdir'
+
+# Grep coloring
+alias grep='grep --colour=auto'
+alias egrep='egrep --colour=auto'
+alias fgrep='fgrep --colour=auto'
+
+# Diff coloring (prefer colordiff if available)
+if _have colordiff; then
+  alias diff='colordiff -Nuar'
+else
+  alias diff='diff -Nuar'
+fi
+
+# GNU ls with better coloring options
+if _have gls; then
+  # GNU's ls uses --color to enable colorized output
+  # LC_ALL="C.UTF-8" ensures consistent sorting
+  alias ls='gls --color=auto --group-directories-first'
+  alias ll='ls -alF'
+  alias la='ls -A'
+  alias l='ls -CF'
+else
+  # BSD's ls uses -G to enable colorized output
+  alias ls='ls -G'
+  alias ll='ls -alF'
+  alias la='ls -A'
+  alias l='ls -CF'
+fi
+
+# Prefer GNU core utilities when available
+_have gmake && alias make='gmake'
+_have gawk && alias awk='gawk'
+_have gtar && alias tar='gtar'
+_have gsed && alias sed='gsed'
+_have gtime && alias time='gtime'
+
+# Store wget HSTS database in cache directory
+_have wget && alias wget="wget --hsts-file=$HOME/.cache/wget-hsts"
+
+
+# Container tools
+_have nerdctl && alias nps="nerdctl ps --format '{{.ID}}    {{.Names}}    {{.Status}}'"
+_have docker && alias dps="docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Status}}'"
+_have kubectl && alias k='kubectl'
+
+# Programming environments
+_have clojure && alias rebel='clojure -A:rebel'
+
+# Editor shortcuts
+alias ec=$EDITOR
+
+# Clean up helper function
+unfunction _have
+
+# --------------------------------------------------------------------
 # Setup zle
 # --------------------------------------------------------------------
 
