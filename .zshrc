@@ -203,3 +203,67 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # Case insensitive com
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}" # Use LS_COLORS for completion
 zstyle ':completion:*' group-name ''                  # Group completions by category
 zstyle ':completion:*:descriptions' format '%F{yellow}%B-- %d --%b%f' # Format group descriptions
+
+# --------------------------------------------------------------------
+# Setup keybindings
+# --------------------------------------------------------------------
+
+# Keybinding configuration
+# Reference: terminfo(5), zshzle(1), zshmodules(1)
+# Useful tools: showkey -a, bindkey -L, infocmp -L
+
+# Load required modules
+zmodload zsh/terminfo
+
+# Initialize edit-command-line widget
+autoload -Uz edit-command-line
+zle -N edit-command-line
+
+# Use emacs keybindings as base
+bindkey -e
+
+# Common keybindings
+bindkey '\C-x\C-e' edit-command-line      # Edit command in $EDITOR
+bindkey '^[m'      copy-prev-shell-word   # Copy previous word (Alt-m)
+
+# Navigation keys
+bindkey '^[[1;5C'  forward-word           # Ctrl-Right
+bindkey '^[[1;5D'  backward-word          # Ctrl-Left
+bindkey '^?'       backward-delete-char   # Backspace
+
+# Terminal-specific key bindings using terminfo when available
+# Home key
+if [[ -n "${terminfo[khome]}" ]]; then
+  bindkey "${terminfo[khome]}" beginning-of-line
+else
+  # Fallback bindings for common terminal types
+  bindkey '^[[H'   beginning-of-line      # xterm
+  bindkey '^[OH'   beginning-of-line      # xterm application mode
+  bindkey '^[[1~'  beginning-of-line      # linux console
+fi
+
+# End key
+if [[ -n "${terminfo[kend]}" ]]; then
+  bindkey "${terminfo[kend]}" end-of-line
+else
+  # Fallback bindings for common terminal types
+  bindkey '^[[F'   end-of-line            # xterm
+  bindkey '^[OF'   end-of-line            # xterm application mode
+  bindkey '^[[4~'  end-of-line            # linux console
+fi
+
+# Delete key
+if [[ -n "${terminfo[kdch1]}" ]]; then
+  bindkey "${terminfo[kdch1]}" delete-char
+else
+  bindkey '^[[3~'  delete-char            # Common fallback
+fi
+
+# History navigation
+bindkey '^[[A'     up-line-or-history     # Up arrow
+bindkey '^[[B'     down-line-or-history   # Down arrow
+
+# Additional useful bindings
+bindkey '^U'       backward-kill-line     # Ctrl-U: kill line from cursor to beginning
+bindkey '^K'       kill-line              # Ctrl-K: kill line from cursor to end
+bindkey '^R'       history-incremental-search-backward # Ctrl-R: search history
