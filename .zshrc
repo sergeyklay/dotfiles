@@ -30,8 +30,10 @@ SAVEHIST=5000
 
 HISTFILE=$HOME/.zsh_history
 
-# For the protection and ability for future analyzing
-HISTTIMEFORMAT="%h %d %H:%M:%S "
+# Write timestamps to history.
+#
+# For more see: man zshoptions(1)
+setopt extended_history
 
 # New history lines are added to the $HISTFILE as soon as they are
 # entered.
@@ -79,11 +81,6 @@ setopt hist_no_functions
 #
 # For more see: man zshoptions(1)
 setopt no_hist_beep
-
-# Write timestamps to history.
-#
-# For more see: man zshoptions(1)
-setopt extended_history
 
 ## Key Bindings
 
@@ -169,7 +166,12 @@ setopt pushd_minus
 # DIRSTACKSIZE keeps the directory stack from getting too large,
 # much like HISTSIZE
 DIRSTACKSIZE=20
-DIRSTACKFILE=$HOME/.cache/zsh/dirs
+
+# Store directory stack in XDG-compliant location
+typeset -g DIRSTACKFILE="${ZSH_CACHE_DIR:-$HOME/.cache/zsh}/dirs"
+
+# Create parent directory if it doesn't exist
+[[ -d "${DIRSTACKFILE:h}" ]] || mkdir -p "${DIRSTACKFILE:h}"
 
 # This will change directory when zsh starts session
 # to the last visited directory.
@@ -386,6 +388,9 @@ zmodload zsh/terminfo
 autoload -Uz edit-command-line
 zle -N edit-command-line
 
+# Initialize copy-prev-shell-word widget
+autoload -Uz copy-prev-shell-word
+
 # Use emacs keybindings as base
 bindkey -e
 
@@ -429,4 +434,3 @@ fi
 # Additional useful bindings
 bindkey '^U'       backward-kill-line     # Ctrl-U: kill line from cursor to beginning
 bindkey '^K'       kill-line              # Ctrl-K: kill line from cursor to end
-bindkey '^R'       history-incremental-search-backward # Ctrl-R: search history
