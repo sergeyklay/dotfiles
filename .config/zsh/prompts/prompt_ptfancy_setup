@@ -297,7 +297,10 @@ prompt_ptfancy_render () {
   local p_ssh
 
   local venv
-  if [[ -n "$VIRTUAL_ENV" ]]; then
+
+  if [[ -n "$VIRTUAL_ENV_PROMPT" ]]; then
+    venv="$VIRTUAL_ENV_PROMPT"
+  elif [[ -n "$VIRTUAL_ENV" ]]; then
     venv="[$(basename "$VIRTUAL_ENV")] "
   fi
 
