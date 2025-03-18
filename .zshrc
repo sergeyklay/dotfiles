@@ -290,9 +290,6 @@ _have kubectl && alias k='kubectl'
 # Programming environments
 _have clojure && alias rebel='clojure -A:rebel'
 
-# Editor shortcuts
-alias ec=$EDITOR
-
 # Clean up helper function
 unfunction _have
 
@@ -501,3 +498,33 @@ fi
 # Additional useful bindings
 bindkey '^U'       backward-kill-line     # Ctrl-U: kill line from cursor to beginning
 bindkey '^K'       kill-line              # Ctrl-K: kill line from cursor to end
+
+# --------------------------------------------------------------------
+# Setup prompt
+# --------------------------------------------------------------------
+
+# Add prompt directory directly to fpath
+fpath=($HOME/.config/zsh/prompts $fpath)
+
+# Initialize prompt support
+autoload -Uz colors; colors
+autoload -Uz promptinit; promptinit
+
+# Parameter expansion, command substitution and arithmetic expansion
+# are performed in prompts.
+#
+# For more see: man zshoptions(1)
+setopt prompt_subst
+
+# $TERM="dump" is used in Emacs.
+if [[ $TERM != "dumb" ]]; then
+  prompt ptfancy
+else
+  setopt no_xtrace
+
+  PS1='%# '
+  PS2='%_> '
+  PS3='?# '
+
+  PROMPT='%# '
+fi
