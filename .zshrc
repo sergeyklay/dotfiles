@@ -167,8 +167,8 @@ setopt pushd_minus
 # much like HISTSIZE
 DIRSTACKSIZE=20
 
-# Store directory stack in XDG-compliant location
-typeset -g DIRSTACKFILE="${ZSH_CACHE_DIR:-$HOME/.cache/zsh}/dirs"
+# Store directory stack
+typeset -g DIRSTACKFILE="$HOME/.cache/zsh/dirs"
 
 # Create parent directory if it doesn't exist
 [[ -d "${DIRSTACKFILE:h}" ]] || mkdir -p "${DIRSTACKFILE:h}"
@@ -292,6 +292,93 @@ _have clojure && alias rebel='clojure -A:rebel'
 
 # Clean up helper function
 unfunction _have
+
+# --------------------------------------------------------------------
+# Initialize pyenv
+# --------------------------------------------------------------------
+
+# Load pyenv only if it's not already initialized and the command exists
+# Better performance by avoiding redundant initialization
+if [[ -z "${PYENV_SHELL}" ]] && (( $+commands[pyenv] )); then
+  # Add pyenv completions to fpath if directory exists
+  [[ -d "${PYENV_ROOT:-$HOME/.pyenv}/completions" ]] && 
+    fpath=("${PYENV_ROOT:-$HOME/.pyenv}/completions" $fpath)
+  
+  # Initialize paths and shell integration
+  eval "$(pyenv init --path)"
+  eval "$(pyenv init -)"
+  
+  # Initialize virtualenv support if available
+  if pyenv commands 2>/dev/null | grep -q virtualenv-init; then
+    eval "$(pyenv virtualenv-init -)"
+    
+    # Disable pyenv's own prompt modification (use our own prompt)
+    typeset -g PYENV_VIRTUALENV_DISABLE_PROMPT=1
+  fi
+fi
+
+# --------------------------------------------------------------------
+# Setup Ruby Env Manager
+# --------------------------------------------------------------------
+
+# Initialize rbenv if not already loaded and command exists
+if [[ -z "${RBENV_SHELL}" ]] && { (( $+commands[rbenv] )) || [[ -x "$HOME/.rbenv/bin/rbenv" ]]; }; then
+  # Set PATH for local installation if needed
+  if [[ ! -v commands[rbenv] && -x "$HOME/.rbenv/bin/rbenv" ]]; then
+    path=("$HOME/.rbenv/bin" $path)
+  fi
+  
+  # Add rbenv completions to fpath if directory exists
+  [[ -d "${RBENV_ROOT:-$HOME/.rbenv}/completions" ]] && 
+    fpath=("${RBENV_ROOT:-$HOME/.rbenv}/completions" $fpath)
+  
+  # Initialize rbenv without rehashing (faster startup)
+  eval "$(rbenv init - --no-rehash zsh)"
+fi
+
+# --------------------------------------------------------------------
+# Setup Node.js environment
+# --------------------------------------------------------------------
+
+# Initialize nvm (Node Version Manager) if available
+function _init_nvm() {
+  local -a nvm_dirs
+  local nvm_dir
+  
+  # Search for nvm in standard locations
+  nvm_dirs=(
+    "$HOME/.config/nvm"
+    "$HOME/.nvm"
+  )
+  
+  # Find first valid nvm installation
+  for nvm_dir in $nvm_dirs; do
+    if [[ -d "$nvm_dir" && -r "$nvm_dir/nvm.sh" ]]; then
+      # Set NVM_DIR and unset NPM_CONFIG_PREFIX as they conflict
+      typeset -g NVM_DIR="$nvm_dir"
+      unset NPM_CONFIG_PREFIX
+      
+      # Source nvm script
+      [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+      
+      return 0
+    fi
+  done
+  
+  return 1
+}
+
+# Initialize Node.js environment
+if [[ -z "${NVM_DIR}" ]]; then
+  # Try to initialize nvm
+  _init_nvm || {
+    # If nvm not found, set up npm prefix to avoid permission issues
+    typeset -g NPM_CONFIG_PREFIX="$HOME/.local/"
+  }
+fi
+
+# Clean up
+unfunction _init_nvm 2>/dev/null
 
 # --------------------------------------------------------------------
 # Setup zle
