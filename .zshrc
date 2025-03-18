@@ -426,10 +426,6 @@ else
   bindkey '^[[3~'  delete-char            # Common fallback
 fi
 
-# History navigation
-bindkey '^[[A'     up-line-or-history     # Up arrow
-bindkey '^[[B'     down-line-or-history   # Down arrow
-
 # Additional useful bindings
 bindkey '^U'       backward-kill-line     # Ctrl-U: kill line from cursor to beginning
 bindkey '^K'       kill-line              # Ctrl-K: kill line from cursor to end
