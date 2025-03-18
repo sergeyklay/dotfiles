@@ -44,7 +44,7 @@ ENDHELP
 
 prompt_ptfancy_setup () {
   emulate -L zsh
-  
+
   # Check if required options are set
   if [[ -o promptsubst && -o localoptions ]]; then
     true
@@ -52,10 +52,10 @@ prompt_ptfancy_setup () {
     echo "ptfancy prompt theme: promptsubst and localoptions options must be set"
     return 1
   fi
-  
+
   # Check for required commands
   (( $+commands[git] )) || echo "ptfancy prompt theme: git command not found, VCS features will be limited"
-  
+
   # Default color scheme.
   typeset -g -a prompt_ptfancy_colors
   prompt_ptfancy_colors=(
@@ -142,10 +142,10 @@ prompt_ptfancy_setup () {
 # hook functions will not be called.
 +vi-git_hook_begin () {
   emulate -L zsh
-  
+
   # Check if git command exists
   (( $+commands[git] )) || return 0
-  
+
   if command git rev-parse --is-inside-work-tree > /dev/null 2>&1
   then
     return 0
@@ -157,7 +157,7 @@ prompt_ptfancy_setup () {
 # Do we have Git untracked files in the working tree?
 +vi-git_untracked () {
   emulate -L zsh
-  
+
   # There are events for `formats' and `actionformats'.
   # This function uses only `actionformats'.
   [[ "$1" != "1" ]] && return 0
@@ -176,7 +176,7 @@ prompt_ptfancy_setup () {
 # '%m' placeholder from `actionformats'.
 +vi-git_ahead_status () {
   emulate -L zsh
-  
+
   # There are events for `formats' and `actionformats'.
   # This function uses only `actionformats'.
   [[ "$1" != "1" ]] && return 0
@@ -204,7 +204,7 @@ prompt_ptfancy_setup () {
 # '%m' placeholder from `actionformats'.
 +vi-git_behind_status () {
   emulate -L zsh
-  
+
   # There are events for `formats' and `actionformats'.
   # This function uses only `actionformats'.
   [[ "$1" != "1" ]] && return 0
@@ -232,7 +232,7 @@ prompt_ptfancy_setup () {
 # `actionformats'.
 +vi-git_merging_status () {
   emulate -L zsh
-  
+
   # There are events for `formats' and `actionformats'.
   # This function uses only `actionformats'.
   [[ "$1" != "1" ]] && return 0
@@ -251,7 +251,7 @@ prompt_ptfancy_setup () {
 # This function uses '%m' placeholder from `actionformats'.
 +vi-git_stash_count () {
   emulate -L zsh
-  
+
   # There are events for `formats' and `actionformats'.
   # This function uses only `actionformats'.
   [[ "$1" != "1" ]] && return 0
@@ -274,7 +274,7 @@ prompt_ptfancy_setup () {
 # %~   - Current working directory
 prompt_ptfancy_render () {
   emulate -L zsh
-  
+
   # Capture the exit status first before any other commands run
   local exit_status=$?
   local p_rc
@@ -355,7 +355,7 @@ prompt_ptfancy_render () {
 # %#   - A '#' if the shell is running with privileges, a '%' if not
 prompt_ptfancy_precmd () {
   emulate -L zsh
-  
+
   # Do not print commands and their arguments as they are executed.
   # For more see zshoptions(1).
   setopt no_xtrace
@@ -375,7 +375,7 @@ prompt_ptfancy_precmd () {
 
 prompt_ptfancy_preview () {
   emulate -L zsh
-  
+
   local -a colors
   colors=(red green blue magenta)
 

@@ -184,7 +184,7 @@ fi
 if (( ! ${+RUST_SRC_PATH} )) && (( $+commands[rustc] )); then
   local rust_sysroot="${$(rustc --print sysroot):A}"
   local rust_src_path="${rust_sysroot}/lib/rustlib/src/rust/library"
-  
+
   if [[ -d $rust_src_path ]]; then
     export RUST_SRC_PATH=$rust_src_path
   fi
@@ -325,12 +325,12 @@ export GNUPGHOME
 if (( $+commands[gpgconf] )); then
   # Start gpg-agent if not running or socket is missing
   if (( $+commands[gpg-agent] )); then
-    if ! pgrep -x gpg-agent >/dev/null || 
+    if ! pgrep -x gpg-agent >/dev/null ||
        [[ ! -S "$(gpgconf --list-dirs agent-socket)" ]]; then
       gpg-agent --homedir "$GNUPGHOME" --daemon --use-standard-socket >/dev/null 2>&1
     fi
   fi
-  
+
   # Let gpgconf handle the environment setup
   if [[ -o interactive ]]; then
     gpgconf --launch gpg-agent >/dev/null 2>&1
@@ -366,12 +366,12 @@ fi
 if [[ -z "$SSH_AUTH_SOCK" ]]; then
   # Define socket path
   typeset ssh_socket="$HOME/.cache/ssh-agent.sock"
-  
+
   # Check if ssh-agent is running for current user
   if ! pgrep -u "$USER" ssh-agent >/dev/null; then
     # Remove stale socket if it exists
     [[ -e "$ssh_socket" ]] && rm -f "$ssh_socket"
-    
+
     # Start new ssh-agent with custom socket path
     eval "$(ssh-agent -a "$ssh_socket" -s)"
   else
@@ -380,7 +380,7 @@ if [[ -z "$SSH_AUTH_SOCK" ]]; then
     SSH_AUTH_SOCK="$ssh_socket"
     export SSH_AGENT_PID SSH_AUTH_SOCK
   fi
-  
+
   unset ssh_socket
 elif (( $+commands[ssh-agent] )); then
   export SSH_AGENT_PID=$(pgrep -u "$USER" ssh-agent)
