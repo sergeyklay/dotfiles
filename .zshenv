@@ -309,8 +309,9 @@ export INFOPATH
 # Setup Locales
 # --------------------------------------------------------------------
 
-LANG=en_US.UTF-8;   export LANG
-LC_ALL=en_US.UTF-8; export LC_ALL
+# See: https://stackoverflow.com/q/7165108/1661465
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 # --------------------------------------------------------------------
 # Setup GnuPG
@@ -408,3 +409,7 @@ fi
 
 # Export variables for use in other scripts
 export HOST HOSTNAME
+
+# --------------------------------------------------------------------
+
+export ZSH_ENV_SOURCED=1
