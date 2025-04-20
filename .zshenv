@@ -372,35 +372,71 @@ fi
 # --------------------------------------------------------------------
 # Setup SSH
 # --------------------------------------------------------------------
+_custom_sock_path="$HOME/.cache/ssh-agent.sock"
 
-# Setup SSH agent if not already running
-if [[ -z "$SSH_AUTH_SOCK" ]]; then
-  # Define socket path
-  typeset ssh_socket="$HOME/.cache/ssh-agent.sock"
+_ssh_sock_is_valid() {
+  [[ -n "$SSH_AUTH_SOCK" && -S "$SSH_AUTH_SOCK" ]] && ssh-add -l &>/dev/null
+}
 
-  # Check if ssh-agent is running for current user
-  if ! pgrep -u "$USER" ssh-agent >/dev/null; then
-    # Remove stale socket if it exists
-    [[ -e "$ssh_socket" ]] && rm -f "$ssh_socket"
-
-    # Start new ssh-agent with custom socket path
-    eval "$(ssh-agent -a "$ssh_socket" -s)"
-  else
-    # Agent is running, set environment variables
-    SSH_AGENT_PID=$(pgrep -u "$USER" ssh-agent)
-    SSH_AUTH_SOCK="$ssh_socket"
-    export SSH_AGENT_PID SSH_AUTH_SOCK
+_find_ssh_agent_sock() {
+  # 1. If SSH_AUTH_SOCK is set and valid, use it
+  if _ssh_sock_is_valid; then
+    return 0
   fi
 
-  unset ssh_socket
-elif (( $+commands[ssh-agent] )); then
-  export SSH_AGENT_PID=$(pgrep -u "$USER" ssh-agent)
+  # 2. macOS: search for launchd sockets
+  if [[ "$OSTYPE" == darwin* ]]; then
+    for sock in /private/tmp/com.apple.launchd.*/Listeners; do
+      if [[ -S "$sock" ]]; then
+        export SSH_AUTH_SOCK="$sock"
+        if _ssh_sock_is_valid; then
+          return 0
+        fi
+      fi
+    done
+  fi
+
+  # 3. Linux: search for agent sockets
+  for sock in /tmp/ssh-*/agent.*; do
+    if [[ -S "$sock" ]]; then
+      export SSH_AUTH_SOCK="$sock"
+      if _ssh_sock_is_valid; then
+        return 0
+      fi
+    fi
+  done
+
+  # 4. Custom location
+  if [[ -S "$_custom_sock_path" ]]; then
+    export SSH_AUTH_SOCK="$_custom_sock_path"
+    if _ssh_sock_is_valid; then
+      return 0
+    fi
+  fi
+
+  # 5. Not found
+  unset SSH_AUTH_SOCK
+  return 1
+}
+
+if ! _find_ssh_agent_sock; then
+  # No valid agent found, start a new one
+  eval "$(ssh-agent -a "$_custom_sock_path" -s 2>/dev/null)"
+  export SSH_AUTH_SOCK="$_custom_sock_path"
+
+  # At this point, SSH_AGENT_PID is set by ssh-agent's output.
+  # It's not required for most ssh workflows, but I export it to be
+  # able to kill the agent I started myself, so I want to know its PID
+  export SSH_AGENT_PID
 fi
 
 # Add keys if agent has no identities loaded
 if [[ -n "$SSH_AUTH_SOCK" ]] && ! ssh-add -l &>/dev/null; then
   ssh-add -q
 fi
+
+unset -f _ssh_sock_is_valid _find_ssh_agent_sock
+unset _custom_sock_path
 
 # --------------------------------------------------------------------
 # Setup hostname
