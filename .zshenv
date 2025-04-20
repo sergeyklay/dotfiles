@@ -184,6 +184,9 @@ fi
 # Cargo
 [ -d $HOME/.cargo/bin ] && path=($HOME/.cargo/bin $path)
 
+# Rancher Desktop
+[ -d $HOME/.rd/bin ] && path=($HOME/.rd/bin $path)
+
 # Set up Rust source path for tools like racer if not already defined
 # See https://github.com/racer-rust/racer#configuration
 if (( ! ${+RUST_SRC_PATH} )) && (( $+commands[rustc] )); then
