@@ -178,6 +178,9 @@ if [ -d /opt/homebrew/opt/m4/bin ]; then
   path=(/opt/homebrew/opt/m4/bin $path)
 fi
 
+# LLM
+[ -d $HOME/.lmstudio/bin ] && path=($HOME/.lmstudio/bin $path)
+
 # Cabal
 [ -d $HOME/.cabal/bin ] && path=($HOME/.cabal/bin $path)
 
