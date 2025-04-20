@@ -168,6 +168,11 @@ unset p places
 # PostgreSQL client
 [ -d /opt/homebrew/opt/libpq/bin ] && path=(/opt/homebrew/opt/libpq/bin $path)
 
+# brew install grep
+if [ -d /opt/homebrew/opt/grep/libexec/gnubin ]; then
+  path=(/opt/homebrew/opt/grep/libexec/gnubin $path)
+fi
+
 # brew install m4
 if [ -d /opt/homebrew/opt/m4/bin ]; then
   path=(/opt/homebrew/opt/m4/bin $path)
