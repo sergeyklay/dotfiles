@@ -168,15 +168,18 @@ unset p places
 # PostgreSQL client
 [ -d /opt/homebrew/opt/libpq/bin ] && path=(/opt/homebrew/opt/libpq/bin $path)
 
+# MySQL client
+if [ -d /opt/homebrew/opt/mysql-client/bin ]; then
+  path=(/opt/homebrew/opt/mysql-client/bin $path)
+fi
+
 # brew install grep
 if [ -d /opt/homebrew/opt/grep/libexec/gnubin ]; then
   path=(/opt/homebrew/opt/grep/libexec/gnubin $path)
 fi
 
 # brew install m4
-if [ -d /opt/homebrew/opt/m4/bin ]; then
-  path=(/opt/homebrew/opt/m4/bin $path)
-fi
+[ -d /opt/homebrew/opt/m4/bin ] && path=(/opt/homebrew/opt/m4/bin $path)
 
 # LLM
 [ -d $HOME/.lmstudio/bin ] && path=($HOME/.lmstudio/bin $path)
