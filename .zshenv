@@ -196,7 +196,9 @@ fi
 # Set up Rust source path for tools like racer if not already defined
 # See https://github.com/racer-rust/racer#configuration
 if (( ! ${+RUST_SRC_PATH} )) && (( $+commands[rustc] )); then
-  local rust_sysroot="${$(rustc --print sysroot):A}"
+  local rust_sysroot
+  rust_sysroot="$(rustc --print sysroot)"
+  rust_sysroot="${rust_sysroot:A}"
   local rust_src_path="${rust_sysroot}/lib/rustlib/src/rust/library"
 
   if [[ -d $rust_src_path ]]; then
