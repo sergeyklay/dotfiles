@@ -202,6 +202,10 @@ typeset -g VISUAL=$EDITOR
 # Create convenient alias for emacsclient
 alias ec=$EDITOR
 
+if [ -f "/opt/homebrew/opt/emacs-plus@30/Emacs.app" ]; then
+  alias emacs="open -n -a /opt/homebrew/opt/emacs-plus@30/Emacs.app"
+fi
+
 # Configure pager based on terminal capabilities
 if [[ $TERM == "dumb" ]]; then
   # Use simple cat for dumb terminals (like Emacs tramp)
