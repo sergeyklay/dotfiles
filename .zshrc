@@ -294,30 +294,6 @@ _have clojure && alias rebel='clojure -A:rebel'
 unfunction _have
 
 # --------------------------------------------------------------------
-# Initialize pyenv
-# --------------------------------------------------------------------
-
-# Load pyenv only if it's not already initialized and the command exists
-# Better performance by avoiding redundant initialization
-if [[ -z "${PYENV_SHELL}" ]] && (( $+commands[pyenv] )); then
-  # Add pyenv completions to fpath if directory exists
-  [[ -d "${PYENV_ROOT:-$HOME/.pyenv}/completions" ]] &&
-    fpath=("${PYENV_ROOT:-$HOME/.pyenv}/completions" $fpath)
-
-  # Initialize paths and shell integration
-  eval "$(pyenv init --path)"
-  eval "$(pyenv init -)"
-
-  # Initialize virtualenv support if available
-  if pyenv commands 2>/dev/null | grep -q virtualenv-init; then
-    eval "$(pyenv virtualenv-init -)"
-
-    # Disable pyenv's own prompt modification (use our own prompt)
-    typeset -g PYENV_VIRTUALENV_DISABLE_PROMPT=1
-  fi
-fi
-
-# --------------------------------------------------------------------
 # Setup Ruby Env Manager
 # --------------------------------------------------------------------
 

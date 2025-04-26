@@ -222,22 +222,6 @@ if [[ -d $HOME/go ]]; then
   }
 fi
 
-# pyenv configuration
-# Initialize PYENV_ROOT if not already set and .pyenv exists
-if [[ -z $PYENV_ROOT && -d $HOME/.pyenv ]]; then
-  export PYENV_ROOT=$HOME/.pyenv
-fi
-
-# Add pyenv bin directory to path if it exists
-if [[ -n $PYENV_ROOT && -d $PYENV_ROOT/bin ]]; then
-  path=($PYENV_ROOT/bin $path)
-fi
-
-# Initialize pyenv if available
-if (( $+commands[pyenv] )); then
-  eval "$(pyenv init -)"
-fi
-
 # Local binaries
 [ -d $HOME/bin ] && path=($HOME/bin $path)
 [ -d $HOME/.local/bin ] && path=($HOME/.local/bin $path)
