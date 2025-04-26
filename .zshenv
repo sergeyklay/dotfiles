@@ -184,6 +184,9 @@ fi
 # LLM
 [ -d $HOME/.lmstudio/bin ] && path=($HOME/.lmstudio/bin $path)
 
+# Windsurf
+[ -d $HOME/.codeium/windsurf/bin ] && path=($HOME/.codeium/windsurf/bin $path)
+
 # Cabal
 [ -d $HOME/.cabal/bin ] && path=($HOME/.cabal/bin $path)
 
