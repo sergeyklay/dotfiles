@@ -22,6 +22,11 @@
 # while those using less than 100MB are highlighted in green.
 # The number of displayed entries can be adjusted via an optional argument (default: 25).
 
+if ! command -v free &> /dev/null; then
+  echo "free command not found"
+  exit 1
+fi
+
 # Set the number of processes to display (default: 25, can be overridden by argument)
 NUM_ENTRIES=${1:-25}
 
