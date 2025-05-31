@@ -196,6 +196,9 @@ fi
 # Rancher Desktop
 [ -d $HOME/.rd/bin ] && path=($HOME/.rd/bin $path)
 
+# LM Studio
+[ -d $HOME/.lmstudio/bin ] && path=($HOME/.lmstudio/bin $path)
+
 # Set up Rust source path for tools like racer if not already defined
 # See https://github.com/racer-rust/racer#configuration
 if (( ! ${+RUST_SRC_PATH} )) && (( $+commands[rustc] )); then
