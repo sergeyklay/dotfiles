@@ -1,20 +1,28 @@
 # -*- mode: sh; -*-
 
 layout_uv() {
-  if [[ -d ".venv" ]]; then
-    VIRTUAL_ENV="$(pwd)/.venv"
+  if ! has uv; then
+    log_error 'layout_uv: `uv` is not in PATH'
+    return 1
   fi
 
-  if [[ -z $VIRTUAL_ENV || ! -d $VIRTUAL_ENV ]]; then
+  local default_venv="$(expand_path .venv)"
+  : "${VIRTUAL_ENV:=$default_venv}"
+
+  if [ "$VIRTUAL_ENV" != "$default_venv" ]; then
+    export UV_PROJECT_ENVIRONMENT="$VIRTUAL_ENV"
+  fi
+
+  # create venv if it doesn't exist
+  if [[ ! -d $VIRTUAL_ENV ]]; then
     log_status "No virtual environment exists. Executing \`uv venv\` to create one."
     uv venv
-    VIRTUAL_ENV="$(pwd)/.venv"
   fi
 
-  PATH_add "$VIRTUAL_ENV/bin"
-
-  export UV_ACTIVE=1 # or VENV_ACTIVE=1
+  export UV_ACTIVE=1
   export VIRTUAL_ENV
+
+  PATH_add "$VIRTUAL_ENV/bin"
 }
 
 use_nodejs() {
