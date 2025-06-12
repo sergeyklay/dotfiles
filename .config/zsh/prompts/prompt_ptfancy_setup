@@ -299,9 +299,9 @@ prompt_ptfancy_render () {
   local venv
 
   if [[ -n "$VIRTUAL_ENV_PROMPT" ]]; then
-    venv="$VIRTUAL_ENV_PROMPT"
+    venv="(${VIRTUAL_ENV_PROMPT}) "
   elif [[ -n "$VIRTUAL_ENV" ]]; then
-    venv="[$(basename "$VIRTUAL_ENV")] "
+    venv="($(basename "$VIRTUAL_ENV")) "
   fi
 
   local p_userhost='%B%F{$pcc[1]}%(!.%m.%n@%m)%f '
