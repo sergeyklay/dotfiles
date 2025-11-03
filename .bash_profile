@@ -72,6 +72,10 @@ if [ "$(uname)" = "Darwin" ]; then
   fi
 fi
 
+if [ -d "/usr/local/go/bin" ]; then
+  add_path /usr/local/go/bin
+fi
+
 if [ -d "$HOME/go" ]; then
   GOPATH="$HOME/go"
   export GOPATH
