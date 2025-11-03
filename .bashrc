@@ -189,24 +189,7 @@ fi
 # Bash completion
 # --------------------------------------------------------------------
 
-if [ "$(uname)" = "Darwin" ] && command -v brew >/dev/null 2>&1; then
-  __brew_prefix=$(brew --prefix)
-
-  # brew install bash-completion
-  if [ -f "$brew_prefix"/etc/bash_completion ]; then
-    . "$brew_prefix"/etc/bash_completion
-  elif [ -f "$brew_prefix"/etc/profile.d/bash_completion.sh ]; then
-    # brew install bash-completion@2
-    if [ -d "$brew_prefix"/etc/bash_completion.d ]; then
-      BASH_COMPLETION_COMPAT_DIR="$brew_prefix"/etc/bash_completion.d
-      export BASH_COMPLETION_COMPAT_DIR
-    fi
-
-    . "$brew_prefix"/etc/profile.d/bash_completion.sh
-  fi
-
-  unset __brew_prefix
-elif ! shopt -oq posix; then
+if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
     . /usr/share/bash-completion/bash_completion
   elif [ -f /etc/bash_completion ]; then
@@ -291,28 +274,6 @@ if [ -f ~/.bash_aliases ]; then
   . ~/.bash_aliases
 fi
 
-
-# --------------------------------------------------------------------
-# Initialize pyenv
-# --------------------------------------------------------------------
-
-# Check if PYENV_SHELL is not set
-if [ -z "${PYENV_SHELL+x}" ]; then
-  # Check if the pyenv command exists
-  if command -v pyenv >/dev/null 2>&1; then
-    eval "$(pyenv init --path)"
-    eval "$(pyenv init -)"
-
-    # Check if pyenv has the virtualenv-init command
-    if pyenv commands | grep -q virtualenv-init; then
-      eval "$(pyenv virtualenv-init -)"
-    fi
-
-    # Disable the virtualenv prompt
-    PYENV_VIRTUALENV_DISABLE_PROMPT=1
-    export PYENV_VIRTUALENV_DISABLE_PROMPT
-  fi
-fi
 
 # --------------------------------------------------------------------
 # Setup Ruby Env Manager

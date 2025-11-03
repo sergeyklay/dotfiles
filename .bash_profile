@@ -54,24 +54,6 @@ if ! command -v add_path >/dev/null 2>&1; then
   }
 fi
 
-if [ "$(uname)" = "Darwin" ]; then
-  if [ -d /opt/homebrew/bin ]; then
-    add_path /opt/homebrew/bin
-  fi
-
-  if [ -d /opt/homebrew/opt/mysql-client/bin ]; then
-    add_path /opt/homebrew/opt/mysql-client/bin
-  fi
-
-  if [ -d /opt/homebrew/opt/libpq/bin ]; then
-    add_path /opt/homebrew/opt/libpq/bin
-  fi
-
-  if [ -d "$HOME/Library/Application Support/Coursier/bin" ]; then
-    add_path "$HOME/Library/Application Support/Coursier/bin"
-  fi
-fi
-
 if [ -d "/usr/local/go/bin" ]; then
   add_path /usr/local/go/bin
 fi
@@ -87,17 +69,6 @@ if [ -d "$HOME/go" ]; then
     export GOBIN
     add_path "$GOBIN"
   }
-fi
-
-# Check if PYENV_ROOT is not set and .pyenv directory exists
-if [ -z "${PYENV_ROOT+x}" ] && [ -d "$HOME/.pyenv" ]; then
-  PYENV_ROOT="$HOME/.pyenv"
-  export PYENV_ROOT
-fi
-
-# If PYENV_ROOT is set and its bin directory exists, add it to PATH
-if [ -n "${PYENV_ROOT+x}" ] && [ -d "$PYENV_ROOT/bin" ]; then
-  add_path "$PYENV_ROOT/bin"
 fi
 
 if [ -d "$HOME/.cabal/bin" ]; then
@@ -134,14 +105,6 @@ if [ -d "$HOME/bin" ]; then
   add_path "$HOME/bin"
 fi
 
-if [ -d /opt/pycharm/bin ]; then
-  add_path /opt/pycharm/bin
-fi
-
-if [ -d /opt/microsoft/powershell/7 ]; then
-  add_path /opt/microsoft/powershell/7
-fi
-
 # Should be last, so that I can override any binary path
 if [ -d "$HOME/.local/bin" ]; then
   add_path "$HOME/.local/bin"
@@ -172,17 +135,6 @@ if [ -z "${MANPATH+x}" ] || [ "$MANPATH" = ":" ]; then
     MANPATH="$(manpath 2>/dev/null)"
   else
     MANPATH=""
-  fi
-fi
-
-if [ "$(uname)" = "Darwin" ]; then
-  if [ -d /Library/Apple/usr/share/man ]; then
-    add_manpath /Library/Apple/usr/share/man
-  fi
-
-  # brew install readline
-  if [ -d /opt/homebrew/opt/readline/share/man ]; then
-    add_manpath /opt/homebrew/opt/readline/share/man
   fi
 fi
 
@@ -219,21 +171,6 @@ fi
 # Only do this if the INFOPATH variable isn't already set.
 if [ -z "${INFOPATH+x}" ] || [ "$INFOPATH" = ":" ]; then
   INOPATH=""
-fi
-
-if [ "$(uname)" = "Darwin" ]; then
-  if [ -d /opt/homebrew/share/info ]; then
-    add_infopath /opt/homebrew/share/info
-  fi
-
-  # brew install readline
-  if [ -d /opt/homebrew/opt/readline/share/info ]; then
-    add_infopath /opt/homebrew/opt/readline/share/info
-  fi
-
-  if [ -d /Applications/Emacs.app/Contents/Resources/info ]; then
-    add_infopath /Applications/Emacs.app/Contents/Resources/info
-  fi
 fi
 
 # --------------------------------------------------------------------

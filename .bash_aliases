@@ -29,79 +29,16 @@ else
   alias diff='diff -Nuar'
 fi
 
-if [ "$(uname)" = "Darwin" ]; then
-  # brew install coreutils
-  if command -v gls >/dev/null 2>&1; then
-    # GNU's ls uses --color to enable colorized output.  For LC_ALL
-    # see URL https://superuser.com/a/448294/280737 .
-    alias ll='LC_ALL="C.UTF-8" gls --color=auto -alF --group-directories-first'
-    alias la='gls --color=auto -A'
-    alias l='gls --color=auto -CF'
-    alias ls=gls
-  else
-    # BSD's ls uses -G to enable colorized output.  For LC_ALL see URL
-    # https://superuser.com/a/448294/280737 .
-    alias ll='LC_ALL="C.UTF-8" ls -G -alF'
-    alias la='ls -G -A'
-    alias l='ls -G -CF'
-  fi
+# For LC_ALL see URL https://superuser.com/a/448294/280737 .
+alias ll='LC_ALL="C.UTF-8" ls --color=auto -alF --group-directories-first'
+alias la='ls --color=auto -A'
+alias l='ls --color=auto -CF'
+alias ls='ls --color=auto'
 
-  # brew install make
-  if command -v gmake >/dev/null 2>&1; then
-    alias make='gmake'
-  fi
-
-  # brew install gawk
-  if command -v gawk >/dev/null 2>&1; then
-    alias awk='gawk'
-  fi
-
-  # brew install gnu-tar
-  if command -v gtar >/dev/null 2>&1; then
-    alias tar='gtar'
-  fi
-
-  # brew install gnu-sed
-  if command -v gsed >/dev/null 2>&1; then
-    alias sed='gsed'
-  fi
-
-  # brew install gnu-time
-  if command -v gtime >/dev/null 2>&1; then
-    alias time='gtime'
-  fi
-
-  # brew install coreutils
-  if command -v gcp >/dev/null 2>&1; then
-    alias cp='gcp'
-  fi
-
-  # brew install coreutils
-  if command -v gdd >/dev/null 2>&1; then
-    alias dd='gdd'
-  fi
-
-  # brew install coreutils
-  if command -v gdate >/dev/null 2>&1; then
-    alias date='gdate'
-  fi
-
-  # brew install m4
-  if [[ -x /opt/homebrew/opt/m4/bin/m4 ]]; then
-    alias m4='/opt/homebrew/opt/m4/bin/m4'
-  fi
-else
-  # For LC_ALL see URL https://superuser.com/a/448294/280737 .
-  alias ll='LC_ALL="C.UTF-8" ls --color=auto -alF --group-directories-first'
-  alias la='ls --color=auto -A'
-  alias l='ls --color=auto -CF'
-  alias ls='ls --color=auto'
-
-  if command -v xdg-open >/dev/null 2>&1; then
-    open() {
-      (xdg-open "$@" &)
-    }
-  fi
+if command -v xdg-open >/dev/null 2>&1; then
+  open() {
+    (xdg-open "$@" &)
+  }
 fi
 
 # Color support for ripgrep
