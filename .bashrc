@@ -345,6 +345,27 @@ if command -v direnv >/dev/null 2>&1; then
 fi
 
 # --------------------------------------------------------------------
+# Setup GPG for interactive shells
+# --------------------------------------------------------------------
+
+# Update GPG_TTY.  See 'man 1 gpg-agent'.
+# Only set GPG_TTY in real terminals, not in VSCode/Cursor pseudo-terminals
+if [ -n "${VSCODE_SHELL_INTEGRATION:-}" ]; then
+  # Running in Cursor/VSCode - don't set GPG_TTY
+  unset GPG_TTY
+else
+  # Real terminal - try to set GPG_TTY
+  _possible_tty="$(tty 2>/dev/null)"
+  if [ -n "$_possible_tty" ] && [ "$_possible_tty" != "not a tty" ]; then
+    GPG_TTY="$_possible_tty"
+    export GPG_TTY
+  else
+    unset GPG_TTY
+  fi
+  unset _possible_tty
+fi
+
+# --------------------------------------------------------------------
 # Setup Bash prompt
 # --------------------------------------------------------------------
 

@@ -281,13 +281,6 @@ if command -v gpgconf >/dev/null 2>&1; then
   fi
 fi
 
-# Update GPG_TTY.  See 'man 1 gpg-agent'.
-if [ -z "${VSCODE_IPC_HOOK_CLI+x}" ]; then
-  # tty is pseudo-terminal device in VSCode/Cursor, we don't want to use it.
-  GPG_TTY="${GPG_TTY:-$(tty 2>/dev/null)}"
-  export GPG_TTY
-fi
-
 # Support for old systems with GnuPG 1.x.
 if command -v gpg2 >/dev/null 2>&1; then
   GPG=gpg2
