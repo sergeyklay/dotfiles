@@ -36,6 +36,13 @@
 
 # shellcheck shell=sh
 
+# Don't run this magic for Cursor
+if [ -n "$CURSOR_AGENT" ]; then
+    if ! declare -F dump_bash_state >/dev/null 2>&1; then
+      dump_bash_state() { :; }
+    fi
+fi
+
 # --------------------------------------------------------------------
 # Setup PATHs
 # --------------------------------------------------------------------
@@ -298,8 +305,8 @@ if [ -z "$SSH_AUTH_SOCK" ]; then
   if ! pgrep -u "$USER" ssh-agent > /dev/null; then
     rm -f "$XDG_RUNTIME_DIR/ssh-agent.sock" 2> /dev/null || true
     eval "$(ssh-agent -a $XDG_RUNTIME_DIR/ssh-agent.sock -s)"
-  else
-    SSH_AGENT_PID=$(pgrep -u "$USER" ssh-agent)
+  elif [ -S "$XDG_RUNTIME_DIR/ssh-agent.sock" ]; then
+    SSH_AGENT_PID=$(pgrep -u "$USER" ssh-agent | head -n 1)
     SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.sock"
     export SSH_AGENT_PID SSH_AUTH_SOCK
   fi
@@ -333,8 +340,26 @@ esac
 export HOST HOSTNAME
 
 # --------------------------------------------------------------------
+# Setup nvm
+# --------------------------------------------------------------------
+
+# Load nvm for all shells (login and non-login)
+if [ -z "${NVM_DIR+x}" ]; then
+  NVM_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/nvm"
+fi
+
+if [ -d "$NVM_DIR" ]; then
+  export NVM_DIR
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+else
+  unset NVM_DIR
+fi
+
+# --------------------------------------------------------------------
 # Setup interactive shell (if needed)
 # --------------------------------------------------------------------
+
 
 BASH_PROFILE_SOURCED=1
 export BASH_PROFILE_SOURCED
