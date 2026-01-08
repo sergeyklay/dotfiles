@@ -231,7 +231,7 @@ else
   fi
 fi
 
-if [ "$colors_support" = true ]; then
+if [ "$color_prompt" = "yes" ]; then
   # colorize gcc output
   GCC_COLORS='error=01;31:'
   GCC_COLORS+='warning=01;35:'
@@ -288,45 +288,6 @@ fi
 # --------------------------------------------------------------------
 # Setup Nodejs
 # --------------------------------------------------------------------
-
-setup_nvm() {
-  local nvm_dirs=()
-
-  [ -n "$XDG_CONFIG_HOME" ] && nvm_dirs+=("${XDG_CONFIG_HOME}/nvm")
-  nvm_dirs+=("$HOME/.nvm" "${XDG_CONFIG_HOME:-$HOME/.config}/nvm")
-
-  for d in "${nvm_dirs[@]}"; do
-    if [ -d "$d" ]; then
-      NVM_DIR="${d}"
-      # If nvm.sh exists and is readable, source it and exit the loop
-      if [ -r "$NVM_DIR/nvm.sh" ]; then
-        export NVM_DIR
-
-        # Do not use NPM_CONFIG_PREFIX env var when nvm is used.
-        # nvm is not compatible with the NPM_CONFIG_PREFIX env var.
-        unset NPM_CONFIG_PREFIX
-
-        if [ -s "$NVM_DIR/nvm.sh" ]; then
-          . "$NVM_DIR/nvm.sh"
-        fi
-
-        if [ -s "$NVM_DIR/bash_completion" ]; then
-          . "$NVM_DIR/bash_completion"
-        fi
-
-        return 0
-      fi
-    fi
-  done
-
-  return 0
-}
-
-if [[ -z "${NVM_DIR+x}" ]]; then
-  setup_nvm
-fi
-
-export -f setup_nvm
 
 # Do not use NPM_CONFIG_PREFIX env var when nvm is used.
 # nvm is not compatible with the NPM_CONFIG_PREFIX env var.
