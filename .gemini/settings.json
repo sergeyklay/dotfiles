@@ -1,1 +1,6 @@
-{ "contextFileName": "AGENTS.md" }
+{
+  "contextFileName": "AGENTS.md",
+  "experimental": {
+    "skills": true
+  }
+}
