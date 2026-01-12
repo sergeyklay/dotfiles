@@ -77,6 +77,7 @@ errorlist
 esbenp
 evalspec
 extrastyle
+fastmail
 findstr
 finetuning
 flawfinder
@@ -95,8 +96,11 @@ gstore
 Hoverfly
 Huaixiu
 Iakovlev
+IMAP
+IMAPS
 IMDB
 Inconsolata
+internaldate
 ipynb
 Isenberg
 jsonapi
@@ -113,7 +117,9 @@ latexmk
 lcov
 Lianmin
 lookback
+Maildir
 Mayank
+mbsync
 medv
 meman
 Menlo
