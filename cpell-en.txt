@@ -30,6 +30,8 @@ changelists
 chargebacks
 charliermarsh
 chatbots
+chatmode
+chatmodes
 cheatsheet
 checkdoc
 checkpointing
