@@ -22,7 +22,8 @@ AGENTSMD_FILES=$(find "${CLAUDE_PROJECT_DIR}" \
   ! -path "*/vendor/*" \
   ! -path "*/.venv/*" \
   -name "AGENTS.md" \
-  -type f | awk '{ print length, $0 }' | sort -n | cut -d' ' -f2-)
+  -type f 2>/dev/null | awk '{ print length, $0 }' | sort -n | cut -d' ' -f2-) || true
+
 
 if [ -f "$HOME/AGENTS.md" ]; then
   if [ -n "$AGENTSMD_FILES" ]; then
