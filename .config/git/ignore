@@ -74,6 +74,7 @@ ID
 .python-virtualenv
 .ruby-version
 .nvmrc
+.tool-versions
 
 # PHP stuf
 composer.phar
