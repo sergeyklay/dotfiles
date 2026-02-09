@@ -23,7 +23,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Some app and vitual terminals unable in login shells
+# Some app and virtual terminals unable in login shells
 if [ -z "${BASH_PROFILE_SOURCED+x}" ]; then
   if [ -f "$HOME/.bash_profile" ]; then
     source "$HOME/.bash_profile"
@@ -389,6 +389,8 @@ __prompt_command() {
 
 PROMPT_COMMAND="__prompt_command; ${PROMPT_COMMAND}"
 PS2='> '
+
+[ -f "$HOME/.local/share/../bin/env" ] && . "$HOME/.local/share/../bin/env"
 
 # Local Variables:
 # mode: sh
