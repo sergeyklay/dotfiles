@@ -390,8 +390,6 @@ __prompt_command() {
 PROMPT_COMMAND="__prompt_command; ${PROMPT_COMMAND}"
 PS2='> '
 
-[ -f "$HOME/.local/share/../bin/env" ] && . "$HOME/.local/share/../bin/env"
-
 # Local Variables:
 # mode: sh
 # End:
