@@ -276,28 +276,6 @@ fi
 
 
 # --------------------------------------------------------------------
-# Setup Ruby Env Manager
-# --------------------------------------------------------------------
-
-if [[ -z "${RBENV_SHELL+x}" ]]; then
-  if [[ -d "$HOME/.rbenv" && -r "$HOME/.rbenv/bin/rbenv" ]]; then
-    eval "$("$HOME/.rbenv/bin/rbenv" init - --no-rehash bash)"
-  fi
-fi
-
-# --------------------------------------------------------------------
-# Setup Nodejs
-# --------------------------------------------------------------------
-
-# Do not use NPM_CONFIG_PREFIX env var when nvm is used.
-# nvm is not compatible with the NPM_CONFIG_PREFIX env var.
-if [ -z "$NVM_DIR" ]; then
-  # Resolving EACCES permissions errors when installing packages globally.
-  NPM_CONFIG_PREFIX="$HOME/.local/"
-  export NPM_CONFIG_PREFIX
-fi
-
-# --------------------------------------------------------------------
 # Setup direnv
 # --------------------------------------------------------------------
 

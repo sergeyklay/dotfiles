@@ -117,6 +117,17 @@ if [ -d "$HOME/.local/bin" ]; then
   add_path "$HOME/.local/bin"
 fi
 
+if [[ -z "${ASDF_DATA_DIR+x}" ]]; then
+  if [ -d "$HOME/.asdf" ]; then
+    ASDF_DATA_DIR="$HOME/.asdf"
+    export ASDF_DATA_DIR
+
+    if [ -d "$ASDF_DATA_DIR/shims" ]; then
+      add_path "$ASDF_DATA_DIR/shims"
+    fi
+  fi
+fi
+
 # --------------------------------------------------------------------
 # Setup MANPATHs
 # --------------------------------------------------------------------
@@ -338,23 +349,6 @@ case "$(uname -s 2>/dev/null)" in
 esac
 
 export HOST HOSTNAME
-
-# --------------------------------------------------------------------
-# Setup nvm
-# --------------------------------------------------------------------
-
-# Load nvm for all shells (login and non-login)
-if [ -z "${NVM_DIR+x}" ]; then
-  NVM_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/nvm"
-fi
-
-if [ -d "$NVM_DIR" ]; then
-  export NVM_DIR
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-else
-  unset NVM_DIR
-fi
 
 # --------------------------------------------------------------------
 # Setup interactive shell (if needed)
