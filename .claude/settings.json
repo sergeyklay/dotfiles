@@ -15,9 +15,7 @@
       "Read(~/.profile)",
       "Read(./.env.example)"
     ],
-    "deny": [
-      "Read(./.env)"
-    ]
+    "deny": ["Read(./.env)"]
   },
   "hooks": {
     "SessionStart": [
@@ -26,7 +24,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/append_agentsmd_context.sh"
+            "command": "$HOME/.claude/hooks/append_agentsmd_context.sh"
           }
         ]
       }
