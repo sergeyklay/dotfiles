@@ -112,6 +112,17 @@ if [ -d "$HOME/bin" ]; then
   add_path "$HOME/bin"
 fi
 
+if [ -z "${PNPM_HOME+x}" ]; then
+  if [ -d "$HOME/.local/share/pnpm" ]; then
+    PNPM_HOME="$HOME/.local/share/pnpm"
+    export PNPM_HOME
+  fi
+fi
+
+if [ -n "${PNPM_HOME+x}" ] && [ -d "$PNPM_HOME" ]; then
+  add_path "$PNPM_HOME"
+fi
+
 # Should be last, so that I can override any binary path
 if [ -d "$HOME/.local/bin" ]; then
   add_path "$HOME/.local/bin"
