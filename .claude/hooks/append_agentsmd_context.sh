@@ -6,9 +6,9 @@
 
 set -euo pipefail
 
-if [ -z "$CLAUDE_PROJECT_DIR" ]; then
-  echo "Error: CLAUDE_PROJECT_DIR is not set. Cannot search for AGENTS.md files." >&2
-  exit 1
+# Exit silently if not running in Claude Code environment (e.g., VS Code with Copilot)
+if [ -z "${CLAUDE_PROJECT_DIR:-}" ]; then
+  exit 0
 fi
 
 cd "$CLAUDE_PROJECT_DIR" || { echo "Error: Failed to change directory to $CLAUDE_PROJECT_DIR" >&2; exit 1; }

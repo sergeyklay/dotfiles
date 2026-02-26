@@ -1,21 +1,61 @@
 {
   "permissions": {
     "allow": [
-      "Bash(ls:*)",
-      "Bash(find:*)",
-      "Bash(rg:*)",
+      "Bash(asdf:*)",
+      "Bash(awk:*)",
+      "Bash(bash:*)",
       "Bash(cat:*)",
-      "Bash(head:*)",
-      "Bash(tail:*)",
+      "Bash(chmod:*)",
+      "Bash(composer:*)",
+      "Bash(cp:*)",
+      "Bash(diff:*)",
+      "Bash(docker-compose:*)",
+      "Bash(docker:*)",
+      "Bash(echo:*)",
+      "Bash(env)",
+      "Bash(find:*)",
+      "Bash(gh issue:*)",
+      "Bash(git:*)",
       "Bash(grep:*)",
-      "Bash(npm run *)",
-      "Bash(npm test *)",
-      "Bash(node -e *)",
-      "Read(~/.bashrc)",
-      "Read(~/.profile)",
-      "Read(./.env.example)"
+      "Bash(head:*)",
+      "Bash(jq:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(node:*)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(php:*)",
+      "Bash(pnpm:*)",
+      "Bash(pwd)",
+      "Bash(rg:*)",
+      "Bash(sed:*)",
+      "Bash(sort:*)",
+      "Bash(tail:*)",
+      "Bash(touch:*)",
+      "Bash(tree:*)",
+      "Bash(wc:*)",
+      "Bash(which:*)",
+      "Bash(yarn:*)",
+      "Edit",
+      "mcp__claude_ai_Atlassian__*",
+      "MultiEdit",
+      "NotebookEdit",
+      "Read",
+      "TodoWrite",
+      "WebFetch",
+      "WebSearch",
+      "Write"
     ],
-    "deny": ["Read(./.env)"]
+    "deny": [
+      "Read(./secrets/**)",
+      "Read(**/.env)",
+      "Bash(sudo:*)",
+      "Bash(su:*)",
+      "Bash(rm -rf /)",
+      "Bash(shutdown:*)",
+      "Bash(reboot:*)"
+    ]
   },
   "hooks": {
     "SessionStart": [
@@ -29,5 +69,9 @@
         ]
       }
     ]
-  }
+  },
+  "enabledPlugins": {
+    "atlassian@claude-plugins-official": true
+  },
+  "model": "sonnet"
 }
