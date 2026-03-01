@@ -360,6 +360,7 @@ opensearch
 openweathermap
 Oporów
 Orchestr
+orgheadingstats
 OUTDIR
 overfitting
 overhealing
@@ -503,6 +504,7 @@ Spiritbloom
 sprintf
 sqlfluff
 squizlabs
+sshcontrol
 startswith
 stddev
 stdlib
