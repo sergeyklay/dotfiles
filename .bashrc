@@ -269,12 +269,31 @@ fi
 # --------------------------------------------------------------------
 
 show_virtual_env() {
-  if [ -n "$VIRTUAL_ENV_PROMPT" ]; then
-    echo "${VIRTUAL_ENV_PROMPT} "
-  elif [[ -n "$VIRTUAL_ENV" && -n "$DIRENV_DIR" ]]; then
-    echo "($(basename "$VIRTUAL_ENV")) "
-  else
-    echo ""
+  # Active virtualenv — show project name
+  if [ -n "$VIRTUAL_ENV" ]; then
+    local venv_name="${VIRTUAL_ENV##*/}"
+    case "$venv_name" in
+      .venv|venv|env)
+        local parent="${VIRTUAL_ENV%/*}"
+        printf '(%s) ' "${parent##*/}"
+        ;;
+      *)
+        printf '(%s) ' "$venv_name"
+        ;;
+    esac
+    return
+  fi
+
+  # No active venv — show asdf-managed local Python version
+  local py_ver=""
+  if [ -f .python-version ]; then
+    read -r py_ver < .python-version
+  elif [ -f .tool-versions ]; then
+    py_ver="$(sed -n 's/^python *//p' .tool-versions)"
+  fi
+
+  if [ -n "$py_ver" ]; then
+    printf '(py:%s) ' "$py_ver"
   fi
 }
 
