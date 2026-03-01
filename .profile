@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2025 Serghei Iakovlev <gnu@serghei.pl>
+# Copyright (C) 2014-2026 Serghei Iakovlev <gnu@serghei.pl>
 #
 # This file is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -36,13 +36,6 @@
 
 # shellcheck shell=sh
 
-# Don't run this magic for Cursor
-if [ -n "$CURSOR_AGENT" ]; then
-    if ! declare -F dump_bash_state >/dev/null 2>&1; then
-      dump_bash_state() { :; }
-    fi
-fi
-
 # --------------------------------------------------------------------
 # Setup PATHs
 # --------------------------------------------------------------------
@@ -69,7 +62,7 @@ if [ -d "$HOME/go" ]; then
   GOPATH="$HOME/go"
   export GOPATH
 
-  [ -d $GOPATH/bin ] && {
+  [ -d "$GOPATH/bin" ] && {
     # Put binary files created using "go install" command
     # in "$GOPATH/bin"
     GOBIN="$GOPATH/bin"
@@ -128,7 +121,7 @@ if [ -d "$HOME/.local/bin" ]; then
   add_path "$HOME/.local/bin"
 fi
 
-if [[ -z "${ASDF_DATA_DIR+x}" ]]; then
+if [ -z "${ASDF_DATA_DIR+x}" ]; then
   if [ -d "$HOME/.asdf" ]; then
     ASDF_DATA_DIR="$HOME/.asdf"
     export ASDF_DATA_DIR
@@ -180,26 +173,27 @@ fi
 # --------------------------------------------------------------------
 
 if ! command -v add_infopath >/dev/null 2>&1; then
-  # Add a directory to MANPATH if it's not already present.
+  # Add a directory to INFOPATH if it's not already present.
   add_infopath() {
     if ! echo "$INFOPATH" | grep -q -E "(^|:)$1($|:)"; then
-      if [ "$INFOPATH" = "" ]; then
+      if [ -z "$INFOPATH" ] || [ "$INFOPATH" = ":" ]; then
         INFOPATH="$1"
+      elif [ "$2" = "after" ]; then
+        INFOPATH="$INFOPATH:$1"
       else
-        if [ "$2" = "after" ]; then
-          INFOPATH="$INFOPATH:$1"
-        else
-          INFOPATH="$1:$INFOPATH"
-        fi
+        INFOPATH="$1:$INFOPATH"
       fi
     fi
     export INFOPATH
   }
 fi
 
-# Only do this if the INFOPATH variable isn't already set.
-if [ -z "${INFOPATH+x}" ] || [ "$INFOPATH" = ":" ]; then
-  INOPATH=""
+if [ -d /usr/local/share/info ]; then
+  add_infopath /usr/local/share/info
+fi
+
+if [ -d /usr/share/info ]; then
+  add_infopath /usr/share/info after
 fi
 
 # --------------------------------------------------------------------
@@ -265,19 +259,17 @@ fi
 
 # Base directories relative to which data files should be searched
 if [ -n "$XDG_DATA_DIRS" ]; then
-  # Trim leading slashes to avoid array like
-  #     (/foo/bar /foo/bar/)
-  XDG_DATA_DIRS="${XDG_DATA_DIRS//\/:/:}"
-  XDG_DATA_DIRS="${XDG_DATA_DIRS%/}"
+  # Trim trailing slashes from each entry to avoid duplicates
+  # like (/foo/bar /foo/bar/)
+  XDG_DATA_DIRS="$(printf '%s' "$XDG_DATA_DIRS" | sed 's|/:|:|g; s|/$||')"
 else
   XDG_DATA_DIRS="/usr/local/share:/usr/share"
 fi
 
 export XDG_DATA_DIRS
 
-if test -r "$XDG_CONFIG_HOME/user-dirs.dirs"
-then
-  # shellcheck disable=SC1090
+if test -r "$XDG_CONFIG_HOME/user-dirs.dirs"; then
+  # shellcheck disable=SC1091
   . "$XDG_CONFIG_HOME/user-dirs.dirs"
 
   test -n "$XDG_DESKTOP_DIR" && export XDG_DESKTOP_DIR
@@ -326,7 +318,7 @@ fi
 if [ -z "$SSH_AUTH_SOCK" ]; then
   if ! pgrep -u "$USER" ssh-agent > /dev/null; then
     rm -f "$XDG_RUNTIME_DIR/ssh-agent.sock" 2> /dev/null || true
-    eval "$(ssh-agent -a $XDG_RUNTIME_DIR/ssh-agent.sock -s)"
+    eval "$(ssh-agent -a "$XDG_RUNTIME_DIR/ssh-agent.sock" -s)"
   elif [ -S "$XDG_RUNTIME_DIR/ssh-agent.sock" ]; then
     SSH_AGENT_PID=$(pgrep -u "$USER" ssh-agent | head -n 1)
     SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.sock"
@@ -370,6 +362,7 @@ export BASH_PROFILE_SOURCED
 
 if [ -n "$BASH_VERSION" ]; then
   if [ -f "$HOME/.bashrc" ]; then
+    # shellcheck disable=SC1091
     . "$HOME/.bashrc"
   fi
 fi
