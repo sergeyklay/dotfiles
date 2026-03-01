@@ -191,6 +191,7 @@ geoip
 getallheaders
 Gintautas
 gitpython
+Gloaguen
 GNUPGHOME
 GOBIN
 golangci
@@ -198,6 +199,7 @@ googletest
 GOPATH
 GPATH
 gpgconf
+gpgsign
 gregwar
 GRTAGS
 Gruntfuggly
@@ -344,6 +346,7 @@ nonstopmode
 NSPHINXOPTS
 Ntfc
 numpy
+numstat
 nuqs
 nvmrc
 Nyholm
@@ -441,6 +444,7 @@ resetpassword
 reshim
 respec
 restype
+RESUL
 Rgstry
 Rostyslav
 rostyslavkhaniukov
@@ -500,6 +504,7 @@ sprintf
 sqlfluff
 squizlabs
 startswith
+stddev
 stdlib
 stecman
 streamable
@@ -536,6 +541,7 @@ uncategorized
 underspecification
 underspecified
 undici
+Unioned
 unittests
 universalframework
 unmoderated
