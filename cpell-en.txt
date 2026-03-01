@@ -42,6 +42,10 @@ Bergmann
 bikesalon
 bikester
 Blankerts
+bldblk
+bldblu
+bldred
+bldylw
 blockquotes
 blocktranslate
 Bodnarchuk
@@ -75,8 +79,10 @@ checkwinsize
 Chiang
 cicdbot
 classmap
+CLICOLOR
 cloudflared
 cmake
+cmdhist
 cmdk
 codecept
 codeception
@@ -88,6 +94,7 @@ coderabbitai
 codesniffer
 codezombiech
 Collina
+COLORTERM
 commandline
 commitlint
 commonmark
@@ -274,6 +281,7 @@ lcov
 ledsun
 LESSCHARSET
 LESSHISTFILE
+lesshst
 LESSOPEN
 lesspipe
 Lezyne
@@ -442,6 +450,7 @@ Qube
 Queueable
 rangeslider
 rawfile
+rcol
 redocly
 reduxjs
 relref
@@ -453,6 +462,7 @@ respec
 restype
 RESUL
 Rgstry
+RIPEMD
 Rostyslav
 rostyslavkhaniukov
 Rovo
@@ -487,6 +497,7 @@ Serghei
 Serghiei
 sessionmanager
 sessionmanagerplugin
+setaf
 shadcn
 sharness
 shellcheck
@@ -540,10 +551,12 @@ Topeak
 Torq
 TOSEM
 trailside
+truecolor
 tscheck
 Tsubasa
 tubo
 twicemonthly
+TWOFISH
 typefold
 uncategorized
 underspecification

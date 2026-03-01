@@ -26,7 +26,8 @@
 # Some app and virtual terminals unable in login shells
 if [ -z "${BASH_PROFILE_SOURCED+x}" ]; then
   if [ -f "$HOME/.bash_profile" ]; then
-    source "$HOME/.bash_profile"
+    # shellcheck disable=SC1091
+    . "$HOME/.bash_profile"
   fi
 fi
 
@@ -90,6 +91,7 @@ HISTIGNORE='&:[ ]*:history *:cd -*[0-9]*:cd +*[0-9]*'
 PROMPT_COMMAND="history -a; history -c; history -r; ${PROMPT_COMMAND}"
 
 if [ -f ~/.config/dirstack.sh ]; then
+  # shellcheck disable=SC1090
   . ~/.config/dirstack.sh
 fi
 
@@ -98,6 +100,7 @@ fi
 # --------------------------------------------------------------------
 
 if [ -f ~/.config/proctools.sh ]; then
+  # shellcheck disable=SC1090
   . ~/.config/proctools.sh
 fi
 
@@ -111,7 +114,7 @@ fi
 ALTERNATE_EDITOR=''
 export ALTERNATE_EDITOR
 
-EDITOR='emacsclient -c -nw -a ""'
+EDITOR='emacsclient -c -nw'
 export EDITOR
 
 VISUAL="$EDITOR"
@@ -119,9 +122,9 @@ export VISUAL
 
 # More for less
 if [[ $TERM == "dumb" ]] ; then
-  PAGER=cat
+  PAGER="cat"
 else
-  PAGER=less
+  PAGER="less"
 fi
 export PAGER
 
@@ -159,8 +162,10 @@ fi
 
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
+    # shellcheck disable=SC1091
     . /usr/share/bash-completion/bash_completion
   elif [ -f /etc/bash_completion ]; then
+    # shellcheck disable=SC1091
     . /etc/bash_completion
   fi
 fi
@@ -233,6 +238,7 @@ unset _dircolors
 # --------------------------------------------------------------------
 
 if [ -f ~/.bash_aliases ]; then
+  # shellcheck disable=SC1090
   . ~/.bash_aliases
 fi
 
@@ -274,7 +280,7 @@ show_virtual_env() {
   if [ -n "$VIRTUAL_ENV_PROMPT" ]; then
     echo "${VIRTUAL_ENV_PROMPT} "
   elif [[ -n "$VIRTUAL_ENV" && -n "$DIRENV_DIR" ]]; then
-    echo "($(basename $VIRTUAL_ENV)) "
+    echo "($(basename "$VIRTUAL_ENV")) "
   else
     echo ""
   fi
@@ -284,6 +290,14 @@ export -f show_virtual_env
 
 __prompt_command() {
   local exit_code="$?"
+
+  # Track history number to detect empty Enter (no command run)
+  local hist_num
+  hist_num="$(history 1 | awk '{print $1}')"
+  if [ "$hist_num" = "$_last_hist_num" ]; then
+    exit_code=0
+  fi
+  _last_hist_num="$hist_num"
 
   local rcol=''
   local bldylw=''
@@ -311,14 +325,15 @@ __prompt_command() {
   PS1+='\u@\h'
   PS1+="${rcol}"
 
-  if [ $exit_code != 0 ]; then
+  if [ "$exit_code" != 0 ]; then
     PS1+=" [${bldred}${exit_code}${rcol}]"
   fi
 
   PS1+=" ${bldblu}"
   PS1+='\w'
 
-  local b="$(git symbolic-ref HEAD 2>/dev/null)";
+  local b
+  b="$(git symbolic-ref HEAD 2>/dev/null)"
   if [ -n "$b" ]; then
     PS1+="${rcol} ${bldylw}${b##refs/heads/}"
   fi
