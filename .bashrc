@@ -285,6 +285,9 @@ show_virtual_env() {
   fi
 
   # No active venv — show asdf-managed local Python version
+  # Only if asdf is configured and the version is actually installed
+  [ -z "$ASDF_DATA_DIR" ] && return
+
   local py_ver=""
   if [ -f .python-version ]; then
     read -r py_ver < .python-version
@@ -292,7 +295,7 @@ show_virtual_env() {
     py_ver="$(sed -n 's/^python *//p' .tool-versions)"
   fi
 
-  if [ -n "$py_ver" ]; then
+  if [ -n "$py_ver" ] && [ -d "$ASDF_DATA_DIR/installs/python/$py_ver" ]; then
     printf '(py:%s) ' "$py_ver"
   fi
 }
