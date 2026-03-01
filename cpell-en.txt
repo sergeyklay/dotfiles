@@ -99,6 +99,7 @@ cooldown
 cooldowns
 cordoval
 cowork
+cpell
 cppcheck
 cproject
 Crankbrothers
