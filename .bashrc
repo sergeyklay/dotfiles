@@ -215,24 +215,18 @@ if [ "$color_prompt" = "yes" ]; then
 fi
 unset colors_support
 
-# Enable color support of ls and also add handy aliases
-if [ "$(uname)" = "Darwin" ]; then
-  if command -v dircolors >/dev/null 2>&1; then
-    if [ -f ~/.dircolors ]; then
-      eval "$(dircolors -b ~/.dircolors)"
-    else
-      eval "$(dircolors -b)"
-    fi
-  fi
-else
-  if command -v gdircolors >/dev/null 2>&1; then
-    if [ -f ~/.dircolors ]; then
-      eval "$(gdircolors -b ~/.dircolors)"
-    else
-      eval "$(gdircolors -b)"
-    fi
+# Enable color support of ls
+_dircolors=dircolors
+[ "$(uname)" = "Darwin" ] && _dircolors=gdircolors
+
+if command -v "$_dircolors" >/dev/null 2>&1; then
+  if [ -f ~/.dircolors ]; then
+    eval "$("$_dircolors" -b ~/.dircolors)"
+  else
+    eval "$("$_dircolors" -b)"
   fi
 fi
+unset _dircolors
 
 # --------------------------------------------------------------------
 # Setup aliases

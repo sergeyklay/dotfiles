@@ -121,6 +121,7 @@ DEVCOPILOT
 devhelp
 diactoros
 Dialogflow
+dircolors
 direnv
 dirhtml
 dirstack
@@ -183,6 +184,7 @@ frontmatter
 furo
 fzaninotto
 Garmintools
+gdircolors
 geminiignore
 genai
 genhtml
