@@ -57,6 +57,7 @@
       "Bash(reboot:*)"
     ]
   },
+  "model": "sonnet",
   "hooks": {
     "SessionStart": [
       {
@@ -72,6 +73,5 @@
   },
   "enabledPlugins": {
     "atlassian@claude-plugins-official": true
-  },
-  "model": "sonnet"
+  }
 }
