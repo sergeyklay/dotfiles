@@ -336,6 +336,36 @@ __prompt_command() {
   b="$(git symbolic-ref HEAD 2>/dev/null)"
   if [ -n "$b" ]; then
     PS1+="${rcol} ${bldylw}${b##refs/heads/}"
+
+    local git_indicators=""
+
+    # Unstaged changes (modified/deleted but not added)
+    if ! git diff --quiet 2>/dev/null; then
+      git_indicators+="*"
+    fi
+
+    # Staged changes (added but not committed)
+    if ! git diff --cached --quiet 2>/dev/null; then
+      git_indicators+="+"
+    fi
+
+    # Commits ahead of remote (committed but not pushed)
+    local ahead
+    ahead="$(git rev-list --count '@{upstream}..HEAD' 2>/dev/null)"
+    if [ -n "$ahead" ] && [ "$ahead" -gt 0 ]; then
+      git_indicators+="^${ahead}"
+    fi
+
+    # Stashed changes
+    local stash_count
+    stash_count="$(git stash list 2>/dev/null | wc -l)"
+    if [ "$stash_count" -gt 0 ]; then
+      git_indicators+="{${stash_count}}"
+    fi
+
+    if [ -n "$git_indicators" ]; then
+      PS1+=" ${rcol}${bldblk}${git_indicators}"
+    fi
   fi
 
   PS1+="${rcol}"
