@@ -365,7 +365,6 @@ export HOST HOSTNAME
 # Setup interactive shell (if needed)
 # --------------------------------------------------------------------
 
-
 BASH_PROFILE_SOURCED=1
 export BASH_PROFILE_SOURCED
 
@@ -374,8 +373,6 @@ if [ -n "$BASH_VERSION" ]; then
     . "$HOME/.bashrc"
   fi
 fi
-
-[ -f "$HOME/.local/share/../bin/env" ] && . "$HOME/.local/share/../bin/env"
 
 # Local Variables:
 # mode: sh
