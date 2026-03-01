@@ -2,8 +2,6 @@
 
 All my dotfiles that I port around from system to system. The goal of this project is to organize my shell scripts and configurations, and to keep them synchronized across multiple machines. It started as a basic setup, but now it includes management of `.bashrc`, `.bash_profile`, and various other shell-related files and tools.
 
-![Screen capture on Thu Oct 10 07:04:27 PM CEST 2024](./screenshot.png)
-
 ## Supported OS
 
 This repository is primarily intended for Linux workstations, though some configuration files and scripts are also compatible with macOS. Below is a list of the main Linux distributions where these dotfiles will be relevant and functional:
