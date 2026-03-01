@@ -130,7 +130,6 @@ devhelp
 diactoros
 Dialogflow
 dircolors
-direnv
 dirhtml
 dirstack
 Dispatchable

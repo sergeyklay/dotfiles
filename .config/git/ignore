@@ -80,9 +80,5 @@ ID
 composer.phar
 auth.json
 
-# Direnv files
-.direnv
-.envrc
-
 # Local Claude Code config should not be committed
 **/.claude/settings.local.json
