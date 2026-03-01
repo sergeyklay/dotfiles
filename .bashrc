@@ -383,7 +383,7 @@ __prompt_command() {
   fi
 
   PS1+="${rcol}"
-  PS1+='\n\$ '
+  PS1+="\n${bldblk}\\A${rcol} \\$ "
 }
 
 PROMPT_COMMAND="__prompt_command; ${PROMPT_COMMAND}"
