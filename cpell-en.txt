@@ -246,6 +246,8 @@ justinrainbow
 Kaggle
 Karpathy
 Kazár
+keygrip
+keyid
 keyrings
 Khaniukov
 Khattar
@@ -399,6 +401,7 @@ phpseclib
 phpspreadsheet
 phpstan
 phpunit
+pinentry
 pino
 pipefail
 Pivetta
@@ -576,6 +579,7 @@ xelatex
 xfail
 Xinying
 Xinyun
+xlong
 xmlwriter
 XPLR
 xranx
