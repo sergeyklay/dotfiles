@@ -23,11 +23,16 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# Auto-attach to tmux over SSH
+if [[ -n "$SSH_CONNECTION" ]] && [[ -z "$TMUX" ]] && command -v tmux &>/dev/null; then
+  exec tmux new-session -A -s main
+fi
+
 # Some app and virtual terminals unable in login shells
 if [ -z "${BASH_PROFILE_SOURCED+x}" ]; then
-  if [ -f "$HOME/.bash_profile" ]; then
+  if [ -f "$HOME/.profile" ]; then
     # shellcheck disable=SC1091
-    . "$HOME/.bash_profile"
+    . "$HOME/.profile"
   fi
 fi
 
