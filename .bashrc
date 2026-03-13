@@ -23,9 +23,11 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Auto-attach to tmux over SSH
-if [[ -n "$SSH_CONNECTION" ]] && [[ -z "$TMUX" ]] && command -v tmux &>/dev/null; then
-  exec tmux new-session -A -s main
+# Auto-attach to tmux
+if [[ -z "$TMUX" ]] && command -v tmux &>/dev/null; then
+  if [[ -n "$SSH_CONNECTION" ]] || [[ -n "$WSL_DISTRO_NAME" ]]; then
+    exec tmux new-session -A -s main
+  fi
 fi
 
 # Some app and virtual terminals unable in login shells
