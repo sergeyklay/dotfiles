@@ -394,6 +394,9 @@ __prompt_command() {
 PROMPT_COMMAND="__prompt_command; ${PROMPT_COMMAND}"
 PS2='> '
 
+# Load local overrides (not tracked in git)
+[[ -f ~/.bashrc.local ]] && source ~/.bashrc.local
+
 # Local Variables:
 # mode: sh
 # End:
