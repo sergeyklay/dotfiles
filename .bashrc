@@ -418,6 +418,7 @@ PROMPT_COMMAND="__prompt_command; ${PROMPT_COMMAND}"
 PS2='> '
 
 # Load local overrides (not tracked in git)
+# shellcheck disable=SC1090
 [[ -f ~/.bashrc.local ]] && source ~/.bashrc.local
 
 # Local Variables:
