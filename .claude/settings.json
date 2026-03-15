@@ -12,11 +12,13 @@
   },
   "permissions": {
     "allow": [
+      "Bash(apt list:*)",
       "Bash(asdf:*)",
       "Bash(awk:*)",
       "Bash(bash:*)",
       "Bash(cat:*)",
       "Bash(chmod:*)",
+      "Bash(col -b)",
       "Bash(composer:*)",
       "Bash(cp:*)",
       "Bash(diff:*)",
