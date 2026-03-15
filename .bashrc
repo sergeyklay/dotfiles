@@ -23,9 +23,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# --- DEBUG: trace exit codes through .bashrc ---
-__dbg() { echo >&2 "  [bashrc:$1] \$?=$2"; }
-
 # Auto-attach to tmux
 if [[ -z "$TMUX" ]] && command -v tmux &>/dev/null; then
   if [[ -n "$SSH_CONNECTION" ]] || [[ -n "$WSL_DISTRO_NAME" ]]; then
@@ -40,7 +37,6 @@ if [ -z "${BASH_PROFILE_SOURCED+x}" ]; then
     . "$HOME/.profile"
   fi
 fi
-__dbg "after-profile" "$?"
 
 # Auto-fix minor typos in interactive use of 'cd'
 shopt -q -s cdspell
@@ -105,7 +101,6 @@ if [ -f ~/.config/dirstack.sh ]; then
   # shellcheck disable=SC1090
   . ~/.config/dirstack.sh
 fi
-__dbg "after-dirstack" "$?"
 
 # --------------------------------------------------------------------
 # Utils
@@ -115,7 +110,6 @@ if [ -f ~/.config/proctools.sh ]; then
   # shellcheck disable=SC1090
   . ~/.config/proctools.sh
 fi
-__dbg "after-proctools" "$?"
 
 # --------------------------------------------------------------------
 # Setup Editor
@@ -168,7 +162,6 @@ if [ -z "$LESSOPEN" ]; then
   fi
   [ -n "$LESSOPEN" ] && export LESSOPEN
 fi
-__dbg "after-less" "$?"
 
 # --------------------------------------------------------------------
 # Bash completion
@@ -183,7 +176,6 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-__dbg "after-completion" "$?"
 
 # --------------------------------------------------------------------
 # Setup colors
@@ -247,7 +239,6 @@ if command -v "$_dircolors" >/dev/null 2>&1; then
   fi
 fi
 unset _dircolors
-__dbg "after-colors" "$?"
 
 # --------------------------------------------------------------------
 # Setup aliases
@@ -257,7 +248,6 @@ if [ -f ~/.bash_aliases ]; then
   # shellcheck disable=SC1090
   . ~/.bash_aliases
 fi
-__dbg "after-aliases" "$?"
 
 
 # --------------------------------------------------------------------
@@ -280,7 +270,6 @@ else
   fi
   unset _possible_tty
 fi
-__dbg "after-gpg" "$?"
 
 # --------------------------------------------------------------------
 # Setup Bash prompt
@@ -428,7 +417,6 @@ __prompt_command() {
 
 PROMPT_COMMAND="__prompt_command; ${PROMPT_COMMAND}"
 PS2='> '
-__dbg "after-prompt" "$?"
 
 # Load local overrides (not tracked in git)
 if [[ -f ~/.bashrc.local ]]; then
