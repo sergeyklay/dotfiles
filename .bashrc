@@ -95,7 +95,9 @@ HISTIGNORE='&:[ ]*:history *:cd -*[0-9]*:cd +*[0-9]*'
 #  'history -c'  clear the history list
 #  'history -r'  read the history file and append its contents to
 #                the history list.
-PROMPT_COMMAND="history -a; history -c; history -r; ${PROMPT_COMMAND}"
+if [[ "$PROMPT_COMMAND" != *"history -a"* ]]; then
+  PROMPT_COMMAND="history -a; history -c; history -r; ${PROMPT_COMMAND}"
+fi
 
 if [ -f ~/.config/dirstack.sh ]; then
   # shellcheck disable=SC1090
@@ -276,7 +278,7 @@ fi
 # --------------------------------------------------------------------
 
 show_virtual_env() {
-  # Active virtualenv — show project name
+  # Active virtualenv - show project name
   if [ -n "$VIRTUAL_ENV" ]; then
     local venv_name="${VIRTUAL_ENV##*/}"
     case "$venv_name" in
@@ -291,7 +293,7 @@ show_virtual_env() {
     return
   fi
 
-  # No active venv — show asdf-managed local Python version
+  # No active venv - show asdf-managed local Python version
   # Only if asdf is configured and the version is actually installed
   [ -z "$ASDF_DATA_DIR" ] && return
 
@@ -311,19 +313,19 @@ export -f show_virtual_env
 
 __auto_venv() {
   # Auto-activate .venv in current directory; deactivate when leaving.
-  # Only checks PWD — no directory walking, no subshells.
+  # Only checks PWD - no directory walking, no subshells.
   local candidate="$PWD/.venv"
 
   if [ -f "$candidate/bin/activate" ]; then
-    # Already active for this directory — nothing to do
+    # Already active for this directory - nothing to do
     [ "$VIRTUAL_ENV" = "$candidate" ] && return
     # Deactivate previous venv if any
     [ "$(type -t deactivate)" = "function" ] && deactivate
-    # Suppress the default PS1 prefix — show_virtual_env handles it
+    # Suppress the default PS1 prefix - show_virtual_env handles it
     # shellcheck disable=SC1091
     VIRTUAL_ENV_DISABLE_PROMPT=1 source "$candidate/bin/activate"
   elif [ -n "$VIRTUAL_ENV" ]; then
-    # Left a project directory — deactivate
+    # Left a project directory - deactivate
     [ "$(type -t deactivate)" = "function" ] && deactivate
   fi
   return 0
@@ -332,13 +334,24 @@ __auto_venv() {
 __prompt_command() {
   local exit_code="$?"
 
-  # Track history number to detect empty Enter (no command run)
-  local hist_num
-  hist_num="$(history 1 | awk '{print $1}')"
-  if [ "$hist_num" = "$_last_hist_num" ]; then
+  # Suppress stale exit codes on empty Enter.
+  #
+  # PS0 sets _cmd_ran=1 before each real command.  It does not
+  # fire on empty Enter or Ctrl+C, so we can distinguish:
+  #   _cmd_ran=1  -> real command, show its $?
+  #   _cmd_ran=0  -> no command; show $? once, then clear
+  if [ "${_cmd_ran:-0}" -eq 1 ]; then
+    # Real command ran - show its exit code
+    _cmd_ran=0
+    _idle_code="$exit_code"
+  elif [ "$exit_code" -ne 0 ] && [ "$exit_code" != "${_idle_code-}" ]; then
+    # No command, but $? changed (e.g. Ctrl+C) - show once
+    _idle_code="$exit_code"
+  else
+    # Repeated empty Enter - suppress stale code
     exit_code=0
+    _idle_code="${_idle_code-}"
   fi
-  _last_hist_num="$hist_num"
 
   __auto_venv
 
@@ -415,7 +428,19 @@ __prompt_command() {
   PS1+="\n${bldblk}\\A${rcol} \\$ "
 }
 
-PROMPT_COMMAND="__prompt_command; ${PROMPT_COMMAND}"
+if [[ "$PROMPT_COMMAND" != *"__prompt_command"* ]]; then
+  PROMPT_COMMAND="__prompt_command; ${PROMPT_COMMAND}"
+fi
+
+# PS0 is expanded after a command is read but before it executes.
+# It does not fire on empty Enter or Ctrl+C - exactly what we need
+# to distinguish "no command" from "real command".  The parameter
+# expansion trick sets _cmd_ran=1 as a side effect without printing
+# anything.  Requires bash 4.4+.
+if [[ "$PS0" != *'_cmd_ran'* ]]; then
+  # shellcheck disable=SC2016
+  PS0='${_cmd_ran:$((_cmd_ran=1,0)):0}'
+fi
 PS2='> '
 
 # Load local overrides (not tracked in git)
