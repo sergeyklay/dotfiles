@@ -503,6 +503,7 @@ reparenting
 reqs
 resetpassword
 reshim
+RESOURCEDIR
 respec
 restype
 RESUL
