@@ -309,6 +309,25 @@ show_virtual_env() {
 
 export -f show_virtual_env
 
+__auto_venv() {
+  # Auto-activate .venv in current directory; deactivate when leaving.
+  # Only checks PWD — no directory walking, no subshells.
+  local candidate="$PWD/.venv"
+
+  if [ -f "$candidate/bin/activate" ]; then
+    # Already active for this directory — nothing to do
+    [ "$VIRTUAL_ENV" = "$candidate" ] && return
+    # Deactivate previous venv if any
+    [ "$(type -t deactivate)" = "function" ] && deactivate
+    # Suppress the default PS1 prefix — show_virtual_env handles it
+    # shellcheck disable=SC1091
+    VIRTUAL_ENV_DISABLE_PROMPT=1 source "$candidate/bin/activate"
+  elif [ -n "$VIRTUAL_ENV" ]; then
+    # Left a project directory — deactivate
+    [ "$(type -t deactivate)" = "function" ] && deactivate
+  fi
+}
+
 __prompt_command() {
   local exit_code="$?"
 
@@ -319,6 +338,8 @@ __prompt_command() {
     exit_code=0
   fi
   _last_hist_num="$hist_num"
+
+  __auto_venv
 
   local rcol=''
   local bldylw=''
