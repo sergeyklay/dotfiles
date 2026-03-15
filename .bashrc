@@ -326,6 +326,7 @@ __auto_venv() {
     # Left a project directory — deactivate
     [ "$(type -t deactivate)" = "function" ] && deactivate
   fi
+  return 0
 }
 
 __prompt_command() {
