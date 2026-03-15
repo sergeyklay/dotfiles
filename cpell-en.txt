@@ -85,6 +85,7 @@ checkwinsize
 Chiang
 cicdbot
 classmap
+CLAUDECODE
 CLICOLOR
 cloudflared
 cmake

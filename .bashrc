@@ -23,12 +23,24 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Auto-attach to tmux
-if [[ -z "$TMUX" ]] && command -v tmux &>/dev/null; then
-  if [[ -n "$SSH_CONNECTION" ]] || [[ -n "$WSL_DISTRO_NAME" ]]; then
-    exec tmux new-session -A -s main
-  fi
+# Auto-attach to tmux for interactive SSH/WSL sessions.
+# Skip for AI agents, IDE terminals, CI, and non-TTY pipes.
+_should_tmux() {
+  [[ -z "$TMUX" ]]                        || return 1
+  command -v tmux &>/dev/null             || return 1
+  [[ -t 0 ]]                              || return 1  # no TTY (pipes, scp, VS Code bootstrap)
+  [[ -n "$SSH_CONNECTION" || -n "$WSL_DISTRO_NAME" ]] || return 1
+  [[ "$TERM_PROGRAM" != "vscode" ]]       || return 1
+  [[ -z "$CLAUDECODE" ]]                  || return 1
+  [[ "$CODESPACES" != "true" ]]           || return 1
+  [[ -z "$CI" ]]                          || return 1
+  [[ "$TERM" != "dumb" ]]                 || return 1  # Emacs TRAMP, etc.
+  return 0
+}
+if _should_tmux; then
+  exec tmux new-session -A -s main
 fi
+unset -f _should_tmux
 
 # Some app and virtual terminals unable in login shells
 if [ -z "${BASH_PROFILE_SOURCED+x}" ]; then
