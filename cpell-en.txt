@@ -577,6 +577,7 @@ streamable
 struct
 subsecondary
 SUBSHELL
+subshells
 supertest
 swapfile
 swapon
