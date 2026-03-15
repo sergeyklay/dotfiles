@@ -431,10 +431,10 @@ PS2='> '
 __dbg "after-prompt" "$?"
 
 # Load local overrides (not tracked in git)
-# shellcheck disable=SC1090
-[[ -f ~/.bashrc.local ]] && source ~/.bashrc.local
-__dbg "after-local" "$?"
-__dbg "FINAL" "$?"
+if [[ -f ~/.bashrc.local ]]; then
+  # shellcheck disable=SC1090
+  source ~/.bashrc.local
+fi
 
 # Local Variables:
 # mode: sh
