@@ -7,3 +7,5 @@
 !agents/*.md
 !commands/
 !commands/*.toml
+!policies/
+!policies/*.toml
