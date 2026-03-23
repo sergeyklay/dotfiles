@@ -6,7 +6,7 @@ description: >
   coupling/cohesion, check for SOLID violations, review dependency structure,
   or audit system boundaries. Produces structured verdicts with actionable
   recommendations.
-model: gemini-3-1-preview
+model: gemini-3.1-pro-preview
 tools:
   - read_file
   - read_many_files
