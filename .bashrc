@@ -50,6 +50,25 @@ if [ -z "${BASH_PROFILE_SOURCED+x}" ]; then
   fi
 fi
 
+# --------------------------------------------------------------------
+# Setup asdf-golang environment (GOROOT, GOPATH, GOBIN)
+# --------------------------------------------------------------------
+
+_asdf_golang_env="${ASDF_DATA_DIR:-$HOME/.asdf}/plugins/golang/set-env.bash"
+if [ -f "$_asdf_golang_env" ]; then
+  # shellcheck disable=SC1090
+  . "$_asdf_golang_env"
+  # Guard against broken dirname chains (e.g. GOROOT=/ -> GOPATH=//packages)
+  if [ -n "$GOROOT" ] && [ ! -x "$GOROOT/bin/go" ]; then
+    unset GOROOT GOPATH GOBIN
+  fi
+fi
+unset _asdf_golang_env
+
+# --------------------------------------------------------------------
+# Shell options
+# --------------------------------------------------------------------
+
 # Auto-fix minor typos in interactive use of 'cd'
 shopt -q -s cdspell
 
@@ -235,8 +254,8 @@ if [ "$color_prompt" = "yes" ]; then
   GCC_COLORS+='quote=01'
   export GCC_COLORS
 
-  [[ -z "$COLORTERM" ]] || COLORTERM=1
-  [[ -z "$CLICOLOR" ]]  || CLICOLOR=1
+  : "${COLORTERM:=truecolor}"
+  : "${CLICOLOR:=1}"
   export CLICOLOR COLORTERM
 fi
 unset colors_support

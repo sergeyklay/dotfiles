@@ -55,7 +55,8 @@ if ! command -v add_path >/dev/null 2>&1; then
 fi
 
 if [ -d "/usr/local/go/bin" ]; then
-  add_path /usr/local/go/bin
+  # Use 'after' so asdf shims (prepended later) always take priority
+  add_path /usr/local/go/bin after
 fi
 
 if [ -d "$HOME/go" ]; then
