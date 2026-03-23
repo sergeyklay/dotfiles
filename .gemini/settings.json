@@ -1,10 +1,9 @@
 {
   "contextFileName": "AGENTS.md",
-
   "experimental": {
-    "skills": true
+    "skills": true,
+    "enableAgents": true
   },
-
   "mcpServers": {
     "context7": {
       "httpUrl": "https://mcp.context7.com/mcp",
@@ -12,6 +11,10 @@
         "Accept": "application/json, text/event-stream"
       }
     }
+  },
+  "security": {
+    "auth": {
+      "selectedType": "oauth-personal"
+    }
   }
-
 }
