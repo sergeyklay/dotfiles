@@ -20,6 +20,7 @@
       "Bash(chmod:*)",
       "Bash(col -b)",
       "Bash(composer:*)",
+      "Bash(curl:*)",
       "Bash(cp:*)",
       "Bash(diff:*)",
       "Bash(docker-compose:*)",
