@@ -1,4 +1,7 @@
 {
+  "model": {
+    "name": "gemini-3.1-pro-preview"
+  },
   "contextFileName": "AGENTS.md",
   "experimental": {
     "skills": true,

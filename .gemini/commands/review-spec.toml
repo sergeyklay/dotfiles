@@ -9,7 +9,11 @@ Conduct an in-depth architectural review of the specification described below.
 
 **Input from the user:** {{args}}
 
-The first argument is the task or feature name. The second argument is the path to the specification file. Read that file carefully — it is the primary subject of this review.
+The first argument is the task or feature name (or a GitHub issue reference). The second argument is the path to the specification file. Read that file carefully — it is the primary subject of this review.
+
+### Resolve Task Reference
+
+If the first argument is a GitHub issue URL (e.g. `https://github.com/owner/repo/issues/123`) or a shorthand reference (e.g. `owner/repo#123` or `#123`), run `gh issue view <url-or-reference> --json title,body` to fetch the issue title and body. Use the fetched title as the task name and the body as additional context for the review. If the first argument is plain text, skip this step.
 
 ## Preparation: Build Context First
 

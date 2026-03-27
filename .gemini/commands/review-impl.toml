@@ -11,6 +11,10 @@ prompt = """
 
 ## Process
 
+### Step 0: Resolve Task Reference
+
+If the task description above contains a GitHub issue URL (e.g. `https://github.com/owner/repo/issues/123`) or a shorthand reference (e.g. `owner/repo#123` or `#123`), run `gh issue view <url-or-reference> --json title,body` to fetch the issue title and body. Use the fetched title and body as the canonical task description for all subsequent steps. If the task description is plain text, skip this step.
+
 ### Step 1: Understand the Project
 
 Before evaluating any changes, build a mental model of the system:
