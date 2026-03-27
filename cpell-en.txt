@@ -29,6 +29,7 @@ Apidura
 argjson
 argparse
 argtypes
+arithmatex
 ARPG
 arraysubset
 asyncio
@@ -45,9 +46,12 @@ bamarni
 baseof
 Bbuild
 bcmath
+becho
 behat
 behaviour
+beorn
 Bergmann
+bexport
 bigfft
 bikesalon
 bikester
@@ -59,6 +63,7 @@ bldylw
 blockquotes
 blocktranslate
 Bodnarchuk
+bodyclose
 Boggiano
 Bohra
 bookmarkable
@@ -76,6 +81,7 @@ cdll
 cdspell
 CELERYD
 centrumrowerowe
+cespare
 cessary
 CFAIL
 cffi
@@ -97,6 +103,7 @@ cicdbot
 classmap
 CLAUDECODE
 CLICOLOR
+clippy
 CLOEXEC
 cloudflared
 cmake
@@ -105,6 +112,7 @@ cmdk
 codecept
 codeception
 CODECOVERAGE
+codehilite
 codeowner
 CODEOWNERS
 coderabbit
@@ -121,6 +129,7 @@ conanfile
 CONFIGMAP
 conftest
 Consolas
+cookieconsent
 cooldown
 cooldowns
 copyloopvar
@@ -139,6 +148,7 @@ ctypes
 cuid
 cursorignore
 cursorrules
+Daniele
 darq
 dataclass
 dataclasses
@@ -146,6 +156,7 @@ datadogstatsd
 dataframe
 davedevelopment
 Davert
+DBPing
 dbus
 DCMAKE
 DCODE
@@ -157,6 +168,7 @@ DEVCOPILOT
 devhelp
 diactoros
 Dialogflow
+Diataxis
 dircolors
 dirhtml
 dirstack
@@ -205,6 +217,7 @@ evals
 evalspec
 evenement
 Événement
+excalidraw
 expanduser
 extlinks
 extrastyle
@@ -220,6 +233,7 @@ flawfinder
 flexbox
 flexelint
 flylint
+fontawesome
 foxundermoon
 François
 freenode
@@ -239,6 +253,7 @@ genai
 genhtml
 genindex
 geoip
+geolocation
 getallheaders
 getconf
 Getenv
@@ -249,6 +264,7 @@ gmtime
 GNUPGHOME
 gnutls
 goarch
+goautoneg
 GOBIN
 godoc
 gofmt
@@ -275,6 +291,7 @@ Gruntfuggly
 gsettings
 gstore
 gstoredoc
+gtag
 GTAGS
 guzzlehttp
 hamcrest
@@ -291,6 +308,7 @@ httptest
 httpx
 Huaixiu
 Iakovlev
+IDINJQL
 ignoreboth
 ilvl
 imagick
@@ -304,6 +322,7 @@ INFOPATH
 initargs
 initialises
 INJQL
+inlinehilite
 innerbrowser
 INOPATH
 inotify
@@ -321,6 +340,7 @@ issuelinks
 issuetype
 Jaccard
 Jaina
+javascripts
 jenssegers
 JMAP
 jmespath
@@ -332,6 +352,7 @@ Justfile
 justinrainbow
 Kaggle
 Karpathy
+katex
 Kazár
 keygrip
 keyid
@@ -388,7 +409,9 @@ Lich
 lifecycles
 Lindblom
 linenos
+linenums
 linkcheck
+Livez
 localdomain
 LOGNAME
 logr
@@ -419,6 +442,7 @@ metaagents
 Miselis
 Mishra
 missingkey
+mkdocs
 mkhl
 mmorpg
 MNIST
@@ -428,8 +452,10 @@ monkeypatch
 Mponos
 mptr
 mtdowling
+multibyte
 multishot
 Multitool
+munnerz
 myapp
 mylib
 mypy
@@ -451,6 +477,7 @@ nikic
 nitpicky
 nocaseglob
 NOCLEAN
+noctx
 nodenv
 nodeversion
 noformat
@@ -459,9 +486,11 @@ noninteractive
 NONREPARENTING
 nonroot
 nonstopmode
+noopener
 noresult
 normalise
 normalised
+nosniff
 NOWSP
 NPROCESSORS
 nrepl
@@ -494,6 +523,7 @@ paragonie
 paralleldrive
 paratest
 parseable
+pasteable
 pathspec
 pcntl
 pcov
@@ -527,6 +557,7 @@ phpunit
 pinentry
 pino
 pipefail
+pipx
 Pivetta
 platex
 playfair
@@ -540,8 +571,10 @@ predis
 preg
 prepush
 PREREQS
+Procida
 proctools
 PROGRAMFILES
+promhttp
 promptfile
 przerzutka
 pseudoxml
@@ -553,8 +586,11 @@ Pydantic
 PYEOF
 Pyflakes
 pygithub
+pygments
 pylint
 pylintrc
+pymdown
+pymdownx
 pynacl
 pyproject
 Pytest
@@ -570,6 +606,8 @@ Queueable
 rangeslider
 rawfile
 rcol
+Readyz
+realpath
 recognised
 redocly
 reduxjs
@@ -664,6 +702,7 @@ SUBSHELL
 subshells
 subtest
 subtests
+superfences
 supertest
 swapfile
 swapon
@@ -687,11 +726,15 @@ timepicker
 Titlebar
 tmpl
 toctree
+TOOLONLY
+toolu
+topbar
 Topeak
 topk
 Torq
 TOSEM
 tput
+trackerapi
 trailside
 trimpath
 truecolor
@@ -705,6 +748,7 @@ typefold
 unbuilt
 uncategorized
 uncomparable
+unconfigured
 unconvert
 underspecification
 underspecified
@@ -712,10 +756,13 @@ undici
 Unioned
 unittests
 universalframework
+unmarshalable
 unmarshalling
 unmoderated
 unparam
+unparseable
 unrequested
+untrappable
 unvalidated
 upserts
 usermod
@@ -756,6 +803,7 @@ xmlwriter
 XPLR
 xranx
 xwidgets
+xxhash
 Yakubchik
 Yakubchyk
 yarnrc
