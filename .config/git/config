@@ -81,6 +81,7 @@
 	mf = merge --no-ff
 	puhs = push
 	patch = !git --no-pager diff --no-color
+	bc = !git branch --format='%(refname:short)' | grep -v '^main$' | xargs git branch -D
 	count = !~/bin/git-count
 	# See: https://github.com/sergeyklay/dotfiles/blob/main/bin/git-stat.awk
 	stats = "!f() { awk_args=()\n    git_args=()\n    delimiter_found=0\n    \n    while [ $# -gt 0 ]; do\n        if [ \"$1\" = \"--\" ]; then\n            delimiter_found=1\n            shift\n            continue\n        fi\n        \n        if [ $delimiter_found -eq 1 ]; then\n            awk_args+=(\"$1\")\n        else\n            git_args+=(\"$1\")\n        fi\n        shift\n    done\n    \n        git log --pretty=\"%aN\" --numstat \"${git_args[@]}\" | \\\n    ~/bin/git-stat.awk \"${awk_args[@]}\"\n}; f"
@@ -107,3 +108,9 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+[credential "https://github.com"]
+	helper =
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/usr/bin/gh auth git-credential
