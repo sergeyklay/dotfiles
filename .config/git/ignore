@@ -82,3 +82,4 @@ auth.json
 
 # Local Claude Code config should not be committed
 **/.claude/settings.local.json
+**/.claude/scheduled_tasks.lock
