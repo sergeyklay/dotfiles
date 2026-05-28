@@ -1,4 +1,4 @@
-# Copyright (C) 2014-2025 Serghei Iakovlev <gnu@serghei.pl>
+# Copyright (C) 2014-2026 Serghei Iakovlev <gnu@serghei.pl>
 #
 # This file is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,24 +23,69 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+_is_under_zed_remote() {
+  local pid=$PPID name
+
+  while [[ -n "$pid" && "$pid" -gt 1 ]]; do
+    name=$(</proc/"$pid"/comm) 2>/dev/null || return 1
+    case "$name" in
+      *zed-server*|*zed-remote*|*zed_server*) return 0 ;;
+    esac
+    pid=$(awk '/^PPid:/{print $2}' /proc/"$pid"/status 2>/dev/null)
+  done
+
+  return 1
+}
+
+_is_embed_terminal() {
+  # VSCode and derivatives
+  [[ "$TERM_PROGRAM" == "vscode" ]]    && return 0
+  [[ -n "$VSCODE_SHELL_INTEGRATION" ]] && return 0
+
+  # Zed
+  [[ "$TERM_PROGRAM" == "zed" ]] && return 0
+  [[ -n "$ZED_TERM" ]]           && return 0
+  _is_under_zed_remote           && return 0
+
+  # Jetbrains
+  [[ "$TERMINAL_EMULATOR" == "JetBrains-JediTerm" ]] && return 0
+
+  # Claude Code
+  [[ -n "$CLAUDECODE" ]] && return 0
+
+  # GitHub Codespaces
+  [[ "$CODESPACES" == "true" ]] && return 0
+
+  # Emacs
+  [[ -n "$INSIDE_EMACS" ]] && return 0
+  [[ "$TERM" == "dumb" ]]  && return 0
+
+  return 1
+}
+
 # Auto-attach to tmux for interactive SSH/WSL sessions.
 # Skip for AI agents, IDE terminals, CI, and non-TTY pipes.
 _should_tmux() {
-  [[ -z "$TMUX" ]]                        || return 1
-  command -v tmux &>/dev/null             || return 1
-  [[ -t 0 ]]                              || return 1  # no TTY (pipes, scp, VS Code bootstrap)
-  [[ -n "$SSH_CONNECTION" || -n "$WSL_DISTRO_NAME" ]] || return 1
-  [[ "$TERM_PROGRAM" != "vscode" ]]       || return 1
-  [[ -z "$CLAUDECODE" ]]                  || return 1
-  [[ "$CODESPACES" != "true" ]]           || return 1
-  [[ -z "$CI" ]]                          || return 1
-  [[ "$TERM" != "dumb" ]]                 || return 1  # Emacs TRAMP, etc.
-  return 0
+  ! _is_embed_terminal        || return 1
+  [[ -z "${TMUX}" ]]          || return 1
+  command -v tmux &>/dev/null || return 1
+  [[ -t 0 ]]                  || return 1  # no TTY
+  [[ -z "${CI}" ]]            || return 1
+
+  # Always on SSH
+  [[ -n "$SSH_CONNECTION" ]] && return 0
+
+  # On WSL, only auto-attach if running in Windows Terminal
+  [[ -n "$WSL_DISTRO_NAME" && -n "$WT_SESSION" ]] && return 0
+
+  return 1
 }
+
 if _should_tmux; then
   exec tmux new-session -A -s main
 fi
-unset -f _should_tmux
+
+unset -f _should_tmux _is_under_zed_remote
 
 # Some app and virtual terminals unable in login shells
 if [ -z "${BASH_PROFILE_SOURCED+x}" ]; then
@@ -289,7 +334,7 @@ fi
 
 # Update GPG_TTY.  See 'man 1 gpg-agent'.
 # Only set GPG_TTY in real terminals, not in VSCode/Cursor pseudo-terminals
-if [ -n "${VSCODE_SHELL_INTEGRATION:-}" ]; then
+if _is_embed_terminal; then
   # Running in Cursor/VSCode - don't set GPG_TTY
   unset GPG_TTY
 else
@@ -308,40 +353,6 @@ fi
 # Setup Bash prompt
 # --------------------------------------------------------------------
 
-show_virtual_env() {
-  # Active virtualenv - show project name
-  if [ -n "$VIRTUAL_ENV" ]; then
-    local venv_name="${VIRTUAL_ENV##*/}"
-    case "$venv_name" in
-      .venv|venv|env)
-        local parent="${VIRTUAL_ENV%/*}"
-        printf '(%s) ' "${parent##*/}"
-        ;;
-      *)
-        printf '(%s) ' "$venv_name"
-        ;;
-    esac
-    return
-  fi
-
-  # No active venv - show asdf-managed local Python version
-  # Only if asdf is configured and the version is actually installed
-  [ -z "$ASDF_DATA_DIR" ] && return
-
-  local py_ver=""
-  if [ -f .python-version ]; then
-    read -r py_ver < .python-version
-  elif [ -f .tool-versions ]; then
-    py_ver="$(sed -n 's/^python *//p' .tool-versions)"
-  fi
-
-  if [ -n "$py_ver" ] && [ -d "$ASDF_DATA_DIR/installs/python/$py_ver" ]; then
-    printf '(py:%s) ' "$py_ver"
-  fi
-}
-
-export -f show_virtual_env
-
 __auto_venv() {
   # Auto-activate .venv in current directory; deactivate when leaving.
   # Only checks PWD - no directory walking, no subshells.
@@ -352,7 +363,6 @@ __auto_venv() {
     [ "$VIRTUAL_ENV" = "$candidate" ] && return
     # Deactivate previous venv if any
     [ "$(type -t deactivate)" = "function" ] && deactivate
-    # Suppress the default PS1 prefix - show_virtual_env handles it
     # shellcheck disable=SC1091
     VIRTUAL_ENV_DISABLE_PROMPT=1 source "$candidate/bin/activate"
   elif [ -n "$VIRTUAL_ENV" ]; then
@@ -406,9 +416,7 @@ __prompt_command() {
     bldred='\[\e[1;31m\]'
   fi
 
-  PS1='$(show_virtual_env)'
-
-  PS1+="${bldblk}"
+  PS1=""
   PS1+='\u@\h'
   PS1+="${rcol}"
 
