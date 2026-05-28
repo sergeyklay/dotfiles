@@ -117,6 +117,10 @@ if [ -n "${PNPM_HOME+x}" ] && [ -d "$PNPM_HOME" ]; then
   add_path "$PNPM_HOME"
 fi
 
+if [ -d "$HOME/opencode/bin" ]; then
+  add_path "$HOME/opencode/bin"
+fi
+
 # Should be last, so that I can override any binary path
 if [ -d "$HOME/.local/bin" ]; then
   add_path "$HOME/.local/bin"
