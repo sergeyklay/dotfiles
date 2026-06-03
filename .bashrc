@@ -85,7 +85,7 @@ if _should_tmux; then
   exec tmux new-session -A -s main
 fi
 
-unset -f _should_tmux _is_under_zed_remote
+unset -f _should_tmux
 
 # Some app and virtual terminals unable in login shells
 if [ -z "${BASH_PROFILE_SOURCED+x}" ]; then
