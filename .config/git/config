@@ -3,6 +3,9 @@
 	email = git@serghei.pl
 	signingkey = C6AF1016BBDEA800
 
+[includeIf "gitdir:~/work/sortie/"]
+	path = ~/.config/git/serghei-dev.inc
+
 [init]
 	defaultBranch = main
 
