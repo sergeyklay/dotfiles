@@ -239,19 +239,20 @@ fi
 
 
 # User-specific runtime files should be placed relative to this
-# directory.
-if [ -z "$XDG_RUNTIME_DIR" ]; then
-  if [ -d /run/user ]; then
-    XDG_RUNTIME_DIR="/run/user/$(id -u)"
-  else
-    XDG_RUNTIME_DIR="/tmp/$(id -u)-runtime-dir/"
-    if [ ! -d "${XDG_RUNTIME_DIR}" ]; then
-      mkdir "${XDG_RUNTIME_DIR}"
-      chmod 0700 "${XDG_RUNTIME_DIR}"
-     fi
+# directory.  A value inherited from the parent process may point at a
+# directory that does not exist: under WSL systemd-logind can start
+# after login, in which case pam_systemd never registers a session and
+# /run/user/$(id -u) is never created.  Validate the directory that is
+# actually going to be used, not its parent.
+if [ ! -d "${XDG_RUNTIME_DIR:-}" ] || [ ! -w "${XDG_RUNTIME_DIR:-}" ]; then
+  XDG_RUNTIME_DIR="/run/user/$(id -u)"
+  if [ ! -d "$XDG_RUNTIME_DIR" ] || [ ! -w "$XDG_RUNTIME_DIR" ]; then
+    XDG_RUNTIME_DIR="/tmp/$(id -u)-runtime-dir"
+    mkdir -p "$XDG_RUNTIME_DIR"
+    chmod 0700 "$XDG_RUNTIME_DIR"
   fi
-  export XDG_RUNTIME_DIR
 fi
+export XDG_RUNTIME_DIR
 
 # See: https://stackoverflow.com/a/27965014/1661465
 if [ -z "$XDG_STATE_HOME" ]; then
@@ -371,6 +372,21 @@ if [ -n "$BASH_VERSION" ]; then
     . "$HOME/.bashrc"
   fi
 fi
+
+# --------------------------------------------------------------------
+# Setup coding agents
+# --------------------------------------------------------------------
+
+# opencode reads ~/.claude/skills/ on top of its own ~/.config/opencode/skills/,
+# so every skill installed here is discovered twice and opencode logs
+# "duplicate skill name" for each one. Both copies are byte-identical, so
+# whichever wins the load race behaves the same.
+#
+# To cut opencode off from Claude Code entirely, I prefer export
+# OPENCODE_DISABLE_CLAUDE_CODE=1. There is no config-file equivalent: opencode
+# reads that flag from the environment only, and it ignores a .env file.
+OPENCODE_DISABLE_CLAUDE_CODE=1
+export OPENCODE_DISABLE_CLAUDE_CODE
 
 # Local Variables:
 # mode: sh
