@@ -1,0 +1,20 @@
+#!/bin/sh
+
+path=${1:-.}
+target=$2
+socket=$3
+root=$(git -C "$path" rev-parse --show-toplevel 2>/dev/null) || root=$path
+root=${root%/}
+
+if [ -n "$root" ]; then
+    name=${root##*/}
+else
+    name=/
+fi
+
+if [ -n "$target" ] && [ -n "$socket" ] &&
+    [ "$(tmux -S "$socket" display-message -p -t "$target" '#W')" != "$name" ]; then
+    tmux -S "$socket" rename-window -t "$target" "$name"
+fi
+
+printf '%s\n' "$name"
